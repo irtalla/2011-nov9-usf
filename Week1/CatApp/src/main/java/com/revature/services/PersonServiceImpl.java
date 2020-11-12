@@ -7,8 +7,8 @@ public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
 	public PersonServiceImpl() {
-		// PersonDAOFactory personDaoFactory = new PersonDAOFactory();
-		// personDao = personDaoFactory.getPersonDao();
+		 PersonDAOFactory personDaoFactory = new PersonDAOFactory();
+		 personDao = personDaoFactory.getPersonDao();
 	}
 
 	@Override
@@ -32,6 +32,10 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public void updatePerson(Person p) {
 		// TODO Auto-generated method stub
+		personDao.update(p);
+		
+		
+		
 		
 	}
 
