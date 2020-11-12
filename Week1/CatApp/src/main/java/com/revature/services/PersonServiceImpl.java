@@ -1,44 +1,52 @@
 package com.revature.services;
 
+import java.util.Set;
+
 import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
 
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
-	public PersonServiceImpl() {
-		// PersonDAOFactory personDaoFactory = new PersonDAOFactory();
-		// personDao = personDaoFactory.getPersonDao();
+	public class PersonDAOFactory{
+//		PersonDAO getPersonDao() {
+//			
+//		}
+//		//TODO
 	}
+	
+	public PersonServiceImpl() {
+		 PersonDAOFactory personDaoFactory = new PersonDAOFactory();
+		 personDao = personDaoFactory.getPersonDao();
+	}
+/*	
 
+	public Set<T> getAll();
+
+	*/
 	@Override
 	public Integer addPerson(Person p) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.add(p).getId();
 	}
 
 	@Override
 	public Person getPersonById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.getById(id);
 	}
 
 	@Override
 	public Person getPersonByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.getByUsername(username);
 	}
 
 	@Override
 	public void updatePerson(Person p) {
-		// TODO Auto-generated method stub
-		
+		personDao.update(p);
 	}
 
 	@Override
 	public void deletePerson(Person p) {
-		// TODO Auto-generated method stub
-		
+		personDao.delete(p);
 	}
 
 }
