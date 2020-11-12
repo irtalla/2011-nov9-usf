@@ -1,0 +1,9 @@
+package com.revature.data;
+
+import java.util.Set;
+
+import com.revature.beans.Cat;
+
+public interface CatDAO extends GenericDAO<Cat> {
+	public Set<Cat> getAvailableCats();
+}
