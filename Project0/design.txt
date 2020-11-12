@@ -32,8 +32,12 @@ Classes
     > Payments
 
 - Bike
+    > value
     > ownership state
     >& parts
+
+-& BikeParts
+    > value
 
 - Payment
     > value
