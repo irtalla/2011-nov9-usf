@@ -25,37 +25,50 @@ public class PersonCollections implements PersonDAO {
 
 	@Override
 	public Person add(Person t) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO update id
+		people.add(t);
+		return t;
 	}
 
 	@Override
 	public Person getById(Integer id) {
-		// TODO Auto-generated method stub
+		for (Person p: people) {
+			if (p.getId().equals(id))
+				return p;
+		}
 		return null;
 	}
 	
 	@Override
 	public Person getByUsername(String username) {
+		for (Person p: people) {
+			if (p.getUsername().equals(username))
+				return p;
+		}
 		return null;
 	}
 
 	@Override
 	public Set<Person> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return people;
 	}
 
 	@Override
 	public void update(Person t) {
-		// TODO Auto-generated method stub
-
+		for (Person p: people) {
+			if (p.getId() == t.getId()) {
+				this.delete(p);
+				people.add(t);
+				return;
+			}
+		}
+		//return;
 	}
 
 	@Override
 	public void delete(Person t) {
-		// TODO Auto-generated method stub
-
+		people.remove(t);
 	}
+
 
 }

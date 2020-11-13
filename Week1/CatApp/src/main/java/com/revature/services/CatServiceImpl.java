@@ -5,6 +5,7 @@ import java.util.Set;
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
 import com.revature.data.CatDAO;
+import com.revature.data.CatDAOFactory;
 import com.revature.data.PersonDAO;
 
 public class CatServiceImpl implements CatService {
@@ -12,50 +13,40 @@ public class CatServiceImpl implements CatService {
 	private PersonDAO personDao;
 	
 	public CatServiceImpl() {
-		// CatDAOFactory catDaoFactory = new CatDAOFactory();
-		// catDao = catDaoFactory.getCatDao();
+		CatDAOFactory catDaoFactory = new CatDAOFactory();
+		catDao = catDaoFactory.getCatDAO();
 	}
 
 	@Override
-	public Integer addCat(Cat c) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Cat getCatById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Cat> getCats() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Cat> getAvailableCats() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateCat(Cat c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void adoptCat(Person p, Cat c) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeCat(Cat c) {
-		// TODO Auto-generated method stub
-		
-	}
+    public Integer addCat(Cat c) {
+        return catDao.add(c).getId();
+    }
+    @Override
+    public Cat getCatById(Integer id) {
+        return catDao.getById(id);
+    }
+    @Override
+    public Set<Cat> getCats() {
+        return catDao.getAll();
+    }
+    @Override
+    public Set<Cat> getAvailableCats() {
+        return catDao.getAvailableCats();
+    }
+    @Override
+    public void updateCat(Cat c) {
+        catDao.update(c);   
+    }
+    @Override
+    public void adoptCat(Person p, Cat c) {
+        // TODO also need to update the cat's status
+        Set<Cat> set = p.getCats();
+        set.add(c);
+        p.setCats(set);
+    }
+    @Override
+    public void removeCat(Cat c) {
+        catDao.delete(c);
+    }
 
 }
