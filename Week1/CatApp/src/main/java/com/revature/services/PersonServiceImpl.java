@@ -16,9 +16,8 @@ public class PersonServiceImpl implements PersonService {
 		
 	public class PersonDAOFactory(Person p, Integer id, String username, String password); {
 		getPersonDao(p) {
-			return personDao;
+			return collectionDao;
 		}
-		//getCollectionDao(){} TODO 
 	}
 	public PersonServiceImpl() {
 		//PersonDAOFactory personDaoFactory = new PersonDAOFactory();
@@ -46,7 +45,6 @@ public class PersonServiceImpl implements PersonService {
 	public void updatePerson(Person p) {
 		// TODO Auto-generated method stub
 		personDao.update(p);
-		
 		
 		
 		
