@@ -6,6 +6,10 @@ import com.revature.data.PersonDAO;
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
+	
+	
+	
+	
 	public PersonServiceImpl() {
 		// PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		// personDao = personDaoFactory.getPersonDao();
@@ -26,6 +30,9 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public Person getPersonByUsername(String username) {
 		// TODO Auto-generated method stub
+		
+		System.out.println("");
+		
 		return null;
 	}
 
@@ -38,6 +45,17 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public void deletePerson(Person p) {
 		// TODO Auto-generated method stub
+		
+		int i=p.getId();
+		p.setId(0);
+		p.setPassword("");
+		p.setRole(null);
+		p.setUsername("");
+		
+		personDao.delete(p);
+		
+		
+		
 		
 	}
 
