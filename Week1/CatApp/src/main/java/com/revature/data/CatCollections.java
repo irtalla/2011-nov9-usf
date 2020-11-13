@@ -26,6 +26,7 @@ public class CatCollections implements CatDAO {
 		c.setStatus(s);
 		cats.add(c);
 		
+		c = new Cat();
 		c.setId(2);
 		c.setName("Lucky");
 		c.setAge(7);
@@ -39,6 +40,7 @@ public class CatCollections implements CatDAO {
 		c.setStatus(s);
 		cats.add(c);
 		
+		c = new Cat();
 		c.setId(3);
 		c.setName("Howard");
 		c.setAge(1);
@@ -54,38 +56,68 @@ public class CatCollections implements CatDAO {
 	}
 
 	@Override
-	public Cat add(Cat t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Cat add(Cat t) {
+		// TODO update id
+		cats.add(t);
+		return t;
+    }
+    @Override
+    public Cat getById(Integer id) {
+        for(Cat cat : cats) {
+            if(cat.getId().equals(id)) {
+                return cat;
+            }
+        }
+        return null;
+    }
+    @Override
+    public Set<Cat> getAll() {
+        return cats;
+    }
+    
+    @Override
+    public Set<Cat> getAvailableCats() {
+        Set<Cat> acats = new HashSet<>();
+        for(Cat cat : cats) {
+        	// TODO needed to get the name from status
+            if(cat.getStatus().getName().equals("Available")) {
+                acats.add(cat);
+            }
+        }
+        return acats;
+    }
+    @Override
+    public void update(Cat t) {
+//    	if (c.getId() < cats.size()) {
+//			for (Cat cat : cats) {
+//				if (cat.getId().equals(c.getId())) {
+//					cat.setName(c.getName());
+//					cat.setAge(c.getAge());
+//					cat.setBreed(c.getBreed());
+//					cat.setStatus(c.getStatus());
+//				}
+//			}
+//		} else {
+//			add(c);
+//		}
+    	
+    	// TODO check whether the cat exists first
+    	Cat match = getById(t.getId());
+    	if (match != null) {
+    		match.setAge(t.getAge());
+    		match.setBreed(t.getBreed());
+    		match.setId(t.getId());
+    		match.setName(t.getName());
+    		match.setSpecialNeeds(t.getSpecialNeeds());
+    		match.setStatus(t.getStatus());
+    	}
+    }
+    @Override
+    public void delete(Cat t) {
+        if(cats.contains(t)) {
+            cats.remove(t);
+        }
+    }
 
-	@Override
-	public Cat getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Cat> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Set<Cat> getAvailableCats() {
-		return null;
-	}
-
-	@Override
-	public void update(Cat t) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(Cat t) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

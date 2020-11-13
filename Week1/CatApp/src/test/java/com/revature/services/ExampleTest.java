@@ -12,6 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import com.revature.beans.Cat;
+import com.revature.beans.Person;
+import com.revature.data.CatCollections;
+import com.revature.data.CatDAO;
+import com.revature.data.PersonCollections;
+import com.revature.data.PersonDAO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,5 +83,25 @@ public class ExampleTest {
 		assertThrows(NullPointerException.class, () -> {
 			c.getName();
 		});
+	}
+	
+	@Test
+	public void testCatCollectionUpdate() {
+		CatDAO catDao = new CatCollections();
+		Cat c = catDao.getById(1);
+		c.setName("Cat");
+		catDao.update(c);
+		assertEquals(c, catDao.getById(c.getId()));
+		System.out.println(catDao.getById(c.getId()));
+	}
+	
+	@Test
+	public void testPersonCollectionUpdate() {
+		PersonDAO personDao = new PersonCollections();
+		Person p = personDao.getById(1);
+		p.setUsername("Cat");
+		personDao.update(p);
+		assertEquals(p, personDao.getById(p.getId()));
+		System.out.println(personDao.getById(p.getId()));
 	}
 }
