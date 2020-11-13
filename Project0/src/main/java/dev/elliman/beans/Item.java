@@ -1,6 +1,7 @@
 package dev.elliman.beans;
 
 public class Item {
+	protected Integer id;
 	protected Integer price;
 	protected String type;
 	
