@@ -2,6 +2,7 @@ package com.revature.services;
 
 import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
+import com.revature.data.PersonDAOFactory;
 
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
@@ -20,8 +21,13 @@ public class PersonServiceImpl implements PersonService {
 		}
 	}
 	public PersonServiceImpl() {
+<<<<<<< HEAD
 		//PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		//personDao = personDaoFactory.getPersonDao();
+=======
+		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
+		personDao = personDaoFactory.getPersonDAO();
+>>>>>>> da704a2191c99435b3748685f8b2263ec6a423af
 	}
 
 	@Override
