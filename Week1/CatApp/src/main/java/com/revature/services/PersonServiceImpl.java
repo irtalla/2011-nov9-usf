@@ -6,15 +6,20 @@ import com.revature.data.PersonDAO;
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
-	public PersonServiceImpl() {
-		// PersonDAOFactory personDaoFactory = new PersonDAOFactory();
-		// personDao = personDaoFactory.getPersonDao();
+	public class PersonDAOFactory(Person p, Integer id, String username, String password); {
+		getPersonDao(p) {
+			return collectionDao;
+		}
 	}
+	public PersonServiceImpl() {
+		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
+		personDao = personDaoFactory.getPersonDao();
+	}
+}
 
 	@Override
 	public Integer addPerson(Person p) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.add(p).getId();
 	}
 
 	@Override
