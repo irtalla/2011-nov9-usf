@@ -1,3 +1,13 @@
+[LEGEND]
+* : Class
++ : field
+- : method
+? : does this even belong here?
+$ : bonus point
+[] : some sort of data structure
+[/LEGEND]
+
+
 Models
 * User
     + Id
