@@ -1,5 +1,6 @@
 package dev.elliman.beans;
 
-public abstract class Item {
-
+public class Item {
+	protected Integer price;
+	protected String type;
 }
