@@ -8,12 +8,21 @@ import com.revature.services.UserFunctions;
 
 public class UserLoginTest {
 
+	
+	//note: this one is actually not voluntary
+	//it will be changed to reflect a thing.
 	@Test
 	public void testUserValidationIfThere() {
 		UserFunctions userCollections = new UserFunctions();
 		
 		assertTrue(userCollections.validatePotentialUser("banebadibi", "parameciumfatality"));
+	}
+	
+	@Test
+	public void testUserValidationIfNotThere() {
+		UserFunctions userCollections = new UserFunctions();
 		
+		assertFalse(userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
 	}
 	
 }

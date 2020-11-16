@@ -4,11 +4,13 @@ public class Offer {
 	private Customer offerMaker;
 	private Bicycle bicycleToBeSold;
 	private double offer;
+	private String status;
 	
 	public Offer(Customer customer, Bicycle bicycle, double offer) {
 		offerMaker = customer;
 		bicycleToBeSold = bicycle;
 		this.offer = offer;
+		this.status = "pending";
 	}
 
 	/**
@@ -45,6 +47,14 @@ public class Offer {
 	
 	public void setOffer(double offer) {
 		this.offer = offer;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status){
+		this.status = status;
 	}
 	
 	

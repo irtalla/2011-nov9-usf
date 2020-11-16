@@ -21,6 +21,7 @@ public class UserFunctions implements UserService {
 	//effectively a User is a CUstomer or an Employee.
 	//This effectively does cut down on what nees to be done
 	//although it is super-inefficient even as is.
+	//when a database is used, Users will exist, but only as Customers and Employee
 	public boolean validatePotentialUser(String username, String password) {
 		Set<User> allUsers = userDAO.getAllUsers();
 		Customer supposedUserC = new Customer(username, password);

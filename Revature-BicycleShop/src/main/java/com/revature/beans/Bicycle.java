@@ -4,15 +4,17 @@ public class Bicycle {
 	private String bikeModel;
 	private String bikeType;
 	private String description;
-	private User seller;
+	private Employee seller;
 	private double price;
+	private String status;
 	
-	public Bicycle(String model, String type, String description, User seller, double price) {
+	public Bicycle(String model, String type, String description, Employee seller, double price) {
 		bikeModel = model;
 		bikeType = type;
 		this.description = description;
 		this.seller = seller;
 		this.price = price;
+		status = "available";
 	}
 
 	public String getBikeModel() {
@@ -43,7 +45,7 @@ public class Bicycle {
 		return seller;
 	}
 
-	public void setSeller(User seller) {
+	public void setSeller(Employee seller) {
 		this.seller = seller;
 	}
 
