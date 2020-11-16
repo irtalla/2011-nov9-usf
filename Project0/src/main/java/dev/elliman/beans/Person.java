@@ -5,6 +5,10 @@ public class Person {
 	private String firstName;
 	private String lastName;
 	private String username;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	private String password;//scary plain text passwords
 	private String role;//employee/customer/manager/etc...
 	
