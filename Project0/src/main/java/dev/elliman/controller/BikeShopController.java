@@ -24,6 +24,8 @@ public class BikeShopController {
 	 * 
 	 */
 	private static PersonService personService = new PersonServiceImpl();
+	
+	private static Person currentUser;
 
 	public static void main(String[] args) {
 		
@@ -45,12 +47,16 @@ public class BikeShopController {
 				//create a new account
 				Person newCustomer = register();
 				personService.createUser(newCustomer);
-				//TODO: allow the person do do what they want to
+				currentUser = newCustomer;
 			} else if(selection == 0) {
-				login();
+				currentUser = login();
 			} else {
 				stop = true;
+				continue;
 			}
+			
+			//at this point the person is logged in
+			
 		}
 	}
 	
@@ -85,7 +91,29 @@ public class BikeShopController {
 		return new Person(firstName, lastName, username, password, "Customer");
 	}
 	
-	private static void login() {
+	private static Person login() {
 		
+		while(true) {
+			System.out.print("Username: ");
+			String username = input.nextLine();
+			System.out.print("Password: ");
+			String password = input.nextLine();
+			
+			Person account = personService.getPersonByUsername(username);
+			if(account == null) {
+				System.out.println("Username not found");
+			} else if(account.getPassword().equals(password)) {
+				System.out.println("Welcome back");
+				return account;
+			} else {
+				System.out.println("incorrect password");
+			}
+			
+			System.out.println("Would you like to try again?");
+			int answer = getInput("Yes", "No");
+			if(answer != 0) {
+				return null;
+			}
+		}
 	}
 }
