@@ -19,4 +19,8 @@ public class Person {
 	public void setID(Integer id) {
 		this.id = id;
 	}
+	
+	public Integer getID() {
+		return id;
+	}
 }
