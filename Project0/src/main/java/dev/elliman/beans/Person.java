@@ -15,4 +15,8 @@ public class Person {
 		this.password = password;
 		this.role = role;
 	}
+	
+	public void setID(Integer id) {
+		this.id = id;
+	}
 }
