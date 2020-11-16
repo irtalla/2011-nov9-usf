@@ -3,6 +3,8 @@ package com.revature.services;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Set;
+
 import com.revature.beans.Bicycle;
 import com.revature.beans.Customer;
 import com.revature.beans.Employee;
@@ -55,6 +57,42 @@ public class EmployeeFunctionsTest {
 		
 		assertNull(ef.acceptAnOffer(offer));
 		assertNull(ef.rejectAnOffer(offer));
+	}
+	
+	@Test
+	public void testRejectingSimilarBicycleOffers() {
+		EmployeeFunctions ef = new EmployeeFunctions();
+		
+		Set<Offer> offers = ef.getOfferDAO().getAllOffers();
+		int amountOfOffersBeforehand = offers.size();
+		
+		Employee bicycleOfferer = new Employee("sagradaFamilia", "vanessaBebo");
+		Bicycle bicycle = new Bicycle("ENMakis", "Mobility Mountain Bike", "Somehow this bike is so comfortable that even on the longest trails you will feel as if you're just riding a stationary bicycle at home.", bicycleOfferer, 69.42);
+		Customer deniedCustomer1 = new Customer("barrabas", "tenEgyptianPlagues");
+		Customer deniedCustomer2 = new Customer("calem", "CharonAndJupiter");
+		Offer offer1 = new Offer(deniedCustomer1, bicycle, 79.87);
+		Offer offer2 = new Offer(deniedCustomer2, bicycle, 72.76);
+		
+		ef.acceptAnOffer(offer1);
+		ef.acceptAnOffer(offer2);
+		
+		Offer randomOfferChosen = (Offer)(offers.toArray())[0];
+		ef.acceptAnOffer(randomOfferChosen);
+		offers = ef.getOfferDAO().getAllOffers();
+		assertEquals(amountOfOffersBeforehand, offers.size());
+	}
+	
+	@Test
+	public void testAcceptedOfferMeansOwnedBike() {
+		EmployeeFunctions ef = new EmployeeFunctions();
+		
+		Employee bicycleOfferer = new Employee("sagradaFamilia", "vanessaBebo");
+		Bicycle bicycle = new Bicycle("ENMakis", "Mobility Mountain Bike", "Somehow this bike is so comfortable that even on the longest trails you will feel as if you're just riding a stationary bicycle at home.", bicycleOfferer, 69.42);
+		Customer customerOffering = new Customer("baileyPickett", "fatAndSkinnyEpisode");
+		Offer offer = new Offer(customerOffering, bicycle, 70.00);
+		
+		Offer acceptedOffer = ef.acceptAnOffer(offer);
+		assertEquals("owned", acceptedOffer.getBicycleToBeSold().getStatus());
 	}
 	
 }

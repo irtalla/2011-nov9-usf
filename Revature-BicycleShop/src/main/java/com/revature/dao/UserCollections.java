@@ -48,6 +48,11 @@ public class UserCollections implements UserDAO {
 	
 	//CRUD (create, read, update, delete)
 	// but not now, read the details. simiulate picking from the postgresql thing.
-	
+	@Override
+	public void registerACustomer(String username, String password) {
+		Customer customer = new Customer(username, password);
+		allRegisteredUsers.add(customer);
+		allRegisteredCustomers.add(customer);
+	}
 	
 }

@@ -24,6 +24,14 @@ public class EmployeeFunctions implements EmployeeService {
 		offerDAO = odf.getOfferDAO();
 	}
 	
+	public BicycleDAO getBicycleDAO() {
+		return bicycleDAO;
+	}
+	
+	public OfferDAO getOfferDAO() {
+		return offerDAO;
+	}
+	
 	//note: this is temporary.
 	//this is just to establish a function that
 	//I can override later on when taught about 
@@ -44,6 +52,7 @@ public class EmployeeFunctions implements EmployeeService {
 				if (o.equals(offer)) {
 					acceptedOffer = o;
 					acceptedOffer.setStatus("accepted");
+					acceptedOffer.getBicycleToBeSold().setStatus("owned");;
 				}
 				else if (o.getBicycleToBeSold() == offer.getBicycleToBeSold()) {
 					offerDAO.removeAnOffer(o);

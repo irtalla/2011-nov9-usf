@@ -7,4 +7,6 @@ public interface UserService {
 	//while this is pretty bare-bones, it is the only thing a "User"
 	//and only a user alone can do. "read" method.
 	public boolean validatePotentialUser(String username, String password);
+	
+	public void customerRegistration(String username, String password);
 }

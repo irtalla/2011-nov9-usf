@@ -17,11 +17,16 @@ public class UserFunctions implements UserService {
 		userDAO = udf.getUserDAO();
 	}
 	
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+	
 	//note: while this does look rather weird, it is noted that
 	//effectively a User is a CUstomer or an Employee.
 	//This effectively does cut down on what nees to be done
 	//although it is super-inefficient even as is.
 	//when a database is used, Users will exist, but only as Customers and Employee
+	@Override
 	public boolean validatePotentialUser(String username, String password) {
 		Set<User> allUsers = userDAO.getAllUsers();
 		Customer supposedUserC = new Customer(username, password);
@@ -33,5 +38,10 @@ public class UserFunctions implements UserService {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void customerRegistration(String username, String password) {
+		userDAO.registerACustomer(username, password);
 	}
 }

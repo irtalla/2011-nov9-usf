@@ -10,4 +10,6 @@ public interface UserDAO {
 	public Set<User> getAllUsers();
 	public Set<Employee> getAllEmployees();
 	public Set<Customer> getAllCustomers();
+	
+	public void registerACustomer(String username, String password);
 }

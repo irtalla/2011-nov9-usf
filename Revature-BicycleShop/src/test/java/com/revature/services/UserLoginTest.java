@@ -25,4 +25,18 @@ public class UserLoginTest {
 		assertFalse(userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
 	}
 	
+	//username and password are separate because
+	//they will be separate when first making an account.
+	@Test
+	public void testCustomerRegistration() {
+		String username = "deColores";
+		String password = "inExasperation";
+		
+		UserFunctions uf = new UserFunctions();
+		int sizeBeforeAddition = uf.getUserDAO().getAllUsers().size();
+		uf.customerRegistration(username, password);
+		
+		assertEquals(sizeBeforeAddition + 1, uf.getUserDAO().getAllUsers().size());
+	}
+	
 }

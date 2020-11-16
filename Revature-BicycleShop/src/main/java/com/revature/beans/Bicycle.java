@@ -57,6 +57,14 @@ public class Bicycle {
 		this.price = price;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	@Override
 	public String toString() {
 		return bikeModel + " " + bikeType + ": " + description + "\nStarting price:" + price + "\nOffered by: " + seller.getUsername();
