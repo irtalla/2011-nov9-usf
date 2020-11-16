@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
+import com.revature.exceptions.NonUniqueUsernameException;
 
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
@@ -21,49 +22,32 @@ public class PersonServiceImpl implements PersonService {
 		}
 	}
 	public PersonServiceImpl() {
-<<<<<<< HEAD
-		//PersonDAOFactory personDaoFactory = new PersonDAOFactory();
-		//personDao = personDaoFactory.getPersonDao();
-=======
 		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		personDao = personDaoFactory.getPersonDAO();
->>>>>>> da704a2191c99435b3748685f8b2263ec6a423af
 	}
 
 	@Override
-	public Integer addPerson(Person p) {
-		return personDao.add(p).getId();		
+	public Integer addPerson(Person p) throws NonUniqueUsernameException {
+		return personDao.add(p).getId();
 	}
 
 	@Override
 	public Person getPersonById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.getById(id);
 	}
 
 	@Override
 	public Person getPersonByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.getByUsername(username);
 	}
 
 	@Override
 	public void updatePerson(Person p) {
-		// TODO Auto-generated method stub
 		personDao.update(p);
-		
-		
-		
 	}
 
 	@Override
 	public void deletePerson(Person p) {
-		int i=p.getId();
-		p.setId(0);
-		p.setPassword("");
-		p.setRole(null);
-		p.setUsername("");
-		
 		personDao.delete(p);
 	}
 
