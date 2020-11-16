@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.revature.beans.Person;
 import com.revature.beans.Role;
+import com.revature.exceptions.NonUniqueUsernameException;
 
 public class PersonCollections implements PersonDAO {
 	private Set<Person> people;
@@ -24,8 +25,13 @@ public class PersonCollections implements PersonDAO {
 	}
 
 	@Override
-	public Person add(Person t) {
-		// TODO update id
+	public Person add(Person t) throws NonUniqueUsernameException {
+		for (Person p : people) {
+			if (p.getUsername().equals(t.getUsername())) {
+				throw new NonUniqueUsernameException();
+			}
+		}
+		t.setId(people.size()+1);
 		people.add(t);
 		return t;
 	}
