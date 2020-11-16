@@ -5,6 +5,8 @@ import java.util.Scanner;
 import dev.elliman.beans.Person;
 import dev.elliman.data.PersonDAO;
 import dev.elliman.data.PersonDAOFactory;
+import dev.elliman.services.PersonService;
+import dev.elliman.services.PersonServiceImpl;
 
 public class BikeShopController {
 	
@@ -19,20 +21,16 @@ public class BikeShopController {
 	private static Scanner input;
 	
 	/*
-	 * Data Access Objects
+	 * 
 	 */
-	private static PersonDAO personDAO;
+	private static PersonService personService = new PersonServiceImpl();
 
 	public static void main(String[] args) {
 		
-		//get database
-		PersonDAOFactory personDAOfactory = new PersonDAOFactory();
-		personDAO = personDAOfactory.getPersonDAO();
-		
 		//check for an admin user to be able to create managers and employees
-		Person admin = personDAO.getByID(0);
+		Person admin = personService.getPersonById(0);
 		if(admin == null) {
-			personDAO.addAdminUser();
+			personService.addAdminUser();
 		}
 		
 		
@@ -45,10 +43,13 @@ public class BikeShopController {
 			
 			if(selection == 1) {
 				//create a new account
-				Person newCustomer = createAccount();
-				personDAO.add(newCustomer);
+				Person newCustomer = register();
+				personService.createUser(newCustomer);
+				//TODO: allow the person do do what they want to
 			} else if(selection == 0) {
-				
+				login();
+			} else {
+				stop = true;
 			}
 		}
 	}
@@ -67,7 +68,7 @@ public class BikeShopController {
 		}
 	}
 	
-	private static Person createAccount() {
+	private static Person register() {
 		System.out.println("Welcome to the bike shop account creation.");
 		System.out.print("Enter your first name: ");
 		String firstName = input.nextLine();
