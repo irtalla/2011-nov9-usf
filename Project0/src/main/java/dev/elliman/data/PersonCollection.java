@@ -57,6 +57,17 @@ public class PersonCollection implements PersonDAO{
 			users.remove(match);
 		}
 	}
+
+	public void addAdminUser() {
+		//check for an admin before creating a new one
+		Person admin = getByID(0);
+		if(admin == null) {
+			//no admin found, add a new one
+			admin = new Person("", "", "admin", "password", "Manager");
+			admin.setID(0);
+			users.add(admin);
+		}
+	}
 	
 	
 }
