@@ -1,4 +1,4 @@
-package dev.elliman.data;
+package dev.elliman.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,15 +25,27 @@ public class PersonTest {
 	@Order(1)
 	@Test
 	public void checkAdminUser() {
-		System.out.println("Test 1");
 		assertTrue(personService.getPersonByUsername("admin")!= null);
 	}
 	
 	@Order(2)
 	@Test
-	public void addnewPerson() {
-		System.out.println("Test 2");
+	public void addNewPerson() {
 		Person newUser = new Person("first", "last", "testUser", "password", "customer");
 		assertTrue(personService.createUser(newUser) == 1);
+	}
+	
+	@Order(3)
+	@Test
+	public void addSecondNewPerson() {
+		Person newUser = new Person("first", "last", "testUser2", "password", "customer");
+		assertTrue(personService.createUser(newUser) == 2);
+	}
+	
+	@Order(4)
+	@Test
+	public void addDupelicatePerson() {
+		Person newUser = new Person("first", "last", "testUser", "password", "customer");
+		
 	}
 }
