@@ -1,11 +1,12 @@
 package dev.elliman.services;
 
 import dev.elliman.beans.Person;
+import dev.elliman.exceptions.NonUniqueUsernameException;
 
 public interface PersonService {
 
 	//create
-	public Integer createUser(Person person);
+	public Integer createUser(Person person) throws NonUniqueUsernameException;
 	public void addAdminUser();
 
 	//read

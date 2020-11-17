@@ -9,6 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import dev.elliman.beans.Person;
+import dev.elliman.exceptions.NonUniqueUsernameException;
 import dev.elliman.services.PersonService;
 import dev.elliman.services.PersonServiceImpl;
 
@@ -32,20 +33,35 @@ public class PersonTest {
 	@Test
 	public void addNewPerson() {
 		Person newUser = new Person("first", "last", "testUser", "password", "customer");
-		assertTrue(personService.createUser(newUser) == 1);
+		Integer userID;
+		try {
+			userID = personService.createUser(newUser);
+			assertTrue(userID == 1);
+		} catch (NonUniqueUsernameException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Order(3)
 	@Test
 	public void addSecondNewPerson() {
 		Person newUser = new Person("first", "last", "testUser2", "password", "customer");
-		assertTrue(personService.createUser(newUser) == 2);
+		Integer userID;
+		try {
+			userID = personService.createUser(newUser);
+			assertTrue(userID == 2);
+		} catch (NonUniqueUsernameException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Order(4)
 	@Test
 	public void addDupelicatePerson() {
 		Person newUser = new Person("first", "last", "testUser", "password", "customer");
-		
+		assertThrows(NonUniqueUsernameException.class, () -> {
+			personService.createUser(newUser);
+		});
 	}
 }
