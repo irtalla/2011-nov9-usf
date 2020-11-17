@@ -9,6 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Role;
 import dev.elliman.exceptions.NonUniqueUsernameException;
 import dev.elliman.services.PersonService;
 import dev.elliman.services.PersonServiceImpl;
@@ -32,7 +33,7 @@ public class PersonTest {
 	@Order(2)
 	@Test
 	public void addNewPerson() {
-		Person newUser = new Person("first", "last", "testUser", "password", "customer");
+		Person newUser = new Person("first", "last", "testUser", "password", new Role());
 		Integer userID;
 		try {
 			userID = personService.createUser(newUser);
@@ -45,7 +46,7 @@ public class PersonTest {
 	@Order(3)
 	@Test
 	public void addSecondNewPerson() {
-		Person newUser = new Person("first", "last", "testUser2", "password", "customer");
+		Person newUser = new Person("first", "last", "testUser2", "password", new Role());
 		Integer userID;
 		try {
 			userID = personService.createUser(newUser);
@@ -53,15 +54,27 @@ public class PersonTest {
 		} catch (NonUniqueUsernameException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@Order(4)
 	@Test
 	public void addDupelicatePerson() {
-		Person newUser = new Person("first", "last", "testUser", "password", "customer");
+		Person newUser = new Person("first", "last", "testUser", "password", new Role());
 		assertThrows(NonUniqueUsernameException.class, () -> {
 			personService.createUser(newUser);
 		});
+	}
+	
+	@Order(5)
+	@Test
+	public void addFixedDupePerson() {
+		Person newUser = new Person("first", "last", "testUser3", "password", new Role());
+		Integer userID;
+		try {
+			userID = personService.createUser(newUser);
+			assertTrue(userID == 3);
+		} catch (NonUniqueUsernameException e) {
+			e.printStackTrace();
+		}
 	}
 }

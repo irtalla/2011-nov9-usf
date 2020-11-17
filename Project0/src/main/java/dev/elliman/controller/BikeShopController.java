@@ -3,6 +3,7 @@ package dev.elliman.controller;
 import java.util.Scanner;
 
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Role;
 import dev.elliman.data.PersonDAO;
 import dev.elliman.data.PersonDAOFactory;
 import dev.elliman.exceptions.NonUniqueUsernameException;
@@ -104,7 +105,7 @@ public class BikeShopController {
 		System.out.println("Enter a password: ");
 		password = input.nextLine();
 
-		return new Person(firstName, lastName, username, password, "Customer");
+		return new Person(firstName, lastName, username, password, new Role());
 	}
 
 	private static Person login() {

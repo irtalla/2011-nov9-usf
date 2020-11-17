@@ -5,19 +5,19 @@ public class Person {
 	private String firstName;
 	private String lastName;
 	private String username;
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	private String password;//scary plain text passwords
-	private String role;//employee/customer/manager/etc...
+	private Role role;//employee/customer/manager/etc...
 	
-	public Person(String firstName, String lastName, String username, String password, String role) {
+	public Person(String firstName, String lastName, String username, String password, Role role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.role = role;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public void setID(Integer id) {
@@ -52,11 +52,11 @@ public class Person {
 		this.password = password;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

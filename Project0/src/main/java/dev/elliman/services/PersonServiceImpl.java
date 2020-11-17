@@ -1,6 +1,7 @@
 package dev.elliman.services;
 
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Role;
 import dev.elliman.data.PersonDAO;
 import dev.elliman.data.PersonDAOFactory;
 import dev.elliman.exceptions.NonUniqueUsernameException;
@@ -12,6 +13,8 @@ public class PersonServiceImpl implements PersonService {
 	public PersonServiceImpl() {
 		PersonDAOFactory factory = new PersonDAOFactory();
 		personDAO = factory.getPersonDAO();
+		
+		addAdminUser();
 	}
 
 	public Integer createUser(Person person) throws NonUniqueUsernameException{
@@ -49,7 +52,9 @@ public class PersonServiceImpl implements PersonService {
 	public void addAdminUser() {
 		if(getAdminUser() == null) {
 			//no admin found, a new one should be added
-			Person newAdmin = new Person("", "", "admin", "pasword", "Admin");
+			Role adminRole = new Role();
+			adminRole.setAdmin(personDAO);
+			Person newAdmin = new Person("", "", "admin", "password", adminRole);
 			personDAO.add(newAdmin);
 		}
 		//else : an admin user was found, no need to add another

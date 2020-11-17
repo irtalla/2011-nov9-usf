@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Role;
 
 public class PersonCollection implements PersonDAO{
 	
@@ -11,11 +12,6 @@ public class PersonCollection implements PersonDAO{
 	
 	public PersonCollection() {
 		users = new HashSet<Person>();
-		
-		Person admin = new Person("", "", "admin", "password", "Manager");
-		admin.setID(0);
-		
-		users.add(admin);
 	}
 
 	public Integer add(Person p) {
