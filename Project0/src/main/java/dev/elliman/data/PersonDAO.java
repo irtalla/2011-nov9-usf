@@ -15,6 +15,4 @@ public interface PersonDAO {
 	public void update(Person p);
 	
 	public void delete(Person p);
-	
-	public void addAdminUser();
 }

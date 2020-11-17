@@ -48,6 +48,8 @@ public class PersonCollection implements PersonDAO{
 			match.setRole(p.getRole());
 			match.setPassword(p.getPassword());
 			match.setUsername(p.getUsername());
+		} else {
+			users.add(p);
 		}
 	}
 
@@ -57,17 +59,4 @@ public class PersonCollection implements PersonDAO{
 			users.remove(match);
 		}
 	}
-
-	public void addAdminUser() {
-		//check for an admin before creating a new one
-		Person admin = getByID(0);
-		if(admin == null) {
-			//no admin found, add a new one
-			admin = new Person("", "", "admin", "password", "Admin");
-			admin.setID(0);
-			users.add(admin);
-		}
-	}
-	
-	
 }
