@@ -12,6 +12,7 @@ public interface PersonService {
 	//read
 	public Person getPersonById(Integer id);
 	public Person getPersonByUsername(String username);
+	public Person getAdminUser();
 
 	//update
 	public void updatePerson(Person p);

@@ -47,7 +47,28 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	public void addAdminUser() {
-		personDAO.addAdminUser();
+		if(getAdminUser() == null) {
+			//no admin found, a new one should be added
+			Person newAdmin = new Person("", "", "admin", "pasword", "Admin");
+			personDAO.add(newAdmin);
+		}
+		//else : an admin user was found, no need to add another
 	}
+
+	@Override
+	public Person getAdminUser() {
+		return getPersonById(0);
+	}
+	
+//	public void addAdminUser() {
+//	//check for an admin before creating a new one
+//	Person admin = getByID(0);
+//	if(admin == null) {
+//		//no admin found, add a new one
+//		admin = new Person("", "", "admin", "password", "Admin");
+//		admin.setID(0);
+//		users.add(admin);
+//	}
+//}
 
 }
