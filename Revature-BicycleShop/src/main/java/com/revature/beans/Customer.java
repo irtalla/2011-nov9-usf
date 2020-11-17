@@ -2,18 +2,23 @@ package com.revature.beans;
 
 public class Customer extends User{
 	
+	private double balance;
+	
 	public Customer(String username, String password) {
 		super(username, password, "customer");
+		balance = 500.00;
 	}
 	
 	@Override
 	public String toString() {
-		return "Customer " + getUsername() + "'s password is" + getPassword();
+		return "Customer " + getUsername() + "'s password is " + getPassword() + "\nThat customer's balance is " + balance;
 	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		final int prime = 31;
+		int result = super.hashCode();
+		return result;
 	}
 
 	@Override

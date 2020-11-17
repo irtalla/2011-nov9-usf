@@ -15,14 +15,14 @@ public class UserLoginTest {
 	public void testUserValidationIfThere() {
 		UserFunctions userCollections = new UserFunctions();
 		
-		assertTrue(userCollections.validatePotentialUser("banebadibi", "parameciumfatality"));
+		assertNotNull(userCollections.validatePotentialUser("banebadibi", "parameciumfatality"));
 	}
 	
 	@Test
 	public void testUserValidationIfNotThere() {
 		UserFunctions userCollections = new UserFunctions();
 		
-		assertFalse(userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
+		assertNull(userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
 	}
 	
 	//username and password are separate because

@@ -7,6 +7,7 @@ public class Bicycle {
 	private Employee seller;
 	private double price;
 	private String status;
+	private Customer whoWillOwnTheBike;
 	
 	public Bicycle(String model, String type, String description, Employee seller, double price) {
 		bikeModel = model;
@@ -15,6 +16,7 @@ public class Bicycle {
 		this.seller = seller;
 		this.price = price;
 		status = "available";
+		whoWillOwnTheBike = null;
 	}
 
 	public String getBikeModel() {
@@ -65,9 +67,17 @@ public class Bicycle {
 		this.status = status;
 	}
 	
+	public Customer getWhoWillOwnTheBike() {
+		return whoWillOwnTheBike;
+	}
+	
+	public void setWhoWillOwnTheBike(Customer whoWillOwnTheBike) {
+		this.whoWillOwnTheBike = whoWillOwnTheBike;
+	}
+	
 	@Override
 	public String toString() {
-		return bikeModel + " " + bikeType + ": " + description + "\nStarting price:" + price + "\nOffered by: " + seller.getUsername();
+		return bikeModel + " " + bikeType + ": " + description + "\nStarting price: " + price + "\nOffered by: " + seller.getUsername() + "\nOwned by: " + ((whoWillOwnTheBike != null) ? whoWillOwnTheBike : "No one");
 	}
 
 	@Override
@@ -81,6 +91,8 @@ public class Bicycle {
 		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());	
+		result = prime * result + ((whoWillOwnTheBike == null) ? 0 : whoWillOwnTheBike.hashCode());
 		return result;
 	}
 
@@ -114,6 +126,11 @@ public class Bicycle {
 			if (other.seller != null)
 				return false;
 		} else if (!seller.equals(other.seller))
+			return false;
+		if (whoWillOwnTheBike == null) {
+			if (other.whoWillOwnTheBike != null)
+				return false;
+		} else if (!whoWillOwnTheBike.equals(other.whoWillOwnTheBike))
 			return false;
 		return true;
 	}

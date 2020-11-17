@@ -27,17 +27,23 @@ public class UserFunctions implements UserService {
 	//although it is super-inefficient even as is.
 	//when a database is used, Users will exist, but only as Customers and Employee
 	@Override
-	public boolean validatePotentialUser(String username, String password) {
+	public User validatePotentialUser(String username, String password) {
 		Set<User> allUsers = userDAO.getAllUsers();
 		Customer supposedUserC = new Customer(username, password);
 		Employee supposedUserE = new Employee(username, password);
 		
 		
 		if (allUsers.contains(supposedUserC) || allUsers.contains(supposedUserE)) {
-			return true;
+			for (User user: allUsers) {
+				if ((user.equals((User) supposedUserC)) || (user.equals((User) supposedUserE))) {
+					return user;
+				}
+			}
 		}
 		
-		return false;
+		return null;
+		
+		
 	}
 	
 	@Override

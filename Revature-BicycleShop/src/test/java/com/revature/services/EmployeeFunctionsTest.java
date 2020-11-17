@@ -95,4 +95,13 @@ public class EmployeeFunctionsTest {
 		assertEquals("owned", acceptedOffer.getBicycleToBeSold().getStatus());
 	}
 	
+	@Test
+	public void testViewBicyclesIOwn() {
+		Customer customer = new Customer("dBoysdGirls", "liquorOnYourLips");
+		CustomerFunctions cf = new CustomerFunctions();
+		
+		
+		
+	}
+	
 }

@@ -72,6 +72,7 @@ public class Offer {
 		temp = Double.doubleToLongBits(offer);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((offerMaker == null) ? 0 : offerMaker.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -95,6 +96,11 @@ public class Offer {
 			if (other.offerMaker != null)
 				return false;
 		} else if (!offerMaker.equals(other.offerMaker))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		return true;
 	}
