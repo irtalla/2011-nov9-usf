@@ -17,9 +17,8 @@ public class CatServiceImpl implements CatService {
 	public CatServiceImpl() {
 		CatDAOFactory catDaoFactory = new CatDAOFactory();
 		catDao = catDaoFactory.getCatDAO();
-		
-		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
-		personDao = personDaoFactory.getPersonDAO();
+		//PersonDAOFactory personDaoFactory = new PersonDAOFactory();
+		//personDao = personDaoFactory.getPersonDAO();
 	}
 
 	@Override
