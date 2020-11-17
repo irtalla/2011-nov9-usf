@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import java.util.Set;
+
 import com.revature.beans.Cat;
 import com.revature.services.CatService;
 import com.revature.services.CatServiceImpl;
@@ -21,8 +23,15 @@ public class CatController {
 	}
 	
 	public static void getAllCats(Context ctx) {
-		
+		Set<Cat> cats = catServ.getCats();
+		if(cats != null) {
+			ctx.status(200);
+			ctx.json(cats);
+		}else {
+			ctx.status(404);
+		}
 	}
+
 	
 	public static void getAvailableCats(Context ctx) {
 		
@@ -37,7 +46,17 @@ public class CatController {
 	}
 	
 	public static void deleteCat(Context ctx) {
-		
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Cat cat = catServ.getCatById(id);
+		if(cat != null) {
+			catServ.removeCat(cat);
+			ctx.status(200);
+		}
+		else {
+			ctx.status(200);
+		}
+
+	//public void ;
 	}
 	
 	public static void adoptCat(Context ctx) {
