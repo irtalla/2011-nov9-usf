@@ -63,7 +63,7 @@ public class PersonCollection implements PersonDAO{
 		Person admin = getByID(0);
 		if(admin == null) {
 			//no admin found, add a new one
-			admin = new Person("", "", "admin", "password", "Manager");
+			admin = new Person("", "", "admin", "password", "Admin");
 			admin.setID(0);
 			users.add(admin);
 		}
