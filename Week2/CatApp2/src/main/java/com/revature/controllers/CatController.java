@@ -25,7 +25,13 @@ public class CatController {
 	}
 	
 	public static void getAvailableCats(Context ctx) {
-		
+		Set<Cat> catSet = catServ.getAvailableCats();
+		if (catSet != null) {
+			ctx.status(200);
+			ctx.json(catSet);
+		} else {
+			ctx.status(404);
+		}
 	}
 	
 	public static void addCat(Context ctx) {
@@ -33,7 +39,14 @@ public class CatController {
 	}
 	
 	public static void updateCat(Context ctx) {
-		
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Cat cat = catServ.getCatById(id);
+		if (cat != null) {
+			ctx.status(200);
+			catServ.updateCat(catServ.getCatById(id));
+		} else {
+			ctx.status(404);
+		}
 	}
 	
 	public static void deleteCat(Context ctx) {
