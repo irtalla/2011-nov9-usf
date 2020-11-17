@@ -40,10 +40,10 @@ public class CatController {
 	
 	public static void updateCat(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
-		Cat cat = catServ.getCatById(id);
+		Cat cat = ctx.bodyAsClass(Cat.class);
 		if (cat != null) {
 			ctx.status(200);
-			catServ.updateCat(catServ.getCatById(id));
+			catServ.updateCat(cat);
 		} else {
 			ctx.status(404);
 		}
