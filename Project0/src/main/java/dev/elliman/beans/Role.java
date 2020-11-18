@@ -74,7 +74,7 @@ public class Role {
 		name = "Admin";
 	}
 	
-	public ArrayList<String> getOptions() {
+	public String[] getOptions() {
 		ArrayList<String> userOptions = new ArrayList<>();
 		for(Option o : options) {
 			if(o.LEVEL <= id) {
@@ -83,6 +83,7 @@ public class Role {
 				break;
 			}
 		}
-		return userOptions;
+		String[] uO = new String[userOptions.size()];
+		return userOptions.toArray(uO);
 	}
 }
