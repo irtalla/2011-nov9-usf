@@ -14,10 +14,11 @@ public class Role {
 	
 	static {
 		options = new ArrayList<Option>();
-		options.add(new Option("Purchase a Bike", 0));
-		options.add(new Option("Add Bike", 1));
-		options.add(new Option("Remove Bike", 1));
-		options.add(new Option("Promote User", 2));
+		options.add(new Option("Logout", 3));
+		options.add(new Option("Purchase a Bike", 3));
+		options.add(new Option("Add Bike", 2));
+		options.add(new Option("Remove Bike", 2));
+		options.add(new Option("Promote User", 1));
 	}
 	
 	public Integer getID() {
@@ -71,5 +72,17 @@ public class Role {
 	public void setAdmin(PersonDAO auth) {
 		id = 0;
 		name = "Admin";
+	}
+	
+	public ArrayList<String> getOptions() {
+		ArrayList<String> userOptions = new ArrayList<>();
+		for(Option o : options) {
+			if(o.LEVEL <= id) {
+				userOptions.add(o.TYPE);
+			} else {
+				break;
+			}
+		}
+		return userOptions;
 	}
 }
