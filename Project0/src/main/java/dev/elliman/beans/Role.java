@@ -28,6 +28,10 @@ public class Role {
 		return id;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public void setAdmin(Role autherizedUserRole) throws UnautherizedException {
 		if(autherizedUserRole == null || autherizedUserRole.getID() > 0) {
 			throw new UnautherizedException();
