@@ -8,4 +8,8 @@ public class Option {
 		LEVEL = level;
 		TYPE = type;
 	}
+	
+	public String toString() {
+		return TYPE;
+	}
 }
