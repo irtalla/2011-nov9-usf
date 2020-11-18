@@ -1,11 +1,24 @@
 package dev.elliman.beans;
 
+import java.util.ArrayList;
+
 import dev.elliman.data.PersonDAO;
 import dev.elliman.exceptions.UnautherizedException;
 
 public class Role {
+	
+	public static ArrayList<Option> options;
+	
 	private Integer id;
 	private String name;
+	
+	static {
+		options = new ArrayList<Option>();
+		options.add(new Option("Purchase a Bike", 0));
+		options.add(new Option("Add Bike", 1));
+		options.add(new Option("Remove Bike", 1));
+		options.add(new Option("Promote User", 2));
+	}
 	
 	public Integer getID() {
 		return id;
