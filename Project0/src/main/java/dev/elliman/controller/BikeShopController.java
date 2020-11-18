@@ -141,12 +141,51 @@ public class BikeShopController {
 	}
 	
 	private static void useApplication() {
-		System.out.println("Use Application");
 		
-		logout();
+		while(true) {
+			//display options to the user
+			System.out.println("What would you like to do?");
+			Integer optionSelected = getInput((String[])currentUser.getRole().getOptions().toArray());
+			
+			switch(optionSelected) {
+			case 0:
+				logout();
+				break;
+			case 1:
+				purchaseBike();
+				break;
+			case 2:
+				addBike();
+				break;
+			case 3:
+				removeBike();
+				break;
+			case 4:
+				promoteUser();
+				break;
+			}
+		}
+		
 	}
 	
 	private static void logout() {
+		System.out.println("Logging out...");
 		currentUser = null;
+	}
+	
+	private static void purchaseBike() {
+		System.out.println("purchasing a bike");
+	}
+	
+	private static void addBike() {
+		System.out.println("adding a bike");
+	}
+	
+	private static void removeBike() {
+		System.out.println("removing a bike");
+	}
+	
+	private static void promoteUser() {
+		System.out.println("promoting a user");
 	}
 }
