@@ -57,7 +57,6 @@ public class PersonServiceImpl implements PersonService {
 			Person newAdmin = new Person("", "", "admin", "password", adminRole);
 			personDAO.add(newAdmin);
 		}
-		//else : an admin user was found, no need to add another
 	}
 
 	@Override
