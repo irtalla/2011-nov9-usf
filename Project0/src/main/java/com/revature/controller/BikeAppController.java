@@ -6,6 +6,10 @@ import com.revature.beans.Bike;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
+import com.revature.services.BikeService;
+import com.revature.services.BikeServiceImpl;
+import com.revature.services.UserService;
+import com.revature.services.UserServiceImpl;
 
 public class BikeAppController {
 	
@@ -87,7 +91,12 @@ public class BikeAppController {
 		scan.close();
 	}
 	
-	//meat and potatoes section 
+	
+	//Register user
+	private static User registerUser() {
+		
+	}
+	
 	//login user
 	private static User logInUser() {
 		while (true) {
@@ -116,8 +125,30 @@ public class BikeAppController {
 		
 	}
 	
+	//Customer View Available Bikes
+	private static User viewAvailableBikes() {
+		
+	}
+	
+	//Customer View OWN bikes
+	private static User viewUserBikes() {
+		
+	}
 	
 	
+	//Employee Manage Bikes
+	private static User manageBikes() {
+		
+	}
+	//Employee Manage Offers
+	private static User manageOffers() {
+		
+	}
+	
+	//Employee View Payments
+	private static User viewPayments() {
+		
+	}
 	
 	
 	
