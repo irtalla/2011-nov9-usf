@@ -27,6 +27,9 @@ public class BikeShopController {
 	 */
 	private static PersonService personService = new PersonServiceImpl();
 
+	/*
+	 * The current logged in user
+	 */
 	private static Person currentUser;
 
 	public static void main(String[] args) {
@@ -42,7 +45,7 @@ public class BikeShopController {
 		int selection = 0;
 
 		while(!stop) {
-			System.out.println("Welcome to the bike shop. What would you like to do?\n To use this program enter the numbers of the options to select.");
+			System.out.println("Welcome to the bike shop. What would you like to do?\nTo use this program enter the numbers of the options to select.");
 			selection = getInput("Login", "Create a new account", "Stop");
 
 			if(selection == 1) {
@@ -51,6 +54,8 @@ public class BikeShopController {
 				try {
 					personService.createUser(newCustomer);
 					currentUser = newCustomer;
+					System.out.println("Account created successfully. Welcome to the bike shop.");
+					useApplication();
 				} catch (NonUniqueUsernameException e) {
 					//e.printStackTrace();
 					System.out.println("There was an problem creating your account, returning you to the login menu.");
@@ -58,6 +63,7 @@ public class BikeShopController {
 				}
 			} else if(selection == 0) {
 				currentUser = login();
+				useApplication();
 			} else {
 				stop = true;
 				continue;
@@ -102,7 +108,7 @@ public class BikeShopController {
 			}
 		}
 
-		System.out.println("Enter a password: ");
+		System.out.print("Enter a password: ");
 		password = input.nextLine();
 
 		return new Person(firstName, lastName, username, password, new Role());
@@ -132,5 +138,15 @@ public class BikeShopController {
 				return null;
 			}
 		}
+	}
+	
+	private static void useApplication() {
+		System.out.println("Use Application");
+		
+		logout();
+	}
+	
+	private static void logout() {
+		currentUser = null;
 	}
 }
