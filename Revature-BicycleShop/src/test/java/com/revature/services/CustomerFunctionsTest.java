@@ -46,7 +46,6 @@ public class CustomerFunctionsTest {
 	@Test
 	public void testMakingABadOffer() {
 		CustomerFunctions cf = new CustomerFunctions();
-		OfferCollections oc = new OfferCollections();
 		
 		Bicycle bike = new Bicycle("plaintains", "vapidity", "at the center of a restaurant", null, 8.99);
 		Customer customer = new Customer("zagreus", "hIsForHamazing");

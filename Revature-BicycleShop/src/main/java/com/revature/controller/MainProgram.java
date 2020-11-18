@@ -99,7 +99,7 @@ public class MainProgram {
 	}
 	
 	private static void customerMenuLoop(Scanner scanner) {
-		while(true) {
+		customerMenu: while(true) {
 			System.out.println("Welcome, " + currentCustomer.getUsername());
 			System.out.println("Please choose an option:");
 			System.out.println("1: Make an offer for a bicycle.");
@@ -139,6 +139,25 @@ public class MainProgram {
 						System.out.println((bicycle.getStatus().equals("available")) ? bicycle : "");
 					}
 					break;
+				case "3":
+					System.out.println("Here are all of the bicycles you own:");
+					Set<Bicycle> yourBicycles = customerActions.viewBicyclesYouOwn();
+					for (Bicycle bicycle: yourBicycles) {
+						System.out.println(bicycle);
+					}
+					break;
+				case "4":
+					System.out.println("Here are all of the bicycles you have yet to pay for:");
+					Set<Offer> yourOffers = customerActions.viewOffersYouMade();
+					for (Offer o: yourOffers) {
+						if (o.getStatus().equals("accepted")) {
+							System.out.println("You must pay $" + o.getOffer() + " for the " + o.getBicycleToBeSold().getBikeModel() + " " + o.getBicycleToBeSold().getBikeType());
+						}
+					}
+					break;
+				case "q":
+					System.out.println("Logging out. Goodbye...");
+					break customerMenu;
 			}
 		}
 	}
