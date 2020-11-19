@@ -17,7 +17,7 @@ public class EmployeeFunctionsTest {
 	public void testAddingABicycleToTheShop() {
 		EmployeeFunctions ef = new EmployeeFunctions();
 		Employee employee = new Employee("santalegweak", "happyrest");
-		Bicycle newBicycle = new Bicycle("SemiLunar", "Jacked Up U76", "a racing bike meant for the discerning", employee, 40.99);
+		Bicycle newBicycle = new Bicycle("SemiLunar", "Jacked Up U76", "a racing bike meant for the discerning", employee, 40.99, 0);
 		
 		assertTrue(ef.addABicycle(newBicycle));
 	}
@@ -27,7 +27,7 @@ public class EmployeeFunctionsTest {
 		EmployeeFunctions ef = new EmployeeFunctions();
 		
 		Employee bicycleOfferer = new Employee("sagradaFamilia", "vanessaBebo");
-		Bicycle bicycle = new Bicycle("ENMakis", "Mobility Mountain Bike", "Somehow this bike is so comfortable that even on the longest trails you will feel as if you're just riding a stationary bicycle at home.", bicycleOfferer, 69.42);
+		Bicycle bicycle = new Bicycle("ENMakis", "Mobility Mountain Bike", "Somehow this bike is so comfortable that even on the longest trails you will feel as if you're just riding a stationary bicycle at home.", bicycleOfferer, 69.42, 0);
 		Customer customerOffering = new Customer("baileyPickett", "fatAndSkinnyEpisode");
 		Offer offer = new Offer(customerOffering, bicycle, 70.00);
 		

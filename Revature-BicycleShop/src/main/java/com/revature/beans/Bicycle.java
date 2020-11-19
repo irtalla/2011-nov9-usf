@@ -10,17 +10,17 @@ public class Bicycle {
 	private Customer whoWillOwnTheBike;
 	private int id;
 	
-	private static int idGenerator = 0;
+	//private static int idGenerator = 0;
 	
-	public Bicycle(String model, String type, String description, Employee seller, double price) {
+	public Bicycle(String model, String type, String description, Employee seller, double price, int id) {
 		bikeModel = model;
 		bikeType = type;
 		this.description = description;
 		this.seller = seller;
 		this.price = price;
-		status = "available";
 		whoWillOwnTheBike = null;
-		id = ++idGenerator;
+		status = "available";
+		this.id = id;
 	}
 
 	public String getBikeModel() {
