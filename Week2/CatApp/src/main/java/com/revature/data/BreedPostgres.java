@@ -59,6 +59,7 @@ public class BreedPostgres implements BreedDAO {
 	String new_breed= t.getName();
 		
 		try (Connection conn = cu.getConnection()) {
+			if(!(t.equals(null))) {
 			conn.setAutoCommit(false);
 			String sql = "Update Breed set name ="+new_breed+"Where id ="+id;
 			String[] keys = {"id"};
@@ -73,7 +74,10 @@ public class BreedPostgres implements BreedDAO {
 				c.setId(rs.getInt(1));
 				conn.commit();
 			} else {
+				
 				conn.rollback();
+			
+			}
 			}
 			
 		} catch (Exception e) {
