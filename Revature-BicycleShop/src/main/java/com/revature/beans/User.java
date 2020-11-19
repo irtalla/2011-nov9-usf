@@ -4,11 +4,15 @@ public class User {
 	private String username;
 	private String password;
 	private String type;
+	private int id;
+	
+	private static int idGenerator = 0; 
 	
 	public User(String username, String password, String type) {
 		this.username = username;
 		this.password = password;
 		this.type = type;
+		id = ++idGenerator;
 	}
 
 	public String getPassword() {
@@ -35,6 +39,20 @@ public class User {
 		this.username = username;
 	}
 	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String toString() {
 		return "User is acting as: " + type + "\nUsername: " + username + "\nPassword: " + password;
@@ -44,6 +62,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + id;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -59,6 +78,8 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (id != other.id)
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -76,6 +97,8 @@ public class User {
 			return false;
 		return true;
 	}
+
+
 	
 	
 	

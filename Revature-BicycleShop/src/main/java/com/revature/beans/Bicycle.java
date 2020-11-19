@@ -8,6 +8,9 @@ public class Bicycle {
 	private double price;
 	private String status;
 	private Customer whoWillOwnTheBike;
+	private int id;
+	
+	private static int idGenerator = 0;
 	
 	public Bicycle(String model, String type, String description, Employee seller, double price) {
 		bikeModel = model;
@@ -17,6 +20,7 @@ public class Bicycle {
 		this.price = price;
 		status = "available";
 		whoWillOwnTheBike = null;
+		id = ++idGenerator;
 	}
 
 	public String getBikeModel() {
@@ -67,6 +71,20 @@ public class Bicycle {
 		this.status = status;
 	}
 	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Customer getWhoWillOwnTheBike() {
 		return whoWillOwnTheBike;
 	}
@@ -87,11 +105,12 @@ public class Bicycle {
 		result = prime * result + ((bikeModel == null) ? 0 : bikeModel.hashCode());
 		result = prime * result + ((bikeType == null) ? 0 : bikeType.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + id;
 		long temp;
 		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());	
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((whoWillOwnTheBike == null) ? 0 : whoWillOwnTheBike.hashCode());
 		return result;
 	}
@@ -120,12 +139,19 @@ public class Bicycle {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (id != other.id)
+			return false;
 		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
 		if (seller == null) {
 			if (other.seller != null)
 				return false;
 		} else if (!seller.equals(other.seller))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		if (whoWillOwnTheBike == null) {
 			if (other.whoWillOwnTheBike != null)

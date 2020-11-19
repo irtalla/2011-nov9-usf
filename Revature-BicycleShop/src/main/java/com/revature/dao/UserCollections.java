@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.revature.beans.Customer;
 import com.revature.beans.Employee;
+import com.revature.beans.Offer;
 import com.revature.beans.User;
 
 public class UserCollections implements UserDAO {
@@ -53,6 +54,14 @@ public class UserCollections implements UserDAO {
 		Customer customer = new Customer(username, password);
 		allRegisteredUsers.add(customer);
 		allRegisteredCustomers.add(customer);
+	}
+	
+	
+	@Override
+	public void calculatePayment(Offer offer) {
+		double payment = offer.getOffer();
+		double weeklyPayments = payment / 4; //(assumption is that it's paid over a month?)
+		System.out.println("You must pay " + weeklyPayments + " ");
 	}
 	
 }

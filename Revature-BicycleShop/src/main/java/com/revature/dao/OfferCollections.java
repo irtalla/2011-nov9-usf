@@ -19,6 +19,11 @@ public class OfferCollections implements OfferDAO{
 		Customer customerOffering = new Customer("baileyPickett", "fatAndSkinnyEpisode");
 		Offer offer = new Offer(customerOffering, bicycle, 70.00);
 		
+		Employee bicycleOfferer2 = new Employee("pfscyhe", "ztux");
+		Bicycle bicycle2 = new Bicycle("Enbolne", "Mobility Mountain Bike", "Best known ", bicycleOfferer, 69.42);
+		Customer customerOffering2 = new Customer("baileyPickett", "fatAndSkinnyEpisode");
+		Offer offer2 = new Offer(customerOffering, bicycle, 70.00);
+		
 		allOffers.add(offer);
 	}
 

@@ -1,5 +1,5 @@
 package com.revature.dao;
 
-public class BicyclePostgres {
+public class BicyclePostgres implements BicycleDAO {
 
 }

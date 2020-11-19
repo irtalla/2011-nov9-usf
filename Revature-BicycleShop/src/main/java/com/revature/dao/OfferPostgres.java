@@ -1,5 +1,5 @@
 package com.revature.dao;
 
-public class OfferPostgres {
+public class OfferPostgres implements OfferDAO {
 
 }

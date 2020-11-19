@@ -199,7 +199,7 @@ public class MainProgram {
 					System.out.println("Please choose an offer.");
 					int offerIndex = 1;
 					for (Offer offer: allOffers) {
-						System.out.println(offerIndex + "$" + offer.getOffer() + " for the " + offer.getBicycleToBeSold().getBikeModel() + " " + offer.getBicycleToBeSold().getBikeType());
+						System.out.println(offerIndex + ". $" + offer.getOffer() + " for the " + offer.getBicycleToBeSold().getBikeModel() + " " + offer.getBicycleToBeSold().getBikeType());
 					}
 					String offerOption = scanner.nextLine();
 					int offerOptionAsNum = Integer.parseInt(offerOption); //handle the NumberFormatException
@@ -235,9 +235,12 @@ public class MainProgram {
 				case "4":
 					System.out.println("Here are all the payments people will have to make:");
 					for (Offer offer: allOffers) {
-						offer
+						System.out.print((offer.getStatus() == "accepted") ? offer.getOfferMaker().getUsername() + " will have to pay " + offer.getOffer() + " for " + offer.getBicycleToBeSold().getBikeModel() + " " + offer.getBicycleToBeSold().getBikeType() + "\n" : "");
 					}
-				
+					break;
+				case "q":
+					System.out.println("Logging out. Goodbye...");
+					break employeeMenu;
 			}
 		}
 	}

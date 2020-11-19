@@ -1,5 +1,5 @@
 package com.revature.dao;
 
-public class UserPostgres {
+public class UserPostgres implements UserDAO {
 
 }
