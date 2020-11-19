@@ -96,12 +96,15 @@ public class EmployeeFunctionsTest {
 	}
 	
 	@Test
-	public void testViewBicyclesIOwn() {
-		Customer customer = new Customer("dBoysdGirls", "liquorOnYourLips");
-		CustomerFunctions cf = new CustomerFunctions();
+	public void testRemovingABicycleFromTheShop() {
+		EmployeeFunctions ef = new EmployeeFunctions();
 		
+		int sizeBeforeRemoval = ef.getAllBicycles().size();
 		
+		Bicycle bicycle = (Bicycle)ef.getAllBicycles().toArray()[0];
+		ef.removeABicycle(bicycle);
 		
+		assertEquals(sizeBeforeRemoval - 1, ef.getAllBicycles().size());
 	}
 	
 }

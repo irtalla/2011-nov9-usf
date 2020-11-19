@@ -32,12 +32,26 @@ public class EmployeeFunctions implements EmployeeService {
 		return offerDAO;
 	}
 	
+	public Set<Offer> getAllOffers(){
+		return offerDAO.getAllOffers();
+	}
+	
+	public Set<Bicycle> getAllBicycles(){
+		return bicycleDAO.getAllAvailableBicycles();
+	}
+	
 	//note: this is temporary.
 	//this is just to establish a function that
 	//I can override later on when taught about 
 	@Override
 	public boolean addABicycle(Bicycle bicycle) {
 		return bicycleDAO.addABicycle(bicycle);
+	}
+	
+	
+	@Override
+	public boolean removeABicycle(Bicycle bicycle) {
+		return bicycleDAO.removeABicycle(bicycle);
 	}
 	
 	@Override

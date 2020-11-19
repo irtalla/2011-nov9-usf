@@ -53,8 +53,9 @@ public class MainProgram {
 						customerMenuLoop(scanner);
 					}
 					else if (couldLogIn instanceof Employee) {
-						System.out.println("You're an employee.");
-						break;
+						currentEmployee = (Employee) couldLogIn;
+						System.out.println(currentEmployee.toString());
+						employeeMenuLoop(scanner);
 					}
 
 					break;
@@ -99,6 +100,10 @@ public class MainProgram {
 	}
 	
 	private static void customerMenuLoop(Scanner scanner) {
+		Set<Bicycle> availableBicycles = customerActions.viewAllAvailableBicycles();
+		Set<Bicycle> yourBicycles = customerActions.viewBicyclesYouOwn();
+		Set<Offer> yourOffers = customerActions.viewOffersYouMade();
+		
 		customerMenu: while(true) {
 			System.out.println("Welcome, " + currentCustomer.getUsername());
 			System.out.println("Please choose an option:");
@@ -108,20 +113,17 @@ public class MainProgram {
 			System.out.println("4: View pending payments for bicycles I would like to buy.");
 			System.out.println("q: Log out (quit).");
 			String option = scanner.nextLine();
-			
-			Set<Bicycle> availableBicycles;
-			
+						
 			switch (option) {
 				case "1":
 					System.out.println("Which bicycle would you like to make an offer on?");
 					int bicycleIndex = 1;
-					availableBicycles = customerActions.viewAllAvailableBicycles();
 					for (Bicycle bicycle: availableBicycles) {
 						System.out.print((bicycle.getStatus().equals("available")) ? bicycleIndex + ": " + bicycle.getBikeModel() + bicycle.getBikeType() + "\n" : "");
 					}
 					String bikeOption = scanner.nextLine();
 					int bikeOptionAsNum = Integer.parseInt(bikeOption); //handle the NumberFormatException
-					Bicycle bikeChosen = (Bicycle)availableBicycles.toArray()[bikeOptionAsNum];
+					Bicycle bikeChosen = (Bicycle)availableBicycles.toArray()[bikeOptionAsNum - 1];
 					
 					System.out.println("How much do you want to offer for the bike?");
 					String potentialOffer = scanner.nextLine();
@@ -134,21 +136,18 @@ public class MainProgram {
 					break;
 				case "2":
 					System.out.println("Here are all of the bicycles that you can make offers for: ");
-					availableBicycles = customerActions.viewAllAvailableBicycles();
 					for (Bicycle bicycle: availableBicycles) {
 						System.out.println((bicycle.getStatus().equals("available")) ? bicycle : "");
 					}
 					break;
 				case "3":
 					System.out.println("Here are all of the bicycles you own:");
-					Set<Bicycle> yourBicycles = customerActions.viewBicyclesYouOwn();
 					for (Bicycle bicycle: yourBicycles) {
 						System.out.println(bicycle);
 					}
 					break;
 				case "4":
 					System.out.println("Here are all of the bicycles you have yet to pay for:");
-					Set<Offer> yourOffers = customerActions.viewOffersYouMade();
 					for (Offer o: yourOffers) {
 						if (o.getStatus().equals("accepted")) {
 							System.out.println("You must pay $" + o.getOffer() + " for the " + o.getBicycleToBeSold().getBikeModel() + " " + o.getBicycleToBeSold().getBikeType());
@@ -158,12 +157,83 @@ public class MainProgram {
 				case "q":
 					System.out.println("Logging out. Goodbye...");
 					break customerMenu;
+				default:
+					System.out.println("");
 			}
 		}
 	}
 	
 	private static void employeeMenuLoop(Scanner scanner) {
+		Set<Offer> allOffers = employeeActions.getAllOffers();
+		Set<Bicycle> allBicycles = employeeActions.getAllBicycles();
 		
+		employeeMenu: while (true) {
+			System.out.println("Welcome, " + currentEmployee.getUsername());
+			System.out.println("Please choose an option:");
+			System.out.println("1. Add a bicycle");
+			System.out.println("2. Accept or reject an offer for a bicycle you have posted");
+			System.out.println("3. Remove a bicycle");
+			System.out.println("4. View all payments");
+			System.out.println("q: Log out (quit)");
+			
+			String option = scanner.nextLine();
+			
+
+			
+			switch(option) {
+				case "1":
+					System.out.println("Please enter the name of the model of bike.");
+					String bikeModel = scanner.nextLine();
+					System.out.println("Please enter the name of the type and name of bike.");
+					String bikeType = scanner.nextLine();
+					System.out.println("Please describe the bike well.");
+					String bikeDescription = scanner.nextLine();
+					System.out.println("Please list a price for the bike.");
+					double bikePrice = Double.parseDouble(scanner.nextLine());
+					
+					Bicycle newBicycle = new Bicycle(bikeModel, bikeType, bikeDescription, currentEmployee, bikePrice);
+					
+					employeeActions.addABicycle(newBicycle);
+					break;
+				case "2":
+					System.out.println("Please choose an offer.");
+					int offerIndex = 1;
+					for (Offer offer: allOffers) {
+						System.out.println(offerIndex + "$" + offer.getOffer() + " for the " + offer.getBicycleToBeSold().getBikeModel() + " " + offer.getBicycleToBeSold().getBikeType());
+					}
+					String offerOption = scanner.nextLine();
+					int offerOptionAsNum = Integer.parseInt(offerOption); //handle the NumberFormatException
+					Offer offerChosen = (Offer)allOffers.toArray()[offerOptionAsNum - 1];
+					
+					
+					System.out.println("Will you accept it or reject it? Type \"accept\" to accept or \"reject\" to reject.");
+					String acceptRejectOption = scanner.nextLine();
+					
+					if (acceptRejectOption.equals("accept")) {
+						employeeActions.acceptAnOffer(offerChosen);
+					}
+					else if (acceptRejectOption.equals("reject")) {
+						employeeActions.rejectAnOffer(offerChosen);
+					}
+					else {
+						//nothing has happened with the thing is strange.
+						System.out.println("You haven't done anything.");
+					}
+					break;
+				case "3":
+					System.out.println("Please choose a bike to remove.");
+					int bicycleIndex = 1;
+					for (Bicycle bicycle: allBicycles) {
+						System.out.println(bicycleIndex + ". " + bicycle.getBikeModel() + bicycle.getBikeType());
+					}
+					
+					String bikeOption = scanner.nextLine();
+					int bikeOptionAsNum = Integer.parseInt(bikeOption); //handle the NumberFormatException
+					Bicycle bikeChosen = (Bicycle)allOffers.toArray()[bikeOptionAsNum - 1];
+					employeeActions.removeABicycle(bikeChosen);
+				
+			}
+		}
 	}
 	
 }

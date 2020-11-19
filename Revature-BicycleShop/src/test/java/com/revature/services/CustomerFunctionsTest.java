@@ -73,4 +73,5 @@ public class CustomerFunctionsTest {
 		assertArrayEquals(emptyHashSet.toArray(), cf.viewBicyclesYouOwn().toArray());
 	}
 	
+	
 }
