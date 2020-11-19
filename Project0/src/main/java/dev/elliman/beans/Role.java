@@ -77,7 +77,6 @@ public class Role {
 	public String[] getOptions() {
 		ArrayList<String> userOptions = new ArrayList<>();
 		for(Option o : options) {
-			System.out.println("optionloop");
 			if(o.LEVEL >= id) {
 				userOptions.add(o.TYPE);
 			} else {
