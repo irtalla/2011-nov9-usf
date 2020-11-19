@@ -92,6 +92,7 @@ SQL
 	- data types to know:
 		integer/int
 		real
+		decimal/numeric
 		serial
 		varchar(n)
 		char(n)
