@@ -231,6 +231,12 @@ public class MainProgram {
 					int bikeOptionAsNum = Integer.parseInt(bikeOption); //handle the NumberFormatException
 					Bicycle bikeChosen = (Bicycle)allOffers.toArray()[bikeOptionAsNum - 1];
 					employeeActions.removeABicycle(bikeChosen);
+					break;
+				case "4":
+					System.out.println("Here are all the payments people will have to make:");
+					for (Offer offer: allOffers) {
+						offer
+					}
 				
 			}
 		}
