@@ -61,11 +61,11 @@ public class BreedPostgres implements BreedDAO {
 		try (Connection conn = cu.getConnection()) {
 			if(!(t.equals(null))) {
 			conn.setAutoCommit(false);
-			String sql = "Update Breed set name ="+new_breed+"Where id ="+id;
-			String[] keys = {"id"};
-			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
-			pstmt.setString(1,new_breed);
+			String sql = "Update Breed set name = ? where id = ?";
 			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,new_breed);
+			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			
