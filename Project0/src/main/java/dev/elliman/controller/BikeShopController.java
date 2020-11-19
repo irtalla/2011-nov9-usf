@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import dev.elliman.beans.Person;
 import dev.elliman.beans.Role;
+import dev.elliman.beans.ScannerSingleton;
 import dev.elliman.data.PersonDAO;
 import dev.elliman.data.PersonDAOFactory;
 import dev.elliman.exceptions.NonUniqueUsernameException;
@@ -41,7 +42,7 @@ public class BikeShopController {
 		}
 
 
-		input = new Scanner(System.in);
+		input = ScannerSingleton.getScanner();
 		int selection = 0;
 
 		while(!stop) {
@@ -81,6 +82,7 @@ public class BikeShopController {
 			}
 
 			try {
+				System.out.print("Selection: ");
 				return Integer.valueOf(input.nextLine());
 			} catch (NumberFormatException e) {
 				System.out.println("Invalid input, please try again");
@@ -151,7 +153,7 @@ public class BikeShopController {
 			switch(optionSelected) {
 			case 0:
 				logout();
-				break;
+				return;
 			case 1:
 				UserHandler.purchaseBike(currentUser);
 				break;

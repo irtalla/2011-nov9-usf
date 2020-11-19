@@ -1,6 +1,9 @@
 package dev.elliman.controller;
 
+import java.util.Scanner;
+
 import dev.elliman.beans.Person;
+import dev.elliman.beans.ScannerSingleton;
 
 /**
  * This will contain the methods that handle users interacting with the program
@@ -8,6 +11,8 @@ import dev.elliman.beans.Person;
  *
  */
 public class UserHandler {
+	
+	private static Scanner input = ScannerSingleton.getScanner();
 	
 	public static void purchaseBike(Person user) {
 		System.out.println("purchasing a bike");
