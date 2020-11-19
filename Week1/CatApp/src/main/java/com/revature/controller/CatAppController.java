@@ -8,7 +8,7 @@ import com.revature.beans.Cat;
 import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
-import com.revature.exceptions.NonUniqueUsernameException;
+//import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.CatService;
 import com.revature.services.CatServiceImpl;
 import com.revature.services.PersonService;
