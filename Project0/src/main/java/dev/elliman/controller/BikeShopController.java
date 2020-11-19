@@ -145,6 +145,7 @@ public class BikeShopController {
 		while(true) {
 			//display options to the user
 			System.out.println("What would you like to do?");
+			System.out.println(currentUser.getRole().getOptions()[0]);
 			Integer optionSelected = getInput(currentUser.getRole().getOptions());
 			
 			switch(optionSelected) {
@@ -152,16 +153,16 @@ public class BikeShopController {
 				logout();
 				break;
 			case 1:
-				purchaseBike();
+				UserHandler.purchaseBike(currentUser);
 				break;
 			case 2:
-				addBike();
+				UserHandler.addBike(currentUser);
 				break;
 			case 3:
-				removeBike();
+				UserHandler.removeBike(currentUser);
 				break;
 			case 4:
-				promoteUser();
+				UserHandler.promoteUser(currentUser);
 				break;
 			}
 		}
@@ -171,21 +172,5 @@ public class BikeShopController {
 	private static void logout() {
 		System.out.println("Logging out...");
 		currentUser = null;
-	}
-	
-	private static void purchaseBike() {
-		System.out.println("purchasing a bike");
-	}
-	
-	private static void addBike() {
-		System.out.println("adding a bike");
-	}
-	
-	private static void removeBike() {
-		System.out.println("removing a bike");
-	}
-	
-	private static void promoteUser() {
-		System.out.println("promoting a user");
 	}
 }
