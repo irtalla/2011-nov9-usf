@@ -1,11 +1,11 @@
 package dev.elliman.beans;
 
-public class Item {
+public class BikePart {
 	protected Integer id;
 	protected Integer price;
 	protected String type;
 	
-	public Item(Integer price, String type) {
+	public BikePart(Integer price, String type) {
 		this.price = price;
 		this.type = type;
 	}

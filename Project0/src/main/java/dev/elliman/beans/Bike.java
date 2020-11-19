@@ -1,6 +1,6 @@
 package dev.elliman.beans;
 
-public class Bike extends Item {
+public class Bike extends BikePart {
 	protected String color;
 	protected String model;
 
