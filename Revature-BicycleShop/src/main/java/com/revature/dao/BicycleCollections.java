@@ -26,6 +26,13 @@ public class BicycleCollections implements BicycleDAO {
 	}
 	
 	public Set<Bicycle> getAllAvailableBicycles(){
+		Set<Bicycle> availableBicycles = new HashSet<Bicycle>();
+		for (Bicycle b: offeredBicycles) {
+			if (b.getStatus().equals("available")) {
+				availableBicycles.add(b);
+			}
+		}
+		
 		return offeredBicycles;
 	}
 	

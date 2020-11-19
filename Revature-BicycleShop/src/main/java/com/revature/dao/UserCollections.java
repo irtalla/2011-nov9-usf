@@ -61,7 +61,7 @@ public class UserCollections implements UserDAO {
 	public void calculatePayment(Offer offer) {
 		double payment = offer.getOffer();
 		double weeklyPayments = payment / 4; //(assumption is that it's paid over a month?)
-		System.out.println("You must pay " + weeklyPayments + " ");
+		System.out.println("You must pay " + weeklyPayments + " over 4 weeks.");
 	}
 	
 }

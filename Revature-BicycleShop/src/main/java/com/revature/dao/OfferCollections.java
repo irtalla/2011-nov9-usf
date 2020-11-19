@@ -57,7 +57,7 @@ public class OfferCollections implements OfferDAO{
 	
 	
 	
-	@Override
+	@Override	
 	public boolean removeAnOffer(Offer o) {
 		return allOffers.remove(o);
 	}
