@@ -8,19 +8,10 @@ import com.revature.exceptions.NonUniqueUsernameException;
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
-	package com.revature.services;
-
-	import com.revature.beans.Person;
-	import com.revature.data.PersonDAO;
-
-public class PersonServiceImpl implements PersonService {
-	private PersonDAO personDao;
-		
-	public class PersonDAOFactory(Person p, Integer id, String username, String password); {
-		getPersonDao(p) {
-			return collectionDao;
-		}
-	}
+	
+	
+	
+	
 	public PersonServiceImpl() {
 		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		personDao = personDaoFactory.getPersonDAO();
