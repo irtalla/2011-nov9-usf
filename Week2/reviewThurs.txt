@@ -83,7 +83,7 @@ database normalization (overview)
 		  depend on candidate keys)
 JDBC
 	- JDBC stands for Java Database Connectivity. it is a Java API for
-	  connecting to a database.
+	  connecting to a database. (java.sql library)
 	- to use JDBC, you must include the appropriate implementation for
 	  the DBMS you are using. (i.e. PostgreSQL)
 		- this will be included as a Maven dependency in the
@@ -98,6 +98,7 @@ JDBC
 			- setAutoCommit(boolean)
 			- createStatement()
 			- prepareStatement(sql, key)
+			- prepareStatement(sql)
 			- commit()
 			- rollback()
 			- close()
