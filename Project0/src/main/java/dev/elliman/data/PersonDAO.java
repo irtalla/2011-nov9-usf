@@ -10,6 +10,8 @@ public interface PersonDAO {
 	
 	public Person getByID(Integer id);
 	
+	public Person getByUsername(String username);
+	
 	public Set<Person> getAll();
 	
 	public void update(Person p);

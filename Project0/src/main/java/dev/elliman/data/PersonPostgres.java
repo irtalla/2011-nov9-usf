@@ -65,6 +65,7 @@ public class PersonPostgres implements PersonDAO {
 					rs.getString("username"),
 					rs.getString("password"),
 					role);
+			p.setID(id);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,6 +137,33 @@ public class PersonPostgres implements PersonDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Person getByUsername(String username) {
+Person p = null;
+		
+		try(Connection conn = cu.getConnection()){
+			String sql = "select * from person where username = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+			
+			Role role = new Role();
+			role.setLevel(this, rs.getInt("role_id"));
+			p = new Person(
+					rs.getString("first_name"),
+					rs.getString("last_name"),
+					rs.getString("username"),
+					rs.getString("password"),
+					role);
+			p.setID(rs.getInt("person_id"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 }

@@ -55,4 +55,14 @@ public class PersonCollection implements PersonDAO{
 			users.remove(match);
 		}
 	}
+
+	@Override
+	public Person getByUsername(String username) {
+		for(Person p : users) {
+			if(p.getUsername().equalsIgnoreCase(username)) {
+				return p;
+			}
+		}
+		return null;
+	}
 }
