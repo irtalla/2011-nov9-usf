@@ -1,13 +1,16 @@
 package dev.elliman.beans;
 
 public class Bike {
-	protected Integer id;
-	protected String color;
-	protected String model;
+	private Integer id;
+	private String color;
+	private String model;
+	private Person owner;
+	
 	
 	public Bike(String model, String color) {
 		this.model = model;
 		this.color = color;
+		owner = null;
 	}
 
 	public Integer getId() {
@@ -24,5 +27,13 @@ public class Bike {
 
 	public String getModel() {
 		return model;
+	}
+	
+	public void setOwner(Person owner) {
+		this.owner = owner;
+	}
+	
+	public Person getOwner() {
+		return owner;
 	}
 }
