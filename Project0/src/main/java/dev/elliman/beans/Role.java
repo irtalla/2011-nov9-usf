@@ -74,6 +74,11 @@ public class Role {
 		name = "Admin";
 	}
 	
+	public void setLevel(PersonDAO auth, Integer level) {
+		id = level;
+		name = "Admin";
+	}
+	
 	public String[] getOptions() {
 		ArrayList<String> userOptions = new ArrayList<>();
 		for(Option o : options) {
