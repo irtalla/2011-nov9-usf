@@ -1,6 +1,7 @@
 package com.revature.beans;
 
-//import java.util.Set;
+import java.util.Set;
+import java.util.HashSet;
 
 public class User {
 	
@@ -9,6 +10,7 @@ public class User {
 	private String lastName;
 	private String username;
 	private String password;
+	private Set<Bike> bikes;
 	private Role role;
 	
 	//skeleton for a user
@@ -18,6 +20,7 @@ public class User {
 		lastName = "";
 		username = "";
 		password = "";
+		bikes = new HashSet<Bike>();
 		role = new Role();
 	}
 	
@@ -61,6 +64,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public Set<Bike> getBikes() {
+		return bikes;
+	}
+
+	public void setBikes(Set<Bike> bikes) {
+		this.bikes = bikes;
 	}
 
 	public Role getRole() {

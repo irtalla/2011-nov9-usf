@@ -1,11 +1,13 @@
 package com.revature.controller;
 
 import java.util.Scanner;
+import java.util.Set;
 
 import com.revature.beans.Bike;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
+import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.BikeService;
 import com.revature.services.BikeServiceImpl;
 import com.revature.services.UserService;
@@ -14,6 +16,8 @@ import com.revature.services.UserServiceImpl;
 public class BikeAppController {
 	
 	public static Scanner scan;
+	private static UserService userServ = new UserServiceImpl();
+	private static BikeService bikeServ = new BikeServiceImpl();
 	
 	public static void main(String[] args) {
 		
@@ -58,13 +62,14 @@ public class BikeAppController {
 				if (loggedInUser.getRole().getName().equals("Customer")) {
 					System.out.println("other. Log out");
 				} else if (loggedInUser.getRole().getName().equals("Employee")) {
-					System.out.println("3. Manage Bikes\n4. Manage Offers\5. View all Payments\n Q to Log out");
+					System.out.println("3. Manage Bikes\n4. Manage Offers\n5. View all Payments\n Q to Log out");
 				}
 				int userInput = Integer.valueOf(scan.nextLine());
 				switch (userInput) {
 				case 1:
 					loggedInUser = viewAvailableBikes(loggedInUser);
 					break;
+				
 				case 2:
 					loggedInUser = viewUserBikes(loggedInUser);
 					break;
@@ -76,13 +81,14 @@ public class BikeAppController {
 					break;
 				case 5:
 					loggedInUser = viewPayments(loggedInUser);
+					
 				default:
 					System.out.println("Thanks for visiting Rydle Bikes!");
 					loggedInUser = null;
 					break menuLoop;
 				
 				
-				}
+				} 
 			}
 			
 			
@@ -94,6 +100,40 @@ public class BikeAppController {
 	
 	//Register user
 	private static User registerUser() {
+		while (true) {
+			User newAccount = new User();
+			System.out.println("Enter a username: ");
+			newAccount.setUsername(scan.nextLine());
+			System.out.println("Enter a password: ");
+			newAccount.setPassword(scan.nextLine());
+			Role r = new Role();
+			r.setId(2);
+			r.setName("Customer");
+			newAccount.setRole(r);
+			System.out.println("Does this look good?");
+			System.out.println("Username: " + newAccount.getUsername()
+					+ " Password: " + newAccount.getPassword());
+			System.out.println("1 to confirm, 2 to start over, Q to cancel");
+			int input = Integer.valueOf(scan.nextLine());
+			switch (input) {
+			case 1:
+				try {
+					newAccount.setId(userServ.addUser(newAccount));
+					System.out.println("Confirmed. Welcome!");
+					return newAccount;
+				} catch (NonUniqueUsernameException e) {
+					System.out.println("Sorry, that username is taken - let's try again.");
+				}
+				break;
+			case 2:
+				System.out.println("Okay, let's try again.");
+				break;
+			default:
+				System.out.println("Okay, let's go back.");
+				return null;
+			}
+			
+		}
 		
 	}
 	
@@ -105,7 +145,7 @@ public class BikeAppController {
 			System.out.println("Enter password: ");
 			String password = scan.nextLine();
 			
-			User user = UserServ.getUserByUsername(username);
+			User user = userServ.getUserByUsername(username);
 			if (user == null) {
 				System.out.print("Username does not exsist. ");
 			} else if (user.getPassword().equals(password)) {

@@ -1,5 +1,11 @@
 package com.revature.data;
 
-public class BikeDAO {
+import java.util.Set;
+
+import com.revature.beans.Bike;
+
+public interface BikeDAO extends GenericDAO<Bike> {
+	public Bike add(Bike b);
+	public Set<Bike> getAvailableBikes();
 
 }

@@ -5,13 +5,16 @@ package com.revature.beans;
 public class Bike {
 	
 	private Integer id;
-	private String model;
+	private String name;
+	private Model model;
 	private Double price;
 	private Status status;
 	
+	
 	public Bike() {
 		id = 0;
-		model = "";
+		name = "";
+		model = new Model();
 		price = 0.00;
 		
 		
@@ -26,11 +29,19 @@ public class Bike {
 		this.id = id;
 	}
 
-	public String getModel() {
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Model getModel() {
 		return model;
 	}
 
-	public void setModel(String model) {
+	public void setModel(Model model) {
 		this.model = model;
 	}
 
