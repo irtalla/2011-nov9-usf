@@ -9,4 +9,20 @@ public class BikePart {
 		this.price = price;
 		this.type = type;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public String getType() {
+		return type;
+	}
 }
