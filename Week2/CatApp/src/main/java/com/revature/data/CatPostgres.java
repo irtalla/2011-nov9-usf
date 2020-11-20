@@ -91,18 +91,61 @@ public class CatPostgres implements CatDAO {
 	
 	@Override
 	public Set<Cat> getAvailableCats() {
-		return null;
+		Set<Cat> cats = new HashSet<>();
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select * from (select cat_status.id, cat_status.name, age, status_id, status_name, breed_id, " 
+					+ "breed.name as breed_name from "
+					+ "(select cat.id, cat.name, age, status_id, breed_id, status.name as status_name from " 
+					+ "cat join status on status_id = status.id) as cat_status "
+					+ "join breed on breed_id = breed.id) as available where available.status_name = 'Available'";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				Cat cat = new Cat();
+				cat.setId(rs.getInt("id"));
+				cat.setName(rs.getString("name"));
+				cat.setAge(rs.getInt("age"));
+				Breed b = new Breed();
+				b.setId(rs.getInt("breed_id"));
+				b.setName(rs.getString("breed_name"));
+				cat.setBreed(b);
+				Status s = new Status();
+				s.setId(rs.getInt("status_id"));
+				s.setName(rs.getString("status_name"));
+				cat.setStatus(s);
+				cats.add(cat);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return cats;
+		
 	}
 
 	@Override
 	public void update(Cat t) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void delete(Cat t) {
-		// TODO Auto-generated method stub
+		try (Connection conn = cu.getConnection()) {
+			String sql = "delete from cat where cat.id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(2, t.getId());
+			
+			int rowsAffected = pstmt.executeUpdate();
+			if(rowsAffected > 0)
+				conn.commit();		
+			else
+				conn.rollback();	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
