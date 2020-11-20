@@ -1,5 +1,8 @@
 package dev.elliman.beans;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Person {
 	private Integer id;
 	private String firstName;
@@ -8,12 +11,16 @@ public class Person {
 	private String password;//scary plain text passwords
 	private Role role;//employee/customer/manager/etc...
 	
+	private Set<Bike> ownedBikes;
+	
 	public Person(String firstName, String lastName, String username, String password, Role role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.role = role;
+		
+		ownedBikes = new HashSet<Bike>();
 	}
 	
 	public void setUsername(String username) {
@@ -64,5 +71,7 @@ public class Person {
 		return username;
 	}
 	
-	
+	public void addBike(Bike bike) {
+		ownedBikes.add(bike);
+	}
 }
