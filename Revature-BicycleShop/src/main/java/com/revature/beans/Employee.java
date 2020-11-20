@@ -6,6 +6,10 @@ public class Employee extends User{
 		super(username, password, "employee");
 	}
 	
+	public Employee(String username, String password, int id) {
+		super(username, password, "employee", id);
+	}
+	
 	@Override
 	public String toString() {
 		return "Employee " + getUsername() + "'s password is " + getPassword();

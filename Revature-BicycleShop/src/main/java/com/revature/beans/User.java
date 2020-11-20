@@ -14,6 +14,13 @@ public class User {
 		this.type = type;
 		id = ++idGenerator;
 	}
+	
+	public User(String username, String password, String type, int id) {
+		this.username = username;
+		this.password = password;
+		this.type = type;
+		this.id = id;
+	}
 
 	public String getPassword() {
 		return password;

@@ -1,6 +1,6 @@
 package com.revature.beans;
 
-public class Bicycle {
+	public class Bicycle {
 	private String bikeModel;
 	private String bikeType;
 	private String description;
@@ -10,7 +10,18 @@ public class Bicycle {
 	private Customer whoWillOwnTheBike;
 	private int id;
 	
-	//private static int idGenerator = 0;
+	private static int idGenerator = 0;
+	
+	public Bicycle(String model, String type, String description, Employee seller, double price) {
+		bikeModel = model;
+		bikeType = type;
+		this.description = description;
+		this.seller = seller;
+		this.price = price;
+		whoWillOwnTheBike = null;
+		status = "available";
+		id = ++idGenerator;
+	}
 	
 	public Bicycle(String model, String type, String description, Employee seller, double price, int id) {
 		bikeModel = model;
@@ -20,6 +31,17 @@ public class Bicycle {
 		this.price = price;
 		whoWillOwnTheBike = null;
 		status = "available";
+		this.id = id;
+	}
+	
+	public Bicycle(String model, String type, String description, Employee seller, double price, String status, int id) {
+		bikeModel = model;
+		bikeType = type;
+		this.description = description;
+		this.seller = seller;
+		this.price = price;
+		whoWillOwnTheBike = null;
+		this.status = status;
 		this.id = id;
 	}
 
