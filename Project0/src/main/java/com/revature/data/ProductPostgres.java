@@ -1,20 +1,54 @@
 package com.revature.data;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Set;
 
-/*
- * This is the actual Postgres abstraction layer. This will interface
- * directly with the database 
- */
+
 
 import com.revature.beans.Product;
+import com.revature.utils.ConnectionUtil;
 
 public class ProductPostgres implements ProductDAO {
-
+	
+	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
+	
+	
+	// Constructor 
+	public ProductPostgres() {}
+	
 	@Override
 	public Product add(Product t) {
-		// TODO Auto-generated method stub
-		return null;
+		Product c = null;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into cat values (default, ?, ?, ?, ?)";
+			String[] keys = {"id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			pstmt.setString(1, t.getName());
+			pstmt.setDouble(2, t.getPrice());
+
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				c = t;
+				c.setId(rs.getInt(1));
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return c;
+
 	}
 
 	@Override

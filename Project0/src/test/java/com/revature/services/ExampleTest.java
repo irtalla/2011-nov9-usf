@@ -8,16 +8,16 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 
-import org.junit.jupiter.api.Assertions; 
-
-
+import com.revature.beans.Bike;
+import com.revature.beans.Product;
+import com.revature.data.ProductPostgres;
 /*
  * By default, 
  * 
  */
 
-@TestMethodOrder(OrderAnnotation.class)
 public class ExampleTest {
 	
 	public int returnInt() {
@@ -65,6 +65,24 @@ public class ExampleTest {
 		System.out.println("This will happen after each test"); 
 	}
 	
+	
+	@DisplayName("Simple postgres connectivity test")
+	@Test
+	public void testPostgresConnectivity() {
+		
+		ProductPostgres postgres_dao = new ProductPostgres(); 
+		
+		Bike newBike = new Bike(); 
+		newBike.setName("X-games");
+		newBike.setPrice(449.99);
+		
+		Product returned_bike = postgres_dao.add(newBike); 
+		
+		Assertions.assertEquals(499.99, returned_bike.getPrice());
+		
+	}
+	
+	
 	@DisplayName("Simply assertEquals test") 
 	@Test
 	public void testTheThing() {
@@ -80,7 +98,6 @@ public class ExampleTest {
 		Assertions.assertTrue(i < 100);
 	}
 	
-	// This test will fail 
 	@DisplayName("Simply assertThrows test")
 	@Test
 	public void testException() {
