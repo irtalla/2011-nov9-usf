@@ -109,7 +109,7 @@ public class PersonPostgres implements PersonDAO {
 	public void update(Person p) {
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "update person set first_name = '?', last_name = '?', username = '?', passwrd = '?', role_id = ? where person_id = ?";
+			String sql = "update person set first_name = ?, last_name = ?, username = ?, passwrd = ?, role_id = ? where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, p.getFirstName());
 			pstmt.setString(2, p.getLastName());
