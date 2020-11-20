@@ -12,6 +12,12 @@
   		<version>5.7.0-M1</version>
   		<scope>test</scope>
   	</dependency>
+  	<!-- JDBC -->
+	<dependency>
+    	<groupId>org.postgresql</groupId>
+    	<artifactId>postgresql</artifactId>
+    	<version>42.2.18</version>
+	</dependency>
   </dependencies>
   
 </project>
