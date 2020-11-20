@@ -32,13 +32,7 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	public Person getPersonByUsername(String username) {
-		for(Person person : personDAO.getAll()) {
-			//usernames dont care about case
-			if(person.getUsername().equalsIgnoreCase(username)) {
-				return person;
-			}
-		}
-		return null;
+		return personDAO.getByUsername(username);
 	}
 
 	public void updatePerson(Person p) {
