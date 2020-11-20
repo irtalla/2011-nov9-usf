@@ -15,4 +15,6 @@ public interface BikeDAO {
 	public void update(Bike b);
 	
 	public void delete(Bike b);
+	
+	public void getByModel(String model);
 }
