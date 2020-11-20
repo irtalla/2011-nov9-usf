@@ -35,6 +35,7 @@ public class PersonPostgres implements PersonDAO {
 
 			if(rs.next()) {
 				generatedID = rs.getInt(1);
+				p.setID(generatedID);
 				conn.commit();
 			} else {
 				conn.rollback();
