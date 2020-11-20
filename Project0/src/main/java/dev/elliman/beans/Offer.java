@@ -1,6 +1,7 @@
 package dev.elliman.beans;
 
 public class Offer {
+	private Integer id;
 	private Person person;
 	private Bike bike;
 	private Integer price;
@@ -19,5 +20,13 @@ public class Offer {
 	
 	public void reject() {
 		status = "Rejected";
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }
