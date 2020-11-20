@@ -35,12 +35,18 @@ public class CatPostgres implements CatDAO {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			
 			if (rs.next()) {
-				if (addSpecialNeeds(t, conn)) {
+				if (t.getSpecialNeeds().size() > 0) {
+					if (addSpecialNeeds(t, conn)) {
+						c = t;
+						c.setId(rs.getInt(1));
+						conn.commit();
+					} else {
+						conn.rollback();
+					}
+				} else {
 					c = t;
 					c.setId(rs.getInt(1));
 					conn.commit();
-				} else {
-					conn.rollback();
 				}
 			} else {
 				conn.rollback();
