@@ -13,9 +13,10 @@ public class Cat {
 	
 	public Cat() {
 		id = 0;
-		name = "";
+		name = "Cat";
 		age = 0;
 		breed = new Breed();
+		status = new Status();
 		specialNeeds = new HashSet<SpecialNeed>();
 	}
 
@@ -32,7 +33,8 @@ public class Cat {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if (!("".equals(name)))
+			this.name = name;
 	}
 
 	public Integer getAge() {

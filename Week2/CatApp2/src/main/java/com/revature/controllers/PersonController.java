@@ -7,22 +7,31 @@ import com.revature.services.CatService;
 import com.revature.services.CatServiceImpl;
 =======
 import com.revature.beans.Person;
+<<<<<<< HEAD
+import com.revature.services.PersonService;
+=======
 import com.revature.exceptions.NonUniqueUsernameException;
 >>>>>>> 3aefbb2a54897fe9b96974090601361665a258d7
 import com.revature.services.PersonService;
 import com.revature.services.PersonServiceImpl;
+>>>>>>> 3aefbb2a54897fe9b96974090601361665a258d7
 
 import io.javalin.http.Context;
 
 public class PersonController {
+<<<<<<< HEAD
+	private static PersonService ps;
+=======
 	private static PersonService personServ = new PersonServiceImpl();
+>>>>>>> 3aefbb2a54897fe9b96974090601361665a258d7
 	
 	public static void logIn(Context ctx) {
 		
 	}
 	
 	public static void logOut(Context ctx) {
-		
+	 
+		ctx.req.getSession().invalidate();
 	}
 	
 <<<<<<< HEAD
@@ -47,6 +56,9 @@ public class PersonController {
 	}
 	
 	public static void updateUser(Context ctx) {
+		
+		Person persons=ctx.bodyAsClass(Person.class);
+		ps.updatePerson(persons);
 		
 	}
 	
