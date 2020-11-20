@@ -83,9 +83,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void setOwnerForProduct(Person p, Product c) {
-		c.setIsOwned(true);
+		
 		c.setOwnerId(p.getId());
+		
+		p.getOwnProducts().add(c); 
+		
 		this.productDao.update(c);
+		
 	}
 
 

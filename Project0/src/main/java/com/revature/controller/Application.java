@@ -3,7 +3,6 @@ package com.revature.controller;
 import java.io.IOException;
 import java.util.Scanner;
 
-import com.revature.beans.Bike;
 import com.revature.beans.Offer;
 import com.revature.beans.Product;
 import com.revature.beans.Role;
@@ -93,12 +92,12 @@ public class Application {
 	 */
 	private static void initControllers(String userType) {
 		
-		switch (userType) {
-			case "customer": 
+		switch (userType.toUpperCase()) {
+			case "CUSTOMER": 
 				Application.productService = new ProductServiceImpl(); 
 				System.out.println("Welcome, customer!");
-			case "manager":
-			case "employee": 
+			case "MANAGER":
+			case "EMPLOYEE": 
 				Application.offerService = new OfferServiceImpl(); 
 				Application.userService = new PersonServiceImpl(); 
 				System.out.println("Welcome, employee!");
@@ -151,13 +150,15 @@ public class Application {
 			System.out.printf("Bad input for price: %s\n", productPrice);
 		}
 		
-		System.out.print("What is the color of product you are adding? :");
-		String productColor = Application.getUserInput();
+		System.out.print("What is the category of product you are adding? :");
+		String productCategory = Application.getUserInput();
 		
-		Product newProduct = new Bike(); 
+		Product newProduct = new Product(); 
 		newProduct.setName(productName);
 		newProduct.setPrice(productPrice);
-		newProduct.setColor(productColor);
+		newProduct.getCategory().setName(productCategory);
+		
+		
 		Application.productService.addProduct(newProduct);
 		
 		
@@ -326,11 +327,7 @@ public class Application {
 		
 		
 		Application.currentUser = new Person();
-		Role role = new Role(); 
-		role.setId(0);
-		role.setRole(Role.Type.CUSTOMER);
-		Application.currentUser.setRole(role);
-		Application.initControllers(userType); 
+		Application.initControllers( Application.currentUser.getRole().getName() );  
 		
 		
 	};

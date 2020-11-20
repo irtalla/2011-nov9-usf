@@ -5,11 +5,9 @@ import java.util.List;
 
 /*
  * 
- * The 
- * 
- * 
  * 
  */
+
 
 public class Person {
 	
@@ -21,7 +19,10 @@ public class Person {
 	private List<Offer> ownOffers = new ArrayList<Offer>(); 
 	
 	
-	public Person() {}	
+	public Person() {
+		this.role = new Role(); 
+		this.role.setName("customer");
+	}	
 
 	public Integer getId() {
 		return id;
@@ -54,6 +55,24 @@ public class Person {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+	public List<Product> getOwnProducts() {
+		return ownProducts;
+	}
+
+	public void setOwnProducts(List<Product> ownProducts) {
+		this.ownProducts = ownProducts;
+	}
+
+	public List<Offer> getOwnOffers() {
+		return ownOffers;
+	}
+
+	public void setOwnOffers(List<Offer> ownOffers) {
+		this.ownOffers = ownOffers;
+	}
+	
+	
 	
 	
 	

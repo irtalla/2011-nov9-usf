@@ -12,15 +12,15 @@ public class PersonCollections implements PersonDAO {
 	public PersonCollections() {
 		people = new HashSet<>();
 		
-		Person p = new Person();
-		p.setId(1);
-		p.setUsername("sierra");
-		p.setPassword("pass");
-		Role r = new Role();
-		r.setId(1);
-		r.setRole(Role.Type.CUSTOMER);
-		p.setRole(r);
-		people.add(p);
+//		Person p = new Person();
+//		p.setId(1);
+//		p.setUsername("sierra");
+//		p.setPassword("pass");
+//		Role r = new Role();
+//		r.setId(1);
+//		r.setRole(Role.Type.CUSTOMER);
+//		p.setRole(r);
+//		people.add(p);
 	}
 	
 	// CRUD operations (create, read, update, delete)

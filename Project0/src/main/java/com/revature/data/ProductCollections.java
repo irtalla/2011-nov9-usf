@@ -88,7 +88,7 @@ public class ProductCollections implements ProductDAO {
         Set<Product> aProducts = new HashSet<>();
         for(Product Product : Products) {
         	// TODO needed to get the name from status
-            if( Product.getIsOwned() ) {
+            if( Product.getStatus().getName().equalsIgnoreCase("available") ) {
                 aProducts.add(Product);
             }
         }
