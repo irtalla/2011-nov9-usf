@@ -73,7 +73,12 @@ public class PersonCollections implements PersonDAO {
 
 	@Override
 	public void delete(Person t) {
+<<<<<<< HEAD
+		// TODO Auto-generated method stub
+		
+=======
 		people.remove(t);
+>>>>>>> 14c4f16f445f8bc716af654a0929ded9dd89d004
 	}
 
 
