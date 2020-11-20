@@ -3,6 +3,8 @@ package com.revature.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,10 +18,9 @@ import com.revature.utils.ConnectionUtil;
 
 public class PersonPostgres implements PersonDAO {
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
-	
+
 	@Override
 	public Person add(Person t) {
-		// TODO Auto-generated method stub
 		
 		Person p = null;
 		try (Connection conn = cu.getConnection()) {
@@ -45,6 +46,7 @@ public class PersonPostgres implements PersonDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return p;
 	}
 
@@ -102,18 +104,74 @@ public class PersonPostgres implements PersonDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return person;
 	}
 
 	@Override
 	public Set<Person> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Person> people = new HashSet<>();
+		
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
+					+ "user_role.name as role_name from person join user_role on user_role_id = user_role.id";
+			Statement state = conn.createStatement();
+			ResultSet rs = state.executeQuery(sql);
+			
+			while (rs.next()) {
+				Person human = new Person();
+				human.setId(rs.getInt("person_id"));
+				human.setUsername(rs.getString("username"));
+				human.setPassword(rs.getString("passwd"));
+				Role job = new Role();
+				job.setId(rs.getInt("role_id"));
+				job.setName(rs.getString("role_name"));
+				human.setRole(job);
+				
+				human.setCats(getCatsByPersonId(human.getId(), conn));
+				
+				people.add(human);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return people;
 	}
-	
+
 	@Override
 	public Person getByUsername(String username) {
-		return null;
+		Person human = null;
+		
+		try (Connection conn = cu.getConnection())
+		{
+			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
+					+ "user_role.name as role_name from person "
+					+ "join user_role on user_role_id = user_role.id where username = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				human = new Person();
+				human.setUsername(rs.getString("username"));
+				human.setId(rs.getInt("person_id"));
+				human.setPassword(rs.getString("passwd"));
+				Role job = new Role();
+				job.setId(rs.getInt("role_id"));
+				job.setName(rs.getString("role_name"));
+				human.setRole(job);
+				human.setCats(getCatsByPersonId(human.getId(), conn));
+			}
+						
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return human;
 	}
 
 	@Override
@@ -160,8 +218,40 @@ public class PersonPostgres implements PersonDAO {
 
 	@Override
 	public void delete(Person t) {
-		// TODO Auto-generated method stub
-
+		try (Connection conn =  cu.getConnection())
+		{
+			String sql = "delete from person_cat where person_id = ?; delete from person where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId());
+			pstmt.setInt(2, t.getId());
+			int rowsAffected = pstmt.executeUpdate();
+			
+			if (rowsAffected > 0)
+				conn.commit();
+			else
+				conn.rollback();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private Set<Cat> getCatsByPersonId(Integer id, Connection conn) throws SQLException {
+		Set<Cat> cats = new HashSet<>();
+		CatDAO catDao = new CatPostgres();
+		
+		String sql = "select * from person_cat where person_id = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, id);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			Cat pet = catDao.getById(rs.getInt("cat_id"));
+			cats.add(pet);
+		}
+		
+		return cats;
 	}
 
 }
