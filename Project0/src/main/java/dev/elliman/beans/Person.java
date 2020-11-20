@@ -12,6 +12,8 @@ public class Person {
 	private Role role;//employee/customer/manager/etc...
 	
 	private Set<Bike> ownedBikes;
+	private Set<Offer> currentOffers;
+	private Set<Offer> resolvedOffers;
 	
 	public Person(String firstName, String lastName, String username, String password, Role role) {
 		this.firstName = firstName;
@@ -21,8 +23,10 @@ public class Person {
 		this.role = role;
 		
 		ownedBikes = new HashSet<Bike>();
+		currentOffers = new HashSet<Offer>();
+		resolvedOffers = new HashSet<Offer>();
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -73,5 +77,18 @@ public class Person {
 	
 	public void addBike(Bike bike) {
 		ownedBikes.add(bike);
+	}
+
+	public void madeOffer(Offer offer) {
+		currentOffers.add(offer);
+	}
+
+	public void resolveOffer(Offer offer) {
+		for(Offer o : currentOffers) {
+			if(o.getId().equals(offer.getId())) {
+				resolvedOffers.add(o);
+				currentOffers.remove(o);
+			}
+		}
 	}
 }
