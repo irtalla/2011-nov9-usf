@@ -1,11 +1,11 @@
 package dev.elliman.beans;
 
-public class Bike extends BikePart {
+public class Bike {
+	protected Integer id;
 	protected String color;
 	protected String model;
 
-	public Bike(Integer price, String model, String color) {
-		super(price, "Bike");
+	public Bike(String model, String color) {
 		this.model = model;
 		this.color = color;
 	}
