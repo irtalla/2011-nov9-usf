@@ -15,6 +15,7 @@ public class Person {
 	private String username; 
 	private String password; 
 	private Role role;
+	
 	private List<Product> ownProducts = new ArrayList<Product>(); 
 	private List<Offer> ownOffers = new ArrayList<Offer>(); 
 	

@@ -30,13 +30,15 @@ public class PersonPostgres implements PersonDAO {
 	}
 
 	@Override
-	public void update(Person t) {
+	public boolean update(Person t) {
+		return false;
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(Person t) {
+	public boolean delete(Person t) {
+		return false;
 		// TODO Auto-generated method stub
 
 	}

@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductServiceImpl() {
 		ProductDAOFactory productDaoFactory = new ProductDAOFactory();
 		try {
-			productDao = productDaoFactory.getProductDAO("dev");
+			productDao = productDaoFactory.getProductDAO();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,9 +105,9 @@ public class ProductServiceImpl implements ProductService {
 	public void addOfferForProduct(Integer customerId, Integer productId, Double offerPrice) {
 		
 		Offer newOffer = new Offer(); 
-		newOffer.setAssociatedProductId(productId);
-		newOffer.setAssociatedUserId(customerId);
-		newOffer.setOfferPrice(offerPrice);
+		newOffer.setProductId(productId);
+		newOffer.setCustomerId(customerId);
+		newOffer.setAmount(offerPrice);
 		
 		Product product = this.productDao.getById(productId); 
 		List<Offer> offers = product.getOffers();

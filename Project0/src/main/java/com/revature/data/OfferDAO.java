@@ -5,5 +5,5 @@ import java.util.Set;
 import com.revature.beans.Offer;
 
 public interface OfferDAO extends GenericDAO<Offer> {
-	public Set<Offer> getAvailableOffers();
+	public Set<Offer> getOffersByStatus(String status);
 }

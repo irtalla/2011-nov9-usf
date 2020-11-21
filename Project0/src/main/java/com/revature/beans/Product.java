@@ -1,19 +1,22 @@
 package com.revature.beans;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class Product {
 	
 	private Integer id;
 	private String name;
-	private Double price;; 
-	private Integer ownerId; 
+	private Double price;
+	
 	private Status status; 
 	private Category category; 
-	private List<Offer> offers = new ArrayList<Offer>(); 
-	private List<Feature> features = new ArrayList<Feature>(); 
+	
+	private Set<Offer> offers = new HashSet<Offer>(); 
+	private Set<Feature> features = new HashSet<Feature>(); 
 
 	
 	public Product() {
@@ -21,12 +24,11 @@ public class Product {
 		this.id = 0;
 		this.name = "generic product";
 		this.price = 0.00;
-		this.ownerId = -100;
 		this.status = new Status();
-		this.status.setId(null);
+		this.status.setId(1);
 		this.status.setName("available");
 		this.category = new Category(); 
-		this.category.setId(null);
+		this.getCategory().setId(1);
 		this.category.setName("unspecified");
 		
 	}
@@ -62,16 +64,6 @@ public class Product {
 	}
 
 
-	public Integer getOwerId() {
-		return ownerId;
-	}
-
-
-	public void setOwnerId(Integer owerId) {
-		this.ownerId = owerId;
-	}
-
-
 	public Status getStatus() {
 		return status;
 	}
@@ -92,22 +84,22 @@ public class Product {
 	}
 
 
-	public List<Offer> getOffers() {
+	public Set<Offer> getOffers() {
 		return offers;
 	}
 
 
-	public void setOffers(List<Offer> offers) {
+	public void setOffers(Set<Offer> offers) {
 		this.offers = offers;
 	}
 
 
-	public List<Feature> getFeatures() {
+	public Set<Feature> getFeatures() {
 		return features;
 	}
 
 
-	public void setFeatures(List<Feature> features) {
+	public void setFeatures(Set<Feature> features) {
 		this.features = features;
 	}	
 }

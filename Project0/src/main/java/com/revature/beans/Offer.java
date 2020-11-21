@@ -3,45 +3,73 @@ package com.revature.beans;
 public class Offer {
 	
 	
-	private Integer associatedProductId;  
-	private Integer associatedUserId; 
+	private Integer productId;  
+	private Integer customerId; 
 	private Integer id; 
-	private Double offerPrice; 
+	private Double amount; 
+	private Status status; 
+	
 	
 	public Offer() {
 		
+		this.status = new Status(); 
+		this.status.setId(3);
+		this.status.setName("pending");
+	}
+	
+
+	public Integer getProductId() {
+		return productId;
 	}
 
-	public Integer getAssociatedProductId() {
-		return associatedProductId;
+
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 
-	public void setAssociatedProductId(Integer associatedProductId) {
-		this.associatedProductId = associatedProductId;
+
+
+	public Integer getCustomerId() {
+		return customerId;
 	}
 
-	public Integer getAssociatedUserId() {
-		return associatedUserId;
+
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
 	}
 
-	public void setAssociatedUserId(Integer associatedUserId) {
-		this.associatedUserId = associatedUserId;
+
+
+	public Integer getId() {
+		return id;
 	}
 
-	public Integer getOId() {
-		return this.id;
+
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setOfferId(Integer offerId) {
-		this.id = offerId;
+
+
+	public Double getAmount() {
+		return amount;
 	}
 
-	public Double getOfferPrice() {
-		return offerPrice;
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
-	public void setOfferPrice(Double offerPrice) {
-		this.offerPrice = offerPrice;
+
+	public Status getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
 	

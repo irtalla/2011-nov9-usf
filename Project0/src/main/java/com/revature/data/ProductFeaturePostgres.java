@@ -2,42 +2,43 @@ package com.revature.data;
 
 import java.util.Set;
 
-import com.revature.beans.Offer;
+import com.revature.beans.Feature;
 
-public class OfferCollections implements OfferDAO {
+public class ProductFeaturePostgres implements ProductFeatureDAO {
 
 	@Override
-	public Offer add(Offer t) {
+	public Feature add(Feature t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Offer getById(Integer id) {
+	public Feature getById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Set<Offer> getAll() {
+	public Set<Feature> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void update(Offer t) {
+	public boolean update(Feature t) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void delete(Offer t) {
+	public boolean delete(Feature t) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public Set<Offer> getAvailableOffers() {
+	public Set<Feature> getFeaturesByProductId(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

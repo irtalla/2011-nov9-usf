@@ -1,11 +1,11 @@
 package com.revature.beans;
 
-public class Sale {
+public class Purchase {
 	
 	private Integer personId; 
 	private Integer productId;
 	
-	public Sale() {}
+	public Purchase() {}
 
 	public Integer getPersonId() {
 		return personId;
