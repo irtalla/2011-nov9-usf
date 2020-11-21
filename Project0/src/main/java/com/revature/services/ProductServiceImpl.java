@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
 		newOffer.setAmount(offerPrice);
 		
 		Product product = this.productDao.getById(productId); 
-		List<Offer> offers = product.getOffers();
+		Set<Offer> offers = product.getOffers();
 		offers.add(newOffer); 
 		product.setOffers(offers);
 		

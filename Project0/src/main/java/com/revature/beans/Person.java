@@ -1,7 +1,9 @@
 package com.revature.beans;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*
  * 
@@ -16,8 +18,8 @@ public class Person {
 	private String password; 
 	private Role role;
 	
-	private List<Product> ownProducts = new ArrayList<Product>(); 
-	private List<Offer> ownOffers = new ArrayList<Offer>(); 
+	private Set<Product> products = new HashSet<Product>(); 
+	private Set<Offer> offers = new HashSet<Offer>(); 
 	
 	
 	public Person() {
@@ -57,21 +59,23 @@ public class Person {
 		this.role = role;
 	}
 
-	public List<Product> getOwnProducts() {
-		return ownProducts;
+	public Set<Product> getProducts() {
+		return products;
 	}
 
-	public void setOwnProducts(List<Product> ownProducts) {
-		this.ownProducts = ownProducts;
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
-	public List<Offer> getOwnOffers() {
-		return ownOffers;
+	public Set<Offer> getOffers() {
+		return offers;
 	}
 
-	public void setOwnOffers(List<Offer> ownOffers) {
-		this.ownOffers = ownOffers;
+	public void setOffers(Set<Offer> offers) {
+		this.offers = offers;
 	}
+	
+	
 	
 	
 	

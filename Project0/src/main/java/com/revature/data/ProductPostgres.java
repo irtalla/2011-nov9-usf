@@ -16,15 +16,14 @@ import com.revature.utils.ConnectionUtil;
 public class ProductPostgres implements ProductDAO {
 	
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
-	
+	private ProductFeaturePostgres prodPostgres= new ProductFeaturePostgres(); 
+	private OfferPostgres offerPostgres = new OfferPostgres(); 
 	
 	// Constructor 
 	public ProductPostgres() {}
 	
 	private Product deserializeProduct(ResultSet rs) throws SQLException {
 		
-		
-		// TODO : need features, and offers DAOs
 		Product returnedProduct = new Product(); 
 		
 		returnedProduct.setId( rs.getInt("product_id") );
@@ -33,26 +32,8 @@ public class ProductPostgres implements ProductDAO {
 		returnedProduct.getStatus().setId( rs.getInt("status_id") );
 		returnedProduct.getStatus().setName( rs.getString("status_name") );
 		returnedProduct.getCategory().setId( rs.getInt("category_id") );
-		returnedProduct.getCategory().setName( rs.getString("category_name") );
-		
-		// TODO : need status, category, features, and offers DAOs				
-		// Need more SQL statements to get offers and features
-		
-		return returnedProduct; 
-		
-		
-	}
-	
-	private Set<Offer> loadOffers(Integer productId) {
-		
-		Set<Offer> offers = new HashSet<Offer>();
-		return offers; 
-	}
-	
-	private Set<Feature> loadFeatures(Integer productId) {
-		
-		Set<Feature> features = new HashSet<Feature>(); 
-		return features; 
+		returnedProduct.getCategory().setName( rs.getString("category_name") );		
+		return returnedProduct; 	
 	}
 	
 	
@@ -130,6 +111,8 @@ public class ProductPostgres implements ProductDAO {
 				
 				try {
 					returnedProduct = deserializeProduct(rs); 
+					returnedProduct.setFeatures( this.prodPostgres.getFeaturesByProductId(returnedProduct.getId()) );
+					returnedProduct.setOffers( this.offerPostgres.getOffersByProductId(returnedProduct.getId()) );
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -187,9 +170,8 @@ public class ProductPostgres implements ProductDAO {
 				
 				try {
 					returnedProduct = deserializeProduct(rs); 
-					// TODO : get offers
-					// TODO : get features
-					
+					returnedProduct.setFeatures( this.prodPostgres.getFeaturesByProductId(returnedProduct.getId()) );
+					returnedProduct.setOffers( this.offerPostgres.getOffersByProductId(returnedProduct.getId()) );
 					products.add(returnedProduct);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -216,12 +198,38 @@ public class ProductPostgres implements ProductDAO {
 				);
 		return availableProducts;
 	}
-
+	/**
+	 * Current implementation only supports updating status
+	 */
 	@Override
 	public boolean update(Product t) {
-		return false;
-		// TODO Auto-generated method stub
+		
+		Integer rowsUpdated = 0; 
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = " update product "
+							+ " set status_id = ?"
+							+ " where id = ? ";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getStatus().getId() );
+			pstmt.setInt(2, t.getId() );
 
+			rowsUpdated = pstmt.executeUpdate();
+			
+			
+			if (rowsUpdated > 1) {
+				// TODO throw error
+				conn.rollback();
+			}
+	
+			conn.rollback();
+			
+		} catch (Exception e) {
+			e.printStackTrace();		
+		}
+		
+		return rowsUpdated > 0 ? true : false;
 	}
 
 	@Override

@@ -49,8 +49,6 @@ public class OfferPostgres implements OfferDAO {
 		}
 		
 		return c;
-		
-		
 	}
 
 	@Override
@@ -66,13 +64,16 @@ public class OfferPostgres implements OfferDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "select"
-					+ " offer.id as offer_id, "
-					+ " offer.customer_id as customer_id, "
-					+ " offer.product_id as product_id, "
-					+ " offer.status_id as status_id, "
-					+ " offer.amount as offer_amount "
-					+ "from offer "; 
+			String sql = "select\n"
+						+ "	offer.id as offer_id, "
+						+ " 	offer.customer_id as customer_id, "
+						+ " 	offer.product_id as product_id, "
+						+ " 	offer.amount as offer_amount, "
+						+ " 	offer.status_id as status_id, "
+						+ " 	status.name as status_name "
+						+ "	from offer "
+						+ "		join status "
+						+ "		on offer.status_id = status.id "; 
 								
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -103,33 +104,79 @@ public class OfferPostgres implements OfferDAO {
 	private Offer deserializeOffer(ResultSet rs) throws SQLException {
 		
 		
-		// TODO : need features, and offers DAOs
 		Offer returnedOffer = new Offer(); 
 		
-		returnedOffer.setId( rs.getInt("Offer_id") );
+		returnedOffer.setId( rs.getInt("offer_id") );
 		returnedOffer.setCustomerId( rs.getInt("customer_id") ); 
 		returnedOffer.setProductId( rs.getInt("product_id") ); 
-		returnedOffer.getStatus().setId( rs.getInt("status_id") );
 		returnedOffer.setAmount( rs.getDouble("offer_amount") );
-		
-		
-		// TODO : get status name
+		returnedOffer.getStatus().setId( rs.getInt("status_id") );
+		returnedOffer.getStatus().setName( rs.getString("status_name"));
 		
 		return returnedOffer; 
 	}
-
+	
+	/**
+	 * Currently, only the status of an offer can be changed. This
+	 * implies that a customer can make multiple offers for the same
+	 * product 
+	 */
 	@Override
 	public boolean update(Offer t) {
-		return false;
-		// TODO Auto-generated method stub
 		
+		Integer rowsUpdated = 0; 
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = " update offer "
+							+ " set status_id = ?"
+							+ " where id = ? ";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getStatus().getId() );
+			pstmt.setInt(2, t.getId() );
+
+			rowsUpdated = pstmt.executeUpdate();
+			
+			
+			if (rowsUpdated > 1) {
+				// TODO throw error
+				conn.rollback();
+			}
+	
+			conn.rollback();
+			
+		} catch (Exception e) {
+			e.printStackTrace();		
+		}
+		
+		return rowsUpdated > 0 ? true : false;
 	}
 
 	@Override
 	public boolean delete(Offer t) {
-		return false;
-		// TODO Auto-generated method stub
 		
+		Integer rowsUpdated = 0; 
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "delete from offer "
+			+ "where "
+			+ "product.id = ?"; 
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId() );
+
+			rowsUpdated = pstmt.executeUpdate();
+			
+			if (rowsUpdated > 1) {
+				// TODO throw error
+				conn.rollback();
+			}
+			conn.commit();
+
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+		
+		return rowsUpdated > 0 ? true : false;
 	}
 
 	@Override
@@ -140,4 +187,24 @@ public class OfferPostgres implements OfferDAO {
 		offers.removeIf( offer -> ! offer.getStatus().getName().equalsIgnoreCase(status) );
 		return offers;
 	}
+
+	@Override
+	public Set<Offer> getOffersByCustomerId(Integer id) {
+		
+		Set<Offer> offers = new HashSet<Offer>();
+		offers = this.getAll(); 
+		offers.removeIf( offer -> offer.getCustomerId() != id );
+		return offers;
+	}
+
+	@Override
+	public Set<Offer> getOffersByProductId(Integer id) {
+		
+		Set<Offer> offers = new HashSet<Offer>();
+		offers = this.getAll(); 
+		offers.removeIf( offer -> offer.getCustomerId() != id );
+		return offers;
+	}
+	
+	
 }
