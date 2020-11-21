@@ -67,31 +67,85 @@ public class CatServiceTest {
 	}
 	
 	@Test
-	public void testAdoptCat() {
+	public void testGetCats() {
+		when(catDao.getAll()).thenReturn(catsMock);
+		assertEquals(catsMock, catServ.getCats());
+		verify(catDao).getAll();
+	}
+	
+	@Test
+	public void testGetAvailableCats() {
 		Cat c = new Cat();
+		Status s = new Status();
+		s.setId(2);
+		s.setName("Available");
+		Set<Cat> availableCatsMock = new HashSet<>();
+		availableCatsMock.add(c);
+		catsMock.add(c);
+		
+		when(catDao.getAvailableCats()).then(invocation -> {
+			Set<Cat> available = new HashSet<>();
+			for (Cat cat : catsMock) {
+				if (cat.getStatus().getName().equals("Available")) {
+					available.add(cat);
+				}
+			}
+			return available;
+		});
+		assertEquals(availableCatsMock, catServ.getAvailableCats());
+		verify(catDao).getAvailableCats();
+	}
+	
+	@Test
+	public void testGetCatById() {
+		Cat c = new Cat();
+		c.setId(10);
+		catsMock.add(c);
+		
+		when(catDao.getById(10)).thenReturn(c);
+		assertEquals(c, catServ.getCatById(10));
+		verify(catDao).getById(10);
+	}
+	
+	@Test
+	public void testUpdateCat() {
+		Cat c = new Cat();
+		catServ.updateCat(c);
+		verify(catDao).update(c);
+	}
+	
+	@Test
+	public void testRemoveCat() {
+		Cat c = new Cat();
+		catServ.removeCat(c);
+		verify(catDao).delete(c);
+	}
+	
+	@Test
+	public void testAdoptCatRoom1() {
+		Person p = new Person();
+		Cat c = new Cat();
+		p.setId(1);
+		p.setPassword("123");
+		p.setUsername("joe");
+		Role r = new Role();
+		r.setId(1);
+		r.setName("alive");
+		p.setRole(r);
+		c.setId(1);
 		Breed b = new Breed();
 		b.setId(1);
 		Status s = new Status();
+		s.setName("Available");
 		s.setId(1);
 		c.setBreed(b);
 		c.setStatus(s);
 		
-		Person p = new Person();
-		Role r = new Role();
-		p.setId(1);
-		p.setUsername("username");
-		p.setPassword("password");
-		p.setCats(catsMock);
-		p.setRole(r);
+		catServ.adoptCat(p, c);
 		
-		catServ.adoptCat(p,c);
-		
-		assertEquals(catDao.getById(c.getId()).getStatus().getId(), 2);
-		assertEquals(catDao.getById(c.getId()).getStatus().getName(), "Adopted");
+		assertEquals(c.getStatus().getName(),"Adopted");
 		assertTrue(p.getCats().contains(c));
-		
 		verify(catDao).update(c);
 		verify(personDao).update(p);
-		
 	}
 }

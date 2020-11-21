@@ -14,15 +14,16 @@ import com.revature.beans.Cat;
 import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
+import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.utils.ConnectionUtil;
 
 public class PersonPostgres implements PersonDAO {
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
 	@Override
-	public Person add(Person t) {
-		
+	public Person add(Person t) throws NonUniqueUsernameException {
 		Person p = null;
+		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			String sql = "insert into person values (default, ?, ?, ?)";
@@ -44,6 +45,9 @@ public class PersonPostgres implements PersonDAO {
 			}
 			
 		} catch (Exception e) {
+			if (e.getMessage().contains("violates unique constraint")) {
+				throw new NonUniqueUsernameException();
+			}
 			e.printStackTrace();
 		}
 
