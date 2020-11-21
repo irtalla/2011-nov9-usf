@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.Bike;
+import com.revature.beans.Model;
 import com.revature.beans.Role;
+import com.revature.beans.Status;
 import com.revature.beans.User;
 import com.revature.utils.ConnectionUtil;
 
@@ -80,6 +83,38 @@ public class UserPostgres implements UserDAO {
 	@Override
 	public Set<User> getAll() {
 		// TODO Auto-generated method stub
+		Set<Bike> cats = new HashSet<>();
+
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select cat_status.id, cat_status.name, age, status_id, status_name, breed_id, "
+					+ "breed.name as breed_name from "
+					+ "(select cat.id, cat.name, age, status_id, breed_id, status.name as status_name from "
+					+ "cat join status on status_id = status.id) as cat_status "
+					+ "join breed on breed_id = breed.id";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				Bike bike = new Bike();
+				bike.setId(rs.getInt("id"));
+				bike.setName(rs.getString("name"));
+				bike.setAge(rs.getInt("age"));
+				Model m = new Model();
+				m.setId(rs.getInt("model_id"));
+				m.setName(rs.getString("model_name"));
+				bike.setModel(m);
+				Status s = new Status();
+				s.setId(rs.getInt("status_id"));
+				s.setName(rs.getString("status_name"));
+				bike.setStatus(s);
+				
+
+				cats.add(bike);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
