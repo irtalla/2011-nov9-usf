@@ -1,9 +1,15 @@
 package com.revature.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
 import java.util.Set;
 
 import com.revature.beans.Bike;
+import com.revature.beans.Breed;
+import com.revature.beans.Cat;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
@@ -12,6 +18,7 @@ import com.revature.services.BikeService;
 import com.revature.services.BikeServiceImpl;
 import com.revature.services.UserService;
 import com.revature.services.UserServiceImpl;
+import com.revature.utils.ConnectionUtil;
 
 public class BikeAppController {
 	
@@ -20,7 +27,29 @@ public class BikeAppController {
 	private static BikeService bikeServ = new BikeServiceImpl();
 	
 	public static void main(String[] args) {
+		ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "select schema_name\n"
+					+ "from information_schema.schemata;";
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				System.out.println(rs.getString(1));
+			}
+
+			
+			
+
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//test
 		scan = new Scanner(System.in);
 		boolean userActive = true;
 		
@@ -37,7 +66,7 @@ public class BikeAppController {
 				
 				switch (userInput) {
 				case 1:
-					loggedInUser = registerUser();
+					loggedInUser = registerUser(); 
 					break;
 				case 2:
 					loggedInUser = logInUser();
@@ -65,6 +94,7 @@ public class BikeAppController {
 					System.out.println("3. Manage Bikes\n4. Manage Offers\n5. View all Payments\n Q to Log out");
 				}
 				int userInput = Integer.valueOf(scan.nextLine());
+				
 				switch (userInput) {
 				case 1:
 					loggedInUser = viewAvailableBikes(loggedInUser);
@@ -106,13 +136,19 @@ public class BikeAppController {
 			newAccount.setUsername(scan.nextLine());
 			System.out.println("Enter a password: ");
 			newAccount.setPassword(scan.nextLine());
+			System.out.println("Enter your first name: ");
+			newAccount.setFirstName(scan.nextLine());
+			System.out.println("Enter your last name: ");
+			newAccount.setLastName(scan.nextLine());
 			Role r = new Role();
 			r.setId(2);
 			r.setName("Customer");
 			newAccount.setRole(r);
 			System.out.println("Does this look good?");
 			System.out.println("Username: " + newAccount.getUsername()
-					+ " Password: " + newAccount.getPassword());
+					+ " Password: " + newAccount.getPassword()
+					+ "First Name: " + newAccount.getFirstName()
+					+ "Last Name: " + newAccount.getLastName());
 			System.out.println("1 to confirm, 2 to start over, Q to cancel");
 			int input = Integer.valueOf(scan.nextLine());
 			switch (input) {
@@ -166,28 +202,71 @@ public class BikeAppController {
 	}
 	
 	//Customer View Available Bikes
-	private static User viewAvailableBikes() {
+	private static User viewAvailableBikes(User user) {
 		
+		Set<Bike> availableBikes = bikeServ.getAvailableBikes();
+
+		for (Bike bike : availableBikes) {
+			System.out.println(bike);
+		}
+
+		System.out.println("Would you like to Buy a Bike? 1 for yes, other for no");
+		int input = Integer.valueOf(scan.nextLine());
+		if (input == 1) {
+			while (true) {
+				System.out.println("Which Bike? Type its ID.");
+				input = Integer.valueOf(scan.nextLine());
+				Bike bike = bikeServ.getBikeById(input);
+				if (bike != null && bike.getStatus().getName().equals("Available")) {
+					System.out.println(bike);
+					System.out.println("You want to buy " + bike.getName() + "? 1 for yes, other for no");
+					input = Integer.valueOf(scan.nextLine());
+					if (input == 1) {
+						bikeServ.offerBike(user, bike);
+						System.out.println("You did it! You offered for a bike " + bike.getName() + ".");
+						// get the person with their updated cat set
+						user = userServ.getUserById(user.getId());
+						break;
+					} else {
+						System.out.println("Okay, did you want to buy a different one? 1 for yes, other for no");
+						input = Integer.valueOf(scan.nextLine());
+						if (input != 1)
+							break;
+					}
+				} else {
+					System.out.println("Sorry, that's not an available bike. Do you want to try again?"
+							+ " 1 for yes, other for no");
+					input = Integer.valueOf(scan.nextLine());
+					if (input != 1) {
+						System.out.println("Okay, that's fine.");
+						break;
+					}
+				}
+			}
+		} else {
+			System.out.println("Okay, that's fine, bye.");
+		}
+		return user;
 	}
 	
 	//Customer View OWN bikes
-	private static User viewUserBikes() {
-		
+	private static User viewUserBikes(User user) {
+		return user;
 	}
 	
 	
 	//Employee Manage Bikes
-	private static User manageBikes() {
-		
+	private static User manageBikes(User user) {
+		return user;
 	}
 	//Employee Manage Offers
-	private static User manageOffers() {
-		
+	private static User manageOffers(User user) {
+		return user;
 	}
 	
 	//Employee View Payments
-	private static User viewPayments() {
-		
+	private static User viewPayments(User user) {
+		return user;
 	}
 	
 	

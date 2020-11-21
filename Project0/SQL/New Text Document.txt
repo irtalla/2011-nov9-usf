@@ -1,0 +1,32 @@
+create table user_role (
+	id serial primary key,
+	name varchar(10) unique not null
+);
+
+create table user_acc (
+	id serial primary key,
+	firstName varchar(30) unique not null,
+	lastName varchar(30) unique not null,
+	username varchar(30) unique not null,
+	password varchar(30) not null,
+	user_role_id integer references user_role
+);
+
+create table model (
+	id serial primary key,
+	name varchar(40) unique not null
+);
+
+create table status (
+	id serial primary key,
+	name varchar(40) unique not null
+);
+
+create table bike (
+	id serial primary key,
+	name varchar(30) not null,
+	model_id integer references model,
+	price numeric(4,2) not null,
+	status_id integer references status
+	
+);
