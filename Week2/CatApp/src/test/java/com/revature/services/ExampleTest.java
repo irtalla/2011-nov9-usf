@@ -11,8 +11,10 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.revature.beans.Breed;
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
+import com.revature.beans.Status;
 import com.revature.data.CatCollections;
 import com.revature.data.CatDAO;
 import com.revature.data.PersonCollections;
@@ -103,5 +105,18 @@ public class ExampleTest {
 		personDao.update(p);
 		assertEquals(p, personDao.getById(p.getId()));
 		System.out.println(personDao.getById(p.getId()));
+	}
+	
+	@Test
+	public void testToSeeThatWeAreActuallyConnectingToTheDatabase() {
+		CatService catServ = new CatServiceImpl();
+		Cat cat = new Cat();
+		Breed b = new Breed();
+		b.setId(1);
+		Status s = new Status();
+		s.setId(1);
+		cat.setBreed(b);
+		cat.setStatus(s);
+		catServ.addCat(cat);
 	}
 }
