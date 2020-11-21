@@ -11,6 +11,7 @@ public class Bike {
 	private Status status;
 	
 	
+	
 	public Bike() {
 		id = 0;
 		name = "";
@@ -60,5 +61,7 @@ public class Bike {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	
 	
 }
