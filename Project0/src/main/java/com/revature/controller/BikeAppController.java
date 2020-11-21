@@ -8,8 +8,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.revature.beans.Bike;
-import com.revature.beans.Breed;
-import com.revature.beans.Cat;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
@@ -27,29 +25,7 @@ public class BikeAppController {
 	private static BikeService bikeServ = new BikeServiceImpl();
 	
 	public static void main(String[] args) {
-		ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 		
-		try (Connection conn = cu.getConnection()) {
-			conn.setAutoCommit(false);
-			String sql = "select schema_name\n"
-					+ "from information_schema.schemata;";
-			
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				System.out.println(rs.getString(1));
-			}
-
-			
-			
-
-			
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//test
 		scan = new Scanner(System.in);
 		boolean userActive = true;
 		
@@ -141,7 +117,7 @@ public class BikeAppController {
 			System.out.println("Enter your last name: ");
 			newAccount.setLastName(scan.nextLine());
 			Role r = new Role();
-			r.setId(2);
+			r.setId(1);
 			r.setName("Customer");
 			newAccount.setRole(r);
 			System.out.println("Does this look good?");

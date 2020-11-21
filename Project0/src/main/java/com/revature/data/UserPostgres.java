@@ -3,9 +3,12 @@ package com.revature.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
-
+import com.revature.beans.Bike;
+import com.revature.beans.Role;
 import com.revature.beans.User;
 import com.revature.utils.ConnectionUtil;
 
@@ -48,7 +51,30 @@ public class UserPostgres implements UserDAO {
 	@Override
 	public User getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		User user = null;
+
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select * from user_acc where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				user = new User();
+				user.setId(rs.getInt("user_id"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("pwd"));
+				Role role = new Role();
+				role.setId(rs.getInt("role_id"));
+				//role.setName(rs.getString("role_name"));
+				user.setRole(role);
+
+				user.setBikes(getBikesByUserId(user.getId(), conn));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 	@Override
@@ -59,7 +85,35 @@ public class UserPostgres implements UserDAO {
 	
 	@Override
 	public User getByUsername(String username) {
-		return null;
+		User user = null;
+
+		try (Connection conn = cu.getConnection())
+		{
+			String sql = "select * from user_acc join user_role on user_role_id = user_role.id where username = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next())
+			{
+				user = new User();
+				user.setUsername(rs.getString("username"));
+				user.setId(rs.getInt("id"));
+				user.setPassword(rs.getString("pwd"));
+				Role role = new Role();
+				role.setId(rs.getInt("user_role_id"));
+				role.setName(rs.getString("name"));
+				user.setRole(role);
+				user.setBikes(getBikesByUserId(user.getId(), conn));
+			}
+
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return user;
 	}
 
 	@Override
@@ -72,6 +126,23 @@ public class UserPostgres implements UserDAO {
 	public void delete(User t) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	private Set<Bike> getBikesByUserId(Integer id, Connection conn) throws SQLException {
+		Set<Bike> bikes = new HashSet<>();
+		BikeDAO bikeDao = new BikePostgres();
+		
+		String sql = "select * from user_bike where user_id = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, id);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			Bike mybike = bikeDao.getById(rs.getInt("bike_id"));
+			bikes.add(mybike);
+		}
+		
+		return bikes;
 	}
 
 }

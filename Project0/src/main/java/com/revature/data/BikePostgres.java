@@ -60,6 +60,7 @@ public class BikePostgres implements BikeDAO {
 	
 	@Override
 	public Set<Bike> getAvailableBikes() {
+		
 		return null;
 	}
 	
