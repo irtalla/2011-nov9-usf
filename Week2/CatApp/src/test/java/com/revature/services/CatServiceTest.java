@@ -1,6 +1,8 @@
 package com.revature.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.revature.beans.Breed;
 import com.revature.beans.Cat;
+import com.revature.beans.Person;
+import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.data.CatDAO;
 import com.revature.data.PersonDAO;
@@ -60,5 +64,34 @@ public class CatServiceTest {
 		verify(catDao).add(c);
 		// verify(catDao, times(1)).add(c)
 		// verifyNoMoreInteractions(catDao);
+	}
+	
+	@Test
+	public void testAdoptCat() {
+		Cat c = new Cat();
+		Breed b = new Breed();
+		b.setId(1);
+		Status s = new Status();
+		s.setId(1);
+		c.setBreed(b);
+		c.setStatus(s);
+		
+		Person p = new Person();
+		Role r = new Role();
+		p.setId(1);
+		p.setUsername("username");
+		p.setPassword("password");
+		p.setCats(catsMock);
+		p.setRole(r);
+		
+		catServ.adoptCat(p,c);
+		
+		assertEquals(catDao.getById(c.getId()).getStatus().getId(), 2);
+		assertEquals(catDao.getById(c.getId()).getStatus().getName(), "Adopted");
+		assertTrue(p.getCats().contains(c));
+		
+		verify(catDao).update(c);
+		verify(personDao).update(p);
+		
 	}
 }
