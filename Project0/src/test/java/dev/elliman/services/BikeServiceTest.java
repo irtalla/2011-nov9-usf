@@ -32,7 +32,7 @@ public class BikeServiceTest {
 		Role adminRole = new Role();
 		adminRole.setAdmin(pdao);
 		Integer adminID = pdao.add(new Person("", "", "admin", "password", adminRole));
-		System.out.println(adminID);
+		//System.out.println(adminID);
 	}
 	
 	@Order(1)
@@ -46,36 +46,36 @@ public class BikeServiceTest {
 		assertTrue(dbb.getModel().equals(b.getModel()) && dbb.getColor().equals(b.getColor()));
 	}
 	
-//	@Order(2)
-//	@Test
-//	public void getByModel() {
-//		Bike b = new Bike("bmx", "red");
-//		bs.addBike(b);
-//		
-//		Bike dbb = bs.getByModel(b.getModel());
-//		
-//		assertTrue(dbb.getId().equals(b.getId()) && dbb.getColor().equals(b.getColor()));
-//	}
-//	
-//	@Order(3)
-//	@Test
-//	public void update() {
-//		Bike b = new Bike("trike","blue");
-//		b.setId(bs.getByModel("trike").getId());
-//		bs.update(b);
-//		assertEquals(b.getColor(), bs.getById(b.getId()).getColor());
-//	}
-//	
-//	@Order(4)
-//	@Test
-//	public void getAllAndDeleteAll() {
-//		addedBikes = bs.getAll();
-//		for(Bike b : addedBikes) {
-//			bs.delete(b);
-//		}
-//		addedBikes = bs.getAll();
-//		assertTrue(addedBikes.isEmpty());
-//	}
+	@Order(2)
+	@Test
+	public void getByModel() {
+		Bike b = new Bike("bmx", "red");
+		bs.addBike(b);
+		
+		Bike dbb = bs.getByModel(b.getModel());
+		
+		assertTrue(dbb.getId().equals(b.getId()) && dbb.getColor().equals(b.getColor()));
+	}
+	
+	@Order(3)
+	@Test
+	public void update() {
+		Bike b = new Bike("trike","blue");
+		b.setId(bs.getByModel("trike").getId());
+		bs.update(b);
+		assertEquals(b.getColor(), bs.getById(b.getId()).getColor());
+	}
+	
+	@Order(4)
+	@Test
+	public void getAllAndDeleteAll() {
+		addedBikes = bs.getAll();
+		for(Bike b : addedBikes) {
+			bs.delete(b);
+		}
+		addedBikes = bs.getAll();
+		assertTrue(addedBikes.isEmpty());
+	}
 	
 //	@Order(5)
 //	@Test

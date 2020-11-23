@@ -48,32 +48,34 @@ public class BikePostgres implements BikeDAO {
 	@Override
 	public Bike getByID(Integer id) {
 		Bike b = null;
-		
+
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from bike where bike_id = ?";
+			String sql = "select * from bike_shop.bike where bike_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
-			
-			b = new Bike(rs.getString("model"), rs.getString("color"));
-			b.setId(rs.getInt("bike_id"));
-			b.setOwner(rs.getInt("bike_owner"));
+
+			if(rs.next()) {
+				b = new Bike(rs.getString("model"), rs.getString("color"));
+				b.setId(rs.getInt("bike_id"));
+				b.setOwner(rs.getInt("bike_owner"));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return b;
 	}
 
 	@Override
 	public Set<Bike> getAll() {
 		Set<Bike> bikes = new HashSet<>();
-		
+
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from bike";
+			String sql = "select * from bike_shop.bike";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			
+
 			Bike b;
 			while(rs.next()) {
 				b = new Bike(rs.getString("model"), rs.getString("color"));
@@ -83,38 +85,39 @@ public class BikePostgres implements BikeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return bikes;
 	}
 
 	@Override
 	public void update(Bike b) {
-		
+
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "update person set model = ?, color = ?, bike_owner = ?";
+			String sql = "update bike_shop.bike set model = ?, color = ?, bike_owner = ? where bike_id  = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, b.getModel());
 			pstmt.setString(2, b.getColor());
 			pstmt.setInt(3, b.getOwner());
-			
+			pstmt.setInt(4, b.getId());
+
 			Integer rowsChanged = pstmt.executeUpdate();
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public void delete(Bike b) {
-		
+
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "delete bike where bike_id = ?";
+			String sql = "delete from bike_shop.bike where bike_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, b.getId());
-			
+
 			Integer rowsChanged = pstmt.executeUpdate();
 			conn.commit();
 		} catch (Exception e) {
@@ -125,31 +128,33 @@ public class BikePostgres implements BikeDAO {
 	@Override
 	public Bike getByModel(String model) {
 		Bike b = null;
-		
+
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from bike where model = ?";
+			String sql = "select * from bike_shop.bike where model = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, model);
 			ResultSet rs = pstmt.executeQuery();
-			
-			b = new Bike(rs.getString("model"), rs.getString("color"));
-			b.setId(rs.getInt("bike_id"));
+
+			if(rs.next()) {
+				b = new Bike(rs.getString("model"), rs.getString("color"));
+				b.setId(rs.getInt("bike_id"));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return b;
 	}
 
 	@Override
 	public Set<Bike> getAvalibleBikes() {
 		Set<Bike> bikes = new HashSet<>();
-		
+
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from bike where owner = 1";
+			String sql = "select * from bike_shop.bike where owner = 1";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			
+
 			Bike b;
 			while(rs.next()) {
 				b = new Bike(rs.getString("model"), rs.getString("color"));
@@ -159,7 +164,7 @@ public class BikePostgres implements BikeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return bikes;
 	}
 

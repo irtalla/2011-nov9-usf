@@ -10,7 +10,7 @@ public class Bike {
 	public Bike(String model, String color) {
 		this.model = model;
 		this.color = color;
-		ownerId = -1;
+		ownerId = 1;
 	}
 
 	public Integer getId() {
