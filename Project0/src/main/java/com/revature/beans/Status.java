@@ -24,6 +24,9 @@ public class Status {
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Status [id=" + id + ", name=" + name + "]";
+	}
 
 }

@@ -62,6 +62,10 @@ public class Bike {
 		this.status = status;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Bike [id=" + id + ", name=" + name + ", price=" + price + ", model=" + model + ", status=" + status +
+				 "]";
+	}
 	
 }

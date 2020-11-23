@@ -14,7 +14,7 @@ public interface BikeService {
 	public Set<Bike> getAvailableBikes();
 	//update
 	public void updateBike(Bike b);
-	public void offerBike(User u, Bike b);
+	public void ownBike(User u, Bike b);
 	//delete
 	public void removeBike(Bike b);
 

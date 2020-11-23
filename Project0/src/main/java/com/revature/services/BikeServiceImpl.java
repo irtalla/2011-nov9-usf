@@ -43,17 +43,17 @@ public class BikeServiceImpl implements BikeService {
         bikeDao.update(b);   
     }
     @Override
-    public void offerBike(User u, Bike b) {
+    public void ownBike(User u, Bike b) {
     	Status status = new Status();
     	status.setId(2);
-    	status.setName("offered");
+    	status.setName("owned");
     	b.setStatus(status);
     	updateBike(b);
         Set<Bike> set = u.getBikes();
         set.add(b);
         u.setBikes(set);
         userDao.update(u);
-        
+        //dump into user bike table
     }
     @Override
     public void removeBike(Bike b) {

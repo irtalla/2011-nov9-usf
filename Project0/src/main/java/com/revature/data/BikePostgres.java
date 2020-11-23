@@ -3,9 +3,13 @@ package com.revature.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.Bike;
+import com.revature.beans.Model;
+import com.revature.beans.Status;
 import com.revature.utils.ConnectionUtil;
 
 
@@ -49,7 +53,36 @@ public class BikePostgres implements BikeDAO {
 	@Override
 	public Bike getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		Bike bike = null;
+
+		try (Connection conn = cu.getConnection()) {			
+			// Get the cat object
+			String sql = "select bike.id as bike_id, bike.name as bike_name, price, status_id, model_id, model.name as model_name, status.id as status_id, status.name as status_name from"
+					+ "	bike join status on status_id = status.id join model on model_id = model.id where bike.id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				bike = new Bike();
+				bike.setId(rs.getInt("bike_id"));
+				bike.setName(rs.getString("bike_name"));
+				bike.setPrice(rs.getDouble("price"));
+				Model m = new Model();
+				m.setId(rs.getInt("model_id"));
+				m.setName(rs.getString("model_name"));
+				bike.setModel(m);
+				Status s = new Status();
+				s.setId(rs.getInt("status_id"));
+				s.setName(rs.getString("status_name"));
+				bike.setStatus(s);
+				
+			}
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bike;
 	}
 
 	@Override
@@ -60,8 +93,40 @@ public class BikePostgres implements BikeDAO {
 	
 	@Override
 	public Set<Bike> getAvailableBikes() {
+		Set<Bike> bikes = new HashSet<>();
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select * from (select bike_status.id, bike_status.name, price, status_id, status_name, model_id,"
+					+ "	model.name as model_name from"
+					+ "	(select bike.id, bike.name, price, status_id, model_id, status.name as status_name from"
+					+ "	bike join status on status_id = status.id) as bike_status"
+					+ "	join model on model_id = model.id) as available where available.status_name = 'Available'";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				Bike bike = new Bike();
+				bike.setId(rs.getInt("id"));
+				bike.setName(rs.getString("name"));
+				bike.setPrice(rs.getDouble("Price"));
+				Model m = new Model();
+				m.setId(rs.getInt("model_id"));
+				m.setName(rs.getString("model_name"));
+				bike.setModel(m);
+				Status s = new Status();
+				s.setId(rs.getInt("status_id"));
+				s.setName(rs.getString("status_name"));
+				bike.setStatus(s);
+				
+				
+				
+				bikes.add(bike);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		return null;
+		return bikes;
 	}
 	
 	@Override

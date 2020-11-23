@@ -64,11 +64,11 @@ public class UserPostgres implements UserDAO {
 
 			if (rs.next()) {
 				user = new User();
-				user.setId(rs.getInt("user_id"));
+				user.setId(rs.getInt("id"));
 				user.setUsername(rs.getString("username"));
 				user.setPassword(rs.getString("pwd"));
 				Role role = new Role();
-				role.setId(rs.getInt("role_id"));
+				role.setId(rs.getInt("user_role_id"));
 				//role.setName(rs.getString("role_name"));
 				user.setRole(role);
 
