@@ -17,4 +17,6 @@ public interface BikeDAO {
 	public void delete(Bike b);
 	
 	public Bike getByModel(String model);
+	
+	public Set<Bike> getAvalibleBikes();
 }

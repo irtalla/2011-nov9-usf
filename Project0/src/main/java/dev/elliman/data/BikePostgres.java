@@ -141,4 +141,26 @@ public class BikePostgres implements BikeDAO {
 		return b;
 	}
 
+	@Override
+	public Set<Bike> getAvalibleBikes() {
+		Set<Bike> bikes = new HashSet<>();
+		
+		try(Connection conn = cu.getConnection()){
+			String sql = "select * from bike where owner = 1";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			Bike b;
+			while(rs.next()) {
+				b = new Bike(rs.getString("model"), rs.getString("color"));
+				b.setId(rs.getInt("bike_id"));
+				bikes.add(b);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bikes;
+	}
+
 }
