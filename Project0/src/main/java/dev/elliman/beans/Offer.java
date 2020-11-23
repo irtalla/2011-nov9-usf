@@ -29,4 +29,20 @@ public class Offer {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public Person getPerson() {
+		return person;
+	}
+
+	public Bike getBike() {
+		return bike;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public String getStatus() {
+		return status;
+	}
 }
