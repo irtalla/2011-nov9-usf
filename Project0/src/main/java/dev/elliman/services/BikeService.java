@@ -17,5 +17,5 @@ public interface BikeService {
 	
 	public void delete(Bike bike);
 	
-	public void getAll();
+	public Set<Bike> getAll();
 }
