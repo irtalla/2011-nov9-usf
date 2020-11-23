@@ -121,6 +121,12 @@ public class Person {
 			return false;
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
+				+ ", password=" + password + ", role=" + role + "]";
+	}
 	
 	
 }
