@@ -16,4 +16,6 @@ public interface BikeService {
 	public void update(Bike bike);
 	
 	public void delete(Bike bike);
+	
+	public void getAll();
 }
