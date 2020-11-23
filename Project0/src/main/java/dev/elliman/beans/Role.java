@@ -21,6 +21,10 @@ public class Role {
 		options.add(new Option("Promote User", 1));
 	}
 	
+	public Role() {
+		setCustomer();
+	}
+	
 	public Integer getID() {
 		return id;
 	}
@@ -34,34 +38,34 @@ public class Role {
 	}
 	
 	public void setAdmin(Role autherizedUserRole) throws UnautherizedException {
-		if(autherizedUserRole == null || autherizedUserRole.getID() > 0) {
+		if(autherizedUserRole == null || autherizedUserRole.getID() > 1) {
 			throw new UnautherizedException();
 		} else {
-			id = 0;
+			id = 1;
 			name = "Admin";
 		}
 	}
 	
 	public void setManager(Role autherizedUserRole) throws UnautherizedException {
-		if(autherizedUserRole == null || autherizedUserRole.getID() > 0) {
+		if(autherizedUserRole == null || autherizedUserRole.getID() > 1) {
 			throw new UnautherizedException();
 		} else {
-			id = 1;
+			id = 2;
 			name = "Manager";
 		}
 	}
 	
 	public void setEmployee(Role autherizedUserRole) throws UnautherizedException {
-		if(autherizedUserRole == null || autherizedUserRole.getID() > 2) {
+		if(autherizedUserRole == null || autherizedUserRole.getID() > 3) {
 			throw new UnautherizedException();
 		} else {
-			id = 2;
+			id = 3;
 			name = "Employee";
 		}
 	}
 	
 	public void setCustomer(){
-		id = 3;
+		id = 4;
 		name = "Customer";
 	}
 	
@@ -70,7 +74,7 @@ public class Role {
 	 * If the class that calls this has access to the database then they are allowed to create the admin user.
 	 */
 	public void setAdmin(PersonDAO auth) {
-		id = 0;
+		id = 1;
 		name = "Admin";
 	}
 	

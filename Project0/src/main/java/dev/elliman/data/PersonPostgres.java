@@ -20,8 +20,8 @@ public class PersonPostgres implements PersonDAO {
 
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "insert into person values (default, ?, ?, ?, ?, ?)";
-			String[] keys = {"id"};
+			String sql = "insert into bike_shop.person values (default, ?, ?, ?, ?, ?)";
+			String[] keys = {"person_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, p.getFirstName());
 			pstmt.setString(2, p.getLastName());
@@ -53,20 +53,22 @@ public class PersonPostgres implements PersonDAO {
 		Person p = null;
 
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from person where id = ?";
+			String sql = "select * from bike_shop.person where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
 
-			Role role = new Role();
-			role.setLevel(this, rs.getInt("role_id"));
-			p = new Person(
-					rs.getString("first_name"),
-					rs.getString("last_name"),
-					rs.getString("username"),
-					rs.getString("password"),
-					role);
-			p.setID(id);
+			if(rs.next()) {
+				Role role = new Role();
+				role.setLevel(this, rs.getInt("role_id"));
+				p = new Person(
+						rs.getString("first_name"),
+						rs.getString("last_name"),
+						rs.getString("user_name"),
+						rs.getString("passwrd"),
+						role);
+				p.setID(id);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,7 +83,7 @@ public class PersonPostgres implements PersonDAO {
 
 		try(Connection conn = cu.getConnection()){
 
-			String sql = "select * from person";
+			String sql = "select * from bike_shop.person";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -93,8 +95,8 @@ public class PersonPostgres implements PersonDAO {
 				p = new Person(
 						rs.getString("first_name"),
 						rs.getString("last_name"),
-						rs.getString("username"),
-						rs.getString("password"),
+						rs.getString("user_name"),
+						rs.getString("passwrd"),
 						role);
 				people.add(p);
 			}
@@ -109,7 +111,7 @@ public class PersonPostgres implements PersonDAO {
 	public void update(Person p) {
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "update person set first_name = ?, last_name = ?, username = ?, passwrd = ?, role_id = ? where person_id = ?";
+			String sql = "update bike_shop.person set first_name = ?, last_name = ?, user_name = ?, passwrd = ?, role_id = ? where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, p.getFirstName());
 			pstmt.setString(2, p.getLastName());
@@ -129,7 +131,7 @@ public class PersonPostgres implements PersonDAO {
 	public void delete(Person p) {
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "delete person where person_id = ?";
+			String sql = "delete from bike_shop.person where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, p.getID());
 
@@ -145,20 +147,22 @@ public class PersonPostgres implements PersonDAO {
 		Person p = null;
 
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from person where username = ?";
+			String sql = "select * from bike_shop.person where user_name = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
 			ResultSet rs = pstmt.executeQuery();
 
-			Role role = new Role();
-			role.setLevel(this, rs.getInt("role_id"));
-			p = new Person(
-					rs.getString("first_name"),
-					rs.getString("last_name"),
-					rs.getString("username"),
-					rs.getString("password"),
-					role);
-			p.setID(rs.getInt("person_id"));
+			if(rs.next()) {
+				Role role = new Role();
+				role.setLevel(this, rs.getInt("role_id"));
+				p = new Person(
+						rs.getString("first_name"),
+						rs.getString("last_name"),
+						rs.getString("user_name"),
+						rs.getString("passwrd"),
+						role);
+				p.setID(rs.getInt("person_id"));
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

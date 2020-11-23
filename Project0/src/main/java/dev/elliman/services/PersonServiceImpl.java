@@ -55,6 +55,6 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Person getAdminUser() {
-		return getPersonById(0);
+		return getPersonByUsername("admin");
 	}
 }
