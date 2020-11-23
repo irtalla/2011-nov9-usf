@@ -13,10 +13,11 @@ public interface OfferService {
 		//read
 		public Set<Offer> getActiveOffer();
 		public Set<Offer> getActiveOffer(Person person);
+		public Set<Offer> getOffers(Person person);
 		public Set<Offer> getActiveOffer(Bike bike);
 		public Offer getOfferById(Integer id);
 		
 		//update
-		public void acceptOffer(Integer id, Person person);
+		public Boolean acceptOffer(Integer id, Person person);
 		public void rejectOffer(Integer id);
 }

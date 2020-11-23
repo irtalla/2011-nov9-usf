@@ -17,44 +17,57 @@ public class OfferServiceImpl implements OfferService{
 
 	@Override
 	public Integer makeOffer(Offer offer) {
-		// TODO Auto-generated method stub
-		return null;
+		return offerDAO.makeOffer(offer);
 	}
 
 	@Override
 	public Set<Offer> getActiveOffer() {
-		// TODO Auto-generated method stub
-		return null;
+		return offerDAO.getAllActiveOffers();
 	}
 
 	@Override
 	public Set<Offer> getActiveOffer(Person person) {
-		// TODO Auto-generated method stub
-		return null;
+		return offerDAO.getActiveOffers(person);
 	}
 
 	@Override
 	public Set<Offer> getActiveOffer(Bike bike) {
-		// TODO Auto-generated method stub
-		return null;
+		return offerDAO.getActiveOffers(bike);
 	}
 
 	@Override
 	public Offer getOfferById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return offerDAO.getById(id);
 	}
 
 	@Override
-	public void acceptOffer(Integer id, Person person) {
-		// TODO Auto-generated method stub
-		
+	public Boolean acceptOffer(Integer id, Person person) {
+		Offer o = offerDAO.getById(id);
+		Person buyer = o.getPerson();
+		if(buyer.getID().equals(person.getID())) {
+			//dont let an employee accept their own offer
+			return false;
+		} else {
+			o.accept();
+			offerDAO.update(o);
+			
+			//the offer is accepted, the rest for this bike must be rejected
+			offerDAO.rejectAll(o.getBike());
+			
+			return true;
+		}
 	}
 
 	@Override
 	public void rejectOffer(Integer id) {
-		// TODO Auto-generated method stub
-		
+		Offer o = offerDAO.getById(id);
+		o.reject();
+		offerDAO.update(o);
+	}
+
+	@Override
+	public Set<Offer> getOffers(Person person) {
+		return offerDAO.getOffers(person);
 	}
 
 }

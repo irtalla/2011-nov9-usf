@@ -1,5 +1,8 @@
 package dev.elliman.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -46,48 +49,55 @@ public class OfferTester {
 		Offer offer = new Offer(cust, bike, 216);
 		
 		Integer offerId = os.makeOffer(offer);
-		Offer offerFromDatabase = os.getOfferById(0);
+		Offer offerFromDatabase = os.getOfferById(offerId);
+		
+		assertEquals(offer, offerFromDatabase);
 	}
 	
 	@Order(2)
 	@Test
 	public void getAllOffers() {
+		Offer offer = new Offer(cust, bike, 221);
+		Integer offerId = os.makeOffer(offer);
+		//there are 2 offers in the database
 		
+		assertEquals(os.getActiveOffer().size(), 2);
 	}
 	
 	@Order(3)
 	@Test
 	public void getAllOffersPerson() {
-		
+		assertEquals(os.getOffers(cust).size(), 2);
 	}
 	
 	@Order(4)
 	@Test
 	public void getAllActiveOffersPerson() {
-		
+		assertEquals(os.getActiveOffer(cust).size(), 2);
 	}
 	
 	@Order(5)
 	@Test
 	public void getAllActiveOffersBike() {
-		
+		assertEquals(os.getActiveOffer(bike).size(), 2);
 	}
 	
 	@Order(6)
 	@Test
 	public void acceptOffer() {
-		
+		Offer o = os.getOfferById(2);//get the 221 offer
+		os.acceptOffer(o.getId(), cust);//the role is wrong but the check should not happen here
+		o = os.getOfferById(2);//re-get it from the database
+		assertEquals(o.getStatus(), "Accepted");
+		assertEquals(os.getActiveOffer().size(), 0);//the second offer should have been rejected
 	}
 	
 	@Order(7)
 	@Test
-	public void rejectOffer() {
-		
-	}
-	
-	@Order(8)
-	@Test
 	public void failedAccept() {
-		//an emplyee cannot accept their own offer
+		//making an offer on the same bike but this should be avoided in the controller
+		Offer offer = new Offer(cust, bike, 20);
+		os.makeOffer(offer);
+		assertFalse(os.acceptOffer(offer.getId(), cust));
 	}
 }

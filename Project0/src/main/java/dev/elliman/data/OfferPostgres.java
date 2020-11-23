@@ -108,7 +108,7 @@ public class OfferPostgres implements OfferDAO {
 
 	@Override
 	public Set<Offer> getActiveOffers(Person person) {
-Set<Offer> offers = new HashSet<>();
+		Set<Offer> offers = new HashSet<>();
 		
 		try(Connection conn = cu.getConnection()){
 			
