@@ -24,7 +24,7 @@ public class BikePostgres implements BikeDAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, b.getColor());
 			pstmt.setString(2, b.getModel());
-			pstmt.setInt(3, -1);//admin is always the original owner
+			pstmt.setInt(3, 1);//admin is always the original owner
 
 			pstmt.executeUpdate();
 
