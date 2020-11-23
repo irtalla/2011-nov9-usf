@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.revature.beans.Offer;
 import com.revature.beans.Product;
@@ -57,6 +58,7 @@ public class Application {
 	private static EmployeeController employeeController = null; 
 
 	
+	private static PersonService personServ = new PersonServiceImpl(); 
 	
 	
 	public static CustomerController getCustomerController() {
@@ -94,7 +96,6 @@ public class Application {
 	
 	public static void init() {
 		
-		Application.clearConsole();
 		Application.showWelcomeScreen();
 		Application.run();
 	}
@@ -111,11 +112,13 @@ public class Application {
 		switch (userType.toUpperCase()) {
 			case "CUSTOMER": 
 				Application.customerController = CustomerController.getCustomerController();  
-				System.out.println("Welcome, customer!");
+				System.out.printf("Welcome, %s! A truly-valued customer!\n\n", 
+						Application.getCurrentUser().getUsername() );
 				break; 
 			case "EMPLOYEE": 
 				Application.employeeController = EmployeeController.getEmployeeController(); 
-				System.out.println("Welcome, employee!");
+				System.out.printf("Welcome, %s! Our shop doesn't work if you don't!\n\n", 
+						Application.getCurrentUser().getUsername() );
 				break; 
 			default: 	
 				System.out.println("Uh oh : something when wrong!"); 
@@ -176,29 +179,52 @@ public class Application {
 	 * Shows the welcome screen 
 	 */
 	public static void showWelcomeScreen() {
-		
+		Application.clearConsole();
 		System.out.println("Welcome to Generic Bicycle App: the most generic CRUD application");
 		System.out.println("Enter 'login' to login, 'register' to register, or 'exit' to clsoe application.");
-		Application.login(); 
+		
+		
+		String input = userInputScanner.nextLine();
+		
+		switch ( input.toUpperCase() ) {
+			case "LOGIN": 
+				Application.login();
+				break; 
+			case "REGISTER":
+				Application.register();
+				break;
+			case "EXIT":
+				Application.exit();
+			default: 
+				System.out.printf("Sorry, I don't understand what '%s' means. Let's try again...\n", input);
+				Application.showWelcomeScreen();
+				break;
+		}
+		
 	}
 	
+	
+	public static void exit() {
+		Application.userInputScanner.close();
+		Application.showWelcomeScreen();
+	}
 	
 	public static void showExitScreen() {
 		System.out.println("Thank you for visiting Generic Product Application. We hope you had fun!");
-		Application.userInputScanner.close();
 	}
 	
 	
-	
-	
-	public boolean setUserPermissions(Person user) {
-		System.out.println(user.getRole().toString());
-		return false; 
+	public static <T> void printToScreen(T object) {
+		System.out.println( object.toString() ); 
 	}
 	
-	private boolean setCurrentUser(Person user) {
+	public static <T> void displayData( Set<T> objects) {
+		objects.forEach( object -> printToScreen(object) );
+	}
+	
+	private static boolean setCurrentUser(Person user) {
 		
-		if ( Application.currentUser == null ) {
+		if ( user == null ) {
 			return false;
 		} else {
 			Application.currentUser = user;
@@ -214,49 +240,69 @@ public class Application {
 	
 	public static void login() {
 		
-		
-		
-		// Get user type 
-		System.out.println("Login sequence initiated. To begin, by specify whether you are a customer or an employee. \n"
-				+ "You may also enter c for customer or e for employee. \n");
-		System.out.print("I am a: "); 
-		String userType = userInputScanner.nextLine();
-		System.out.println(userType);
-		
-		String userRoles[] = {
-				"customer",
-				"c",
-				"employee",
-				"e",
-				"manager",
-				"m"
-		}; 
-		
-		
-		
-		
-		// Get username 
-		System.out.print("Please enter your username: "); 
-		String username = userInputScanner.nextLine();
-		
-		
-		// Get password 
-		System.out.println("Hi, " + username + ". To finish authentication, please enter your password below");
-		System.out.print("Password: "); 
-		String password = userInputScanner.nextLine();
-		
-		System.out.println("Thank you for logging you.");
-		
-		// The person is a customer by default 
-		Application.currentUser = new Person();
-		Application.currentUser.getRole().setName("employee");
-		Application.initControllers( Application.currentUser.getRole().getName() );  
-		
-		
+		while (true) {
+			System.out.print("Enter username: ");
+			String username = userInputScanner.nextLine();
+			System.out.print("Enter password: ");
+			String password = userInputScanner.nextLine();
+			
+			Person user = personServ.getPersonByUsername(username);
+			if (user == null) {
+				System.out.print("Nobody exists with that username. ");
+			} else if (user.getPassword().equals(password)) {
+				System.out.println("Welcome back!");
+				Application.setCurrentUser(user);
+				Application.initControllers( Application.currentUser.getRole().getName() );
+				break;
+			} else {
+				System.out.print("That password is incorrect. ");
+			}
+			System.out.println("Do you want to try again? 'yes' for yes, other for 'no' for no.");
+			String input = userInputScanner.nextLine();
+			if (input.equalsIgnoreCase("no")) {
+				break;
+			}
+		}
 	};
 	
 	
-	public static void register() {}; 
+	public static void register() {
+		
+		while (true) {
+			Person newAccount = new Person();
+			System.out.print("Enter a username: ");
+			newAccount.setUsername( userInputScanner.nextLine() );
+			System.out.print("Enter a password: ");
+			newAccount.setPassword( userInputScanner.nextLine() );
+
+			System.out.println("Does this look good?");
+			System.out.println("Username: " + newAccount.getUsername()
+					+ " Password: " + newAccount.getPassword());
+			System.out.println("Enter 'yes' to confirm, 'no' to start over, other to cancel");
+			String input = userInputScanner.nextLine();
+			switch ( input.toUpperCase() ) {
+			case "YES":
+				try {
+					Application.setCurrentUser( personServ.addPerson(newAccount) ); 
+					Application.initControllers( Application.currentUser.getRole().getName() );
+					return; 
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case "NO":
+				System.out.println("Okay, let's try again.");
+				break;
+			default:
+				System.out.println("Okay, let's go back.");
+				return; 
+			}
+			
+		}
+
+		
+		
+	}; 
 	
 	
 	

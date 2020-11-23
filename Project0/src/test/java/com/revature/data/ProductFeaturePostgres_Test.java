@@ -15,7 +15,7 @@ public class ProductFeaturePostgres_Test {
 		
 		ProductFeaturePostgres testProductFeaturePostgres = new ProductFeaturePostgres();
 		
-		Set<Feature> featuresSet = testProductFeaturePostgres.getFeaturesByProductId(1); 
+		Set<Feature> featuresSet = testProductFeaturePostgres.getFeaturesByProductId(4); 
 		Set<Feature> emptyFeaturesSet = testProductFeaturePostgres.getFeaturesByProductId(-1);
 
 		Assertions.assertTrue( featuresSet.size() > 0);

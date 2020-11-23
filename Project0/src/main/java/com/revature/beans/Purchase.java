@@ -2,18 +2,21 @@ package com.revature.beans;
 
 public class Purchase {
 	
-	private Integer personId; 
+	private Integer customerId; 
 	private Integer productId;
 	
 	public Purchase() {}
-
-	public Integer getPersonId() {
-		return personId;
+	
+	
+	public Integer getCustomerId() {
+		return customerId;
 	}
 
-	public void setPersonId(Integer personId) {
-		this.personId = personId;
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
 	}
+
 
 	public Integer getProductId() {
 		return productId;
@@ -22,5 +25,13 @@ public class Purchase {
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
-
+	
+	@Override
+	public String toString() {
+		return String.format(
+				  "product id: %d"
+				+ "customer id: %d",
+				productId, customerId
+				);
+	}
 }

@@ -35,7 +35,8 @@ public class PersonPostgres implements PersonDAO {
 				t.setId(rs.getInt(1));
 				conn.commit();
 			} else {
-				conn.rollback();;
+				conn.rollback();
+				System.out.println("Got results");
 			}
 			
 		} catch (Exception e) {

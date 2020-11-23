@@ -71,7 +71,15 @@ public class Offer {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return String.format(
+				  "product id: %d"
+				+ "customer id: %s"
+				+ "amount: %f"
+				+ "status: %s",
+				productId, customerId, amount, status.getName()
+				);
+	}
 }

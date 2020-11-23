@@ -74,11 +74,15 @@ public class Person {
 		this.offers = offers;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public String toString() {
+		return String.format(
+				  "id: %d"
+				+ "username: %s"
+				+ "password: *******"
+				+ "role: %s",
+				id, username, role.getName()
+				);
+	}
+
 }

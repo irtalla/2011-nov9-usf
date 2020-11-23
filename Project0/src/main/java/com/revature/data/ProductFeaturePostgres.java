@@ -101,14 +101,7 @@ public class ProductFeaturePostgres implements ProductFeatureDAO {
 			
 			
 			if ( rs.next() ) {
-				
-				try {
-					features.add( deserializeFeature(rs) ); 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-
+				features.add( deserializeFeature(rs) ); 
 			} else {
 				conn.rollback();
 			}

@@ -24,7 +24,7 @@ public class PurchasePostgres implements PurchaseDAO {
 			conn.setAutoCommit(false);
 			String sql = "insert into purchase values (?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, t.getPersonId() );
+			pstmt.setInt(1, t.getCustomerId() );
 			pstmt.setInt(2, t.getProductId() );
 			rowsAdded = pstmt.executeUpdate();
 			
@@ -86,7 +86,7 @@ public class PurchasePostgres implements PurchaseDAO {
 	private Purchase deserializeOffer(ResultSet rs) throws SQLException {
 		
 		Purchase returnedPurchase = new Purchase(); 
-		returnedPurchase.setPersonId( rs.getInt("person_id") );
+		returnedPurchase.setCustomerId( rs.getInt("person_id") );
 		returnedPurchase.setProductId( rs.getInt("product_id") );
 		return returnedPurchase; 
 	}
@@ -108,7 +108,7 @@ public class PurchasePostgres implements PurchaseDAO {
 	public Set<Purchase> getPurchasesByCustomerId(Integer customerId) {
 		
 		Set<Purchase> purchases = this.getAll(); 
-		purchases.removeIf( purchase -> purchase.getPersonId() != customerId ); 
+		purchases.removeIf( purchase -> purchase.getCustomerId() != customerId ); 
 		return purchases; 
 	}
 

@@ -13,9 +13,8 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public Integer addPerson(Person p) {
-		// TODO Auto-generated method stub
-		return null;
+	public Person addPerson(Person p) {
+		return personDao.add(p);
 	}
 
 	@Override
@@ -26,8 +25,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Person getPersonByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.getByUsername(username);
 	}
 
 	@Override

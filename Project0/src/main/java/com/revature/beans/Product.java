@@ -99,5 +99,17 @@ public class Product {
 
 	public void setFeatures(Set<Feature> features) {
 		this.features = features;
-	}	
+	}
+	
+	@Override
+	public String toString() {
+		return String.format(
+				  "id: %d"
+				+ "name: %s"
+				+ "price: %f"
+				+ "status: %s"
+				+ "category: %s",
+				id, name, price, status.getName(), category.getName()
+				);
+	}
 }
