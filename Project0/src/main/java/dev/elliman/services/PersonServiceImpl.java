@@ -1,7 +1,13 @@
 package dev.elliman.services;
 
+import java.util.Set;
+
+import dev.elliman.beans.Bike;
+import dev.elliman.beans.Offer;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.Role;
+import dev.elliman.data.OfferDAO;
+import dev.elliman.data.OfferDAOFactory;
 import dev.elliman.data.PersonDAO;
 import dev.elliman.data.PersonDAOFactory;
 import dev.elliman.exceptions.NonUniqueUsernameException;
