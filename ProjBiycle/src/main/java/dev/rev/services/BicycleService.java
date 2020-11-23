@@ -11,6 +11,7 @@ public interface BicycleService {
 	public Set<Bicycle> getallBicyles();
 	public void updateBicycle(Bicycle b);
 	public void deleteBicycle(Bicycle b);
+	public Bicycle getbyID(int id);
 	
 
 }

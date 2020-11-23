@@ -73,6 +73,7 @@ Set<Bicycle> Bicycle = new HashSet<>();
 				bicycles.setBrand(rs.getString("Brand"));
 				bicycles.setColor(rs.getString("Color"));
 				bicycles.setPrice(rs.getInt("Price"));
+				bicycles.setQuantity(rs.getInt("Quantity"));
 				Bicycle.add(bicycles);
 			}
 		} catch (Exception e) {
@@ -125,6 +126,31 @@ Set<Bicycle> Bicycle = new HashSet<>();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}return get;
+	}
+
+	@Override
+	public Bicycle getbyID(int id) {
+		Bicycle get=new Bicycle();
+		try(Connection conn=cu.getConnection()){
+			String sql="Select * from Bicycle where id = ?";
+			PreparedStatement ps=conn.prepareCall(sql);	
+			ps.setInt(1, id);
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				get.setBrand(rs.getString("Brand"));
+				get.setColor(rs.getString("Color"));
+				get.setPrice(rs.getInt("Price"));
+				get.setQuantity(rs.getInt("Quantity"));
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}return get;
+		
+		// TODO Auto-generated method stub
 	}
 
 }

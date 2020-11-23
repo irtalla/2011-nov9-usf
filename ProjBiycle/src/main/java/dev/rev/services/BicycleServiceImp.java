@@ -45,4 +45,11 @@ public class BicycleServiceImp implements BicycleService{
 		bd.delete(id);
 	}
 
+	@Override
+	public Bicycle getbyID(int id) {
+		
+		// TODO Auto-generated method stub
+		return bd.getbyID(id);
+	}
+
 }

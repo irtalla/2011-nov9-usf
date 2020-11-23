@@ -4,20 +4,13 @@ public class Offer {
 	
 	private int offer_id;
 	private int offer_price;
-	private int offer_Bicycle_id;
-	
-	public Offer() {
-		offer_id=0;
-		offer_price=0;
-	offer_Person_id=0;
-	offer_Bicycle_id=0;
-	}
-	
+	private int offer_Person_id;
 	@Override
 	public String toString() {
-		return "Offer [offer_id=" + offer_id + ", offer_price=" + offer_price + ", offer_Bicycle_id=" + offer_Bicycle_id
-				+ ", offer_Person_id=" + offer_Person_id + "]";
+		return "Offer [offer_id=" + offer_id + ", offer_price=" + offer_price + ", offer_Person_id=" + offer_Person_id
+				+ ", offer_Bicycle_id=" + offer_Bicycle_id + ", status=" + status + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -26,8 +19,10 @@ public class Offer {
 		result = prime * result + offer_Person_id;
 		result = prime * result + offer_id;
 		result = prime * result + offer_price;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -45,32 +40,63 @@ public class Offer {
 			return false;
 		if (offer_price != other.offer_price)
 			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
 		return true;
 	}
+
 	public int getOffer_id() {
 		return offer_id;
 	}
+
 	public void setOffer_id(int offer_id) {
 		this.offer_id = offer_id;
 	}
+
 	public int getOffer_price() {
 		return offer_price;
 	}
+
 	public void setOffer_price(int offer_price) {
 		this.offer_price = offer_price;
 	}
-	public int getOffer_Bicycle_id() {
-		return offer_Bicycle_id;
-	}
-	public void setOffer_Bicycle_id(int offer_Bicycle_id) {
-		this.offer_Bicycle_id = offer_Bicycle_id;
-	}
+
 	public int getOffer_Person_id() {
 		return offer_Person_id;
 	}
+
 	public void setOffer_Person_id(int offer_Person_id) {
 		this.offer_Person_id = offer_Person_id;
 	}
-	private int offer_Person_id;
+
+	public int getOffer_Bicycle_id() {
+		return offer_Bicycle_id;
+	}
+
+	public void setOffer_Bicycle_id(int offer_Bicycle_id) {
+		this.offer_Bicycle_id = offer_Bicycle_id;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	private int offer_Bicycle_id;
+	private String status;
 	
+	public Offer() {
+		status="";
+		offer_id=0;
+		offer_price=0;
+	offer_Person_id=0;
+	offer_Bicycle_id=0;
+	}
+		
 }

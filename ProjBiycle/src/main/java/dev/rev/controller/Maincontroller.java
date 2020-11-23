@@ -1,13 +1,18 @@
 package dev.rev.controller;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import dev.rev.customException.NonUniqueUsernameException;
 import dev.rev.model.Bicycle;
+import dev.rev.model.Offer;
 import dev.rev.model.Person;
 import dev.rev.model.Role;
 import dev.rev.services.BicycleService;
 import dev.rev.services.BicycleServiceImp;
+import dev.rev.services.OfferServiceIm;
+import dev.rev.services.OfferServices;
 import dev.rev.services.PersonService;
 import dev.rev.services.PersonServiceImpl;
 
@@ -18,6 +23,7 @@ public class Maincontroller {
 	private static Scanner scan;
 	private static PersonService pservice = new PersonServiceImpl();
 	private static BicycleService bservice= new BicycleServiceImp();
+	private static OfferServices oservice=new OfferServiceIm();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		boolean activeuser=true;
@@ -51,9 +57,9 @@ public class Maincontroller {
 		while(activeuser) {
 			System.out.println(logedinuser.getRole().getRole_name());
 					
-			if(logedinuser.getRole().getRole_name()=="Customer") {
+			if(logedinuser.getRole().getRole_name().equals("Customer")) {
 			
-				CustomerRoles();
+				CustomerRoles(logedinuser);
 				//activeuser=false;
 		}else if(logedinuser.getRole().getRole_name().equals("Employee")) {
 				EmployeeRoles();
@@ -68,10 +74,109 @@ public class Maincontroller {
 
 	}
 	
-	private static void CustomerRoles() {
+	private static void CustomerRoles(Person log) {
+		System.out.println("Choose the Option from below:"
+				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\n4.Make Offer on Bicycle\t\t5.View Remaining Payments"
+				+ "\t\t 0. Logout");
+		int i = Integer.valueOf(scan.nextInt());
+		switch(i) {
+		case 1: See_Avaialable_Bicycles(log);
+			break;
+		case 2: View_My_bicycles();
+			break;
+		case 3: Make_an_offer();
+			break;
+		case 4: View_Remaining_Payment();
+			break;
+		case 5: logout();
+			break;
+		}
 		
 	}
 	
+	private static void View_My_bicycles() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void View_Remaining_Payment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void Make_an_offer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void See_Avaialable_Bicycles(Person log) {
+		int price;
+		
+			Set<Bicycle> allbicycles=bservice.getallBicyles();
+			
+			for(Bicycle bike:allbicycles) {
+				System.out.println("Bicycle Id: "+bike.getId()+"\nBrand: "+bike.getBrand()+"\t\t Color: "+bike.getColor()+"\n Price: "+bike.getPrice()
+				+"Quantity: "+bike.getQuantity());
+			}
+			
+			System.out.println("Would you like to Put offer on a biycle? 1 for yes, press anyother key for no");
+			int input =Integer.valueOf(scan.next());
+			if (input==1) {
+				while (true) {
+					System.out.println("Which Id? Enter its Id");
+					input =Integer.valueOf(scan.next());
+					Bicycle bicycle = bservice.getbyID(input);
+					if (bicycle != null && bicycle.getQuantity()>0) {
+						System.out.println(bicycle);
+						System.out.println("You want to put offer on " + bicycle.getBrand()+ "Price: "+bicycle.getPrice() + "\n? 1 for yes, other for no");
+						input = Integer.valueOf(scan.next());
+						if (input == 1) {
+							//bservice.
+							System.out.println("Enter your Price! ");
+							price=Integer.valueOf(scan.next());
+							Offer offer=new Offer();
+							offer.setOffer_price(price);
+							offer.setOffer_Bicycle_id(bicycle.getId());
+							offer.setOffer_Person_id(log.getId());
+							offer.setStatus("Pending");
+							try {
+								offer.setOffer_id(oservice.putOffer(offer));
+								System.out.println("Your offer on bike is placed.");
+								
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							
+							// get the person with their updated cat set
+							
+							break;
+						} else {
+							System.out.println("Okay, did you want to offer a different one? 1 for yes, other for no");
+							input = Integer.valueOf(scan.nextLine());
+							if (input != 1)
+								break;
+						}
+					} else {
+						System.out.println("Sorry,its out of stock. Do you want to try again?"
+								+ " 1 for yes, other for no");
+						input = Integer.valueOf(scan.nextLine());
+						if (input != 1) {
+							System.out.println("Okay, that's fine.");
+							break;
+						}
+					}
+				}
+			} else {
+				System.out.println("Okay, that's fine.");
+			}
+
+				
+			
+		
+	}
+
 	private static void ManagerRoles() {
 		
 	}
