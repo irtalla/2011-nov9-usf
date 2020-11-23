@@ -15,10 +15,11 @@ public class DBConnectionUtil {
 		properties = new Properties();
 		
 		try {
-			InputStream dbProperties = DBConnectionUtil.class.getClassLoader().getSystemResourceAsStream("database.properties");
+			InputStream dbProperties = DBConnectionUtil.class.getClassLoader()
+					.getResourceAsStream("database.properties");
 			properties.load(dbProperties);
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
 		
 	}
