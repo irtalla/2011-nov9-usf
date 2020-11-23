@@ -11,7 +11,7 @@ public interface OfferDAO {
 	
 	public void update(Offer offer);
 	
-	public void rejectAll(Set<Offer> offers);
+	public void rejectAll(Bike bike);
 	
 	public Set<Offer> getOffers(Person person);
 	
