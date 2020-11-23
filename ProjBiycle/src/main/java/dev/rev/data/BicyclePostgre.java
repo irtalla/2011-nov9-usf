@@ -69,7 +69,7 @@ Set<Bicycle> Bicycle = new HashSet<>();
 			
 			while (rs.next()) {
 				Bicycle bicycles = new Bicycle();
-				bicycles.setId(rs.getInt("id"));
+				bicycles.setId(rs.getInt("bicycle_id"));
 				bicycles.setBrand(rs.getString("Brand"));
 				bicycles.setColor(rs.getString("Color"));
 				bicycles.setPrice(rs.getInt("Price"));
@@ -132,7 +132,7 @@ Set<Bicycle> Bicycle = new HashSet<>();
 	public Bicycle getbyID(int id) {
 		Bicycle get=new Bicycle();
 		try(Connection conn=cu.getConnection()){
-			String sql="Select * from Bicycle where id = ?";
+			String sql="Select * from Bicycle where bicycle_id = ?";
 			PreparedStatement ps=conn.prepareCall(sql);	
 			ps.setInt(1, id);
 			ResultSet rs=ps.executeQuery();

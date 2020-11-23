@@ -33,7 +33,7 @@ Set<Person> people = new HashSet<>();
 			
 			while (rs.next()) {
 				Person human = new Person();
-				human.setId(rs.getInt("id"));
+				human.setId(rs.getInt("person_id"));
 				human.setName(rs.getString("Name"));
 				human.setUsername(rs.getString("username"));
 				human.setPassword(rs.getString("password"));
@@ -63,7 +63,7 @@ Set<Person> people = new HashSet<>();
 		
 		try (Connection conn =  cu.getConnection())
 		{
-			String sql = "delete from person where id = ?; delete from  where id";
+			String sql = "delete from person where person_id = ?; delete from  where id";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId());
 			pstmt.setInt(2, t.getId());
@@ -99,7 +99,7 @@ Set<Person> people = new HashSet<>();
 				person = new Person();
 				person.setName(rs.getString("Name"));
 				person.setUsername(rs.getString("username"));
-				person.setId(rs.getInt("id"));
+				person.setId(rs.getInt("person_id"));
 				person.setPassword(rs.getString("password"));
 				Role job = new Role();
 				job.setId(rs.getInt("role_id"));
@@ -126,7 +126,7 @@ Person ps = null;
 		try(Connection conn=cu.getConnection()){
 			conn.setAutoCommit(false);
 			String sql = "insert into person values (default, ?, ?, ?,?)";
-			String[] keys = {"id"};
+			String[] keys = {"person_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, p.getName());
 			pstmt.setString(2, p.getUsername());

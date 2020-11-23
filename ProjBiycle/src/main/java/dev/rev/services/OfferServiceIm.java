@@ -1,5 +1,7 @@
 package dev.rev.services;
 
+import java.util.Set;
+
 import dev.rev.data.OfferDAO;
 import dev.rev.data.OfferDAOFactory;
 import dev.rev.model.Offer;
@@ -21,9 +23,9 @@ public class OfferServiceIm implements OfferServices{
 	}
 
 	@Override
-	public Offer getofferbyPersonID(int id) {
+	public Set<Offer> getofferbyPersonID(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return ofDAO.getpersonOffer(id);
 	}
 
 	@Override
@@ -43,5 +45,27 @@ public class OfferServiceIm implements OfferServices{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public Set<Offer> getAll() {
+		return ofDAO.getAll();
+	}
+	@Override
+	public String accept_reject_offer(int i) {
+		// TODO Auto-generated method stub
+		return ofDAO.accept_reject_offer(i);
+		
+	}
+	@Override
+	public void rejectothers(int id) {
+		// TODO Auto-generated method stub
+		ofDAO.rejectothers(id);
+		
+	}
+	@Override
+	public int bike_id_byofferid(int id) {
+		// TODO Auto-generated method stub
+		return ofDAO.bike_id_byofferid(id);
+	}
+	
 
 }

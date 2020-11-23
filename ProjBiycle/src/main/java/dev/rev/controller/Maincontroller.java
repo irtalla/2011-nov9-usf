@@ -76,8 +76,8 @@ public class Maincontroller {
 	
 	private static void CustomerRoles(Person log) {
 		System.out.println("Choose the Option from below:"
-				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\n4.Make Offer on Bicycle\t\t5.View Remaining Payments"
-				+ "\t\t 0. Logout");
+				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\n3.Make Offer on Bicycle\t\t4.View Remaining Payments"
+				+ "\t\t5.View my offers\t\t 0. Logout");
 		int i = Integer.valueOf(scan.nextInt());
 		switch(i) {
 		case 1: See_Avaialable_Bicycles(log);
@@ -88,12 +88,22 @@ public class Maincontroller {
 			break;
 		case 4: View_Remaining_Payment();
 			break;
-		case 5: logout();
+		case 5: viewmyoffers(log);
 			break;
+		case 0: logout();
 		}
 		
 	}
 	
+	private static void viewmyoffers(Person log) {
+		
+		Set<Offer> offers=oservice.getofferbyPersonID(log.getId());
+		System.out.println(offers);
+		
+		
+		
+	}
+
 	private static void View_My_bicycles() {
 		// TODO Auto-generated method stub
 		
@@ -112,8 +122,9 @@ public class Maincontroller {
 	private static void See_Avaialable_Bicycles(Person log) {
 		int price;
 		
+		
 			Set<Bicycle> allbicycles=bservice.getallBicyles();
-			
+			Bicycle bik1e=new Bicycle();
 			for(Bicycle bike:allbicycles) {
 				System.out.println("Bicycle Id: "+bike.getId()+"\nBrand: "+bike.getBrand()+"\t\t Color: "+bike.getColor()+"\n Price: "+bike.getPrice()
 				+"Quantity: "+bike.getQuantity());
@@ -126,6 +137,7 @@ public class Maincontroller {
 					System.out.println("Which Id? Enter its Id");
 					input =Integer.valueOf(scan.next());
 					Bicycle bicycle = bservice.getbyID(input);
+					bicycle.setId(input);
 					if (bicycle != null && bicycle.getQuantity()>0) {
 						System.out.println(bicycle);
 						System.out.println("You want to put offer on " + bicycle.getBrand()+ "Price: "+bicycle.getPrice() + "\n? 1 for yes, other for no");
@@ -141,6 +153,7 @@ public class Maincontroller {
 							offer.setStatus("Pending");
 							try {
 								offer.setOffer_id(oservice.putOffer(offer));
+							//	System.out.println(oservice.getAll());
 								System.out.println("Your offer on bike is placed.");
 								
 							} catch (Exception e) {
@@ -221,6 +234,40 @@ public class Maincontroller {
 
 	private static void checkoffers() {
 		// TODO Auto-generated method stub
+		Set<Offer> offers=oservice.getAll();
+		for(Offer of:offers) {
+			System.out.println(of+"\n");
+		}
+		System.out.println("Which Offer you want to see?\nEnter the Offer Id");
+		int input=Integer.valueOf(scan.next());
+		System.out.println("What you want to do? \n1.Accept\t\t2.Reject \t\t Press anyther key to exit");
+		int in=Integer.valueOf(scan.next());
+		switch(in) {
+		case 1: 
+			oservice.accept_reject_offer(input);
+			System.out.println("You have accepted the offer having id:"+input);
+			int bid=oservice.bike_id_byofferid(input);
+			System.out.println(input);
+			oservice.rejectothers(bid);
+			break;
+		case 2: 
+			rejectOffer();
+			break;
+		default:
+			break;
+		
+		}
+		EmployeeRoles();
+		}
+
+	private static void rejectOffer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void rejectothers() {
+		
+		
 		
 	}
 
