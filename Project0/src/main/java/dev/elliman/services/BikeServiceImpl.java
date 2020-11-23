@@ -45,7 +45,7 @@ public class BikeServiceImpl implements BikeService {
 	@Override
 	public Set<Bike> getAll() {
 		// TODO Auto-generated method stub
-		return null
+		return null;
 	}
 
 }
