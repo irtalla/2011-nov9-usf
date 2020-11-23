@@ -3,49 +3,51 @@ package dev.elliman.services;
 import java.util.Set;
 
 import dev.elliman.beans.Bike;
+import dev.elliman.data.BikeDAO;
+import dev.elliman.data.BikeDAOFactory;
+import dev.elliman.data.PersonDAO;
 
 public class BikeServiceImpl implements BikeService {
+	
+	private BikeDAO bikeDAO;
+	
+	public BikeServiceImpl() {
+		bikeDAO = new BikeDAOFactory().getBikeDAO();
+	}
 
 	@Override
 	public Integer addBike(Bike bike) {
-		// TODO Auto-generated method stub
-		return null;
+		return bikeDAO.add(bike);
 	}
 
 	@Override
 	public Bike getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return bikeDAO.getByID(id);
 	}
 
 	@Override
 	public Set<Bike> getAvalibleBikes() {
-		// TODO Auto-generated method stub
-		return null;
+		return bikeDAO.getAvalibleBikes();
 	}
 
 	@Override
 	public Bike getByModel(String model) {
-		// TODO Auto-generated method stub
-		return null;
+		return bikeDAO.getByModel(model);
 	}
 
 	@Override
 	public void update(Bike bike) {
-		// TODO Auto-generated method stub
-
+		bikeDAO.update(bike);
 	}
 
 	@Override
 	public void delete(Bike bike) {
-		// TODO Auto-generated method stub
-
+		bikeDAO.delete(bike);
 	}
 
 	@Override
 	public Set<Bike> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return bikeDAO.getAll();
 	}
 
 }
