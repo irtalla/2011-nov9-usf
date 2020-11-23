@@ -26,8 +26,17 @@ import com.revature.services.*;
  * managerController 
  * 
  * 
+ *  DataFlow Graph
  * 
+ * Application -> Controller -> Service -> DAO -> DB
+ * 			^			|						   |
+ * 			|  			|						   |
+ * 			|			-----					   |
+ * 			|				|					   |
+ * 			|				V					   v
+ * 		  STDIN <- User <- STDOUT <- Service  <-  DAO
  */
+
 interface UserInterface {
 	public void login(); 
 	public void register();
@@ -39,27 +48,33 @@ public class Application {
 	
 	private static Application application =  null; 
 	private static Person currentUser = null; 
-	private static Scanner userInputScanner = null;
+	static Scanner userInputScanner = null;
 	private static boolean isRunning = false; 
 	
-	private static ProductService productService = null; 
-	private static PersonService userService = null; 
-	private static OfferService offerService = null; 
 	
-	private static enum customerActions{GET_PRODUCTS, MAKE_OFFER, VIEW_MY_PRODUCTS, VIEW_REMAINING_PAYMENTS};
-	private static enum employeeActions{ADD_PRODUCT, REMOVE_PRODUCT, ACCEPT_OFFER, REJECT_OFFER, VIEW_ALL_PAYMENTS}; 
 	
-	private static String[] customerCommandDescriptions = {
-			"GET_PRODUCTS	-  view the available products",
-			"MAKE_OFFER [product id]	- make an offer for a bicycle",
-			"VIEW_MY_PRODUCTS	- view the bicycles that I own",
-			"VIEW_MY_PAYMENTS [product id]	- view all payments",
-			"/n/n"
-	};
+	private static CustomerController customerController = null; 
+	private static EmployeeController employeeController = null; 
+
 	
 	
 	
-	
+	public static CustomerController getCustomerController() {
+		return customerController;
+	}
+
+	public static void setCustomerController(CustomerController customerController) {
+		Application.customerController = customerController;
+	}
+
+	public static EmployeeController getEmployeeController() {
+		return employeeController;
+	}
+
+	public static void setEmployeeController(EmployeeController employeeController) {
+		Application.employeeController = employeeController;
+	}
+
 	private Application() {
 		Application.userInputScanner = new Scanner(System.in);
 		Application.setRunning(true);
@@ -81,6 +96,7 @@ public class Application {
 		
 		Application.clearConsole();
 		Application.showWelcomeScreen();
+		Application.run();
 	}
 	
 	
@@ -90,22 +106,20 @@ public class Application {
 	 * This methods initializes specific controllers based on the credentials of the
 	 * user. This is a security measure. 
 	 */
-	private static void initControllers(String userType) {
+	public static void initControllers(String userType) {
 		
 		switch (userType.toUpperCase()) {
 			case "CUSTOMER": 
-				Application.productService = new ProductServiceImpl(); 
+				Application.customerController = CustomerController.getCustomerController();  
 				System.out.println("Welcome, customer!");
-			case "MANAGER":
+				break; 
 			case "EMPLOYEE": 
-				Application.offerService = new OfferServiceImpl(); 
-				Application.userService = new PersonServiceImpl(); 
+				Application.employeeController = EmployeeController.getEmployeeController(); 
 				System.out.println("Welcome, employee!");
 				break; 
-			default: 			
-		}
-
-		Application.run(); 
+			default: 	
+				System.out.println("Uh oh : something when wrong!"); 
+		} 
 	}
 	
 	
@@ -119,140 +133,35 @@ public class Application {
 		}
 	}
 	
-	private static void printHelpScreen() {
-		
-		
-		for ( String commandDescription : Application.customerCommandDescriptions ) {
-			System.out.println(commandDescription); 
-		}
-		
-	}
-	
-
 	private static void setRunning(boolean isRunning) {
 		Application.isRunning = isRunning;
 	}
 	
 	
-	private static void createAndAddProduct() {
-		System.out.print("What is the type of product you are adding? :");
-		String productType = Application.getUserInput(); 
-		if ( !productType.equalsIgnoreCase("BIKE") ) {
-			System.out.println("System can only support creation of bike objects");
-		}
-		
-		System.out.print("What is the name of product you are adding? :");
-		String productName = Application.getUserInput(); 
-		
-		System.out.print("What is the price of the product you are adding? :");
-		Double productPrice = Double.parseDouble( Application.getUserInput() );
-		if ( productPrice < 0.00 ) {
-			System.out.printf("Bad input for price: %s\n", productPrice);
-		}
-		
-		System.out.print("What is the category of product you are adding? :");
-		String productCategory = Application.getUserInput();
-		
-		Product newProduct = new Product(); 
-		newProduct.setName(productName);
-		newProduct.setPrice(productPrice);
-		newProduct.getCategory().setName(productCategory);
-		
-		
-		Application.productService.addProduct(newProduct);
-		
-		
-		
-	}
-
-	private static void dispatchUserActionBasedOnResponse(String userResponse) {
-		
-		
-		final String[] userResponseArray = userResponse.split(" "); 
-		final String command = userResponseArray[0].toUpperCase(); 
-		final Integer productId = userResponseArray.length > 1 ? 
-				Integer.parseInt( userResponseArray[1 ])
-				: null; 
-				
-		final Integer offerId = productId; 
-
-		switch (command) {
-			// GENERIC ACTIONS : LOGIN, REGISTER, HELP, EXIT 
-			case "LOGIN":
-				Application.login();
-				break; 
-			case "REGISTER": 
-				Application.register();
-				break;
-			case "HELP":
-				Application.printHelpScreen();
-				break; 
-			case "EXIT": 
-				Application.showExitScreen();
-				break; 
-			
-			// CUSTOMER ACTIONS : GET_PRODUCTS, MAKE_OFFER, VIEW_MY_PRODUCTS, VIEW_REMAINING_PAYMENTS
-			case "GET_PRODUCTS":
-				Application.productService.getAvailableProducts(); 
-				break;
-			case "MAKE_OFFER":
-				System.out.print("Enter your offer price: "); 
-				final Double offerPrice = Double.parseDouble(Application.userInputScanner.nextLine());
-				final Integer customerId = Application.currentUser.getId();
-				Application.productService.addOfferForProduct(customerId, productId, offerPrice);
-				break;
-			case "VIEW_MY_PRODUCTS": 
-				Application.productService.getProductsByOwnerId(Application.currentUser.getId()); 
-				break;
-			case "VIEW_REMAINING_PAYMENTS":
-				Application.productService.getRemainingPaymentsForProduct(productId);
-				break; 
-				
-			// EMPLOYEE ACTIONS : ADD_PRODUCT, REMOVE_PRODUCT, VIEW_ALL_OFFERS, ACCEPT_OFFER, REJECT_OFFER, VIEW_ALL_PAYMENTS
-			case "ADD_PRODUCT":
-				Application.createAndAddProduct();
-				break; 
-			case "REMOVE_PRODUCT":
-				Application.productService.removeProduct(productId);
-				break;
-			case "VIEW_ALL_OFFERS":
-				if (productId == null ) {
-					Application.offerService.getOffers(); 
-				} else {
-					Application.offerService.getOffersByProductId(productId);
-				}
-				break; 
-			case "ACCEPT_OFFER":
-				Application.offerService.acceptOffer(offerId);
-				break; 
-			case "REJECT_OFFER":
-				Application.offerService.rejectOffer(offerId); 
-				break; 
-				
-				
-			default: 
-				System.out.printf("Sorry, I didn't understand that! Check your spelling. Unknown command: %s\n", userResponse);
-		}
-		
-		
-		
-		
-	}
 	
-	public static void getUserResponse() {
+	static void getUserResponse() {
 		
-		System.out.println("Enter input here: "); 
+		System.out.print("Enter input here: "); 
 		String userResponse = Application.userInputScanner.nextLine();
-		Application.dispatchUserActionBasedOnResponse(userResponse);
+		
+		String userRoleName = Application.getCurrentUser().getRole().getName(); 
+		switch( userRoleName.toUpperCase() ) {
+		case "CUSTOMER": 
+			CustomerController.dispatchUserActionBasedOnResponse(userResponse);
+			break; 
+		case "EMPLOYEE":
+			EmployeeController.dispatchUserActionBasedOnResponse(userResponse);
+			break; 
+		}
 	}
 	
-	public static String getUserInput() {
+	static String getUserInput() {
 		return Application.userInputScanner.nextLine();
 	}
 	/**
 	 * Clears the console
 	 */
-	public static void clearConsole() {
+	static void clearConsole() {
 		
 		try {
 			Runtime.getRuntime().exec("clear");
@@ -270,9 +179,7 @@ public class Application {
 		
 		System.out.println("Welcome to Generic Bicycle App: the most generic CRUD application");
 		System.out.println("Enter 'login' to login, 'register' to register, or 'exit' to clsoe application.");
-		
-		
-		Application.getUserResponse(); 
+		Application.login(); 
 	}
 	
 	
@@ -299,6 +206,10 @@ public class Application {
 		}
 	}
 	
+	public static Person getCurrentUser() {
+		return Application.currentUser; 
+	}
+	
 	
 	
 	public static void login() {
@@ -312,6 +223,17 @@ public class Application {
 		String userType = userInputScanner.nextLine();
 		System.out.println(userType);
 		
+		String userRoles[] = {
+				"customer",
+				"c",
+				"employee",
+				"e",
+				"manager",
+				"m"
+		}; 
+		
+		
+		
 		
 		// Get username 
 		System.out.print("Please enter your username: "); 
@@ -320,13 +242,14 @@ public class Application {
 		
 		// Get password 
 		System.out.println("Hi, " + username + ". To finish authentication, please enter your password below");
-		System.out.print(		"Password: "); 
+		System.out.print("Password: "); 
 		String password = userInputScanner.nextLine();
 		
 		System.out.println("Thank you for logging you.");
 		
-		
+		// The person is a customer by default 
 		Application.currentUser = new Person();
+		Application.currentUser.getRole().setName("employee");
 		Application.initControllers( Application.currentUser.getRole().getName() );  
 		
 		

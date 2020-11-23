@@ -1,8 +1,6 @@
 package com.revature.beans;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /*
@@ -25,6 +23,7 @@ public class Person {
 	public Person() {
 		this.role = new Role(); 
 		this.role.setName("customer");
+		this.role.setId(1);
 	}	
 
 	public Integer getId() {

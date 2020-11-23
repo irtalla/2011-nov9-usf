@@ -5,22 +5,44 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Set;
-
-import com.revature.beans.Offer;
 import com.revature.beans.Person;
-import com.revature.beans.Product;
 import com.revature.utils.ConnectionUtil;
 
 public class PersonPostgres implements PersonDAO {
 	
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
-	private ProductFeaturePostgres prodPostgres= new ProductFeaturePostgres(); 
 	private OfferPostgres offerPostgres = new OfferPostgres(); 
 	
 	@Override
 	public Person add(Person t) {
 		
-		return null; 
+		Person c = null;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = " insert into person values (default, ?, ?, ?) ";
+			String[] keys = {"id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			pstmt.setString(1, t.getUsername() );
+			pstmt.setString(2, t.getPassword() );
+			pstmt.setInt(3, t.getRole().getId() );
+
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if ( rs.next() ) {
+				c = t;
+				t.setId(rs.getInt(1));
+				conn.commit();
+			} else {
+				conn.rollback();;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return c;
 	}
 
 	@Override
@@ -101,8 +123,38 @@ public class PersonPostgres implements PersonDAO {
 
 	@Override
 	public boolean delete(Person t) {
-		return false;
-		// TODO Auto-generated method stub
+		
+		// Current implementation only supports firing employees by
+		// removing persons with employee role. It is also assumed
+		// that employees cannot buy products or make offers, so there
+		// will be no anomalies
+		if ( ! t.getRole().getName().equalsIgnoreCase("employee") ) {
+			return false;
+		}
+		
+		Integer rowsUpdated = 0; 
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = " delete from person "
+						+ " where "
+						+ " person.id = ? and "
+						+ " person.user_role_id = employee "; 
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId() ); 
+
+			rowsUpdated = pstmt.executeUpdate();
+			
+			if (rowsUpdated > 1) {
+				conn.rollback();
+				// TODO : throw custom exception and rollback 
+			}
+
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+		
+		return rowsUpdated == 1 ? true : false;
 
 	}
 

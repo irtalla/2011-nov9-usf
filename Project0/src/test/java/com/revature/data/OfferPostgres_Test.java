@@ -1,20 +1,10 @@
 package com.revature.data;
 
-
-import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.revature.beans.Product;
-import com.revature.utils.ConnectionUtil;
-
-
-import java.util.Set;
-
 import com.revature.beans.Offer;
 
 public class OfferPostgres_Test {
@@ -86,9 +76,8 @@ public class OfferPostgres_Test {
 		OfferPostgres testOfferPostgres = new OfferPostgres();
 		Offer updatedOffer = new Offer(); 
 		updatedOffer.setAmount(1000.00);
-		updatedOffer.setId(1);
-		updatedOffer.setCustomerId(1);
-		updatedOffer.setProductId(1);
+		updatedOffer.setId(5);
+		updatedOffer.getStatus().setId(3);
 		
 		boolean didUpdate = testOfferPostgres.update(updatedOffer);
 		
@@ -102,8 +91,8 @@ public class OfferPostgres_Test {
 		
 		OfferPostgres testOfferPostgres = new OfferPostgres();
 		Offer offerToDelete = new Offer(); 
-		offerToDelete.setId(1);
-		boolean didDelete = testOfferPostgres.update(offerToDelete);
+		offerToDelete.setId(6);
+		boolean didDelete = testOfferPostgres.delete(offerToDelete);
 		Assertions.assertEquals(true, didDelete );
 	}
 }

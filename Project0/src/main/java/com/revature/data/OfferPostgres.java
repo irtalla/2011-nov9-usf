@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.Offer;
-import com.revature.beans.Product;
-import com.revature.beans.Offer;
 import com.revature.utils.ConnectionUtil;
 
 public class OfferPostgres implements OfferDAO {
@@ -28,10 +26,10 @@ public class OfferPostgres implements OfferDAO {
 			String sql = "insert into offer values (default, ?, ?, ?, ?)";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
-			pstmt.setInt(1, t.getCustomerId());
+			pstmt.setInt(1, t.getCustomerId() );
 			pstmt.setInt(2, t.getProductId() );
-			pstmt.setDouble(3, t.getAmount());
-			pstmt.setInt(4, t.getStatus().getId());
+			pstmt.setInt(3, t.getStatus().getId() );
+			pstmt.setDouble(4, t.getAmount() );
 
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -64,13 +62,13 @@ public class OfferPostgres implements OfferDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "select\n"
+			String sql = "select "
 						+ "	offer.id as offer_id, "
-						+ " 	offer.customer_id as customer_id, "
-						+ " 	offer.product_id as product_id, "
-						+ " 	offer.amount as offer_amount, "
-						+ " 	offer.status_id as status_id, "
-						+ " 	status.name as status_name "
+						+ " offer.customer_id as customer_id, "
+						+ " offer.product_id as product_id, "
+						+ " offer.amount as offer_amount, "
+						+ " offer.status_id as status_id, "
+						+ " status.name as status_name "
 						+ "	from offer "
 						+ "		join status "
 						+ "		on offer.status_id = status.id "; 
@@ -118,8 +116,8 @@ public class OfferPostgres implements OfferDAO {
 	
 	/**
 	 * Currently, only the status of an offer can be changed. This
-	 * implies that a customer can make multiple offers for the same
-	 * product 
+	 * implies that a customer can make discrete offers for the 
+	 * same product 
 	 */
 	@Override
 	public boolean update(Offer t) {
@@ -128,7 +126,7 @@ public class OfferPostgres implements OfferDAO {
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			String sql = " update offer "
-							+ " set status_id = ?"
+							+ " set status_id = ? "
 							+ " where id = ? ";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -141,9 +139,9 @@ public class OfferPostgres implements OfferDAO {
 			if (rowsUpdated > 1) {
 				// TODO throw error
 				conn.rollback();
+			} else {
+				conn.commit();
 			}
-	
-			conn.rollback();
 			
 		} catch (Exception e) {
 			e.printStackTrace();		
@@ -158,9 +156,10 @@ public class OfferPostgres implements OfferDAO {
 		Integer rowsUpdated = 0; 
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "delete from offer "
-			+ "where "
-			+ "product.id = ?"; 
+			String sql = " delete from offer "
+						+ " where "
+						+ " offer.id = ?";
+			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId() );
 
@@ -169,8 +168,9 @@ public class OfferPostgres implements OfferDAO {
 			if (rowsUpdated > 1) {
 				// TODO throw error
 				conn.rollback();
+			} else {
+				conn.commit();
 			}
-			conn.commit();
 
 		} catch (Exception e) {			
 			e.printStackTrace();

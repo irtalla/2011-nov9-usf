@@ -6,10 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-
 import com.revature.beans.Feature;
-import com.revature.beans.Offer;
-import com.revature.beans.Product;
 import com.revature.utils.ConnectionUtil;
 
 /**
@@ -31,11 +28,10 @@ public class ProductFeaturePostgres implements ProductFeatureDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into feature values (default, ?)";
+			String sql = " insert into feature values (default, ?) ";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
-			pstmt.setInt(1, t.getId());
-			pstmt.setString(2, t.getName() );
+			pstmt.setString(1, t.getName() );
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
 			
@@ -83,7 +79,7 @@ public class ProductFeaturePostgres implements ProductFeatureDAO {
 	 * This is the method we need 
 	 */	
 	@Override
-	public Set<Feature> getFeaturesByProductId(Integer id) {
+	public Set<Feature> getFeaturesByProductId(Integer productId) {
 		
 		Set<Feature> features = new HashSet<Feature>(); 
 		
@@ -99,7 +95,7 @@ public class ProductFeaturePostgres implements ProductFeatureDAO {
 			
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, id);
+			pstmt.setInt(1, productId);
 
 			ResultSet rs = pstmt.executeQuery(); 
 			

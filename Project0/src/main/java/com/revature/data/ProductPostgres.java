@@ -4,12 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.revature.beans.Feature;
-import com.revature.beans.Offer;
 import com.revature.beans.Product;
 import com.revature.utils.ConnectionUtil;
 
@@ -43,7 +39,7 @@ public class ProductPostgres implements ProductDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into product values (default, ?, ?, ?, ?)";
+			String sql = " insert into product values (default, ?, ?, ?, ?) ";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, t.getName() );
@@ -235,12 +231,19 @@ public class ProductPostgres implements ProductDAO {
 	@Override
 	public boolean delete(Product t) {
 		
+		/** TODO : fix delete functionality 
+		 * This test will fail because of foreign key constraints. Rows in the offer, 
+		 * feature, and purchase relations must be deleted before the product can be
+		 * deleted.
+		 */
+		
+		
 		Integer rowsUpdated = 0; 
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "delete from product "
-			+ "where "
-			+ "product.id = ?"; 
+			String sql = " delete from product "
+			+ " where "
+			+ " product.id = ?"; 
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId() );
 

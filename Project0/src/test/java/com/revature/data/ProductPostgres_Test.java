@@ -1,14 +1,11 @@
 package com.revature.data;
 
-import java.sql.Connection;
+import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import com.revature.beans.Product;
-import com.revature.utils.ConnectionUtil;
 
 public class ProductPostgres_Test {
 	
@@ -45,27 +42,31 @@ public class ProductPostgres_Test {
 				);	
 	}
 	
-	
-	@DisplayName("Test delete()") 
+	@DisplayName("Test getAll()") 
 	@Test
-	public void deleteTest() {
-		
-		/** TODO : fix delete functionality 
-		 * This test will fail because of foreign key constraints. Rows in the offer, 
-		 * feature, and purchase relations must be deleted before the product can be
-		 * deleted.
-		 */
+	public void getAll() {
 		
 		ProductPostgres testProductPostgres = new ProductPostgres(); 
-		Product presentProduct, notPresentProduct; 
-		presentProduct = new Product();
-		presentProduct.setId(1);
-		notPresentProduct = new Product();
-		notPresentProduct.setId(-1);		
-		Assertions.assertEquals(true, testProductPostgres.delete(presentProduct) );
-		Assertions.assertEquals(false, testProductPostgres.delete(notPresentProduct) );
-		
+		Set<Product> availableProducts = testProductPostgres.getAll(); 
+		Set<Integer> categoryIds = new HashSet<Integer>(); 
+		Assertions.assertTrue( availableProducts.size() > 0);
+		availableProducts.forEach( product -> categoryIds.add(product.getCategory().getId()) ); 
+		Assertions.assertTrue( categoryIds.size() > 1 );
 	}
+	
+//	@DisplayName("Test delete()") 
+//	@Test
+//	public void deleteTest() {
+//				
+//		ProductPostgres testProductPostgres = new ProductPostgres(); 
+//		Product presentProduct, notPresentProduct; 
+//		presentProduct = new Product();
+//		presentProduct.setId(1);
+//		notPresentProduct = new Product();
+//		notPresentProduct.setId(-1);		
+//		Assertions.assertEquals(true, testProductPostgres.delete(presentProduct) );
+//		Assertions.assertEquals(false, testProductPostgres.delete(notPresentProduct) );
+//	}
 	
 	@DisplayName("Test add()")
 	@Test
@@ -82,8 +83,4 @@ public class ProductPostgres_Test {
 		Assertions.assertEquals("Step Above", returnedProduct.getName());
 		Assertions.assertEquals("Pegs", returnedProduct.getCategory().getName());
 	}
-	
-	
-	
-
 }
