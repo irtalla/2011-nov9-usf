@@ -19,8 +19,8 @@ public class BikePostgres implements BikeDAO {
 
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "insert into person values (default, ?, ?, ?)";
-			String[] keys = {"id"};
+			String sql = "insert into bike_shop.bike values (default, ?, ?, ?)";
+			String[] keys = {"bike_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, b.getColor());
 			pstmt.setString(2, b.getModel());
@@ -50,7 +50,7 @@ public class BikePostgres implements BikeDAO {
 		Bike b = null;
 		
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from bike where id = ?";
+			String sql = "select * from bike where bike_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
