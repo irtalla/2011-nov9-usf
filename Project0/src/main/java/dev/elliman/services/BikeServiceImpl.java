@@ -42,4 +42,10 @@ public class BikeServiceImpl implements BikeService {
 
 	}
 
+	@Override
+	public void getAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
