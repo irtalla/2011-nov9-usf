@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.revature.beans.Bike;
+import com.revature.beans.Cat;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
@@ -37,7 +38,7 @@ public class BikeAppController {
 			//when user is logged in
 			while(loggedInUser == null) {
 				System.out.println("Login: Enter Number to Select option");
-				System.out.println("1. Register\n2. Log In\n Q to Quit");
+				System.out.println("1. Register\n2. Log In\n3. Quit");
 				int userInput = Integer.valueOf(scan.nextLine());
 				
 				switch (userInput) {
@@ -61,11 +62,11 @@ public class BikeAppController {
 			//User Menu
 			menuLoop: while (true) {
 				System.out.println("Main Menu: Enter Number to Select Option");
-				System.out.println("1. Available Bikes\n2. View your Bikes\n");
+				System.out.println("1. Available Bikes\n2. View your Bikes\n6. Quit");
 				
 				//check if user is a customer or an employee
 				if (loggedInUser.getRole().getName().equals("Customer")) {
-					System.out.println("other. Log out");
+					//System.out.println("6. Log out");
 				} else if (loggedInUser.getRole().getName().equals("Employee")) {
 					System.out.println("3. Manage Bikes\n4. Manage Offers\n5. View all Payments\n Q to Log out");
 				}
@@ -166,7 +167,7 @@ public class BikeAppController {
 			} else {
 				System.out.print("Incorrect Password. ");
 			}
-			System.out.println("Do you want to try again? 1 for yes, other for no.");
+			System.out.println("Do you want to try again? 1 for yes, 2 for no.");
 			int input = Integer.valueOf(scan.nextLine());
 			if (input != 1) {
 				break;
@@ -198,7 +199,7 @@ public class BikeAppController {
 					System.out.println("You want to buy " + bike.getName() + "? 1 for yes, other for no");
 					input = Integer.valueOf(scan.nextLine());
 					if (input == 1) {
-						bikeServ.offerBike(user, bike);
+						bikeServ.ownBike(user, bike);
 						System.out.println("You did it! You offered for a bike " + bike.getName() + ".");
 						// get the person with their updated cat set
 						user = userServ.getUserById(user.getId());
@@ -227,6 +228,16 @@ public class BikeAppController {
 	
 	//Customer View OWN bikes
 	private static User viewUserBikes(User user) {
+		
+		if (user.getBikes().size() > 0) {
+			System.out.println("Viewing your bikes: ");
+			for (Bike bike : user.getBikes()) {
+				System.out.println(bike);
+			}
+			
+		} else {
+			System.out.println("You don't have any bikes... yet.\n");
+		}
 		return user;
 	}
 	

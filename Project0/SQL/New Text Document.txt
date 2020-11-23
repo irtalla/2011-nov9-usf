@@ -1,32 +1,107 @@
-create table user_role (
-	id serial primary key,
-	name varchar(10) unique not null
+-- bikeapp.model definition
+
+-- Drop table
+
+-- DROP TABLE model;
+
+CREATE TABLE model (
+	id serial NOT NULL DEFAULT nextval('bikeapp.model_id_seq'::regclass),
+	"name" varchar(40) NOT NULL,
+	CONSTRAINT model_name_key UNIQUE (name),
+	CONSTRAINT model_pkey PRIMARY KEY (id)
 );
 
-create table user_acc (
-	id serial primary key,
-	firstName varchar(30) unique not null,
-	lastName varchar(30) unique not null,
-	username varchar(30) unique not null,
-	password varchar(30) not null,
-	user_role_id integer references user_role
+
+-- bikeapp.status definition
+
+-- Drop table
+
+-- DROP TABLE status;
+
+CREATE TABLE status (
+	id serial NOT NULL DEFAULT nextval('bikeapp.status_id_seq'::regclass),
+	"name" varchar(40) NOT NULL,
+	CONSTRAINT status_name_key UNIQUE (name),
+	CONSTRAINT status_pkey PRIMARY KEY (id)
 );
 
-create table model (
-	id serial primary key,
-	name varchar(40) unique not null
+
+-- bikeapp.user_role definition
+
+-- Drop table
+
+-- DROP TABLE user_role;
+
+CREATE TABLE user_role (
+	id serial NOT NULL DEFAULT nextval('bikeapp.user_role_id_seq'::regclass),
+	"name" varchar(10) NOT NULL,
+	CONSTRAINT user_role_name_key UNIQUE (name),
+	CONSTRAINT user_role_pkey PRIMARY KEY (id)
 );
 
-create table status (
-	id serial primary key,
-	name varchar(40) unique not null
+
+-- bikeapp.bike definition
+
+-- Drop table
+
+-- DROP TABLE bike;
+
+CREATE TABLE bike (
+	id serial NOT NULL DEFAULT nextval('bikeapp.bike_id_seq'::regclass),
+	"name" varchar(30) NULL,
+	price numeric NOT NULL,
+	status_id int4 NULL,
+	model_id int4 NULL,
+	CONSTRAINT bike_pkey PRIMARY KEY (id),
+	CONSTRAINT bike_model_id_fkey FOREIGN KEY (model_id) REFERENCES bikeapp.model(id),
+	CONSTRAINT bike_status_id_fkey FOREIGN KEY (status_id) REFERENCES bikeapp.status(id)
 );
 
-create table bike (
-	id serial primary key,
-	name varchar(30) not null,
-	model_id integer references model,
-	price numeric(4,2) not null,
-	status_id integer references status
-	
+
+-- bikeapp.user_acc definition
+
+-- Drop table
+
+-- DROP TABLE user_acc;
+
+CREATE TABLE user_acc (
+	id serial NOT NULL DEFAULT nextval('bikeapp.user_acc_id_seq'::regclass),
+	firstname varchar(30) NOT NULL,
+	lastname varchar(30) NOT NULL,
+	username varchar(30) NOT NULL,
+	pwd varchar(30) NOT NULL,
+	user_role_id int4 NULL,
+	CONSTRAINT user_acc_pkey PRIMARY KEY (id),
+	CONSTRAINT user_acc_username_key UNIQUE (username),
+	CONSTRAINT user_acc_user_role_id_fkey FOREIGN KEY (user_role_id) REFERENCES bikeapp.user_role(id)
+);
+
+
+-- bikeapp.user_bike definition
+
+-- Drop table
+
+-- DROP TABLE user_bike;
+
+CREATE TABLE user_bike (
+	user_id int4 NULL,
+	bike_id int4 NULL,
+	CONSTRAINT user_bike_bike_id_fkey FOREIGN KEY (bike_id) REFERENCES bikeapp.bike(id),
+	CONSTRAINT user_bike_user_id_fkey FOREIGN KEY (user_id) REFERENCES bikeapp.user_acc(id)
+);
+
+
+-- bikeapp.offer definition
+
+-- Drop table
+
+-- DROP TABLE offer;
+
+CREATE TABLE offer (
+	id serial NOT NULL DEFAULT nextval('bikeapp.offer_id_seq'::regclass),
+	user_id int4 NULL,
+	bike_id int4 NULL,
+	CONSTRAINT offer_pkey PRIMARY KEY (id),
+	CONSTRAINT offer_bike_id_fkey FOREIGN KEY (bike_id) REFERENCES bikeapp.bike(id),
+	CONSTRAINT offer_user_id_fkey FOREIGN KEY (user_id) REFERENCES bikeapp.user_acc(id)
 );
