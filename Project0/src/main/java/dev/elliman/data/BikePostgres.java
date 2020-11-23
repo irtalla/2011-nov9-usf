@@ -24,7 +24,7 @@ public class BikePostgres implements BikeDAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, b.getColor());
 			pstmt.setString(2, b.getModel());
-			pstmt.setInt(3, 1);//admin is always the original owner
+			pstmt.setInt(3, -1);//admin is always the original owner
 
 			pstmt.executeUpdate();
 
@@ -57,6 +57,7 @@ public class BikePostgres implements BikeDAO {
 			
 			b = new Bike(rs.getString("model"), rs.getString("color"));
 			b.setId(rs.getInt("bike_id"));
+			b.setOwner(rs.getInt("bike_owner"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,7 +96,7 @@ public class BikePostgres implements BikeDAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, b.getModel());
 			pstmt.setString(2, b.getColor());
-			pstmt.setInt(3, b.getOwner().getID());
+			pstmt.setInt(3, b.getOwner());
 			
 			Integer rowsChanged = pstmt.executeUpdate();
 			conn.commit();

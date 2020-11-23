@@ -4,13 +4,13 @@ public class Bike {
 	private Integer id;
 	private String color;
 	private String model;
-	private Person owner;
+	private Integer ownerId;
 	
 	
 	public Bike(String model, String color) {
 		this.model = model;
 		this.color = color;
-		owner = null;
+		ownerId = -1;
 	}
 
 	public Integer getId() {
@@ -30,10 +30,14 @@ public class Bike {
 	}
 	
 	public void setOwner(Person owner) {
-		this.owner = owner;
+		ownerId = owner.getID();
 	}
 	
-	public Person getOwner() {
-		return owner;
+	public void setOwner(Integer id) {
+		ownerId = id;
+	}
+	
+	public Integer getOwner() {
+		return ownerId;
 	}
 }
