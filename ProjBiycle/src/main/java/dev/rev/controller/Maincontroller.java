@@ -3,8 +3,11 @@ package dev.rev.controller;
 import java.util.Scanner;
 
 import dev.rev.customException.NonUniqueUsernameException;
+import dev.rev.model.Bicycle;
 import dev.rev.model.Person;
 import dev.rev.model.Role;
+import dev.rev.services.BicycleService;
+import dev.rev.services.BicycleServiceImp;
 import dev.rev.services.PersonService;
 import dev.rev.services.PersonServiceImpl;
 
@@ -14,6 +17,7 @@ public class Maincontroller {
 
 	private static Scanner scan;
 	private static PersonService pservice = new PersonServiceImpl();
+	private static BicycleService bservice= new BicycleServiceImp();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		boolean activeuser=true;
@@ -42,18 +46,21 @@ public class Maincontroller {
 				break;
 			}
 		}
-		System.out.println(logedinuser);
+		System.out.println(activeuser);
+		
 		while(activeuser) {
-			
+			System.out.println(logedinuser.getRole().getRole_name());
+					
 			if(logedinuser.getRole().getRole_name()=="Customer") {
 			
 				CustomerRoles();
-				
-			}else if(logedinuser.getRole().getRole_name()=="Employee") {
-				
-				ManagerRoles();
-			}else if(logedinuser.getRole().getRole_name()=="Manager") {
+				//activeuser=false;
+		}else if(logedinuser.getRole().getRole_name().equals("Employee")) {
 				EmployeeRoles();
+				activeuser=false;		
+			}else if(logedinuser.getRole().getRole_name()=="Manager") {
+				ManagerRoles();
+				activeuser=false;
 			}
 			
 		}
@@ -71,7 +78,78 @@ public class Maincontroller {
 	
 	private static void  EmployeeRoles() {
 		
+		System.out.println("Choose the Option from below:"
+				+ "\n1. Add Bicycle\t\t2.Delete Bicycle\t\t3.Update Bicycle\n4.Check Offers on Bicycle\t\t5.View All Payments"
+				+ "\t\t 0. Logout");
+		int i = Integer.valueOf(scan.nextInt());
+		switch (i){
+		case 1: addbicycle();
+				break;
+		case 2: deletebicycle();
+				break;
+				
+		case 3: updatebicycle();
+				break;
+		case 4: checkoffers();
+				break;
+		case 5: Viewallpayments();
+				break;
+		case 0: logout();
+				break;
+		}
 	}
+	private static void deletebicycle() {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	private static void logout() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void Viewallpayments() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void checkoffers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void updatebicycle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void addbicycle() {
+		
+		System.out.println("Enter the information of the Bicycle Below");
+		System.out.println("Bicycle Brand:\n");
+		Bicycle b=new Bicycle();
+		b.setBrand(scan.next());
+		System.out.println("Price:\n");
+		b.setPrice(Integer.valueOf(scan.next()));
+		System.out.println("Enter the color of Cycle");
+		b.setColor(scan.next());
+		System.out.println("Enter the Quantity");
+		b.setQuantity(Integer.valueOf(scan.nextInt()));
+		
+		System.out.println("Review the Information:"
+				+ "Brand: \t "+b.getBrand()+"\t Price: "+b.getPrice()+"\nColor:"+
+				b.getColor()+"\t"+"Quantity: "+b.getQuantity());
+		
+		try {
+			b.setId(bservice.addBicycle(b));
+			System.out.println("Bicycle added succesfully ");
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+	}
+
 	private static Person registeruser() {
 		Role role=registeras();
 		System.out.println("Enter the Username:");

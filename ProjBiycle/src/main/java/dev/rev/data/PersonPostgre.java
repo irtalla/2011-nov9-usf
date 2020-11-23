@@ -87,7 +87,7 @@ Set<Person> people = new HashSet<>();
 		
 		try (Connection conn = cu.getConnection())
 		{
-			String sql = "select * from person where "
+			String sql = "select * from person join role on person.role_id=role.role_id where "
 					+ "person.username = ? And person.password = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
@@ -103,7 +103,8 @@ Set<Person> people = new HashSet<>();
 				person.setPassword(rs.getString("password"));
 				Role job = new Role();
 				job.setId(rs.getInt("role_id"));
-				job.setRole_name(rs.getString("name"));
+				job.setRole_name(rs.getString("role_name"));
+				
 				person.setRole(job);
 			}else {
 				return null;
