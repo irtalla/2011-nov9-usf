@@ -23,7 +23,6 @@ public class BikeShopController {
 	private static User user = new User();
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		scan = new Scanner(System.in);
 
 		System.out.println("----Welcome to Kyle's Bike Shop----");
@@ -48,7 +47,7 @@ public class BikeShopController {
 
 //if you're entering the mainloop, you're logged in
 //mainloop first checks roles. each role has its own commands
-
+//user refers to logged in user
 		mainLoop: while (true) {
 			String userInput;
 
@@ -185,7 +184,6 @@ public class BikeShopController {
 					System.out.println("Enter ID of offer you'd like to accept");
 					userInput = scan.nextLine();
 					offerToAccept = userServ.getOffer(Integer.parseInt(userInput));
-					//offerToAccept.setCustomerId(user.getId());
 					
 					Finance finance = userServ.acceptOffer(offerToAccept);
 					if(finance != null) {

@@ -107,14 +107,10 @@ public class UserPostgres implements UserDAO {
 
 	@Override
 	public void update(User u) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -134,8 +130,6 @@ public class UserPostgres implements UserDAO {
 				user.setPassword(results.getString("passwd"));
 				Role role = new Role(results.getInt("role_id"));
 				user.setRole(role);
-
-				// human.setCats(getCatsByPersonId(human.getId(), conn));
 
 				users.add(user);
 			}

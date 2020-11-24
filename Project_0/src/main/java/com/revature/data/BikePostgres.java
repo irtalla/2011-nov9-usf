@@ -77,8 +77,6 @@ public class BikePostgres implements BikeDAO {
 
 	@Override
 	public void update(Bike b) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -110,14 +108,11 @@ public class BikePostgres implements BikeDAO {
 
 	@Override
 	public Set<Bike> List() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+	public void delete() {		
 	}
 
 	@Override
@@ -129,9 +124,7 @@ public class BikePostgres implements BikeDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			
 			ResultSet results = pstmt.executeQuery();
-			
 
-			
 			while(results.next()) {
 				Bike bike = new Bike();
 				bike.setId(results.getInt("bike_id"));
