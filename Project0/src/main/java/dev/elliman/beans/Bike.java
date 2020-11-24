@@ -83,6 +83,10 @@ public class Bike {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Bike [id=" + id + ", color=" + color + ", model=" + model + "]";
+	}
 	
 }
