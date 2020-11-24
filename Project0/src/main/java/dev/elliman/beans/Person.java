@@ -75,6 +75,10 @@ public class Person {
 		return username;
 	}
 	
+	public Set<Bike> getOwnedBikes() {
+		return ownedBikes;
+	}
+
 	public void addBike(Bike bike) {
 		ownedBikes.add(bike);
 	}
