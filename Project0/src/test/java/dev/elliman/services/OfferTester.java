@@ -2,6 +2,7 @@ package dev.elliman.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -51,7 +52,7 @@ public class OfferTester {
 		Integer offerId = os.makeOffer(offer);
 		Offer offerFromDatabase = os.getOfferById(offerId);
 		
-		assertEquals(offer, offerFromDatabase);
+		assertTrue(offer.equals(offerFromDatabase));
 	}
 	
 	@Order(2)
@@ -61,7 +62,7 @@ public class OfferTester {
 		Integer offerId = os.makeOffer(offer);
 		//there are 2 offers in the database
 		
-		assertEquals(os.getActiveOffer().size(), 2);
+		assertEquals(2, os.getActiveOffer().size());
 	}
 	
 	@Order(3)
@@ -86,9 +87,10 @@ public class OfferTester {
 	@Test
 	public void acceptOffer() {
 		Offer o = os.getOfferById(2);//get the 221 offer
-		os.acceptOffer(o.getId(), cust);//the role is wrong but the check should not happen here
+		os.acceptOffer(o.getId(), new Person("", "", "a", "b", new Role()));//the role is wrong but the check should not happen here
 		o = os.getOfferById(2);//re-get it from the database
-		assertEquals(o.getStatus(), "Accepted");
+		
+		assertEquals("Accepted", o.getStatus());
 		assertEquals(os.getActiveOffer().size(), 0);//the second offer should have been rejected
 	}
 	

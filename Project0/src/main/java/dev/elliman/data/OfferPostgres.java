@@ -23,8 +23,8 @@ public class OfferPostgres implements OfferDAO {
 		
 			try(Connection conn = cu.getConnection()){
 				conn.setAutoCommit(false);
-				String sql = "insert into offers values (default, ?, ?, ?, ?)";
-				String[] keys = {"id"};
+				String sql = "insert into bike_shop.offers values (default, ?, ?, ?, ?)";
+				String[] keys = {"offer_id"};
 				PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 				pstmt.setInt(1, offer.getPerson().getID());
 				pstmt.setInt(2, offer.getBike().getId());
@@ -44,7 +44,7 @@ public class OfferPostgres implements OfferDAO {
 				}
 				
 			} catch (Exception e) {
-				
+				e.printStackTrace();
 			}
 		
 		return generatedID;
@@ -54,7 +54,7 @@ public class OfferPostgres implements OfferDAO {
 	public void update(Offer offer) {
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "update offers set status = ? where offer_id = ?";
+			String sql = "update bike_shop.offers set status = ? where offer_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, offer.getStatus());
 			pstmt.setInt(2, offer.getId());
@@ -70,7 +70,7 @@ public class OfferPostgres implements OfferDAO {
 	public void rejectAll(Bike bike) {
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "update offers set status = 'Rejected' where bike_id = ";
+			String sql = "update bike_shop.offers set status = 'Rejected' where bike = ? and status = 'Pending'";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bike.getId());
 			
@@ -87,7 +87,7 @@ public class OfferPostgres implements OfferDAO {
 		
 		try(Connection conn = cu.getConnection()){
 			
-			String sql = "select * from offers where person_id = ?";
+			String sql = "select * from bike_shop.offers where person = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, person.getID());
 			
@@ -95,7 +95,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(person, bikeDAO.getByID(rs.getInt("bike_id")), rs.getInt("price"));
+				o = new Offer(person, bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				if("Accepted".contentEquals(rs.getString("status"))) {
+					o.accept();
+				} else if ("Rejected".contentEquals(rs.getString("status"))) {
+					o.reject();
+				}
 				offers.add(o);
 			}
 			
@@ -112,7 +117,7 @@ public class OfferPostgres implements OfferDAO {
 		
 		try(Connection conn = cu.getConnection()){
 			
-			String sql = "select * from offers where person_id = ? and status = 'Pending'";
+			String sql = "select * from bike_shop.offers where person = ? and status = 'Pending'";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, person.getID());
 			
@@ -120,7 +125,7 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(person, bikeDAO.getByID(rs.getInt("bike_id")), rs.getInt("price"));
+				o = new Offer(person, bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
 				offers.add(o);
 			}
 			
@@ -137,7 +142,7 @@ public class OfferPostgres implements OfferDAO {
 		
 		try(Connection conn = cu.getConnection()){
 			
-			String sql = "select * from offers where bike_id = ?";
+			String sql = "select * from bike_shop.offers where bike = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bike.getId());
 			
@@ -145,7 +150,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person_id")), bike, rs.getInt("price"));
+				o = new Offer(personDAO.getByID(rs.getInt("person")), bike, rs.getInt("price"));
+				if("Accepted".contentEquals(rs.getString("status"))) {
+					o.accept();
+				} else if ("Rejected".contentEquals(rs.getString("status"))) {
+					o.reject();
+				}
 				offers.add(o);
 			}
 			
@@ -162,7 +172,7 @@ public class OfferPostgres implements OfferDAO {
 		
 		try(Connection conn = cu.getConnection()){
 			
-			String sql = "select * from offers where bike_id = ? and status = 'Pending'";
+			String sql = "select * from bike_shop.offers where bike = ? and status = 'Pending'";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bike.getId());
 			
@@ -170,7 +180,7 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person_id")), bike, rs.getInt("price"));
+				o = new Offer(personDAO.getByID(rs.getInt("person")), bike, rs.getInt("price"));
 				offers.add(o);
 			}
 			
@@ -187,14 +197,19 @@ public class OfferPostgres implements OfferDAO {
 		
 		try(Connection conn = cu.getConnection()){
 			
-			String sql = "select * from offers";
+			String sql = "select * from bike_shop.offers";
 			Statement pstmt = conn.createStatement();
 			
 			ResultSet rs = pstmt.executeQuery(sql);
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person_id")), bikeDAO.getByID(rs.getInt("bike_id")), rs.getInt("price"));
+				o = new Offer(personDAO.getByID(rs.getInt("person")), bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				if("Accepted".contentEquals(rs.getString("status"))) {
+					o.accept();
+				} else if ("Rejected".contentEquals(rs.getString("status"))) {
+					o.reject();
+				}
 				offers.add(o);
 			}
 			
@@ -211,14 +226,15 @@ public class OfferPostgres implements OfferDAO {
 		
 		try(Connection conn = cu.getConnection()){
 			
-			String sql = "select * from offers where status = 'Pending'";
+			String sql = "select * from bike_shop.offers where status = 'Pending'";
 			Statement pstmt = conn.createStatement();
 			
 			ResultSet rs = pstmt.executeQuery(sql);
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person_id")), bikeDAO.getByID(rs.getInt("bike_id")), rs.getInt("price"));
+				o = new Offer(personDAO.getByID(rs.getInt("person")), bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}
 			
@@ -234,7 +250,7 @@ public class OfferPostgres implements OfferDAO {
 		Offer offer = null;
 		
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from offers where offer_id = ?";
+			String sql = "select * from bike_shop.offers where offer_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			
@@ -242,9 +258,15 @@ public class OfferPostgres implements OfferDAO {
 			
 			if(rs.next()) {
 				offer = new Offer(
-						personDAO.getByID(rs.getInt("person_id")),
-						bikeDAO.getByID(rs.getInt("bike_id")),
+						personDAO.getByID(rs.getInt("person")),
+						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"));
+				offer.setId(rs.getInt("offer_id"));
+				if("Accepted".contentEquals(rs.getString("status"))) {
+					offer.accept();
+				} else if ("Rejected".contentEquals(rs.getString("status"))) {
+					offer.reject();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -70,4 +70,9 @@ public class OfferServiceImpl implements OfferService{
 		return offerDAO.getOffers(person);
 	}
 
+	@Override
+	public Set<Offer> getAllOffers() {
+		return offerDAO.getAllOffers();
+	}
+
 }

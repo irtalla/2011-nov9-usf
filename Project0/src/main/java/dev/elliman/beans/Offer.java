@@ -94,4 +94,11 @@ public class Offer {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Offer [id=" + id + ", person=" + person.getID() + ", bike=" + bike.getId() + ", price=" + price + ", status=" + status + "]";
+	}
+	
+	
 }
