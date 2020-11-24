@@ -17,6 +17,8 @@ public interface OfferDAO {
 	
 	public Set<Offer> getActiveOffers(Person person);
 	
+	public Set<Offer> getAcceptedOffers(Person person);
+	
 	public Set<Offer> getOffers(Bike bike);
 	
 	public Set<Offer> getActiveOffers(Bike bike);
@@ -24,6 +26,8 @@ public interface OfferDAO {
 	public Set<Offer> getAllOffers();
 	
 	public Set<Offer> getAllActiveOffers();
+	
+	public Set<Offer> getAllAcceptedOffers();
 	
 	public Offer getById(Integer id);
 }

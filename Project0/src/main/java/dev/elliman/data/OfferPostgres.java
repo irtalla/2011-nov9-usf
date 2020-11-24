@@ -309,4 +309,64 @@ public class OfferPostgres implements OfferDAO {
 		return offer;
 	}
 
+	@Override
+	public Set<Offer> getAcceptedOffers(Person person) {
+		Set<Offer> offers = new HashSet<>();
+		
+		try(Connection conn = cu.getConnection()){
+			
+			String sql = "select * from bike_shop.offers where person = ? and status = 'Accepted'";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, person.getID());
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			Offer o;
+			while(rs.next()) {
+				o = new Offer(
+						person,
+						bikeDAO.getByID(rs.getInt("bike")),
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
+				offers.add(o);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return offers;
+	}
+
+	@Override
+	public Set<Offer> getAllAcceptedOffers() {
+		Set<Offer> offers = new HashSet<>();
+		
+		try(Connection conn = cu.getConnection()){
+			
+			String sql = "select * from bike_shop.offers where status = 'Accepted'";
+			Statement pstmt = conn.createStatement();
+			
+			ResultSet rs = pstmt.executeQuery(sql);
+			
+			Offer o;
+			while(rs.next()) {
+				o = new Offer(
+						personDAO.getByID(rs.getInt("person")),
+						bikeDAO.getByID(rs.getInt("bike")),
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
+				o.setId(rs.getInt("offer_id"));
+				offers.add(o);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return offers;
+	}
+
 }

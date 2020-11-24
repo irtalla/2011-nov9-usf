@@ -13,9 +13,11 @@ public interface OfferService {
 		//read
 		public Set<Offer> getActiveOffer();
 		public Set<Offer> getActiveOffer(Person person);
+		public Set<Offer> getAcceptedOffer(Person person);
 		public Set<Offer> getOffers(Person person);
 		public Set<Offer> getActiveOffer(Bike bike);
 		public Set<Offer> getAllOffers();
+		public Set<Offer> getAllAcceptedOffers();
 		public Offer getOfferById(Integer id);
 		
 		//update
