@@ -56,10 +56,11 @@ public class OfferPostgres implements OfferDAO {
 	public void update(Offer offer) {
 		try(Connection conn = cu.getConnection()){
 			conn.setAutoCommit(false);
-			String sql = "update bike_shop.offers set status = ? where offer_id = ?";
+			String sql = "update bike_shop.offers set status = ?, payment_remaining = ? where offer_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, offer.getStatus());
-			pstmt.setInt(2, offer.getId());
+			pstmt.setInt(2, offer.getPaymentRemaining());
+			pstmt.setInt(3, offer.getId());
 			
 			Integer rowsChanged = pstmt.executeUpdate();
 			conn.commit();
