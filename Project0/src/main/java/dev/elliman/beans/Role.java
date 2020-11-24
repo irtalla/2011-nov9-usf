@@ -19,6 +19,7 @@ public class Role {
 		options.add(new Option("Purchase a bike", 4));
 		options.add(new Option("View bikes you own", 4));
 		options.add(new Option("View your remaining payments", 4));
+		options.add(new Option("View your offer status", 4));
 		options.add(new Option("Add bike", 3));
 		options.add(new Option("Remove bike", 3));
 		options.add(new Option("View active offers", 3));

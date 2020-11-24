@@ -36,10 +36,10 @@ public class BikeShopController {
 	public static void main(String[] args) {
 
 		//check for an admin user to be able to create managers and employees
-		Person admin = personService.getPersonById(0);
-		if(admin == null) {
-			personService.addAdminUser();
-		}
+//		Person admin = personService.getPersonById(0);
+//		if(admin == null) {
+//			personService.addAdminUser();
+//		}
 
 
 		input = ScannerSingleton.getScanner();
@@ -64,6 +64,9 @@ public class BikeShopController {
 				}
 			} else if(selection == 0) {
 				currentUser = login();
+				if(currentUser == null) {
+					continue;
+				}
 				useApplication();
 			} else {
 				stop = true;
@@ -167,21 +170,24 @@ public class BikeShopController {
 				UserHandler.viewAllRemainingPayments(currentUser);
 				break;
 			case 5:
-				UserHandler.addBike(currentUser);
+				UserHandler.viewOfferStatus(currentUser);
 				break;
 			case 6:
-				UserHandler.removeBike(currentUser);
+				UserHandler.addBike(currentUser);
 				break;
 			case 7:
-				UserHandler.viewActiveOffers(currentUser);
+				UserHandler.removeBike(currentUser);
 				break;
 			case 8:
-				UserHandler.acceptOffer(currentUser);
+				UserHandler.viewActiveOffers(currentUser);
 				break;
 			case 9:
-				UserHandler.rejectOffer(currentUser);
+				UserHandler.acceptOffer(currentUser);
 				break;
 			case 10:
+				UserHandler.rejectOffer(currentUser);
+				break;
+			case 11:
 				UserHandler.viewAllRemainingPayments(currentUser);
 				break;
 			}

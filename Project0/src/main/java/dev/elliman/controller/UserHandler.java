@@ -115,6 +115,7 @@ public class UserHandler {
 
 		Offer offer  = new Offer(user,bike, price, payments, 0);
 		os.makeOffer(offer);
+		System.out.println("Your offer has been submitted.");
 	}
 
 	public static void viewActiveOffers(Person user) {
@@ -275,6 +276,14 @@ public class UserHandler {
 					System.out.println("Only " + (remain+1) + " payments remaining");
 				}
 			}
+		}
+	}
+	
+	public static void viewOfferStatus(Person user) {
+		System.out.println("You have made these offers:");
+		Set<Offer> offers = os.getOffers(user);
+		for(Offer o : offers) {
+			System.out.println("Offer [id=" + o.getId() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", remaining=" + o.getPaymentRemaining() + "]");
 		}
 	}
 }
