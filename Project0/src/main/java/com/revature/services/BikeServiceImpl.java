@@ -29,6 +29,8 @@ public class BikeServiceImpl implements BikeService {
     public Integer addBike(Bike b) {
         return bikeDao.add(b).getId();
     }
+	
+	
     @Override
     public Bike getBikeById(Integer id) {
         return bikeDao.getById(id);

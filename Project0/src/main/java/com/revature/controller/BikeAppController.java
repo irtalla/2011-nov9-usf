@@ -321,6 +321,50 @@ public class BikeAppController {
 	}
 	//Employee Manage Offers
 	private static User manageOffers(User user) {
+		System.out.println("Current Offers:\n------------------------------------------\n");
+		
+		Set<Offer> availableOffers = offerServ.getAvailableOffers();
+
+		for (Offer offer : availableOffers) {
+			System.out.println(offer);
+		}
+		
+		System.out.println("_______________________________________");
+		
+		System.out.println("Manage Offers: \nPlease enter the ID of Offer you want to View:\n");
+		
+		
+		Offer offerToJudge = offerServ.getById(Integer.valueOf(scan.nextLine()));
+		System.out.println("Judge Offer:\n-----------------------------------------------\n");
+		System.out.println(offerToJudge);
+		System.out.println("___________________________________________________\n");
+		System.out.println("Accept this offer?\n1. Yes\n2. No");
+		
+		int input = Integer.valueOf(scan.nextLine());
+		//input = Integer.valueOf(scan.nextLine());
+		
+		if(input == 1) {
+			//assign user_id and bike_id to user_bike table
+			Offer offer = new Offer();
+			offer.setId(offerToJudge.getId());
+			offer.setUserId(offerToJudge.getUserId());
+			offer.setBikeId(offerToJudge.getBikeId());
+			
+			//Change offer from pending to accepted
+			offerServ.completeOffer(offer);
+			
+			//update availability of bike to Not Available
+			Bike bike = new Bike();
+			bike.setId(offerToJudge.getBikeId());
+			bikeServ.updateBike(bike);
+			System.out.println("----Accepted Offer----\n------------------");
+			
+		} else if (input == 2 ) {
+			//reject the offer by deleting the offer
+			System.out.println("else");
+			
+		}else {System.out.println("You gave me garbage, back to main");}
+		
 		return user;
 	}
 	

@@ -9,6 +9,7 @@ import com.revature.beans.User;
 public interface BikeService {
 	//create
 	public Integer addBike(Bike b);
+	
 	//read
 	public Bike getBikeById(Integer id);
 	public Set<Bike> getBikes();
@@ -19,5 +20,7 @@ public interface BikeService {
 	
 	//delete
 	public void removeBike(Bike b);
+
+	
 
 }

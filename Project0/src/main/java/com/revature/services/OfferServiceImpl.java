@@ -26,9 +26,14 @@ public class OfferServiceImpl implements OfferService {
 	public Integer addOffer(Offer o) {
 		return offerDao.add(o).getId();
 	}
+	
+	@Override
+	public void completeOffer(Offer o) {
+		offerDao.completeOffer(o);
+	}
 
 	@Override
-	public Offer getOfferById(Integer id) {
+	public Offer getById(Integer id) {
 		return offerDao.getById(id);
 	}
 
@@ -52,7 +57,7 @@ public class OfferServiceImpl implements OfferService {
 	@Override
 	public Set<Offer> getAvailableOffers() {
 		// TODO Auto-generated method stub
-		return null;
+		return offerDao.getAvailableOffers();
 	}
 
 }
