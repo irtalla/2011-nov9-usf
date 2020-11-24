@@ -120,10 +120,14 @@ public class UserHandler {
 	}
 
 	public static void viewActiveOffers(Person user) {
-		System.out.println("Printing all offers...");
 		Set<Offer> allOffers = os.getActiveOffer();
-		for(Offer o : allOffers) {
-			System.out.println("Offer [id=" + o.getId() + ", person=" + o.getPerson().getFirstName() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + "]");
+		if(allOffers.size() == 0) {
+			System.out.println("There are no active offers.");
+		} else {
+			System.out.println("Printing all offers...");
+			for(Offer o : allOffers) {
+				System.out.println("Offer [id=" + o.getId() + ", person=" + o.getPerson().getFirstName() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + "]");
+			}
 		}
 	}
 

@@ -149,9 +149,11 @@ public class BikeShopController {
 		
 		while(true) {
 			//display options to the user
+			System.out.println();
 			System.out.println("What would you like to do?");
 			//System.out.println(currentUser.getRole().getOptions()[0]);
 			Integer optionSelected = getInput(currentUser.getRole().getOptions());
+			System.out.println();
 			
 			switch(optionSelected) {
 			case 0:
@@ -167,7 +169,7 @@ public class BikeShopController {
 				UserHandler.viewOwnedBikes(currentUser);
 				break;
 			case 4:
-				UserHandler.viewAllRemainingPayments(currentUser);
+				UserHandler.viewRemaingPayments(currentUser);
 				break;
 			case 5:
 				UserHandler.viewOfferStatus(currentUser);
