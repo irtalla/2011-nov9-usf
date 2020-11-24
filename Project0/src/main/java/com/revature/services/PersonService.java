@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.Set;
+
 import com.revature.beans.Person;
 import com.revature.exceptions.NonUniqueUsernameException;
 
@@ -12,4 +14,5 @@ public interface PersonService {
 	public void updatePerson(Person p);
 	// delete
 	public void deletePerson(Person p);
+	public Set<Person> getAll();
 }

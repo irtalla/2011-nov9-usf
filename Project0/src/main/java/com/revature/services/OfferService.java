@@ -21,4 +21,10 @@ public interface OfferService {
 	public void rejectOfferForBike(Bike b, Offer o);
 	
 	public Offer getOfferById(Integer id);
+
+	public void deleteOffer(Offer updatedOffer1);
+
+	public Set<Offer> getAll();
+
+	public Offer addOffer(Offer offer1);
 }

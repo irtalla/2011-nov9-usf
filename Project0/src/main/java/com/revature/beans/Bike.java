@@ -1,11 +1,14 @@
 package com.revature.beans;
 
+import java.util.Set;
+
 public class Bike {
 	private Integer id;
 	private String brand;
 	private String model;
 	private String color;
 	private Status status;
+	private Set<Offer> offers;
 	
 	public Integer getId() {
 		return id;
@@ -36,5 +39,11 @@ public class Bike {
 	}
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	public Set<Offer> getOffers() {
+		return offers;
+	}
+	public void setOffers(Set<Offer> offers) {
+		this.offers = offers;
 	}
 }
