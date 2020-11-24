@@ -117,7 +117,7 @@ public class UserHandler {
 		os.makeOffer(offer);
 	}
 
-	public void seeActiveOffers(Person user) {
+	public static void viewActiveOffers(Person user) {
 		System.out.println("Printing all offers...");
 		Set<Offer> allOffers = os.getActiveOffer();
 		for(Offer o : allOffers) {
@@ -125,8 +125,8 @@ public class UserHandler {
 		}
 	}
 
-	public void acceptOffer(Person user) {
-		seeActiveOffers(user);
+	public static void acceptOffer(Person user) {
+		viewActiveOffers(user);
 		System.out.println("Which offer would you like to accept? (-1 to cancel)");
 
 		Set<Offer> allOffers = os.getActiveOffer();
@@ -161,8 +161,8 @@ public class UserHandler {
 		os.acceptOffer(offer.getId(), user);
 	}
 	
-	public void rejectOffer(Person user) {
-		seeActiveOffers(user);
+	public static void rejectOffer(Person user) {
+		viewActiveOffers(user);
 		System.out.println("Which offer would you like to reject? (-1 to cancel)");
 
 		Set<Offer> allOffers = os.getActiveOffer();

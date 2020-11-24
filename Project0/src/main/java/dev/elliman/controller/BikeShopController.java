@@ -155,17 +155,35 @@ public class BikeShopController {
 				logout();
 				return;
 			case 1:
-				UserHandler.purchaseBike(currentUser);
+				UserHandler.viewAvalibleBikes(currentUser);
 				break;
 			case 2:
-				UserHandler.addBike(currentUser);
+				UserHandler.purchaseBike(currentUser);
 				break;
 			case 3:
+				UserHandler.viewOwnedBikes(currentUser);
+				break;
+			case 4:
+				UserHandler.viewAllRemainingPayments(currentUser);
+				break;
+			case 5:
+				UserHandler.addBike(currentUser);
+				break;
+			case 6:
 				UserHandler.removeBike(currentUser);
 				break;
-//			case 4:
-//				UserHandler.promoteUser(currentUser);
-//				break;
+			case 7:
+				UserHandler.viewActiveOffers(currentUser);
+				break;
+			case 8:
+				UserHandler.acceptOffer(currentUser);
+				break;
+			case 9:
+				UserHandler.rejectOffer(currentUser);
+				break;
+			case 10:
+				UserHandler.viewAllRemainingPayments(currentUser);
+				break;
 			}
 		}
 		
