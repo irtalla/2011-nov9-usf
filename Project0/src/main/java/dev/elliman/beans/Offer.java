@@ -67,6 +67,15 @@ public class Offer {
 	public void setPaymentSize(Integer paymentSize) {
 		this.paymentSize = paymentSize;
 	}
+	
+	public Integer makePayment(Integer paymentSize) {
+		paymentRemaining -= paymentSize;
+		return paymentRemaining;
+	}
+	
+	public Integer makePayment() {
+		return makePayment(paymentSize);
+	}
 
 	@Override
 	public int hashCode() {
