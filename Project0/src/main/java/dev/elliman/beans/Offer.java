@@ -21,6 +21,7 @@ public class Offer {
 	
 	public void accept() {
 		status = "Accepted";
+		paymentRemaining = price;
 	}
 	
 	public void reject() {
