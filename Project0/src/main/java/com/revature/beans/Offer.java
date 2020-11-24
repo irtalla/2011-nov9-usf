@@ -4,11 +4,13 @@ public class Offer {
 	private Integer id;
 	private Integer userId;
 	private Integer bikeId;
+	private String offerStatus;
 	
 	public Offer() {
 		id = 0;
 		userId = 0;
 		bikeId=0;
+		offerStatus ="";
 	}
 	
 	public Integer getId() {
@@ -29,6 +31,14 @@ public class Offer {
 	}
 	public void setBikeId(Integer bikeId) {
 		this.bikeId = bikeId;
+	}
+	
+	public  String getOfferStatus() {
+		return offerStatus;
+	}
+	
+	public void setOfferStatus(String offerStatus) {
+		this.offerStatus = offerStatus;
 	}
 	
 	

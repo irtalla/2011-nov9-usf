@@ -4,7 +4,7 @@ import java.util.Set;
 
 
 import com.revature.beans.Offer;
-import com.revature.beans.User;
+//import com.revature.beans.User;
 
 
 public interface OfferService {

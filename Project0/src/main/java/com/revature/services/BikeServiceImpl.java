@@ -5,14 +5,17 @@ import java.util.Set;
 import com.revature.beans.Bike;
 import com.revature.beans.User;
 import com.revature.beans.Status;
+
 import com.revature.data.BikeDAO;
 import com.revature.data.BikeDAOFactory;
 import com.revature.data.UserDAO;
 import com.revature.data.UserDAOFactory;
 
+
 public class BikeServiceImpl implements BikeService {
 	private BikeDAO bikeDao;
 	private UserDAO userDao;
+	
 	
 	public BikeServiceImpl() {
 		BikeDAOFactory bikeDaoFactory = new BikeDAOFactory();
@@ -44,6 +47,7 @@ public class BikeServiceImpl implements BikeService {
     }
     @Override
     public void ownBike(User u, Bike b) {
+    	//Offer offer = new Offer();
     	Status status = new Status();
     	status.setId(2);
     	status.setName("owned");
@@ -55,6 +59,10 @@ public class BikeServiceImpl implements BikeService {
         userDao.update(u);
         //dump into user bike table
     }
+    
+    
+    
+    
     @Override
     public void removeBike(Bike b) {
         bikeDao.delete(b);

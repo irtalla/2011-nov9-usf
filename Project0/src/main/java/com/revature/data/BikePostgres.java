@@ -137,9 +137,27 @@ public class BikePostgres implements BikeDAO {
 	}
 
 	@Override
-	public void delete(Bike t) {
+	public void delete(Bike b) {
 		// TODO Auto-generated method stub
-
+		try (Connection conn =  cu.getConnection())
+		{
+			conn.setAutoCommit(false);
+			String sql = "delete from bike where bike.id = ?;";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, b.getId());
+			//pstmt.setInt(2, b.getId());
+			int rowsAffected = pstmt.executeUpdate();
+			
+			if (rowsAffected > 0)
+				conn.commit();
+			else
+				conn.rollback();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 
 }

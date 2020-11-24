@@ -12,11 +12,14 @@ import com.revature.beans.Model;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
+import com.revature.beans.Offer;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.BikeService;
 import com.revature.services.BikeServiceImpl;
 import com.revature.services.UserService;
 import com.revature.services.UserServiceImpl;
+import com.revature.services.OfferService;
+import com.revature.services.OfferServiceImpl;
 import com.revature.utils.ConnectionUtil;
 
 public class BikeAppController {
@@ -24,6 +27,7 @@ public class BikeAppController {
 	public static Scanner scan;
 	private static UserService userServ = new UserServiceImpl();
 	private static BikeService bikeServ = new BikeServiceImpl();
+	private static OfferService offerServ = new OfferServiceImpl();
 	
 	public static void main(String[] args) {
 		
@@ -62,13 +66,13 @@ public class BikeAppController {
 			//User Menu
 			menuLoop: while (true) {
 				System.out.println("Main Menu: Enter Number to Select Option");
-				System.out.println("1. Available Bikes\n2. View your Bikes\n6. Quit");
+				System.out.println("1. Available Bikes\n2. View your Bikes\n6. Log Out");
 				
 				//check if user is a customer or an employee
 				if (loggedInUser.getRole().getName().equals("Customer")) {
 					//System.out.println("6. Log out");
 				} else if (loggedInUser.getRole().getName().equals("Employee")) {
-					System.out.println("3. Manage Bikes\n4. Manage Offers\n5. View all Payments\n Q to Log out");
+					System.out.println("3. Manage Bikes\n4. Manage Offers\n5. View all Payments");
 				}
 				int userInput = Integer.valueOf(scan.nextLine());
 				
@@ -109,24 +113,24 @@ public class BikeAppController {
 	private static User registerUser() {
 		while (true) {
 			User newAccount = new User();
-			System.out.println("Enter a username: ");
+			System.out.println("Enter a username:\n ");
 			newAccount.setUsername(scan.nextLine());
-			System.out.println("Enter a password: ");
+			System.out.println("Enter a password:\n ");
 			newAccount.setPassword(scan.nextLine());
-			System.out.println("Enter your first name: ");
+			System.out.println("Enter your first name:\n ");
 			newAccount.setFirstName(scan.nextLine());
-			System.out.println("Enter your last name: ");
+			System.out.println("Enter your last name:\n ");
 			newAccount.setLastName(scan.nextLine());
 			Role r = new Role();
 			r.setId(1);
 			r.setName("Customer");
 			newAccount.setRole(r);
-			System.out.println("Does this look good?");
+			System.out.println("Does this look good?\n");
 			System.out.println("Username: " + newAccount.getUsername()
-					+ " Password: " + newAccount.getPassword()
-					+ "First Name: " + newAccount.getFirstName()
-					+ "Last Name: " + newAccount.getLastName());
-			System.out.println("1 to confirm, 2 to start over, Q to cancel");
+					+ " \nPassword: " + newAccount.getPassword()
+					+ "\nFirst Name: " + newAccount.getFirstName()
+					+ "\nLast Name: " + newAccount.getLastName());
+			System.out.println("1. confirm\n2. start over\n3. Cancel");
 			int input = Integer.valueOf(scan.nextLine());
 			switch (input) {
 			case 1:
@@ -153,9 +157,9 @@ public class BikeAppController {
 	//login user
 	private static User logInUser() {
 		while (true) {
-			System.out.println("Enter username: ");
+			System.out.println("Enter username:\n ");
 			String username = scan.nextLine();
-			System.out.println("Enter password: ");
+			System.out.println("Enter password:\n ");
 			String password = scan.nextLine();
 			
 			User user = userServ.getUserByUsername(username);
@@ -167,7 +171,7 @@ public class BikeAppController {
 			} else {
 				System.out.print("Incorrect Password. ");
 			}
-			System.out.println("Do you want to try again? 1 for yes, 2 for no.");
+			System.out.println("Do you want to try again?\n1. Yes\n2. No.");
 			int input = Integer.valueOf(scan.nextLine());
 			if (input != 1) {
 				break;
@@ -187,7 +191,7 @@ public class BikeAppController {
 			System.out.println(bike);
 		}
 
-		System.out.println("Would you like to Buy a Bike? 1 for yes, other for no");
+		System.out.println("Would you like to Buy a Bike?\n 1. Yes\n2. No");
 		int input = Integer.valueOf(scan.nextLine());
 		if (input == 1) {
 			while (true) {
@@ -196,23 +200,27 @@ public class BikeAppController {
 				Bike bike = bikeServ.getBikeById(input);
 				if (bike != null && bike.getStatus().getName().equals("Available")) {
 					System.out.println(bike);
-					System.out.println("You want to buy " + bike.getName() + "? 1 for yes, other for no");
+					System.out.println("Do you want to make an offer to buy the " + bike.getName() + "?\n1. Yes\n2.No");
 					input = Integer.valueOf(scan.nextLine());
 					if (input == 1) {
-						bikeServ.ownBike(user, bike);
+						//offerServ.(user, bike);
+						Offer offer = new Offer();
+						offer.setUserId(user.getId());
+						offer.setBikeId(bike.getId());
+						offer.setOfferStatus("Pending");
 						System.out.println("You did it! You offered for a bike " + bike.getName() + ".");
 						// get the person with their updated cat set
 						user = userServ.getUserById(user.getId());
 						break;
 					} else {
-						System.out.println("Okay, did you want to buy a different one? 1 for yes, other for no");
+						System.out.println("Would you like to buy another Bike?\n1. Yes\2. No");
 						input = Integer.valueOf(scan.nextLine());
 						if (input != 1)
 							break;
 					}
 				} else {
-					System.out.println("Sorry, that's not an available bike. Do you want to try again?"
-							+ " 1 for yes, other for no");
+					System.out.println("Sorry, that's not an available bike. Do you want to try again?\n"
+							+ "1. Yes\n2. No");
 					input = Integer.valueOf(scan.nextLine());
 					if (input != 1) {
 						System.out.println("Okay, that's fine.");
@@ -245,7 +253,7 @@ public class BikeAppController {
 	//Employee Manage Bikes
 	private static User manageBikes(User user) {
 		
-		System.out.println("Manage Bikes: 1. Create Bike2. Delete Bike\n3. Back to Main Menu");
+		System.out.println("Manage Bikes: \n1. Create Bike\n2. Delete Bike\n3. Back to Main Menu");
 		int input;
 		input = Integer.valueOf(scan.nextLine());
 		if (input == 1) {
@@ -297,7 +305,7 @@ public class BikeAppController {
 			bikeToRemove = bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
 			System.out.println("Bikes To Delete:\n-------------\n");
 			System.out.println(bikeToRemove);
-			System.out.print("----------------");
+			System.out.print("----------------\n");
 			System.out.println("Remove this Bike?\n1. Yes\n2. No");
 			input = Integer.valueOf(scan.nextLine());
 			if(input == 1) {
