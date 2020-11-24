@@ -23,6 +23,5 @@ public interface ProductService {
 	public void setOwnerForProduct(Person p, Product c);
 	// "delete" methods
 	public void removeProduct(Integer productId);
-	public void addOfferForProduct(Integer customerId, Integer productId, Double offerPrice);
-	public void getRemainingPaymentsForProduct(Integer productId); 
+	public void getRemainingPayments(Integer productId); 
 }

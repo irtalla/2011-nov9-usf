@@ -1,27 +1,32 @@
 package com.revature.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.revature.beans.Offer;
 import com.revature.beans.Product;
+import com.revature.beans.Purchase;
 import com.revature.beans.Person;
 import com.revature.data.ProductDAO;
 import com.revature.data.ProductDAOFactory;
+import com.revature.data.PurchaseDAO;
+import com.revature.data.PurchasePostgres;
 import com.revature.data.PersonDAO;
 
 public class ProductServiceImpl implements ProductService {
 	private ProductDAO productDao;
-	private PersonDAO userDao;
-	
+	private PersonDAO personDao;
+	private PurchaseDAO purchaseDao; 
 	
 	
 	public ProductServiceImpl() {
 		ProductDAOFactory productDaoFactory = new ProductDAOFactory();
+	
 		try {
 			productDao = productDaoFactory.getProductDAO();
+			purchaseDao = new PurchasePostgres(); 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -46,15 +51,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Set<Product> getProductsByOwnerId(Integer customerId) {
 		
-		Set<Product> products = productDao.getAll(); 
-		
-		try {
-			products.removeIf( p -> p.getOwerId() != customerId );
-			return products; 
-		} catch (NullPointerException e) {
-			System.out.println(e);
-			return products; 
-		}
+		Set<Purchase> purchases = purchaseDao.getPurchasesByCustomerId(customerId);
+		Set<Product> products = new HashSet<Product>(); 
+		purchases.forEach( purchase -> products.add( productDao.getById(purchase.getProductId()) ) );
+		return products; 
 	}
 
 
@@ -82,14 +82,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public void setOwnerForProduct(Person p, Product c) {
-		
-		c.setOwnerId(p.getId());
-		
-		p.getOwnProducts().add(c); 
-		
-		this.productDao.update(c);
-		
+	public void setOwnerForProduct(Person p, Product c) {	
 	}
 
 
@@ -100,35 +93,25 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 
-
 	@Override
-	public void addOfferForProduct(Integer customerId, Integer productId, Double offerPrice) {
+	public void getRemainingPayments(Integer customerId) {
 		
-		Offer newOffer = new Offer(); 
-		newOffer.setProductId(productId);
-		newOffer.setCustomerId(customerId);
-		newOffer.setAmount(offerPrice);
-		
-		Product product = this.productDao.getById(productId); 
-		Set<Offer> offers = product.getOffers();
-		offers.add(newOffer); 
-		product.setOffers(offers);
-		
-		// TODO update offers collection. product service must call offer service... 
+		Set<Product> myProducts = getProductsByOwnerId(customerId); 
+		myProducts.forEach( product -> displayPayments(product));
 	}
-
-
-
-	@Override
-	public void getRemainingPaymentsForProduct(Integer productId) {
-		
-		 Double price = this.productDao.getById(productId).getPrice(); 
+	
+	private void displayPayments(Product product) {
+ 
 		 Double minPayment = 150.00; 
-		 
-		 System.out.printf("%d payments of %f \n 1 final payment of %f",
-				 price / minPayment, 
-				 minPayment,
-				 price % minPayment
+	
+		 System.out.printf("We hope you enjoy your new product: %s!\n"
+		 		+ "We at Generic Product Inc. are happy to provide you "
+		 		+ "with the following finance option:\n"
+		 		+ "%d payments of %f\n 1 final payment of %f.\n",
+		 		product.getName(),
+				Math.floor( product.getPrice() / minPayment ), 
+				minPayment,
+				product.getPrice()% minPayment
 				 ); 	
 	}
 }

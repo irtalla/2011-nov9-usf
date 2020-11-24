@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,24 +20,20 @@ public class PurchasePostgres implements PurchaseDAO {
 	@Override
 	public Purchase add(Purchase t) {
 		
-		Integer rowsAdded = 0; 
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into purchase values (?, ?)";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, t.getCustomerId() );
-			pstmt.setInt(2, t.getProductId() );
-			rowsAdded = pstmt.executeUpdate();
-			
-			if (rowsAdded > 1) {
-				// throw error
-				conn.rollback();
-			} 
+			String sql = " call finalize_purchase(?,?) ";
+			CallableStatement cstmt = conn.prepareCall(sql);
+			cstmt.setInt(1, t.getCustomerId() );
+			cstmt.setInt(2, t.getProductId() );
+			cstmt.executeUpdate();
+			conn.commit();
+			return t; 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return rowsAdded == 1 ? t : null;
+		return null;
 	}
 
 	@Override

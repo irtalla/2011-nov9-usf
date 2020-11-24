@@ -218,7 +218,7 @@ public class Application {
 		System.out.println( object.toString() ); 
 	}
 	
-	public static <T> void displayData( Set<T> objects) {
+	public static <T> void displayDataSet( Set<T> objects) {
 		objects.forEach( object -> printToScreen(object) );
 	}
 	

@@ -104,11 +104,11 @@ public class Product {
 	@Override
 	public String toString() {
 		return String.format(
-				  "id: %d"
-				+ "name: %s"
-				+ "price: %f"
-				+ "status: %s"
-				+ "category: %s",
+				  "id: %d\n"
+				+ "name: %s\n"
+				+ "price: %f\n"
+				+ "status: %s\n"
+				+ "category: %s\n",
 				id, name, price, status.getName(), category.getName()
 				);
 	}

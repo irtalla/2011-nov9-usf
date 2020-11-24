@@ -2,11 +2,10 @@ package com.revature.controller;
 
 import java.util.List;
 
+import com.revature.beans.Offer;
 import com.revature.beans.Product;
 import com.revature.services.OfferService;
 import com.revature.services.OfferServiceImpl;
-import com.revature.services.PersonService;
-import com.revature.services.PersonServiceImpl;
 import com.revature.services.ProductService;
 import com.revature.services.ProductServiceImpl;
 
@@ -26,17 +25,18 @@ public class CustomerController {
 			"	VIEW_MY_PAYMENTS [product id]	- view all payments",
 	};
 	
-	private CustomerController() {}
+	private CustomerController() {
+		
+		CustomerController.productService = new ProductServiceImpl();  
+		CustomerController.offerService = new OfferServiceImpl(); 
+	}
 	
 	public static CustomerController getCustomerController() {
 		
 		if (CustomerController.customerController == null) {
 			CustomerController.customerController =  new CustomerController();
-			EmployeeController.productService = new ProductServiceImpl();  
-			EmployeeController.offerService = new OfferServiceImpl(); 
 		}
 		return CustomerController.customerController; 
-		
 	}
 	
 	private static void createAndAddOffer() {
@@ -45,8 +45,13 @@ public class CustomerController {
 		System.out.print("Enter the id for the product for which you are making an offer: ");
 		final Integer productId = Integer.parseInt(Application.userInputScanner.nextLine()); 
 		System.out.print("Enter the amount you want to offer for this product: "); 
-		final Double offerPrice = Double.parseDouble(Application.userInputScanner.nextLine()); 
-		CustomerController.productService.addOfferForProduct(customerId, productId, offerPrice);
+		final Double offerAmount = Double.parseDouble(Application.userInputScanner.nextLine()); 
+		
+		Offer newOffer = new Offer(); 
+		newOffer.setCustomerId(customerId);
+		newOffer.setProductId(productId);
+		newOffer.setAmount(offerAmount); 
+		CustomerController.offerService.add(newOffer);
 	}
 	
 	// Split and move to controllers
@@ -71,16 +76,20 @@ public class CustomerController {
 				break; 
 			// CUSTOMER ACTIONS : GET_PRODUCTS, MAKE_OFFER, VIEW_MY_PRODUCTS, VIEW_REMAINING_PAYMENTS
 			case "GET_PRODUCTS":
-				CustomerController.productService.getAvailableProducts(); 
+				Application.displayDataSet( CustomerController.productService.getAvailableProducts() ); 
 				break;
 			case "MAKE_OFFER":
 				CustomerController.createAndAddOffer();
 				break;
 			case "VIEW_MY_PRODUCTS": 
-				CustomerController.productService.getProductsByOwnerId( Application.getCurrentUser().getId() ); 
+				Application.displayDataSet(CustomerController.productService
+						.getProductsByOwnerId( 
+								Application.getCurrentUser().getId() 
+								)
+						);
 				break;
-			case "VIEW_REMAINING_PAYMENTS":
-				CustomerController.productService.getRemainingPaymentsForProduct(Integer.parseInt( userInputArray[0]));
+			case "VIEW_MY_PAYMENTS":
+				CustomerController.productService.getRemainingPayments(Application.getCurrentUser().getId() );
 				break; 
 			default: 
 				System.out.printf("Sorry, I didn't understand that! Check your spelling. Unknown command: %s\n", userInput);

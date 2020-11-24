@@ -13,6 +13,7 @@ import com.revature.beans.Offer;
 
 public interface OfferService {
 	
+	public Offer add(Offer offer); 
 	public Set<Offer> getOffers(); 
 	public Set<Offer> getOffersByProductId(Integer productId);
 	public boolean acceptOffer(Integer offerId); 

@@ -201,7 +201,7 @@ public class ProductPostgres implements ProductDAO {
 	public boolean update(Product t) {
 		
 		Integer rowsUpdated = 0; 
-		try (Connection conn = cu.getConnection()) {
+		try (Connection conn = cu.getConnection()) { 
 			conn.setAutoCommit(false);
 			String sql = " update product "
 							+ " set status_id = ?"
@@ -218,8 +218,7 @@ public class ProductPostgres implements ProductDAO {
 				// TODO throw error
 				conn.rollback();
 			}
-	
-			conn.rollback();
+			conn.commit();
 			
 		} catch (Exception e) {
 			e.printStackTrace();		
@@ -241,10 +240,14 @@ public class ProductPostgres implements ProductDAO {
 		Integer rowsUpdated = 0; 
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = " delete from product "
-			+ " where "
-			+ " product.id = ?"; 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			String sql_delete_prod = " delete from product "
+									+ " where "
+									+ " product.id = ?"; 
+			
+			
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql_delete_prod);
 			pstmt.setInt(1, t.getId() );
 
 			rowsUpdated = pstmt.executeUpdate();

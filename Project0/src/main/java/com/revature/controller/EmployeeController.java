@@ -46,7 +46,7 @@ public class EmployeeController {
 		final String[] userResponseArray = userResponse.split(" "); 
 		final String command = userResponseArray[0].toUpperCase(); 
 		final Integer productId = userResponseArray.length > 1 ? 
-				Integer.parseInt( userResponseArray[1 ])
+				Integer.parseInt( userResponseArray[1])
 				: null; 
 				
 		final Integer offerId = productId; 
@@ -65,13 +65,11 @@ public class EmployeeController {
 			case "EXIT": 
 				Application.showExitScreen();
 				break; 
-			
-			// CUSTOMER ACTIONS : GET_PRODUCTS, VIEW_REMAINING_PAYMENTS
 			case "GET_PRODUCTS":
 				EmployeeController.productService.getAvailableProducts(); 
 				break;
 			case "VIEW_REMAINING_PAYMENTS":
-				EmployeeController.productService.getRemainingPaymentsForProduct(productId);
+//				EmployeeController.productService.getRemainingPayments(productId);
 				break; 
 				
 			// EMPLOYEE ACTIONS : ADD_PRODUCT, REMOVE_PRODUCT, VIEW_ALL_OFFERS, ACCEPT_OFFER, REJECT_OFFER, VIEW_ALL_PAYMENTS
@@ -94,8 +92,6 @@ public class EmployeeController {
 			case "REJECT_OFFER":
 				EmployeeController.offerService.rejectOffer(offerId); 
 				break; 
-				
-				
 			default: 
 				System.out.printf("Sorry, I didn't understand that! Check your spelling. Unknown command: %s\n", userResponse);
 		}	
