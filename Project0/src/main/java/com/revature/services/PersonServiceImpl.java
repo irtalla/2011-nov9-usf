@@ -14,8 +14,8 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	@Override
-	public Integer addPerson(Person p) throws NonUniqueUsernameException {
-		return personDao.add(p).getId();
+	public Person addPerson(Person p) throws NonUniqueUsernameException {
+		return personDao.add(p);
 	}
 
 	@Override

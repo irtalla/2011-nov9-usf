@@ -1,4 +1,4 @@
-package com.revature.controllers;
+package com.revature.app;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -11,6 +11,8 @@ import com.revature.beans.Status;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.BikeService;
 import com.revature.services.BikeServiceImpl;
+import com.revature.services.OfferService;
+import com.revature.services.OfferServiceImpl;
 import com.revature.services.PersonService;
 import com.revature.services.PersonServiceImpl;
 
@@ -18,17 +20,18 @@ public class BikeShop {
 	private static Scanner scan;
 	private static PersonService personServ;
 	private static BikeService bikeServ;
+	private static OfferService offerServ;
 	
 	static {
 		scan = new Scanner(System.in);
 		personServ = new PersonServiceImpl();
 		bikeServ = new BikeServiceImpl();
-		offerService = new OfferServiceImpl();
+		offerServ = new OfferServiceImpl();
 	}
 	
 	public static void main(String[] args) {
 		boolean proceed = true;
-		Scanner scan = new 
+		
 		while(proceed) {
 			System.out.println("Hello! Welcome to the Bike Shop!");
 			Person loggedInUser = null;
@@ -46,8 +49,7 @@ public class BikeShop {
 					loggedInUser = logInUser();
 					break;
 				default:
-					userActive = false;
-					break mainLoop;
+					break;
 				}
 			}
 		}
@@ -76,10 +78,10 @@ public class BikeShop {
 			switch (input) {
 			case 1:
 				try {
-					newAccount.setId(personServ.addPerson(newAccount));
+					newAccount.setId(personServ.addPerson(newAccount).getId());
 					System.out.println("Confirmed. Welcome!");
 					return newAccount;
-				} bikech (NonUniqueUsernameException e) {
+				} catch (NonUniqueUsernameException e) {
 					System.out.println("Sorry, that username is taken - let's try again.");
 				}
 				break;
@@ -120,7 +122,7 @@ public class BikeShop {
 	}
 	
 	private static Person viewAvailableBikes(Person user) {
-		Set<Bike> availableBikes = bikeServ.getAvailableCats();
+		Set<Bike> availableBikes = bikeServ.getAvailableBikes();
 		
 		for (Bike bike : availableBikes) {
 			System.out.println(bike);
@@ -166,7 +168,7 @@ public class BikeShop {
 							}
 						}
 						
-						bikeServ.receiveOffer(bike, newOffer);
+						offerServ.makeOffer(newOffer);
 						System.out.println("Thank you! We'll consider your offer.");
 						// get the person with their updated bikeset
 						user = personServ.getPersonById(user.getId());
@@ -207,10 +209,13 @@ public class BikeShop {
 				int input = Integer.valueOf(scan.nextLine());
 				if (input == 1) {
 					System.out.println("Which one? Type its ID.");
+					
 					input = Integer.valueOf(scan.nextLine());
-					Bike bike = bikeServ.getCatById(input);
+					Bike bike = bikeServ.getBikeById(input);
+					
+					Offer acceptedOffer = offerServ.getAcceptedOfferForBike(bike);
 					if (bike != null && user.getBikes().contains(bike)) {
-						System.out.println("Your remaining payments for the " + bike.getBrand() "bike with id " + bike.getId() + "are " + bikeServ.getRemainingPaymentBalanc() + "for " + bike.getRemainingWeeklyPayments() + " more weeks" );
+						System.out.println("Your remaining payments for the " + bike.getBrand() + "bike with id " + bike.getId() + "are " + acceptedOffer.getWeeklyPayment() + "for " + acceptedOffer.getWeeks() + " more weeks" );
 						viewRemainingPayments = false;
 					} else
 						System.out.println("Sorry, that's not one of your bikes.");
@@ -223,7 +228,7 @@ public class BikeShop {
 		}
 	}
 	
-	private static Person manageCats(Person user) {
+	private static Person manageBikes(Person user) {
 		if (!(user.getRole().getName().equals("Employee")))
 			return null;
 		
@@ -248,15 +253,15 @@ public class BikeShop {
 				System.out.println("Look good? 1 to confirm, other to start over");
 				input = Integer.valueOf(scan.nextLine());
 				if (input == 1) {
-					newBike.setId(bikeServ.addCat(newBike));
+					newBike.setId(bikeServ.addBike(newBike).getId());
 					System.out.println("You successfully added a " + newBike.getBrand() + "wit id " + newBike.getId() + "!");
 				}
 			} else if (input == 2) {
-				for (Bike bike: bikeServ.getAvailableCats()) {
+				for (Bike bike: bikeServ.getAvailableBikes()) {
 					System.out.println(bike);
 				}
 				System.out.println("Which bikewould you like to update? Enter its ID.");
-				Bike bike= bikeServ.getCatById(Integer.valueOf(scan.nextLine()));
+				Bike bike= bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
 				Bike newBike = bike;
 				if (bike!= null) {
 					System.out.println("Editing bike with id" + bike.getId());

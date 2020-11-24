@@ -15,7 +15,7 @@ public interface BikeService {
 	public void deleteBike(Bike p);
 	
 	
-	public Set<Bike> getAvalailableBikes();
+	public Set<Bike> getAvailableBikes();
 
 //	public Bike getByModel(String model); 
 	

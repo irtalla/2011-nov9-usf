@@ -38,7 +38,7 @@ public class BikeServiceImpl implements BikeService{
 	}
 	
 	@Override
-	public Set<Bike> getAvalailableBikes() {
+	public Set<Bike> getAvailableBikes() {
 		return bikeDao.getAvailableBikes();
 	}
 

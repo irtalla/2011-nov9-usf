@@ -25,7 +25,7 @@ public class Offer {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	public double weeklyPayment() {
+	public double getWeeklyPayment() {
 		return weeklyPayment;
 	}
 	

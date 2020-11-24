@@ -151,9 +151,9 @@ public class PersonPostgres implements PersonDAO{
 	}
 
 	@Override
-	public void update(Person t) {
+	public Person update(Person t) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override

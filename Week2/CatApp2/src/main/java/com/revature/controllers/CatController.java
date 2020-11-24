@@ -76,8 +76,7 @@ public class CatController {
 				catServ.adoptCat(p, cat);
 				ctx.json(cat);
 				ctx.status(200);
-			}
-			
+			}		
 		}else {
 			ctx.status(401);
 		}

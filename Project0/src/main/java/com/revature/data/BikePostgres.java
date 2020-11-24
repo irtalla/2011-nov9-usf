@@ -89,9 +89,9 @@ public class BikePostgres implements BikeDAO {
 	}
 
 	@Override
-	public void update(Bike t) {
+	public Bike update(Bike t) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
