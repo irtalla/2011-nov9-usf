@@ -181,7 +181,6 @@ public class UserPostgres implements UserDAO {
 			pstmt.setInt(1, offer.getCustomerId());
 			pstmt.setInt(2, offer.getBikeId());
 			Integer rowsAffected = pstmt.executeUpdate();
-			System.out.println("accept offer rowsaffected (1) : " + rowsAffected);
 			if (rowsAffected > 0) {
 				con.commit();
 			} else {
@@ -193,7 +192,6 @@ public class UserPostgres implements UserDAO {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, offer.getBikeId());
 			rowsAffected = pstmt.executeUpdate();
-			System.out.println("accept offer rowsaffected (2) : " + rowsAffected);
 			if (rowsAffected > 0) {
 				con.commit();
 			} else {
@@ -216,22 +214,11 @@ public class UserPostgres implements UserDAO {
 			pstmt.setInt(3, finance.getBike_id());
 			pstmt.setInt(4, finance.getPaymentAmount());
 			pstmt.setInt(5, finance.getRemainingPayments());
-			System.out.println("insert args: " + finance.getBalance() 
-												+ " " +finance.getUser_id()
-												+" " +finance.getBike_id()
-												+" " +finance.getPaymentAmount()
-												+" " +finance.getRemainingPayments());
+
 			pstmt.executeUpdate();
 			ResultSet results = pstmt.getGeneratedKeys();
 			con.commit();
-			System.out.println("accept offer result (3): " + results.toString());
-//			if (results.next()) {
-//				System.out.println("accepted");
-//				con.commit();
-//			} else {
-//				System.out.println("rejected");
-//				con.rollback();
-//			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,11 +232,10 @@ public class UserPostgres implements UserDAO {
 		try (Connection con = cu.getConnection()) {
 			con.setAutoCommit(false);
 
-			String sql = "delete from offer where bike_id = ?";
+			String sql = "delete from offer where id = ?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, offer.getCustomerId());
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, offer.getBikeId());
+			pstmt.setInt(1, offer.getId());
 
 			rowsAffected = pstmt.executeUpdate();
 

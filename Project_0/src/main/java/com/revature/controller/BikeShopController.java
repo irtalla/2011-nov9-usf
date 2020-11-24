@@ -33,6 +33,9 @@ public class BikeShopController {
 			String userInput = scan.nextLine();
 			if (userInput.toLowerCase().equalsIgnoreCase("login")) {
 				user = logInUser();
+				if(user == null) {
+					continue;
+				}else
 				break loginLoop;
 			} else if (userInput.toLowerCase().equalsIgnoreCase("register")) {
 				user = registerUser();
