@@ -57,21 +57,18 @@ public class BikePostgres implements BikeDAO {
 		Set<Bike> bikes = new HashSet<>();
 		
 		try (Connection conn = cu.getConnection()) {
-			String sql = "select bike_status.id, bike_status.name, brand, model, color, status_id, status_name, "
-					+ "from bike join status on status_id = status.id) as bike_status "
-					+ "join breed on breed_id = breed.id";
+			String sql = "select status.id, status.name, brand, model, color, status_id, status_name, "
+					+ "from bike join status on status_id = status.id ";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while (rs.next()) {
 				Bike bike = new Bike();
 				bike.setId(rs.getInt("id"));
-				bike.setName(rs.getString("name"));
-				bike.setAge(rs.getInt("age"));
-				Breed b = new Breed();
-				b.setId(rs.getInt("breed_id"));
-				b.setName(rs.getString("breed_name"));
-				bike.setBreed(b);
+				bike.setModel(rs.getString("brand"));
+				bike.setModel(rs.getString("model"));
+				bike.setModel(rs.getString("color"));
+				
 				Status s = new Status();
 				s.setId(rs.getInt("status_id"));
 				s.setName(rs.getString("status_name"));

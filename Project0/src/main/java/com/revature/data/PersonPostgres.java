@@ -15,7 +15,11 @@ import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.utils.ConnectionUtil;
 
 public class PersonPostgres implements PersonDAO{
-	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
+	private ConnectionUtil cu;
+	
+	{
+		cu = ConnectionUtil.getConnectionUtil();
+	}
 
 	@Override
 	public Person add(Person t) throws NonUniqueUsernameException {
