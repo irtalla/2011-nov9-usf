@@ -151,7 +151,7 @@ public class BikePostgres implements BikeDAO {
 		Set<Bike> bikes = new HashSet<>();
 
 		try(Connection conn = cu.getConnection()){
-			String sql = "select * from bike_shop.bike where owner = 1";
+			String sql = "select * from bike_shop.bike where bike_owner = 1";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 

@@ -32,7 +32,7 @@ public class UserHandler {
 		//an employee is adding a bike to the listing
 		System.out.print("Model of bike: ");
 		String model = input.nextLine();
-		System.out.println("Color of bike: ");
+		System.out.print("Color of bike: ");
 		String color = input.nextLine();
 		System.out.println("Adding bike to the database");
 

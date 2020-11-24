@@ -147,7 +147,7 @@ public class BikeShopController {
 		while(true) {
 			//display options to the user
 			System.out.println("What would you like to do?");
-			System.out.println(currentUser.getRole().getOptions()[0]);
+			//System.out.println(currentUser.getRole().getOptions()[0]);
 			Integer optionSelected = getInput(currentUser.getRole().getOptions());
 			
 			switch(optionSelected) {
