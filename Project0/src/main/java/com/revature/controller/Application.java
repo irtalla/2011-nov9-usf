@@ -134,6 +134,8 @@ public class Application {
 		while (Application.isRunning) {
 			Application.getUserResponse();
 		}
+		
+		System.out.println("Execution of application has terminated successfully");
 	}
 	
 	private static void setRunning(boolean isRunning) {
@@ -144,7 +146,7 @@ public class Application {
 	
 	static void getUserResponse() {
 		
-		System.out.print("Enter input here: "); 
+		System.out.printf("(%s) Enter input here: ", Application.getCurrentUser().getUsername()); 
 		String userResponse = Application.userInputScanner.nextLine();
 		
 		String userRoleName = Application.getCurrentUser().getRole().getName(); 
@@ -159,6 +161,7 @@ public class Application {
 	}
 	
 	static String getUserInput() {
+		System.out.printf("(%s) Enter input here: ", Application.getCurrentUser().getUsername());
 		return Application.userInputScanner.nextLine();
 	}
 	/**
@@ -206,7 +209,8 @@ public class Application {
 	
 	public static void exit() {
 		Application.userInputScanner.close();
-		Application.showWelcomeScreen();
+		Application.showExitScreen();
+		Application.setRunning(false);
 	}
 	
 	public static void showExitScreen() {
@@ -219,7 +223,12 @@ public class Application {
 	}
 	
 	public static <T> void displayDataSet( Set<T> objects) {
-		objects.forEach( object -> printToScreen(object) );
+		
+		if ( objects.size() > 0 ) {
+			objects.forEach( object -> printToScreen(object) );
+		} else {
+			System.out.printf("\n\nNothing to display\n\n"); 
+		}
 	}
 	
 	private static boolean setCurrentUser(Person user) {
@@ -301,6 +310,16 @@ public class Application {
 		}
 
 		
+		
+	}
+
+	public static void logout() {
+		
+		Person currentUser = getCurrentUser();
+		currentUser = null; 
+		showExitScreen(); 
+		System.out.printf("\n\n\n\n\n\n\n\n\n");
+		showWelcomeScreen(); 
 		
 	}; 
 	

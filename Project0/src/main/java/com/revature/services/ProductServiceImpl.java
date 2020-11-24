@@ -80,13 +80,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 
-
-	@Override
-	public void setOwnerForProduct(Person p, Product c) {	
-	}
-
-
-
 	@Override
 	public void removeProduct(Integer productId) {
 		this.productDao.delete( this.productDao.getById(productId) );
@@ -97,7 +90,13 @@ public class ProductServiceImpl implements ProductService {
 	public void getRemainingPayments(Integer customerId) {
 		
 		Set<Product> myProducts = getProductsByOwnerId(customerId); 
-		myProducts.forEach( product -> displayPayments(product));
+		
+		if ( myProducts.size() > 0 ) {
+			myProducts.forEach( product -> displayPayments(product));
+		} else {
+			System.out.printf("No payment information to display\n"); 
+		}
+		
 	}
 	
 	private void displayPayments(Product product) {
@@ -107,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
 		 System.out.printf("We hope you enjoy your new product: %s!\n"
 		 		+ "We at Generic Product Inc. are happy to provide you "
 		 		+ "with the following finance option:\n"
-		 		+ "%d payments of %f\n 1 final payment of %f.\n",
+		 		+ "%f payments of %f\n 1 final payment of %f.\n",
 		 		product.getName(),
 				Math.floor( product.getPrice() / minPayment ), 
 				minPayment,

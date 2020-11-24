@@ -4,35 +4,36 @@ import java.util.Set;
 
 import com.revature.beans.Offer;
 import com.revature.beans.Product;
+import com.revature.beans.Purchase;
 import com.revature.data.OfferDAO;
 import com.revature.data.OfferDAOFactory;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
+import com.revature.data.PurchaseDAO;
+import com.revature.data.PurchasePostgres;
 
 
 public class OfferServiceImpl implements OfferService {
 	
 	private OfferDAO offerDao;
+	private PurchaseDAO purchaseDao;
 	
 	public OfferServiceImpl() {
 		OfferDAOFactory offerDaoFactory = new OfferDAOFactory();
 		offerDao = offerDaoFactory.getOfferDAO();
+		purchaseDao = new PurchasePostgres(); 
 	}
 	
 	
 	@Override
 	public Offer add(Offer newOffer) {
-		
 		return offerDao.add(newOffer); 
-
-		// TODO update offers collection. product service must call offer service... 
 	}
 	
 	
 	@Override
 	public Set<Offer> getOffers() {
-		System.out.println("Called getOffers() ");
-		return null;
+		return offerDao.getAll(); 
 	}
 
 	@Override
@@ -43,14 +44,21 @@ public class OfferServiceImpl implements OfferService {
 
 	@Override
 	public boolean acceptOffer(Integer offerId) {
-		System.out.println("Called acceptOffer() ");
-		return false;
+		
+		Offer acceptedOffer = offerDao.getById(offerId); 
+		Purchase newPurchase = new Purchase(); 
+		newPurchase.setCustomerId( acceptedOffer.getCustomerId() );
+		newPurchase.setProductId( acceptedOffer.getProductId() );
+		return purchaseDao.add(newPurchase) == null;
 	}
 
 	@Override
 	public boolean rejectOffer(Integer offerId) {
-		System.out.println("Called rejectOffer() ");
-		return false;
+		
+		Offer rejectedOffer = offerDao.getById(offerId); 
+		rejectedOffer.getStatus().setId(5);
+		rejectedOffer.getStatus().setName("rejected");
+		return offerDao.update(rejectedOffer);
 	}
 
 }

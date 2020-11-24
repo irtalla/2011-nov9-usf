@@ -20,7 +20,6 @@ public interface ProductService {
 	public Set<Product> getAvailableProducts();
 	// "update" methods
 	public void updateProduct(Product c);
-	public void setOwnerForProduct(Person p, Product c);
 	// "delete" methods
 	public void removeProduct(Integer productId);
 	public void getRemainingPayments(Integer productId); 

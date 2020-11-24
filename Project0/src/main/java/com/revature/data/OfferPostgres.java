@@ -51,8 +51,42 @@ public class OfferPostgres implements OfferDAO {
 
 	@Override
 	public Offer getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Offer offer = null; 
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "select "
+						+ "	offer.id as offer_id, "
+						+ " offer.customer_id as customer_id, "
+						+ " offer.product_id as product_id, "
+						+ " offer.amount as offer_amount, "
+						+ " offer.status_id as status_id, "
+						+ " status.name as status_name "
+						+ "	from offer "
+						+ "		join status "
+						+ "		on offer.status_id = status.id "
+						+ " where offer.id = ? ";  
+								
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id );
+			
+			ResultSet rs = pstmt.executeQuery(); 
+
+			while ( rs.next() ) {
+				
+				try {
+					offer = deserializeOffer(rs); 
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return offer; 
 	}
 
 	@Override

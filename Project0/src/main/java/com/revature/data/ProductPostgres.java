@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -230,39 +231,18 @@ public class ProductPostgres implements ProductDAO {
 	@Override
 	public boolean delete(Product t) {
 		
-		/** TODO : fix delete functionality 
-		 * This test will fail because of foreign key constraints. Rows in the offer, 
-		 * feature, and purchase relations must be deleted before the product can be
-		 * deleted.
-		 */
-		
-		
-		Integer rowsUpdated = 0; 
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
+			String sql = " call delete_product(?) ";
+			CallableStatement cstmt = conn.prepareCall(sql);
+			cstmt.setInt(1, t.getId() );
+			cstmt.executeUpdate();
+			conn.commit();
 			
-			String sql_delete_prod = " delete from product "
-									+ " where "
-									+ " product.id = ?"; 
-			
-			
-			
-			PreparedStatement pstmt = conn.prepareStatement(sql_delete_prod);
-			pstmt.setInt(1, t.getId() );
-
-			rowsUpdated = pstmt.executeUpdate();
-			
-			if (rowsUpdated > 1) {
-				conn.rollback();
-				// TODO : throw custom exception and rollback 
-			}
-
-		} catch (Exception e) {			
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e); 
+			return false; 
 		}
-		
-		return rowsUpdated == 1 ? true : false;
-
-	}
-
+		return true; 
+	}	
 }

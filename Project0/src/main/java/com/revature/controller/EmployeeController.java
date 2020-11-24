@@ -11,7 +11,6 @@ import com.revature.services.ProductServiceImpl;
 public class EmployeeController {
 	
 	static ProductService productService = null; 
-	static PersonService personService = null; 
 	static OfferService offerService = null; 
 	
 	private static EmployeeController employeeController = null;
@@ -28,13 +27,12 @@ public class EmployeeController {
 			"VIEW_ALL_PAYMENS                -  see all payments made so far"
 	};
 	
-	private EmployeeController() {}
+	protected EmployeeController() {}
 	public static EmployeeController getEmployeeController() {
 		
 		if (EmployeeController.employeeController == null) {
 			EmployeeController.employeeController =  new EmployeeController();
-			EmployeeController.productService = new ProductServiceImpl(); 
-			EmployeeController.personService = new PersonServiceImpl(); 
+			EmployeeController.productService = new ProductServiceImpl();  
 			EmployeeController.offerService = new OfferServiceImpl(); 
 		}
 		
@@ -62,11 +60,14 @@ public class EmployeeController {
 			case "HELP":
 				for (String str : commandDescriptions) { System.out.println(str); }
 				break; 
+			case "LOGOUT":
+				Application.logout();
+				break; 
 			case "EXIT": 
-				Application.showExitScreen();
+				Application.exit();
 				break; 
 			case "GET_PRODUCTS":
-				EmployeeController.productService.getAvailableProducts(); 
+				Application.displayDataSet( EmployeeController.productService.getAvailableProducts() );
 				break;
 			case "VIEW_REMAINING_PAYMENTS":
 //				EmployeeController.productService.getRemainingPayments(productId);
@@ -77,19 +78,27 @@ public class EmployeeController {
 				createAndAddProduct();
 				break; 
 			case "REMOVE_PRODUCT":
+				if (productId == null) {
+					System.out.println("You forgot to enter an id for the product!");
+					break;
+				}
 				EmployeeController.productService.removeProduct(productId);
 				break;
 			case "VIEW_ALL_OFFERS":
-				if (productId == null ) {
-					EmployeeController.offerService.getOffers(); 
-				} else {
-					EmployeeController.offerService.getOffersByProductId(productId);
-				}
+				Application.displayDataSet( EmployeeController.offerService.getOffers() );
 				break; 
 			case "ACCEPT_OFFER":
+				if (offerId == null) {
+					System.out.println("You forgot to enter an id for the offer!");
+					break;
+				}
 				EmployeeController.offerService.acceptOffer(offerId);
 				break; 
 			case "REJECT_OFFER":
+				if (offerId == null) {
+					System.out.println("You forgot to enter an id for the offer!");
+					break;
+				}
 				EmployeeController.offerService.rejectOffer(offerId); 
 				break; 
 			default: 
@@ -97,33 +106,78 @@ public class EmployeeController {
 		}	
 	}
 	
-	// Moved to employee controller
+	
+	// TODO : this is bad, but can only be fixed by implementing another
+	// DAO for features. It isn't maintainable and doesn't scale, but should
+	// only be fixed if the application see further development !
+	private static Integer getCategoryIdByName(String name) {
+		
+		switch ( name.toUpperCase() ) {
+		case "UNSPECIFIED": return 1;
+		case "BIKE": return 2;
+		case "HELMENT": return 3;
+		case "PEGS": return 4;
+		case "CHAIN": return 5;
+		default: return 0; 
+		}
+	}
+	
 	private static void createAndAddProduct() {
-		System.out.print("What is the type of product you are adding? :");
-		String productType = Application.getUserInput(); 
-		if ( !productType.equalsIgnoreCase("BIKE") ) {
-			System.out.println("System can only support creation of bike objects");
+		
+		while (true) {
+			
+			String[] categories = { "  Unspecified", "  Bike", "  Helment", "  Pegs", "  Chain" };
+			System.out.printf("Categories: \n\n");
+			for (String category : categories) { System.out.println(category); }
+			System.out.printf("\n");
+			System.out.print("What is the category of the product you are adding? :");
+			final String userInput = Application.getUserInput();
+			if ( getCategoryIdByName(userInput) == 0 ) {
+				System.out.printf("Now, %s, you know we don't sell those.\n", Application.getCurrentUser().getUsername()); 
+				System.out.printf("Would you like to try again? If so, enter 'yes'\n"); 
+				if ( Application.getUserInput().equalsIgnoreCase("YES") ) {
+					continue; 
+				} else {
+					break; 
+				}
+			}
+			
+			Product newProduct = new Product();
+			newProduct.getCategory().setId( getCategoryIdByName(userInput) );
+
+			System.out.print("What is the name of product you are adding? :");		
+			newProduct.setName( Application.getUserInput() );
+			
+			Double productPrice = 0.00;
+			do {
+				
+				System.out.print("What is the price of the product you are adding? :");
+				productPrice = Double.parseDouble( Application.getUserInput() );
+				if( productPrice < 0.00 ) {
+					System.out.printf("Bad input for price: %s\n", productPrice);
+					System.out.printf("Would you like to try again? If so, enter 'yes'\n"); 
+					if ( Application.getUserInput().equalsIgnoreCase("YES") ) {
+						continue; 
+					} else {
+						return; 
+					}
+				}
+				
+			} while (productPrice <= 0.00); 
+			
+			newProduct.setPrice(productPrice);
+			
+			Product addedProduct = EmployeeController.productService.addProduct(newProduct); 
+			
+			if (addedProduct != null) {
+				System.out.printf("\nSuccessfully added product: \n\n");
+				System.out.println(addedProduct.toString());
+			} else {
+				System.out.printf("\n Internal system error encountered \n\n");
+			}
+			break; 
+
 		}
-		
-		System.out.print("What is the name of product you are adding? :");
-		String productName = Application.getUserInput(); 
-		
-		System.out.print("What is the price of the product you are adding? :");
-		Double productPrice = Double.parseDouble( Application.getUserInput() );
-		if ( productPrice < 0.00 ) {
-			System.out.printf("Bad input for price: %s\n", productPrice);
-		}
-		
-		System.out.print("What is the category of product you are adding? :");
-		String productCategory = Application.getUserInput();
-		
-		Product newProduct = new Product(); 
-		newProduct.setName(productName);
-		newProduct.setPrice(productPrice);
-		newProduct.getCategory().setName(productCategory);
-		
-		
-		EmployeeController.productService.addProduct(newProduct);
 	}
 		
 }

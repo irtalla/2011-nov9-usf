@@ -54,19 +54,19 @@ public class ProductPostgres_Test {
 		Assertions.assertTrue( categoryIds.size() > 1 );
 	}
 	
-//	@DisplayName("Test delete()") 
-//	@Test
-//	public void deleteTest() {
-//				
-//		ProductPostgres testProductPostgres = new ProductPostgres(); 
-//		Product presentProduct, notPresentProduct; 
-//		presentProduct = new Product();
-//		presentProduct.setId(1);
-//		notPresentProduct = new Product();
-//		notPresentProduct.setId(-1);		
-//		Assertions.assertEquals(true, testProductPostgres.delete(presentProduct) );
-//		Assertions.assertEquals(false, testProductPostgres.delete(notPresentProduct) );
-//	}
+	@DisplayName("Test delete()") 
+	@Test
+	public void deleteTest() {
+				
+		ProductPostgres testProductPostgres = new ProductPostgres(); 
+		Product presentProduct, notPresentProduct; 
+		presentProduct = new Product();
+		presentProduct.setId(10);
+		notPresentProduct = new Product();
+		notPresentProduct.setId(7);		
+		Assertions.assertEquals(true, testProductPostgres.delete(presentProduct) );
+		Assertions.assertEquals(false, testProductPostgres.delete(notPresentProduct) );
+	}
 	
 	@DisplayName("Test add()")
 	@Test

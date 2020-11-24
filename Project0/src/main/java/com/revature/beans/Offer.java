@@ -75,11 +75,12 @@ public class Offer {
 	@Override
 	public String toString() {
 		return String.format(
-				  "product id: %d"
-				+ "customer id: %s"
-				+ "amount: %f"
-				+ "status: %s",
-				productId, customerId, amount, status.getName()
+				  "offer id: %d\n"
+				+ "product id: %d\n"
+				+ "customer id: %s\n"
+				+ "amount: %f\n"
+				+ "status: %s\n",
+				id, productId, customerId, amount, status.getName()
 				);
 	}
 }
