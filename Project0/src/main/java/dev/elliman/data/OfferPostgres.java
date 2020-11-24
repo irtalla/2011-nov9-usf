@@ -23,13 +23,15 @@ public class OfferPostgres implements OfferDAO {
 		
 			try(Connection conn = cu.getConnection()){
 				conn.setAutoCommit(false);
-				String sql = "insert into bike_shop.offers values (default, ?, ?, ?, ?)";
+				String sql = "insert into bike_shop.offers values (default, ?, ?, ?, ?, ?, ?)";
 				String[] keys = {"offer_id"};
 				PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 				pstmt.setInt(1, offer.getPerson().getID());
 				pstmt.setInt(2, offer.getBike().getId());
 				pstmt.setInt(3, offer.getPrice());
 				pstmt.setString(4, offer.getStatus());
+				pstmt.setInt(5, offer.getPaymentRemaining());
+				pstmt.setInt(6, offer.getPaymentSize());
 				
 				pstmt.executeUpdate();
 				
@@ -95,7 +97,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(person, bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				o = new Offer(
+						person,
+						bikeDAO.getByID(rs.getInt("bike")),
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -125,7 +132,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(person, bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				o = new Offer(
+						person,
+						bikeDAO.getByID(rs.getInt("bike")),
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				offers.add(o);
 			}
 			
@@ -150,7 +162,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person")), bike, rs.getInt("price"));
+				o = new Offer(
+						personDAO.getByID(rs.getInt("person")),
+						bike,
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -180,7 +197,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person")), bike, rs.getInt("price"));
+				o = new Offer(
+						personDAO.getByID(rs.getInt("person")),
+						bike,
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				offers.add(o);
 			}
 			
@@ -204,7 +226,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person")), bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				o = new Offer(
+						personDAO.getByID(rs.getInt("person")),
+						bikeDAO.getByID(rs.getInt("bike")),
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -233,7 +260,12 @@ public class OfferPostgres implements OfferDAO {
 			
 			Offer o;
 			while(rs.next()) {
-				o = new Offer(personDAO.getByID(rs.getInt("person")), bikeDAO.getByID(rs.getInt("bike")), rs.getInt("price"));
+				o = new Offer(
+						personDAO.getByID(rs.getInt("person")),
+						bikeDAO.getByID(rs.getInt("bike")),
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}
@@ -260,7 +292,9 @@ public class OfferPostgres implements OfferDAO {
 				offer = new Offer(
 						personDAO.getByID(rs.getInt("person")),
 						bikeDAO.getByID(rs.getInt("bike")),
-						rs.getInt("price"));
+						rs.getInt("price"),
+						rs.getInt("payment_remaining"),
+						rs.getInt("payment_size"));
 				offer.setId(rs.getInt("offer_id"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					offer.accept();

@@ -7,11 +7,16 @@ public class Offer {
 	private Integer price;
 	private String status;
 	
-	public Offer(Person buyer, Bike bike, Integer offerPrice) {
+	private Integer paymentRemaining;
+	private Integer paymentSize;
+	
+	public Offer(Person buyer, Bike bike, Integer offerPrice, Integer paymentSize, Integer debt) {
 		person = buyer;
 		this.bike = bike;
 		price = offerPrice;
 		status = "Pending";
+		this.paymentSize = paymentSize;
+		paymentRemaining = debt;
 	}
 	
 	public void accept() {
@@ -44,6 +49,22 @@ public class Offer {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public Integer getPaymentRemaining() {
+		return paymentRemaining;
+	}
+
+	public void setPaymentRemaining(Integer paymentRemaining) {
+		this.paymentRemaining = paymentRemaining;
+	}
+
+	public Integer getPaymentSize() {
+		return paymentSize;
+	}
+
+	public void setPaymentSize(Integer paymentSize) {
+		this.paymentSize = paymentSize;
 	}
 
 	@Override

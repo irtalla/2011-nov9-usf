@@ -97,23 +97,23 @@ public class UserHandler {
 			}
 		}
 		
-//		Integer payments = null;
-//		System.out.println("How much will pay per payment? (-1 to cancel)");
-//		while(true) {
-//			try {
-//				payments = Integer.valueOf(input.nextLine());
-//				if(payments <= 0){
-//					System.out.println("Canceling...");
-//					return;
-//				} else {
-//					break;
-//				}
-//			} catch (Exception e) {
-//				System.out.println("Please enter a valid number. (-1 to cancel)");
-//			}
-//		}
+		Integer payments = null;
+		System.out.println("How much will pay per payment? (-1 to cancel)");
+		while(true) {
+			try {
+				payments = Integer.valueOf(input.nextLine());
+				if(payments <= 0){
+					System.out.println("Canceling...");
+					return;
+				} else {
+					break;
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
 
-		Offer offer  = new Offer(user,bike, price);
+		Offer offer  = new Offer(user,bike, price, payments, 0);
 		os.makeOffer(offer);
 	}
 
