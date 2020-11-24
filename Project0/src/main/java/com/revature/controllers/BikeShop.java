@@ -9,16 +9,20 @@ import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.exceptions.NonUniqueUsernameException;
+import com.revature.services.BikeService;
+import com.revature.services.BikeServiceImpl;
+import com.revature.services.PersonService;
+import com.revature.services.PersonServiceImpl;
 
 public class BikeShop {
 	private static Scanner scan;
 	private static PersonService personServ;
-	private static CatService bikeServ;
+	private static BikeService bikeServ;
 	
 	static {
 		scan = new Scanner(System.in);
 		personServ = new PersonServiceImpl();
-		bikeService = new BikeServiceImpl();
+		bikeServ = new BikeServiceImpl();
 		offerService = new OfferServiceImpl();
 	}
 	

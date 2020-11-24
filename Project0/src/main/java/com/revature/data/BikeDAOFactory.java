@@ -2,7 +2,7 @@ package com.revature.data;
 
 public class BikeDAOFactory {
     
-    public BikeDAO getCatDAO() {
+    public BikeDAO getBikeDAO() {
         
         return new BikePostgres();
     }

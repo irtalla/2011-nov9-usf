@@ -5,9 +5,14 @@ import java.util.Set;
 import com.revature.beans.Bike;
 import com.revature.beans.Offer;
 import com.revature.beans.Person;
+import com.revature.utils.ConnectionUtil;
 
 public class OfferPostgres implements OfferDAO {
-
+	private ConnectionUtil cu;
+	
+	{
+		cu = ConnectionUtil.getConnectionUtil();
+	}
 	@Override
 	public Offer add(Offer t) throws Exception {
 		// TODO Auto-generated method stub
@@ -88,6 +93,42 @@ public class OfferPostgres implements OfferDAO {
 
 	@Override
 	public Set<Offer> getAllAcceptedOffers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Offer update(Offer t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Offer> getActiveOffersMadeByPerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Offer> getAcceptedOffersMadeByPerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Offer> getActiveOffersForBike(Bike b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Offer> getAllOffersForBike(Bike b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Offer getAcceptedOfferForBike(Bike b) {
 		// TODO Auto-generated method stub
 		return null;
 	}

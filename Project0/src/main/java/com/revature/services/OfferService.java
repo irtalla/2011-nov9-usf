@@ -1,4 +1,4 @@
-package com.revature.data;
+package com.revature.services;
 
 import java.util.Set;
 
@@ -6,21 +6,19 @@ import com.revature.beans.Bike;
 import com.revature.beans.Offer;
 import com.revature.beans.Person;
 
-public interface OfferDAO extends GenericDAO<Offer>{
-	public void rejectAll(Bike bike);
+public interface OfferService {
+	public Offer makeOffer(Offer offer);
 	
-	public Set<Offer> getOffers(Person person);
-	
-	public Set<Offer> getActiveOffersMadeByPerson(Person person);
-	
-	public Set<Offer> getAcceptedOffersMadeByPerson(Person person);
+	//read
+	public Set<Offer> getActiveOffersMadeByPerson(Person p);
 	
 	public Set<Offer> getActiveOffersForBike(Bike b);
 	
 	public Offer getAcceptedOfferForBike(Bike b);
-
+	
 	public void acceptOfferForBike(Bike b, Offer o);
 	
 	public void rejectOfferForBike(Bike b, Offer o);
-
+	
+	public Offer getOfferById(Integer id);
 }
