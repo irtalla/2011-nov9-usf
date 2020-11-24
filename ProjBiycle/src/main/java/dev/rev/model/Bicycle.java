@@ -7,8 +7,12 @@ public class Bicycle {
 	private String brand;
 	private String Color;
 	private int Quantity;
+	private int person_id;
+	private String bicycle_status;
 	
 	public Bicycle() {
+		person_id=0;
+		bicycle_status="";
 		id=0;
 		price=0;
 		brand="";

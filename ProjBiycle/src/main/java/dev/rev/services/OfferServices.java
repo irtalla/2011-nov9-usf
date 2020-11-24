@@ -15,5 +15,7 @@ public interface OfferServices {
 	public String accept_reject_offer(int i);
 	public void rejectothers(int id);
 	public int bike_id_byofferid(int id);
+	public void rejectOffer(int id);
+	public int getpersonId(int bicycle_id,int offer_id);
 	
 }

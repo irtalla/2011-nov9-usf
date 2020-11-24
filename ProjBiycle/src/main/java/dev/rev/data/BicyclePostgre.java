@@ -153,4 +153,29 @@ Set<Bicycle> Bicycle = new HashSet<>();
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void updatebikestatus(int id,int person_id) {
+		// TODO Auto-generated method stub
+		String status="Owned";
+		try(Connection conn = cu.getConnection()){
+			conn.setAutoCommit(false);
+			String sql="update bicycle set bicycle_status = ? , person_id = ? where bicycle_id=?";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setString(1, status);
+			ps.setInt(2, person_id);
+			ps.setInt(3, id);
+			int rows=ps.executeUpdate();
+			
+			if(rows>0) {
+				conn.commit();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
 }

@@ -12,6 +12,7 @@ public interface BicycleService {
 	public void updateBicycle(Bicycle b);
 	public void deleteBicycle(Bicycle b);
 	public Bicycle getbyID(int id);
+	public void updateBikeStatus(int id,int person_id);
 	
 
 }

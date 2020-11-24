@@ -244,14 +244,22 @@ public class Maincontroller {
 		int in=Integer.valueOf(scan.next());
 		switch(in) {
 		case 1: 
-			oservice.accept_reject_offer(input);
 			System.out.println("You have accepted the offer having id:"+input);
+		//	Offer of=new Offer();
+			
 			int bid=oservice.bike_id_byofferid(input);
-			System.out.println(input);
+			int person_id=oservice.getpersonId(input,bid);
+			System.out.println(input+"bikeid: "+bid +"personID "+person_id );
+			
 			oservice.rejectothers(bid);
+			oservice.accept_reject_offer(input);
+			changecyclestatus(bid,person_id);
+			
+			
 			break;
 		case 2: 
-			rejectOffer();
+			oservice.rejectOffer(input);
+			
 			break;
 		default:
 			break;
@@ -260,16 +268,13 @@ public class Maincontroller {
 		EmployeeRoles();
 		}
 
-	private static void rejectOffer() {
+	private static void changecyclestatus(int id,int person_id) {
 		// TODO Auto-generated method stub
-		
+		//bservice.updateBicycle(b);
+		bservice.updateBikeStatus(id,person_id);
 	}
 
-	private static void rejectothers() {
-		
-		
-		
-	}
+
 
 	private static void updatebicycle() {
 		// TODO Auto-generated method stub
