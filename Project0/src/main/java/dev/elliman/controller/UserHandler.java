@@ -242,5 +242,39 @@ public class UserHandler {
 		}
 	}
 	
+	public static void viewRemaingPayments(Person user) {
+		Set<Offer> offers = os.getAcceptedOffer(user);
+		if(offers.size() == 0) {
+			System.out.println("You have no remaining payments.");
+		} else {
+			for(Offer o: offers) {
+				System.out.println("Offer [id=" + o.getId() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", remaining=" + o.getPaymentRemaining() + "]");
+				//calculate payments remaining
+				Integer remain = o.getPaymentRemaining()/o.getPaymentSize();
+				if(o.getPaymentRemaining()%o.getPaymentSize() == 0) {
+					System.out.println("Only " + remain + " payments remaining");
+				} else {
+					System.out.println("Only " + (remain+1) + " payments remaining");
+				}
+			}
+		}
+	}
 	
+	public static void viewAllRemainingPayments(Person user) {
+		Set<Offer> offers = os.getAllAcceptedOffers();
+		if(offers.size() == 0) {
+			System.out.println("Thre are no remaining payments");
+		} else {
+			for(Offer o: offers) {
+				System.out.println("Offer [id=" + o.getId() + ", person=" + o.getPerson().getFirstName() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", remaining=" + o.getPaymentRemaining() + "]");
+				//calculate payments remaining
+				Integer remain = o.getPaymentRemaining()/o.getPaymentSize();
+				if(o.getPaymentRemaining()%o.getPaymentSize() == 0) {
+					System.out.println("Only " + remain + " payments remaining");
+				} else {
+					System.out.println("Only " + (remain+1) + " payments remaining");
+				}
+			}
+		}
+	}
 }
