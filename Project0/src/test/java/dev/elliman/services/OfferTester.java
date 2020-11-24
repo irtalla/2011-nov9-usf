@@ -47,7 +47,7 @@ public class OfferTester {
 	@Order(1)
 	@Test
 	public void makeAndGet() {
-		Offer offer = new Offer(cust, bike, 216);
+		Offer offer = new Offer(cust, bike, 216, 4, 0);
 		
 		Integer offerId = os.makeOffer(offer);
 		Offer offerFromDatabase = os.getOfferById(offerId);
@@ -58,7 +58,7 @@ public class OfferTester {
 	@Order(2)
 	@Test
 	public void getAllOffers() {
-		Offer offer = new Offer(cust, bike, 221);
+		Offer offer = new Offer(cust, bike, 221, 4, 0);
 		Integer offerId = os.makeOffer(offer);
 		//there are 2 offers in the database
 		
@@ -98,7 +98,7 @@ public class OfferTester {
 	@Test
 	public void failedAccept() {
 		//making an offer on the same bike but this should be avoided in the controller
-		Offer offer = new Offer(cust, bike, 20);
+		Offer offer = new Offer(cust, bike, 20, 1, 0);
 		os.makeOffer(offer);
 		assertFalse(os.acceptOffer(offer.getId(), cust));
 	}
