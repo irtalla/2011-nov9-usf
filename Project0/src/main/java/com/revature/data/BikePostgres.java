@@ -24,13 +24,14 @@ public class BikePostgres implements BikeDAO {
 
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into Bike values (default, ?, ?, ?,?)";
+			String sql = "insert into bike values (default, ?, ?, ?,?)";
 			String[] keys = {"id"};
-			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			PreparedStatement pstmt = conn.prepareStatement(sql,keys);
+			//pstmt.setInt(1, t.getId());
 			pstmt.setString(1, t.getName());
-			pstmt.setInt(2, t.getModel().getId());
-			pstmt.setDouble(3, t.getPrice());
-			pstmt.setInt(4, t.getStatus().getId());
+			pstmt.setInt(4, t.getModel().getId());
+			pstmt.setDouble(2, t.getPrice());
+			pstmt.setInt(3, t.getStatus().getId());
 			
 
 			pstmt.executeUpdate();
@@ -47,7 +48,7 @@ public class BikePostgres implements BikeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return b;
 	}
 
 	@Override

@@ -34,3 +34,16 @@ create table user_bike (
 	user_id integer references user_acc,
 	bike_id integer references bike
 );
+
+// inserts and stuff //
+insert into user_role values (default,'Customer');
+insert into user_role values (default,'Employee');
+insert into status values (default, 'Available');
+insert into status values (default, 'Not Available');
+insert into model values(default, 'Mongoose');
+insert into model values(default, 'BMX');
+insert into model values(default, 'Huffy');
+insert into user_acc values(default, 'Samir','Mahamed','admin','password',2);
+insert into bike values(default, 'Zangoose', 599.99, 1, 1);
+insert into bike values(default, 'T.Hawk900', 799.99, 1, 2);
+insert into bike values(default, 'AirBorne Pro', 999.99, 1, 3);

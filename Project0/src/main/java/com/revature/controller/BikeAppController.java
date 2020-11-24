@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.revature.beans.Bike;
-import com.revature.beans.Cat;
+import com.revature.beans.Model;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.beans.User;
@@ -244,7 +244,71 @@ public class BikeAppController {
 	
 	//Employee Manage Bikes
 	private static User manageBikes(User user) {
-		return user;
+		
+		System.out.println("Manage Bikes: 1. Create Bike2. Delete Bike\n3. Back to Main Menu");
+		int input;
+		input = Integer.valueOf(scan.nextLine());
+		if (input == 1) {
+			Bike newBike = new Bike();
+			System.out.println("Enter a bike name: ");
+			newBike.setName(scan.nextLine());
+			System.out.println("Enter a price name: ");
+			newBike.setPrice(Double.valueOf(scan.nextLine()));
+			System.out.println("Choose a model by entering its ID:"
+					+ "\n1. Mongoose\n2. BMX\n3. Huffy\n4. FisherPrice\n Other");
+			Model model = new Model();
+			model.setId(Integer.valueOf(scan.nextLine()));
+			switch(model.getId()) {
+			case 1:
+				model.setName("Mongoose");
+				break;
+			case 2:
+				model.setName("BMX");
+				break;
+			case 3:
+				model.setName("Huffy");
+				break;
+			case 4:
+				model.setName("FisherPrice");
+				break;
+			default:
+				model.setName("GreatValue");
+			}
+			newBike.setModel(model);
+			Status status = new Status();
+			status.setId(1);
+			status.setName("Available");
+			newBike.setStatus(status);
+			System.out.println(newBike);
+			System.out.println("Look good? 1 to confirm, other to start over");
+			input = Integer.valueOf(scan.nextLine());
+			if (input == 1) {
+				newBike.setId(bikeServ.addBike(newBike));
+				System.out.println("You successfully added " + newBike.getName() + "!");
+			}
+		}else if (input == 2) {
+			
+			for (Bike bike : bikeServ.getAvailableBikes()) {
+				System.out.println(bike);
+				//print out all the bikes
+			}
+			System.out.println("Enter the ID of the Bike you want to Delete");
+			Bike bikeToRemove = null;
+			bikeToRemove = bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
+			System.out.println("Bikes To Delete:\n-------------\n");
+			System.out.println(bikeToRemove);
+			System.out.print("----------------");
+			System.out.println("Remove this Bike?\n1. Yes\n2. No");
+			input = Integer.valueOf(scan.nextLine());
+			if(input == 1) {
+				bikeServ.removeBike(bikeToRemove);
+				System.out.println("You Deleted " + bikeToRemove.getName() + " Successfully!");
+			}
+		}else {
+			System.out.println("Going Back to Menu");
+		}
+		
+		return user; 
 	}
 	//Employee Manage Offers
 	private static User manageOffers(User user) {
