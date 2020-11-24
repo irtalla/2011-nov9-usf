@@ -24,11 +24,12 @@ public class OfferPostgres implements OfferDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into Offer values (default, ?, ?)";
+			String sql = "insert into Offer values (default, ?, ?, ?)";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setInt(1, t.getUserId());
 			pstmt.setInt(2, t.getBikeId());
+			pstmt.setString(3, t.getOfferStatus());
 			
 			
 			pstmt.executeUpdate();

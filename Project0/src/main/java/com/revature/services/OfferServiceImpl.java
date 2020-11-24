@@ -3,8 +3,14 @@ package com.revature.services;
 import java.util.Set;
 
 import com.revature.beans.Offer;
+import com.revature.beans.User;
+import com.revature.beans.Bike;
 import com.revature.data.OfferDAO;
 import com.revature.data.OfferDAOFactory;
+import com.revature.data.UserDAO;
+import com.revature.data.UserDAOFactory;
+import com.revature.data.BikeDAO;
+import com.revature.data.BikeDAOFactory;
 
 
 public class OfferServiceImpl implements OfferService {
@@ -30,6 +36,7 @@ public class OfferServiceImpl implements OfferService {
 	public void updateOffer(Offer o) {
 		offerDao.update(o);
 	}
+	
 
 	@Override
 	public void removeOffer(Offer o) {

@@ -208,6 +208,7 @@ public class BikeAppController {
 						offer.setUserId(user.getId());
 						offer.setBikeId(bike.getId());
 						offer.setOfferStatus("Pending");
+						offerServ.addOffer(offer);
 						System.out.println("You did it! You offered for a bike " + bike.getName() + ".");
 						// get the person with their updated cat set
 						user = userServ.getUserById(user.getId());
