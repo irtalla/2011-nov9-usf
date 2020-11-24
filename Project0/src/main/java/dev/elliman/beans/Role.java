@@ -15,10 +15,17 @@ public class Role {
 	static {
 		options = new ArrayList<Option>();
 		options.add(new Option("Logout", 3));
-		options.add(new Option("Purchase a Bike", 3));
-		options.add(new Option("Add Bike", 2));
-		options.add(new Option("Remove Bike", 2));
-		options.add(new Option("Promote User", 1));
+		options.add(new Option("View avalible bikes", 3));
+		options.add(new Option("Purchase a bike", 3));
+		options.add(new Option("View bikes you own", 3));
+		options.add(new Option("View your remaining payments", 3));
+		options.add(new Option("Add bike", 2));
+		options.add(new Option("Remove bike", 2));
+		options.add(new Option("View active offers", 2));
+		options.add(new Option("Accept offer", 2));
+		options.add(new Option("Reject offer", 2));
+		options.add(new Option("View all remaining payments", 2));
+		//options.add(new Option("Promote user", 1));
 	}
 	
 	public Role() {
