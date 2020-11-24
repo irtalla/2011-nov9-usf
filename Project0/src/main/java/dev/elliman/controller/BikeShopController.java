@@ -163,9 +163,9 @@ public class BikeShopController {
 			case 3:
 				UserHandler.removeBike(currentUser);
 				break;
-			case 4:
-				UserHandler.promoteUser(currentUser);
-				break;
+//			case 4:
+//				UserHandler.promoteUser(currentUser);
+//				break;
 			}
 		}
 		

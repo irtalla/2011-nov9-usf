@@ -1,9 +1,18 @@
 package dev.elliman.controller;
 
 import java.util.Scanner;
+import java.util.Set;
 
+import dev.elliman.beans.Bike;
+import dev.elliman.beans.Offer;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.ScannerSingleton;
+import dev.elliman.services.BikeService;
+import dev.elliman.services.BikeServiceImpl;
+import dev.elliman.services.OfferService;
+import dev.elliman.services.OfferServiceImpl;
+import dev.elliman.services.PersonService;
+import dev.elliman.services.PersonServiceImpl;
 
 /**
  * This will contain the methods that handle users interacting with the program
@@ -11,22 +20,227 @@ import dev.elliman.beans.ScannerSingleton;
  *
  */
 public class UserHandler {
-	
+
 	private static Scanner input = ScannerSingleton.getScanner();
-	
-	public static void purchaseBike(Person user) {
-		System.out.println("purchasing a bike");
-	}
-	
+	private static PersonService ps = new PersonServiceImpl();
+	private static BikeService bs = new BikeServiceImpl();
+	private static OfferService os = new OfferServiceImpl();
+
+
+
 	public static void addBike(Person user) {
-		System.out.println("adding a bike");
+		//an employee is adding a bike to the listing
+		System.out.print("Model of bike: ");
+		String model = input.nextLine();
+		System.out.println("Color of bike: ");
+		String color = input.nextLine();
+		System.out.println("Adding bike to the database");
+
+		bs.addBike(new Bike(model,color));
+	}
+
+	public static void viewAvalibleBikes(Person user) {
+		System.out.println("Currently we have these bike avalible:");
+		Set<Bike> bikes = bs.getAvalibleBikes();
+
+		for(Bike b: bikes) {
+			System.out.println("ID: " + b.getId() + " :: " + b.getModel() + " in " + b.getColor());
+		}
+	}
+
+	public static void purchaseBike(Person user) {
+		viewAvalibleBikes(user);
+
+		System.out.println("Which bike would you like to make an offer on? (-1 to cancel)");
+		Integer bikeID;
+		Set<Bike> bikes = bs.getAvalibleBikes();
+		Bike bike = null;
+		while(true) {
+			try {
+				bikeID = Integer.valueOf(input.nextLine());
+				if(bikeID < 1) {
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Bike b : bikes) {
+						if(b.getId().equals(bikeID)) {
+							bike = b;
+							break;
+						}
+					}
+					if(bike == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
+
+
+		Integer price = null;
+		System.out.println("How much will you offer for this bike? We only accept full sacks of flour as payment. (-1 to cancel)");
+		while(true) {
+			try {
+				price = Integer.valueOf(input.nextLine());
+				if(price < 0){
+					System.out.println("Canceling...");
+					return;
+				} else {
+					break;
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
+		
+//		Integer payments = null;
+//		System.out.println("How much will pay per payment? (-1 to cancel)");
+//		while(true) {
+//			try {
+//				payments = Integer.valueOf(input.nextLine());
+//				if(payments <= 0){
+//					System.out.println("Canceling...");
+//					return;
+//				} else {
+//					break;
+//				}
+//			} catch (Exception e) {
+//				System.out.println("Please enter a valid number. (-1 to cancel)");
+//			}
+//		}
+
+		Offer offer  = new Offer(user,bike, price);
+		os.makeOffer(offer);
+	}
+
+	public void seeActiveOffers(Person user) {
+		System.out.println("Printing all offers...");
+		Set<Offer> allOffers = os.getActiveOffer();
+		for(Offer o : allOffers) {
+			System.out.println("Offer [id=" + o.getId() + ", person=" + o.getPerson().getFirstName() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + "]");
+		}
+	}
+
+	public void acceptOffer(Person user) {
+		seeActiveOffers(user);
+		System.out.println("Which offer would you like to accept? (-1 to cancel)");
+
+		Set<Offer> allOffers = os.getActiveOffer();
+		Offer offer = null;
+		Integer id = null;
+		while(true) {
+			try {
+				id = Integer.valueOf(input.nextLine());
+				if(id < 0){
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Offer o : allOffers) {
+						if(o.getId().equals(id)) {
+							offer = o;
+							break;
+						}
+					}
+					if(offer == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+
+		}
+		
+		os.acceptOffer(offer.getId(), user);
 	}
 	
+	public void rejectOffer(Person user) {
+		seeActiveOffers(user);
+		System.out.println("Which offer would you like to reject? (-1 to cancel)");
+
+		Set<Offer> allOffers = os.getActiveOffer();
+		Offer offer = null;
+		Integer id = null;
+		while(true) {
+			try {
+				id = Integer.valueOf(input.nextLine());
+				if(id < 0){
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Offer o : allOffers) {
+						if(o.getId().equals(id)) {
+							offer = o;
+							break;
+						}
+					}
+					if(offer == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+
+		}
+		
+		os.rejectOffer(offer.getId());
+	}
+
 	public static void removeBike(Person user) {
-		System.out.println("removing a bike");
+		viewAvalibleBikes(user);
+
+		System.out.println("Which bike would you like to remove? (-1 to cancel)");
+		Integer bikeID;
+		Set<Bike> bikes = bs.getAvalibleBikes();
+		Bike bike = null;
+		while(true) {
+			try {
+				bikeID = Integer.valueOf(input.nextLine());
+				if(bikeID < 1) {
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Bike b : bikes) {
+						if(b.getId().equals(bikeID)) {
+							bike = b;
+							break;
+						}
+					}
+					if(bike == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
+		
+		System.out.println("Removing...");
+		bs.delete(bike);
+	}
+
+	public static void viewOwnedBikes(Person user) {
+		System.out.println("The bikes you own are :");
+		
+		Set<Bike> ownedBikes = user.getOwnedBikes();
+		for(Bike b : ownedBikes) {
+			System.out.println(b);
+		}
 	}
 	
-	public static void promoteUser(Person user) {
-		System.out.println("promoting a user");
-	}
+	
 }
