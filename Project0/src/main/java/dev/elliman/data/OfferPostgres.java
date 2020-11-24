@@ -102,8 +102,8 @@ public class OfferPostgres implements OfferDAO {
 						person,
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -137,8 +137,8 @@ public class OfferPostgres implements OfferDAO {
 						person,
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				offers.add(o);
 			}
 			
@@ -167,8 +167,8 @@ public class OfferPostgres implements OfferDAO {
 						personDAO.getByID(rs.getInt("person")),
 						bike,
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -202,8 +202,8 @@ public class OfferPostgres implements OfferDAO {
 						personDAO.getByID(rs.getInt("person")),
 						bike,
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				offers.add(o);
 			}
 			
@@ -231,8 +231,8 @@ public class OfferPostgres implements OfferDAO {
 						personDAO.getByID(rs.getInt("person")),
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -265,8 +265,8 @@ public class OfferPostgres implements OfferDAO {
 						personDAO.getByID(rs.getInt("person")),
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}
@@ -294,8 +294,8 @@ public class OfferPostgres implements OfferDAO {
 						personDAO.getByID(rs.getInt("person")),
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				offer.setId(rs.getInt("offer_id"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					offer.accept();
@@ -328,8 +328,8 @@ public class OfferPostgres implements OfferDAO {
 						person,
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				offers.add(o);
 			}
 			
@@ -357,8 +357,8 @@ public class OfferPostgres implements OfferDAO {
 						personDAO.getByID(rs.getInt("person")),
 						bikeDAO.getByID(rs.getInt("bike")),
 						rs.getInt("price"),
-						rs.getInt("payment_remaining"),
-						rs.getInt("payment_size"));
+						rs.getInt("payment_size"),
+						rs.getInt("payment_remaining"));
 				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}

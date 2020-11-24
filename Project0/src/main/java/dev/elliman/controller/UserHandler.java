@@ -114,6 +114,7 @@ public class UserHandler {
 		}
 
 		Offer offer  = new Offer(user,bike, price, payments, 0);
+		//System.out.println(offer);
 		os.makeOffer(offer);
 		System.out.println("Your offer has been submitted.");
 	}
@@ -235,12 +236,16 @@ public class UserHandler {
 	}
 
 	public static void viewOwnedBikes(Person user) {
-		System.out.println("The bikes you own are :");
-		
 		Set<Bike> ownedBikes = user.getOwnedBikes();
-		for(Bike b : ownedBikes) {
-			System.out.println(b);
+		if(ownedBikes.size() == 0) {
+			System.out.println("You do not own any bikes.");
+		} else {
+			System.out.println("The bikes you own are :");
+			for(Bike b : ownedBikes) {
+				System.out.println(b);
+			}
 		}
+		
 	}
 	
 	public static void viewRemaingPayments(Person user) {
@@ -280,10 +285,16 @@ public class UserHandler {
 	}
 	
 	public static void viewOfferStatus(Person user) {
-		System.out.println("You have made these offers:");
 		Set<Offer> offers = os.getOffers(user);
-		for(Offer o : offers) {
-			System.out.println("Offer [id=" + o.getId() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", remaining=" + o.getPaymentRemaining() + "]");
+		
+		if(offers.size() == 0) {
+			System.out.println("You have made no offers.");
+		} else {
+			System.out.println("You have made these offers:");
+			for(Offer o : offers) {
+				//System.out.println(o);
+				System.out.println("Offer [id=" + o.getId() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", status=" + o.getStatus() + ", payment size=" + o.getPaymentSize() + "]");
+			}
 		}
 	}
 }

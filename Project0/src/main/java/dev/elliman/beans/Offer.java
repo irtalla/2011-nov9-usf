@@ -128,8 +128,14 @@ public class Offer {
 
 	@Override
 	public String toString() {
-		return "Offer [id=" + id + ", person=" + person.getID() + ", bike=" + bike.getId() + ", price=" + price + ", status=" + status + "]";
+		return "Offer [id=" + id + ", person=" + person.getID() + ", bike=" + bike.getId() + ", price=" + price + ", status=" + status
+				+ ", paymentRemaining=" + paymentRemaining + ", paymentSize=" + paymentSize + "]";
 	}
+
+//	@Override
+//	public String toString() {
+//		return "Offer [id=" + id + ", person=" + person.getID() + ", bike=" + bike.getId() + ", price=" + price + ", status=" + status + "]";
+//	}
 	
 	
 }
