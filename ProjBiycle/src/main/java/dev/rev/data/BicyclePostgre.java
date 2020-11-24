@@ -178,4 +178,30 @@ Set<Bicycle> Bicycle = new HashSet<>();
 		
 	}
 
+	@Override
+	public Set<Bicycle> bicyclebyp(int p_id) {
+		// TODO Auto-generated method stub
+		Set<Bicycle> bikes= new HashSet<>();
+
+		Bicycle b= new Bicycle();
+		try(Connection conn= cu.getConnection()){
+			String sql="Select * from bicycle where person_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, p_id);
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next()) {
+				b.setBrand(rs.getString("brand"));
+				b.setColor(rs.getString("color"));
+				b.setPrice(rs.getInt("price"));
+				b.setBicycle_status(rs.getString("bicycle_status"));
+				bikes.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bikes;
+	}
+
 }

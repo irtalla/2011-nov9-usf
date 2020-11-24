@@ -17,5 +17,5 @@ public interface OfferServices {
 	public int bike_id_byofferid(int id);
 	public void rejectOffer(int id);
 	public int getpersonId(int bicycle_id,int offer_id);
-	
-}
+	public Offer getbyid(int person_id);
+	}

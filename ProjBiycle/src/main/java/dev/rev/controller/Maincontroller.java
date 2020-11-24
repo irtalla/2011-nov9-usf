@@ -62,7 +62,7 @@ public class Maincontroller {
 				CustomerRoles(logedinuser);
 				//activeuser=false;
 		}else if(logedinuser.getRole().getRole_name().equals("Employee")) {
-				EmployeeRoles();
+				EmployeeRoles(logedinuser);
 				activeuser=false;		
 			}else if(logedinuser.getRole().getRole_name()=="Manager") {
 				ManagerRoles();
@@ -76,48 +76,45 @@ public class Maincontroller {
 	
 	private static void CustomerRoles(Person log) {
 		System.out.println("Choose the Option from below:"
-				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\n3.Make Offer on Bicycle\t\t4.View Remaining Payments"
-				+ "\t\t5.View my offers\t\t 0. Logout");
+				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\n3.View Remaining Payments"
+				+ "\t\t4.View my offers\t\t 0. Logout");
 		int i = Integer.valueOf(scan.nextInt());
 		switch(i) {
 		case 1: See_Avaialable_Bicycles(log);
 			break;
-		case 2: View_My_bicycles();
+		case 2: View_My_bicycles(log);
 			break;
-		case 3: Make_an_offer();
+		case 3: View_Remaining_Payment(log);
 			break;
-		case 4: View_Remaining_Payment();
+		case 4: viewmyoffers(log);
 			break;
-		case 5: viewmyoffers(log);
-			break;
-		case 0: logout();
+		case 0: logout(log);
 		}
 		
 	}
 	
 	private static void viewmyoffers(Person log) {
 		
+		
 		Set<Offer> offers=oservice.getofferbyPersonID(log.getId());
-		System.out.println(offers);
-		
+		for(Offer of:offers) {
+		System.out.println(of);
+		}
 		
 		
 	}
 
-	private static void View_My_bicycles() {
+	private static void View_My_bicycles(Person p_id) {
 		// TODO Auto-generated method stub
+		System.out.println(bservice.bikes(p_id.getId()));
 		
 	}
 
-	private static void View_Remaining_Payment() {
-		// TODO Auto-generated method stub
-		
+	private static void View_Remaining_Payment(Person p) {
+		// TODO Auto-generated method stub	
+		calcuweek(p.getId());
 	}
 
-	private static void Make_an_offer() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private static void See_Avaialable_Bicycles(Person log) {
 		int price;
@@ -194,7 +191,7 @@ public class Maincontroller {
 		
 	}
 	
-	private static void  EmployeeRoles() {
+	private static void  EmployeeRoles(Person log) {
 		
 		System.out.println("Choose the Option from below:"
 				+ "\n1. Add Bicycle\t\t2.Delete Bicycle\t\t3.Update Bicycle\n4.Check Offers on Bicycle\t\t5.View All Payments"
@@ -208,11 +205,11 @@ public class Maincontroller {
 				
 		case 3: updatebicycle();
 				break;
-		case 4: checkoffers();
+		case 4: checkoffers(log);
 				break;
 		case 5: Viewallpayments();
 				break;
-		case 0: logout();
+		case 0: logout(log);
 				break;
 		}
 	}
@@ -222,17 +219,19 @@ public class Maincontroller {
 		
 	}
 
-	private static void logout() {
+	private static String logout(Person p) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(p);
+		p=null;
+		return null;
 	}
 
 	private static void Viewallpayments() {
 		// TODO Auto-generated method stub
-		
+	System.out.println("payments");	
 	}
 
-	private static void checkoffers() {
+	private static void checkoffers(Person log) {
 		// TODO Auto-generated method stub
 		Set<Offer> offers=oservice.getAll();
 		for(Offer of:offers) {
@@ -254,7 +253,7 @@ public class Maincontroller {
 			oservice.rejectothers(bid);
 			oservice.accept_reject_offer(input);
 			changecyclestatus(bid,person_id);
-			
+			//calcuweek(input);
 			
 			break;
 		case 2: 
@@ -265,8 +264,20 @@ public class Maincontroller {
 			break;
 		
 		}
-		EmployeeRoles();
+		EmployeeRoles(log);
+		
 		}
+
+	private static void calcuweek(int input) {
+		// TODO Auto-generated method stub
+		System.out.println(input+"input");
+		Offer p=oservice.getbyid(input);
+		System.out.println(p);
+		int price=p.getOffer_price();
+		int weeklypayments=price / 52;
+		System.out.println("Weekly payment is :" +weeklypayments);
+		
+	}
 
 	private static void changecyclestatus(int id,int person_id) {
 		// TODO Auto-generated method stub

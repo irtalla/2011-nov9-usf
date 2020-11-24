@@ -13,4 +13,5 @@ public interface OfferDAO extends GenericDAo<Offer>{
 	public void rejectOffer(int id);
 	public int getpersonId(int id,int ofer_id);
 
+
 }

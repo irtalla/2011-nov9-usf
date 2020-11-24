@@ -129,6 +129,8 @@ Set<Offer> people = new HashSet<>();
 	@Override
 	public Offer getById(Integer id) {
 		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 
@@ -140,7 +142,7 @@ Set<Offer> people = new HashSet<>();
 Set<Offer> people = new HashSet<>();
 		
 		try (Connection conn = cu.getConnection()) {
-			String sql="Select * from offer where offer_id =?";
+			String sql="Select * from offer where person_id =?";
 			PreparedStatement state = conn.prepareStatement(sql);
 			state.setInt(1, id);
 			ResultSet rs =state.executeQuery();			

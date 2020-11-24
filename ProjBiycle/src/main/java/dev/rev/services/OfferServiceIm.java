@@ -76,6 +76,11 @@ public class OfferServiceIm implements OfferServices{
 		// TODO Auto-generated method stub
 		return ofDAO.getpersonId(bicycle_id,ofer_id);
 	}
+	@Override
+	public Offer getbyid(int person_id) {
+		// TODO Auto-generated method stub
+		return ofDAO.getById(person_id);
+	}
 	
 
 }

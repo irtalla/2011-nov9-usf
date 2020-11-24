@@ -58,4 +58,10 @@ public class BicycleServiceImp implements BicycleService{
 		bd.updatebikestatus(id,person_id);
 	}
 
+	@Override
+	public Set<Bicycle> bikes(int p_id) {
+		// TODO Auto-generated method stub
+		return bd.bicyclebyp(p_id);
+	}
+
 }

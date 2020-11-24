@@ -13,6 +13,8 @@ public interface BicycleService {
 	public void deleteBicycle(Bicycle b);
 	public Bicycle getbyID(int id);
 	public void updateBikeStatus(int id,int person_id);
+	public Set<Bicycle> bikes(int p_id);
+	
 	
 
 }
