@@ -64,10 +64,11 @@ public class BikeController {
 			loggedInUsr = viewAvailableBikes(loggedInUsr);
 			break;
 		case 2:
-			viewUserBikes(loggedInUsr);
+			loggedInUsr = viewUserBikes(loggedInUsr);
 			break;
 		case 3:
-			AddUserMoney(loggedInUsr);
+			loggedInUsr = AddUserMoney(loggedInUsr);
+			break;
 		case 4:
 			loggedInUsr = manageBikes(loggedInUsr);
 			break;
@@ -91,11 +92,13 @@ private static Usr AddUserMoney(Usr user) {
 		double input = Double.valueOf(scan.nextLine());
 		try {
 		userServ.setMoney(input, user);
+		System.out.println("Congrats! Money added. Police are on the way.");
+		break;
 		}catch (Exception e) {
 		e.printStackTrace();
 	}
-		System.out.println("Congrats! Money added. Police are on the way.");
 	}
+	return user;
 }
 
 private static Usr registerUsr() {
@@ -205,7 +208,7 @@ private static Usr logInUsr() {
 			
 			return user;
 	}
-			private static void viewUserBikes(Usr user) {
+			private static Usr viewUserBikes(Usr user) {
 				try {
 					if (userServ.getBikesByUserId(user.getId()).size() > 0) {
 						System.out.println("Viewing your bikes: ");
@@ -216,7 +219,7 @@ private static Usr logInUsr() {
 						}
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}
+				} return user;
 				}
 	private static Usr manageBikes(Usr user) {
 		if (!user.getRole().getName().equals("Employee"))
