@@ -1,5 +1,6 @@
 package dev.rev.services;
 
+import java.util.List;
 import java.util.Set;
 
 import dev.rev.data.BicycleDAO;
@@ -40,10 +41,10 @@ public class BicycleServiceImp implements BicycleService{
 	}
 
 	@Override
-	public void deleteBicycle(Bicycle id) {
+	public void deleteBicycle(int id) {
 		// TODO Auto-generated method stub
-		bd.delete(id);
-	}
+		bd.delbike(id);
+		}
 
 	@Override
 	public Bicycle getbyID(int id) {
@@ -53,15 +54,21 @@ public class BicycleServiceImp implements BicycleService{
 	}
 
 	@Override
-	public void updateBikeStatus(int id,int person_id) {
+	public void updateBikeStatus(int id,int person_id,int price) {
 		// TODO Auto-generated method stub
-		bd.updatebikestatus(id,person_id);
+		bd.updatebikestatus(id,person_id,price);
 	}
 
 	@Override
-	public Set<Bicycle> bikes(int p_id) {
+	public List<Bicycle> bikes(int p_id) {
 		// TODO Auto-generated method stub
 		return bd.bicyclebyp(p_id);
+	}
+
+	@Override
+	public void updatepayment(int bike_id,int amount) {
+		// TODO Auto-generated method stub
+		bd.updatepayment(bike_id,amount);
 	}
 
 }

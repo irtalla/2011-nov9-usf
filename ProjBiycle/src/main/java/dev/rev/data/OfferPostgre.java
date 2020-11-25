@@ -59,7 +59,7 @@ public class OfferPostgre implements OfferDAO {
 Set<Offer> people = new HashSet<>();
 		
 		try (Connection conn = cu.getConnection()) {
-			String sql="Select * from offer";
+			String sql="Select * from offer where status = 'Pending'";
 			Statement state = conn.createStatement();
 			ResultSet rs = state.executeQuery(sql);
 			
@@ -129,9 +129,32 @@ Set<Offer> people = new HashSet<>();
 	@Override
 	public Offer getById(Integer id) {
 		// TODO Auto-generated method stub
+		Offer of=new Offer();
+			
+		try(Connection conn=cu.getConnection()){
+			conn.setAutoCommit(false);
+			String sql= "select * from offer where offer_id= ? ";
+			PreparedStatement ps =conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				
+				of.setOffer_id(rs.getInt("offer_id"));
+				of.setOffer_price(rs.getInt("Offer_price"));
+				of.setOffer_Person_id(rs.getInt("Person_id"));
+				of.setOffer_Bicycle_id(rs.getInt("Bicycle_id"));
+				of.setStatus(rs.getString("Status"));
+				//return of;
+			conn.commit();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		
-		return null;
+		return of;
 	}
 
 
@@ -172,7 +195,7 @@ Set<Offer> people = new HashSet<>();
 	public void rejectothers(int id) {
 		// TODO Auto-generated method stub
 		String acc="Rejected";
-		System.out.println(id+"bike id");
+	//	System.out.println(id+"bike id");
 		try(Connection conn=cu.getConnection()){
 			conn.setAutoCommit(false);
 			String sql="Update offer set status = ? where bicycle_id=? ";
@@ -206,7 +229,7 @@ Set<Offer> people = new HashSet<>();
 	@Override
 	public int bike_id_byofferid(int id) {
 		int bike_id = 0;
-		System.out.println(id+" method id");
+		//System.out.println(id+" method id");
 		try(Connection conn=cu.getConnection()){
 		String sql="select bicycle_id from offer where offer_id=?";
 		PreparedStatement ps=conn.prepareStatement(sql);
@@ -214,7 +237,7 @@ Set<Offer> people = new HashSet<>();
 		ResultSet rs=ps.executeQuery();
 		if(rs.next()) {
 			bike_id=rs.getInt("bicycle_id");
-			System.out.println(bike_id+"Bicycle id issss");
+		//	System.out.println(bike_id+"Bicycle id issss");
 		}
 		
 		} catch (SQLException e) {
@@ -230,6 +253,7 @@ Set<Offer> people = new HashSet<>();
 	@Override
 	public void rejectOffer(int id) {
 		// TODO Auto-generated method stub
+		System.out.println(id+"rejections");
 		String acc="Rejected";
 		try(Connection conn=cu.getConnection()){
 			conn.setAutoCommit(false);
@@ -274,7 +298,7 @@ Set<Offer> people = new HashSet<>();
 			
 			if(rs.next()) {
 				pid=rs.getInt(1);
-				System.out.println(pid+"person id is ");
+			//	System.out.println(pid+"person id is ");
 				conn.commit();
 				return pid;
 			}

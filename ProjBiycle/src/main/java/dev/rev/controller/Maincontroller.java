@@ -1,18 +1,23 @@
 package dev.rev.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import dev.rev.customException.NonUniqueUsernameException;
 import dev.rev.model.Bicycle;
 import dev.rev.model.Offer;
+import dev.rev.model.Payment;
 import dev.rev.model.Person;
 import dev.rev.model.Role;
 import dev.rev.services.BicycleService;
 import dev.rev.services.BicycleServiceImp;
 import dev.rev.services.OfferServiceIm;
 import dev.rev.services.OfferServices;
+import dev.rev.services.PamentServiceImp;
+import dev.rev.services.PaymentService;
 import dev.rev.services.PersonService;
 import dev.rev.services.PersonServiceImpl;
 
@@ -24,6 +29,7 @@ public class Maincontroller {
 	private static PersonService pservice = new PersonServiceImpl();
 	private static BicycleService bservice= new BicycleServiceImp();
 	private static OfferServices oservice=new OfferServiceIm();
+	private static PaymentService payservice= new PamentServiceImp();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		boolean activeuser=true;
@@ -32,7 +38,7 @@ public class Maincontroller {
 		System.out.println("***********************************************");
 		System.out.println("*************** Welcome To Shop ***************");
 		System.out.println("***********************************************");
-
+		checks();
 		
 		Person logedinuser=null;
 		while(logedinuser==null) {
@@ -55,7 +61,7 @@ public class Maincontroller {
 		System.out.println(activeuser);
 		
 		while(activeuser) {
-			System.out.println(logedinuser.getRole().getRole_name());
+		//	System.out.println(logedinuser.getRole().getRole_name());
 					
 			if(logedinuser.getRole().getRole_name().equals("Customer")) {
 			
@@ -76,8 +82,8 @@ public class Maincontroller {
 	
 	private static void CustomerRoles(Person log) {
 		System.out.println("Choose the Option from below:"
-				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\n3.View Remaining Payments"
-				+ "\t\t4.View my offers\t\t 0. Logout");
+				+ "\n1. See Avaiable Bicycles\t\t2.View My Bicycles\t\t3.View Remaining Payments"
+				+ "\n4.View my offers\t\t5.Make a Payment\t\t 0. Logout");
 		int i = Integer.valueOf(scan.nextInt());
 		switch(i) {
 		case 1: See_Avaialable_Bicycles(log);
@@ -88,17 +94,70 @@ public class Maincontroller {
 			break;
 		case 4: viewmyoffers(log);
 			break;
+		case 5:makepayment(log);
+			break;
 		case 0: logout(log);
+			break;
 		}
 		
 	}
 	
-	private static void viewmyoffers(Person log) {
+	private static void makepayment(Person log) {
+		// TODO Auto-generated method stub
+		List<Bicycle> bikes=bservice.bikes(log.getId());
+		for(Bicycle b:bikes) {
+			System.out.println(b);
+			
+		}
+		System.out.println("Enter the id of bicycle you wanna pay for:");
+		int id=Integer.valueOf(scan.next());
+		System.out.println("Enter the amount you wanna pay for:");
+		int amount=Integer.valueOf(scan.next());
+		bservice.updatepayment(id,amount);
+//		Payment pay=null;
+//		pay.setBicycle_id(id);
+//		pay.setPerson_id(log.getId());
+//		payservice.addpayment(pay);
+//		
+		
+	}
+
+	private static void  EmployeeRoles(Person log) {
+		
+		System.out.println("Choose the Option from below:"
+				+ "\n1. Add Bicycle\t\t2.Delete Bicycle\t\t3.Update Bicycle\n4.Check Offers on Bicycle\t\t5.View All Payments"
+				+ "\t\t 0. Logout");
+		int i = Integer.valueOf(scan.nextInt());
+		switch (i){
+		case 1: addbicycle(log);
+				break;
+		case 2: deletebicycle(log);
+				break;
+				
+		case 3: updatebicycle(log);
+				break;
+		case 4: checkoffers(log);
+				break;
+		case 5: Viewallpayments(log);
+				break;
+		case 0: logout(log);
+				break;
+			default: 
+				break;
+		}
+		
+	}
+	
+	private static void ManagerRoles() {
+		
+	}
+private static void viewmyoffers(Person log) {
 		
 		
 		Set<Offer> offers=oservice.getofferbyPersonID(log.getId());
 		for(Offer of:offers) {
-		System.out.println(of);
+		System.out.println("Offer id:"+of.getOffer_id()+"\t\tOffer Price: "+of.getOffer_price()+"\t\tOffer Status: "+of.getStatus()
+		+"Bicycle Id: "+of.getOffer_Bicycle_id());
 		}
 		
 		
@@ -106,13 +165,19 @@ public class Maincontroller {
 
 	private static void View_My_bicycles(Person p_id) {
 		// TODO Auto-generated method stub
-		System.out.println(bservice.bikes(p_id.getId()));
-		
+		List<Bicycle> bikes=bservice.bikes(p_id.getId());
+		for(Bicycle b:bikes) {
+		System.out.println("Bike Price:"+b.getPrice()+"\t\t Bicycle Brand: "+b.getBrand()+"\t\tBicycle color: "+b.getColor());
+		//System.out.println();
+		System.out.println("Your Weekly payment is:");
+		calcuweek(Float.valueOf(b.getPrice()));
+		//System.out.println(b.getId()+"Id::");
+		}
 	}
 
 	private static void View_Remaining_Payment(Person p) {
 		// TODO Auto-generated method stub	
-		calcuweek(p.getId());
+		//calcuweek(p.getId());
 	}
 
 
@@ -123,8 +188,8 @@ public class Maincontroller {
 			Set<Bicycle> allbicycles=bservice.getallBicyles();
 			Bicycle bik1e=new Bicycle();
 			for(Bicycle bike:allbicycles) {
-				System.out.println("Bicycle Id: "+bike.getId()+"\nBrand: "+bike.getBrand()+"\t\t Color: "+bike.getColor()+"\n Price: "+bike.getPrice()
-				+"Quantity: "+bike.getQuantity());
+				System.out.println("\nBicycle Id: "+bike.getId()+"\nBrand: "+bike.getBrand()+"\t\t Color: "+bike.getColor()+"\n Price: "+bike.getPrice()
+				+"Quantity: "+bike.getQuantity()+"\t\tStatus:"+bike.getBicycle_status());
 			}
 			
 			System.out.println("Would you like to Put offer on a biycle? 1 for yes, press anyother key for no");
@@ -136,7 +201,8 @@ public class Maincontroller {
 					Bicycle bicycle = bservice.getbyID(input);
 					bicycle.setId(input);
 					if (bicycle != null && bicycle.getQuantity()>0) {
-						System.out.println(bicycle);
+						System.out.println("Bicycle id:"+bicycle.getId()+"\t\tBicycle Brand: "+bicycle.getBrand()
+						+"\t\tBicycle Color:"+bicycle.getColor()+"\nBicycle Price:"+bicycle.getPrice()+"\t\tBicycle Status: "+bicycle.getBicycle_status());
 						System.out.println("You want to put offer on " + bicycle.getBrand()+ "Price: "+bicycle.getPrice() + "\n? 1 for yes, other for no");
 						input = Integer.valueOf(scan.next());
 						if (input == 1) {
@@ -187,46 +253,35 @@ public class Maincontroller {
 		
 	}
 
-	private static void ManagerRoles() {
-		
-	}
 	
-	private static void  EmployeeRoles(Person log) {
-		
-		System.out.println("Choose the Option from below:"
-				+ "\n1. Add Bicycle\t\t2.Delete Bicycle\t\t3.Update Bicycle\n4.Check Offers on Bicycle\t\t5.View All Payments"
-				+ "\t\t 0. Logout");
-		int i = Integer.valueOf(scan.nextInt());
-		switch (i){
-		case 1: addbicycle();
-				break;
-		case 2: deletebicycle();
-				break;
-				
-		case 3: updatebicycle();
-				break;
-		case 4: checkoffers(log);
-				break;
-		case 5: Viewallpayments();
-				break;
-		case 0: logout(log);
-				break;
+	
+	private static void deletebicycle(Person p) {
+		// TODO Auto-generated method stub
+		Set<Bicycle> bikes=bservice.getallBicyles();
+		for(Bicycle b:bikes) {
+			System.out.println("Bicycle id:"+b.getId()+"\t\tBicycle Price:"+b.getPrice()+"\t\tBicycle Brand:"+b.getBrand()+"\nBicycle Color:"
+					+ b.getColor()+"\t\tBicycle Status: "+b.getBicycle_status()+"\n");
 		}
-	}
-	private static void deletebicycle() {
-		// TODO Auto-generated method stub
-		
-		
-	}
-
-	private static String logout(Person p) {
-		// TODO Auto-generated method stub
-		System.out.println(p);
-		p=null;
-		return null;
+		System.out.println("Enter the ID of the bike you want to delete:");
+		int del=Integer.valueOf(scan.next());
+		bservice.deleteBicycle(del);
+		EmployeeRoles(p);
 	}
 
-	private static void Viewallpayments() {
+	private static void logout(Person p) {
+		// TODO Auto-generated method stub
+System.out.println("You are logged out.");
+try {
+	TimeUnit.SECONDS.sleep(2);
+} catch (InterruptedException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+System.out.println("System CLosed");
+		System.exit(0);
+	}
+
+	private static void Viewallpayments(Person p) {
 		// TODO Auto-generated method stub
 	System.out.println("payments");	
 	}
@@ -235,7 +290,8 @@ public class Maincontroller {
 		// TODO Auto-generated method stub
 		Set<Offer> offers=oservice.getAll();
 		for(Offer of:offers) {
-			System.out.println(of+"\n");
+			System.out.println("Offer id :"+of.getOffer_id()+"\t\tOffer Price: "+of.getOffer_price()+"\t\tPerson Id:"+of.getOffer_Person_id()
+			+"\nBicycle Id: "+of.getOffer_Bicycle_id()+"\t\tOffer Status :"+of.getStatus()+"\n");
 		}
 		System.out.println("Which Offer you want to see?\nEnter the Offer Id");
 		int input=Integer.valueOf(scan.next());
@@ -244,15 +300,16 @@ public class Maincontroller {
 		switch(in) {
 		case 1: 
 			System.out.println("You have accepted the offer having id:"+input);
-		//	Offer of=new Offer();
-			
+				Offer of=new Offer();
+				of=oservice.getbyid(input);
+			int price=of.getOffer_price();
 			int bid=oservice.bike_id_byofferid(input);
 			int person_id=oservice.getpersonId(input,bid);
-			System.out.println(input+"bikeid: "+bid +"personID "+person_id );
+			//System.out.println(input+"bikeid: "+bid +"personID "+person_id + "prices :"+ price );
 			
 			oservice.rejectothers(bid);
 			oservice.accept_reject_offer(input);
-			changecyclestatus(bid,person_id);
+			changecyclestatus(bid,person_id,price);
 			//calcuweek(input);
 			
 			break;
@@ -268,31 +325,54 @@ public class Maincontroller {
 		
 		}
 
-	private static void calcuweek(int input) {
+	private static void calcuweek(Float input) {
 		// TODO Auto-generated method stub
-		System.out.println(input+"input");
-		Offer p=oservice.getbyid(input);
-		System.out.println(p);
-		int price=p.getOffer_price();
-		int weeklypayments=price / 52;
-		System.out.println("Weekly payment is :" +weeklypayments);
+		
+		float weeklypayments=Float.valueOf(input / 52);
+		System.out.println("Weekly payment is :$" +weeklypayments);
 		
 	}
 
-	private static void changecyclestatus(int id,int person_id) {
+	private static void changecyclestatus(int id,int person_id,int price) {
 		// TODO Auto-generated method stub
 		//bservice.updateBicycle(b);
-		bservice.updateBikeStatus(id,person_id);
+		bservice.updateBikeStatus(id,person_id,price);
 	}
 
 
 
-	private static void updatebicycle() {
+	private static void updatebicycle(Person p) {
 		// TODO Auto-generated method stub
+		Set<Bicycle> allbicycles=bservice.getallBicyles();
+		Bicycle bik1e=new Bicycle();
+		for(Bicycle bike:allbicycles) {
+			System.out.println("\nBicycle Id: "+bike.getId()+"\nBrand: "+bike.getBrand()+"\t\t Color: "+bike.getColor()+"\n Price: "+bike.getPrice()
+			+"Quantity: "+bike.getQuantity()+"\t\tStatus:"+bike.getBicycle_status());
+		
+		}
+		
+		
+		System.out.println("Enter the id of bike you want to update:");
+		int bike_id=Integer.valueOf(scan.next());
+		System.out.println("Enter the Brand of bike:");
+		String brand=scan.next();
+		System.out.println("Enter the price of bike :");
+		int price=Integer.valueOf(scan.next());
+		System.out.println("Enter the Color of bike:");
+		String color=scan.next();
+		Bicycle b= new Bicycle();
+		b.setBicycle_status("NEW");
+		b.setBrand(brand);
+		b.setColor(color);
+		b.setPrice(price);
+		b.setId(bike_id);
+		bservice.updateBicycle(b);
+		
+		EmployeeRoles(p);
 		
 	}
 
-	private static void addbicycle() {
+	private static void addbicycle(Person p) {
 		
 		System.out.println("Enter the information of the Bicycle Below");
 		System.out.println("Bicycle Brand:\n");
@@ -315,7 +395,7 @@ public class Maincontroller {
 		}catch(Exception e) {
 			System.out.println(e);
 		}
-		
+		EmployeeRoles(p);
 	}
 
 	private static Person registeruser() {
@@ -384,7 +464,7 @@ public class Maincontroller {
 		System.out.println("Enter the Password:");
 		password=scan.nextLine();
 		
-		System.out.println(username+"      "+password);
+	//	System.out.println(username+"      "+password);
 
 		Person p= pservice.getPersonByUsername(username, password);
 		if(p==null) {
@@ -420,6 +500,9 @@ public class Maincontroller {
 				
 				return role;
 	}
-	
+	private static void checks() {
+		System.out.println("");
+	}
+
 
 }
