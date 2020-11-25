@@ -37,8 +37,16 @@ public class ConnectionUtil {
 		Connection conn = null;
 		
 		try {
+			//String drv = "org.postgresql.Driver";
+			//String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=bikeproject";
+			//String usr = "postgres";
+			//String pwd = "password";
+			
+			//Class.forName(properties.getProperty("drv"));
+			//conn = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("usr"), properties.getProperty("pwd"));
+			
 			Class.forName(properties.getProperty("drv"));
-			conn = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("usr"), properties.getProperty("pwd"));
+			conn = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("usr"), properties.getProperty("psw"));
 		}
 		catch (Exception e) {
 			e.printStackTrace();

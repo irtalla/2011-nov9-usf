@@ -6,7 +6,22 @@ public class User {
 	private String type;
 	private int id;
 	
-	private static int idGenerator = 0; 
+	private static int idGenerator = 0;
+	
+	public User() {
+		username = "";
+		password = "";
+		type = "user";
+		id = 0;
+	}
+	
+	
+	public User(String type) {
+		username = "";
+		password = "";
+		this.type = type;
+		id = 0;
+	}
 	
 	public User(String username, String password, String type) {
 		this.username = username;

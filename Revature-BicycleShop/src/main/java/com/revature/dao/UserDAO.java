@@ -12,7 +12,11 @@ public interface UserDAO {
 	public Set<Employee> getAllEmployees();
 	public Set<Customer> getAllCustomers();
 	
-	public void registerACustomer(String username, String password);
+	public int registerACustomer(String username, String password);
+	public boolean removeACustomer(int id);
 	
-	public void calculatePayment(Offer offer);
+	public User findAUser(String username, String password);
+	
+	//public int registerAnEmployee(String username, String password);
+	//public boolean removeAnEmployee
 }

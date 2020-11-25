@@ -7,10 +7,13 @@ import com.revature.beans.Offer;
 
 public interface EmployeeService {
 
-	public boolean addABicycle(Bicycle bicycle);
+	public int addABicycle(Bicycle bicycle);
+	
 	public boolean removeABicycle(Bicycle bicycle);
-	public Offer acceptAnOffer(Offer offer);
-	public Offer rejectAnOffer(Offer offer);
+	public boolean removeABicycle(int bicycleID);
+	
+	public Set<Offer> acceptAnOffer(int offerID);
+	public boolean rejectAnOffer(int offerID);
 	public Set<Offer> getAllOffers();
 	public Set<Bicycle> getAllBicycles();
 }

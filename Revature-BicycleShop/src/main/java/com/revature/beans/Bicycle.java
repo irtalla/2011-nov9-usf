@@ -12,6 +12,17 @@ package com.revature.beans;
 	
 	private static int idGenerator = 0;
 	
+	public Bicycle() {
+		bikeModel = "a";
+		bikeType = "a";
+		description = "a";
+		seller = null;
+		price = 0.00;
+		status = "available";
+		whoWillOwnTheBike = null;
+		id = 0;
+	}
+	
 	public Bicycle(String model, String type, String description, Employee seller, double price) {
 		bikeModel = model;
 		bikeType = type;
@@ -45,6 +56,17 @@ package com.revature.beans;
 		this.id = id;
 	}
 
+	public Bicycle(String model, String type, String description, Employee seller, double price, Customer owner, String status, int id) {
+		bikeModel = model;
+		bikeType = type;
+		this.description = description;
+		this.seller = seller;
+		this.price = price;
+		whoWillOwnTheBike = owner;
+		this.status = status;
+		this.id = id;
+	}
+	
 	public String getBikeModel() {
 		return bikeModel;
 	}
@@ -69,7 +91,7 @@ package com.revature.beans;
 		this.description = description;
 	}
 
-	public User getSeller() {
+	public Employee getSeller() {
 		return seller;
 	}
 
@@ -117,7 +139,7 @@ package com.revature.beans;
 	
 	@Override
 	public String toString() {
-		return bikeModel + " " + bikeType + ": " + description + "\nStarting price: " + price + "\nOffered by: " + seller.getUsername() + "\nOwned by: " + ((whoWillOwnTheBike != null) ? whoWillOwnTheBike : "No one");
+		return bikeModel + " " + bikeType + ": " + description + "\nStarting price: " + price + "\nOffered by: " + seller.getUsername() + "\nOwned by: " + ((whoWillOwnTheBike != null) ? whoWillOwnTheBike.getUsername() : "No one");
 	}
 
 	@Override

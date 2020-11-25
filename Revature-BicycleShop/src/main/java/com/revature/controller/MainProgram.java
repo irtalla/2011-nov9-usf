@@ -49,19 +49,19 @@ public class MainProgram {
 					if (couldLogIn instanceof Customer) {
 						currentCustomer = (Customer) couldLogIn;
 						customerActions.addCustomerization(currentCustomer);
-						System.out.println(currentCustomer.toString());
+						//System.out.println(currentCustomer.toString());
 						customerMenuLoop(scanner);
 					}
 					else if (couldLogIn instanceof Employee) {
 						currentEmployee = (Employee) couldLogIn;
-						System.out.println(currentEmployee.toString());
+						//System.out.println(currentEmployee.toString());
 						employeeMenuLoop(scanner);
 					}
 
-					break;
+					continue;
 				}
 				else {
-					System.out.println("Incorrect username/password combo.");
+					System.out.println("Incorrect username/password combo.\n");
 				}
 			}
 			else {
@@ -100,9 +100,9 @@ public class MainProgram {
 	}
 	
 	private static void customerMenuLoop(Scanner scanner) {
-		Set<Bicycle> availableBicycles = customerActions.viewAllAvailableBicycles();
-		Set<Bicycle> yourBicycles = customerActions.viewBicyclesYouOwn();
-		Set<Offer> yourOffers = customerActions.viewOffersYouMade();
+		//Set<Bicycle> availableBicycles = customerActions.viewAllAvailableBicycles();
+		//Set<Bicycle> yourBicycles = customerActions.viewBicyclesYouOwn();
+		//Set<Offer> yourOffers = customerActions.viewOffersYouMade();
 		
 		customerMenu: while(true) {
 			System.out.println("Welcome, " + currentCustomer.getUsername());
@@ -113,37 +113,47 @@ public class MainProgram {
 			System.out.println("4: View pending payments for bicycles I would like to buy.");
 			System.out.println("q: Log out (quit).");
 			String option = scanner.nextLine();
+			
+			Set<Bicycle> availableBicycles = customerActions.viewAllAvailableBicycles();
+			Set<Bicycle> yourBicycles = customerActions.viewBicyclesYouOwn();
+			Set<Offer> yourOffers = customerActions.viewOffersYouMade();
 						
+			System.out.println();
 			switch (option) {
 				case "1":
 					System.out.println("Which bicycle would you like to make an offer on?");
-					int bicycleIndex = 1;
+					//int bicycleIndex = 1;
 					for (Bicycle bicycle: availableBicycles) {
-						System.out.print((bicycle.getStatus().equals("available")) ? bicycleIndex + ": " + bicycle.getBikeModel() + bicycle.getBikeType() + "\n" : "");
+						System.out.print((bicycle.getStatus().equals("available")) ? bicycle.getId() + ": " + bicycle.getBikeModel() + " " + bicycle.getBikeType() + "\n" : "");
+					
 					}
 					String bikeOption = scanner.nextLine();
 					int bikeOptionAsNum = Integer.parseInt(bikeOption); //handle the NumberFormatException
-					Bicycle bikeChosen = (Bicycle)availableBicycles.toArray()[bikeOptionAsNum - 1];
+					
 					
 					System.out.println("How much do you want to offer for the bike?");
 					String potentialOffer = scanner.nextLine();
 					double offer;
 					offer = Double.parseDouble(potentialOffer);		//handle the NullPointerException and the NumberFormatException found here.
 					
-					Offer offerObject = new Offer(currentCustomer, bikeChosen, offer);
-					customerActions.makeAnOffer(offerObject);
-					System.out.println("You have offered $" + offer + " for the " + bikeChosen.getBikeModel() + bikeChosen.getBikeType() + " that was placed by " + bikeChosen.getSeller().getUsername());
+					Offer offerObject = customerActions.createOfferObject(bikeOptionAsNum, offer);
+					offerObject.setOfferMaker(currentCustomer);
+					int offerID = customerActions.makeAnOffer(offerObject);
+					offerObject.setId(offerID);
+					
+					Bicycle bikeChosen = offerObject.getBicycleToBeSold();
+					System.out.println("You have offered $" + offer + " for the " + bikeChosen.getBikeModel() + " " + bikeChosen.getBikeType() + " that was placed by " + bikeChosen.getSeller().getUsername());
 					break;
 				case "2":
-					System.out.println("Here are all of the bicycles that you can make offers for: ");
+					System.out.println("Here are all of the bicycles that you can make offers for: \n");
 					for (Bicycle bicycle: availableBicycles) {
-						System.out.println((bicycle.getStatus().equals("available")) ? bicycle : "");
+						System.out.println((bicycle.getStatus().equals("available")) ? bicycle + "\n" : "");
 					}
 					break;
 				case "3":
-					System.out.println("Here are all of the bicycles you own:");
+					System.out.println("Here are all of the bicycles you own:\n");
 					for (Bicycle bicycle: yourBicycles) {
-						System.out.println(bicycle);
+						System.out.println(bicycle + "\n");
 					}
 					break;
 				case "4":
@@ -160,12 +170,13 @@ public class MainProgram {
 				default:
 					System.out.println("");
 			}
+			
+			System.out.println();
 		}
 	}
 	
 	private static void employeeMenuLoop(Scanner scanner) {
-		Set<Offer> allOffers = employeeActions.getAllOffers();
-		Set<Bicycle> allBicycles = employeeActions.getAllBicycles();
+
 		
 		employeeMenu: while (true) {
 			System.out.println("Welcome, " + currentEmployee.getUsername());
@@ -178,7 +189,8 @@ public class MainProgram {
 			
 			String option = scanner.nextLine();
 			
-
+			Set<Offer> allOffers = employeeActions.getAllOffers();
+			Set<Bicycle> allBicycles = employeeActions.getAllBicycles();
 			
 			switch(option) {
 				case "1":
@@ -197,27 +209,28 @@ public class MainProgram {
 					break;
 				case "2":
 					System.out.println("Please choose an offer.");
-					int offerIndex = 1;
+					
 					for (Offer offer: allOffers) {
-						System.out.println(offerIndex + ". $" + offer.getOffer() + " for the " + offer.getBicycleToBeSold().getBikeModel() + " " + offer.getBicycleToBeSold().getBikeType());
+						System.out.println(offer.getId() + ". $" + offer.getOffer() + " for the " + offer.getBicycleToBeSold().getBikeModel() + " " + offer.getBicycleToBeSold().getBikeType());
 					}
 					String offerOption = scanner.nextLine();
 					int offerOptionAsNum = Integer.parseInt(offerOption); //handle the NumberFormatException
-					Offer offerChosen = (Offer)allOffers.toArray()[offerOptionAsNum - 1];
 					
 					
 					System.out.println("Will you accept it or reject it? Type \"accept\" to accept or \"reject\" to reject.");
 					String acceptRejectOption = scanner.nextLine();
 					
 					if (acceptRejectOption.equals("accept")) {
-						employeeActions.acceptAnOffer(offerChosen);
+						employeeActions.acceptAnOffer(offerOptionAsNum);
+						System.out.println("You have successfully accepted offer #" + offerOptionAsNum + ".\n");
 					}
 					else if (acceptRejectOption.equals("reject")) {
-						employeeActions.rejectAnOffer(offerChosen);
+						employeeActions.rejectAnOffer(offerOptionAsNum);
+						System.out.println("You have successfully rejected offer #" + offerOptionAsNum + ".\n");
 					}
 					else {
 						//nothing has happened with the thing is strange.
-						System.out.println("You haven't done anything.");
+						System.out.println("You haven't done anything.\n");
 					}
 					break;
 				case "3":
@@ -229,8 +242,8 @@ public class MainProgram {
 					
 					String bikeOption = scanner.nextLine();
 					int bikeOptionAsNum = Integer.parseInt(bikeOption); //handle the NumberFormatException
-					Bicycle bikeChosen = (Bicycle)allOffers.toArray()[bikeOptionAsNum - 1];
-					employeeActions.removeABicycle(bikeChosen);
+					
+					employeeActions.removeABicycle(bikeOptionAsNum);
 					break;
 				case "4":
 					System.out.println("Here are all the payments people will have to make:");

@@ -53,6 +53,8 @@ public class CustomerFunctions implements CustomerService{
 		
 		this.yourBicycles = yourBicycles;
 		this.yourOffers = yourOffers;
+		
+		whoeverYouAre = c;
 	}
 	
 	//pun is intended. It is literally the customization of a program
@@ -76,20 +78,41 @@ public class CustomerFunctions implements CustomerService{
 			}
 		}
 		
+		whoeverYouAre = c;
 		this.yourBicycles = yourBicycles;
 		this.yourOffers = yourOffers;
 	}
 	
 	@Override
-	public boolean makeAnOffer(Offer o) {
-		if (!bicycleDAO.getAllAvailableBicycles().contains(o.getBicycleToBeSold())) {
-			return false;
+	public int makeAnOffer(Offer o) {
+		Set<Bicycle> bikeListAtTheTime = bicycleDAO.getAllAvailableBicycles();
+		/*
+		for(Bicycle blatt: bikeListAtTheTime) {
+			if (blatt.getId() == o.getBicycleToBeSold().getId()) {
+				Bicycle bicycle = o.getBicycleToBeSold();
+				System.out.println("Do bike models match? " + blatt.getBikeModel().equals(bicycle.getBikeModel()));
+				System.out.println("Do bike types match? " + blatt.getBikeType().equals(bicycle.getBikeType()));
+				System.out.println("Do descriptions match? " + blatt.getDescription().equals(bicycle.getDescription()));
+				System.out.println("Do sellers match? " + blatt.getSeller().equals(bicycle.getSeller()));
+				System.out.println("Do prices match? " + (blatt.getPrice() == bicycle.getPrice()));
+				System.out.println("Do statuses match? " + blatt.getStatus().equals(bicycle.getStatus()));
+				//System.out.println("Do bike owners match? " + noBicycle.getWhoWillOwnTheBike().equals(offerBicycle.getWhoWillOwnTheBike()));
+				System.out.println("Do bike ids match? " + (blatt.getId() == bicycle.getId()));
+				
+				
+				
+				break;
+			}
+		}
+		*/
+		
+		if (!bikeListAtTheTime.contains(o.getBicycleToBeSold())) {
+			return -1;
 		}
 		
-		boolean globallyAddingOffer = offerDAO.addAnOffer(o);
-		boolean locallyAddingOffer = yourOffers.add(o);
+		int globallyAddingOffer = offerDAO.addAnOffer(o);
 		
-		return globallyAddingOffer && locallyAddingOffer;
+		return globallyAddingOffer;
 		
 	}
 
@@ -100,11 +123,38 @@ public class CustomerFunctions implements CustomerService{
 	
 	@Override 
 	public Set<Bicycle> viewBicyclesYouOwn() {
-		return yourBicycles;
+		return bicycleDAO.getAllBicyclesOwnedByYou(whoeverYouAre.getId());
 	}
 	
 	@Override
 	public Set<Offer> viewOffersYouMade(){
-		return yourOffers;
+		return offerDAO.retrieveOffersSomeoneMade(whoeverYouAre.getId());
+	}
+
+	@Override
+	public String calculatePayment(Offer o) {
+		String calculatedPayment = "";
+		double weeklyPaymentsOverAMonth = o.getOffer() / 4;
+		
+		if ((weeklyPaymentsOverAMonth * 10) % 1 == 0) {
+			calculatedPayment += String.valueOf(weeklyPaymentsOverAMonth) + "0";
+		}
+		else {
+			calculatedPayment += String.valueOf(weeklyPaymentsOverAMonth);
+		}
+		
+		return calculatedPayment;
+	}
+
+	@Override
+	public Offer createOfferObject(int bicycleID, double offer) {
+		Offer newOffer = new Offer();
+		
+		Bicycle correspondingBike = bicycleDAO.getABicycle(bicycleID);
+		newOffer.setBicycleToBeSold(correspondingBike);
+		newOffer.setOffer(offer);
+		newOffer.setStatus("pending");
+		
+		return newOffer;
 	}
 }

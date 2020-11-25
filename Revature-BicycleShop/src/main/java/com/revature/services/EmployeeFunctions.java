@@ -16,20 +16,19 @@ public class EmployeeFunctions implements EmployeeService {
 	
 	private BicycleDAO bicycleDAO;
 	private OfferDAO offerDAO;
+	
+	private Set<Offer> allOffers;
+	private Set<Bicycle> allBicycles;
 
 	public EmployeeFunctions() {
 		BicycleDAOFactory bdf = new BicycleDAOFactory();
 		bicycleDAO = bdf.getBicycleDAO();
 		OfferDAOFactory odf = new OfferDAOFactory();
 		offerDAO = odf.getOfferDAO();
-	}
-	
-	public BicycleDAO getBicycleDAO() {
-		return bicycleDAO;
-	}
-	
-	public OfferDAO getOfferDAO() {
-		return offerDAO;
+		
+		allBicycles = bicycleDAO.getAllBicycles();
+		allOffers = offerDAO.getAllOffers();
+		
 	}
 	
 	public Set<Offer> getAllOffers(){
@@ -44,7 +43,7 @@ public class EmployeeFunctions implements EmployeeService {
 	//this is just to establish a function that
 	//I can override later on when taught about 
 	@Override
-	public boolean addABicycle(Bicycle bicycle) {
+	public int addABicycle(Bicycle bicycle) {
 		return bicycleDAO.addABicycle(bicycle);
 	}
 	
@@ -55,53 +54,31 @@ public class EmployeeFunctions implements EmployeeService {
 	}
 	
 	@Override
-	public Offer acceptAnOffer(Offer offer) {
-		Offer acceptedOffer = null;
-		
-		if (offerDAO.getAllOffers().contains(offer)) {
-			HashSet<Offer> allOffers = (HashSet<Offer>)offerDAO.getAllOffers();
-			
-			
-			for (Offer o: allOffers) {
-				if (o.equals(offer)) {
-					acceptedOffer = o;
-					acceptedOffer.setStatus("accepted");
-					acceptedOffer.getBicycleToBeSold().setStatus("owned");;
-				}
-				else if (o.getBicycleToBeSold() == offer.getBicycleToBeSold()) {
-					offerDAO.removeAnOffer(o);
-				}
-				else {
-					//do nothing here, because if the offer isn't the accepted offer
-					//or related to the bicycle being sold
-					//then the offer is irrelevant for processing.
-				}
-			}
-		}
-		
-		return acceptedOffer;
+	public boolean removeABicycle(int bicycleID) {
+		Bicycle bicycle = bicycleDAO.getABicycle(bicycleID);
+		return bicycleDAO.removeABicycle(bicycle);
 	}
 	
 	@Override
-	public Offer rejectAnOffer(Offer offer) {
-		Offer rejectedOffer = null;
-		
-		if (offerDAO.getAllOffers().contains(offer)) {
-			HashSet<Offer> allOffers = (HashSet<Offer>)offerDAO.getAllOffers();
-			
-			
-			for (Offer o: allOffers) {
-				if (o.equals(offer)) {
-					rejectedOffer = o;
-					rejectedOffer.setStatus("rejected");
-					offerDAO.removeAnOffer(rejectedOffer);
-					break;
-				}
-			}
+	public Set<Offer> acceptAnOffer(int offerID) {
+		Offer acceptedOffer = offerDAO.retrieveAnOffer(offerID);
+		if (acceptedOffer != null) {
+			offerDAO.acceptAnOffer(acceptedOffer);
 		}
-		
-		return rejectedOffer;
+		return offerDAO.getAllOffers();
 	}
+	
+
+
+
+	@Override
+	public boolean rejectAnOffer(int offerID) {
+		Offer rejectedOffer = null;
+		rejectedOffer = offerDAO.retrieveAnOffer(offerID);
+		if (rejectedOffer == null) {return false;}
+		return offerDAO.rejectAnOffer(rejectedOffer);
+	}
+	
 	
 
 	

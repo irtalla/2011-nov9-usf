@@ -2,6 +2,10 @@ package com.revature.beans;
 
 public class Employee extends User{
 	
+	public Employee() {
+		super("employee");
+	}
+	
 	public Employee(String username, String password) {
 		super(username, password, "employee");
 	}

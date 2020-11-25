@@ -3,6 +3,7 @@ package com.revature.services;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.revature.dao.UserPostgres;
 import com.revature.services.UserFunctions;
 
 
@@ -15,14 +16,14 @@ public class UserLoginTest {
 	public void testUserValidationIfThere() {
 		UserFunctions userCollections = new UserFunctions();
 		
-		assertNotNull(userCollections.validatePotentialUser("banebadibi", "parameciumfatality"));
+		assertNotEquals(-1, userCollections.validatePotentialUser("jonasanJosuta", "zaPasshon"));
 	}
 	
 	@Test
 	public void testUserValidationIfNotThere() {
 		UserFunctions userCollections = new UserFunctions();
 		
-		assertNull(userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
+		assertEquals(-1, userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
 	}
 	
 	//username and password are separate because

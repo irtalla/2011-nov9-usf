@@ -2,16 +2,26 @@ package com.revature.beans;
 
 public class Customer extends User{
 	
-	private double balance;
+	//private double balance;
+	
+	public Customer() {
+		super("customer");
+		//balance = 500.00;
+	}
 	
 	public Customer(String username, String password) {
 		super(username, password, "customer");
-		balance = 500.00;
+		//balance = 500.00;
+	}
+	
+	public Customer(String username, String password, int id) {
+		super(username, password, "customer", id);
+		//balance = 500.00;
 	}
 	
 	@Override
 	public String toString() {
-		return "Customer " + getUsername() + "'s password is " + getPassword() + "\nThat customer's balance is " + balance;
+		return "Customer " + getUsername() + "'s password is " + getPassword(); //+ "\nThat customer's balance is " + balance;
 	}
 
 	@Override

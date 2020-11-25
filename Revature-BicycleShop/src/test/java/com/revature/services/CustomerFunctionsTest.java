@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.revature.beans.Bicycle;
 import com.revature.beans.Customer;
+import com.revature.beans.Employee;
 import com.revature.beans.Offer;
 import com.revature.dao.BicycleCollections;
 import com.revature.dao.OfferCollections;
@@ -22,25 +23,25 @@ public class CustomerFunctionsTest {
 	@Test
 	public void testViewingAllThings() {
 		CustomerFunctions cf = new CustomerFunctions();
-		BicycleCollections bc = new BicycleCollections();
 		
 		assertNotNull(cf.viewAllAvailableBicycles());
-		assertArrayEquals(cf.viewAllAvailableBicycles().toArray(), bc.getAllAvailableBicycles().toArray());
 	}
 	
 	
 	@Test
 	public void testMakingAnOffer() {
 		CustomerFunctions cf = new CustomerFunctions();
-		OfferCollections oc = new OfferCollections();
+		EmployeeFunctions ef = new EmployeeFunctions();
 		
-		Set<Bicycle> bicyclesToChooseFrom = cf.viewAllAvailableBicycles();
-		Bicycle bike = (Bicycle)(bicyclesToChooseFrom.toArray())[0];
-		Customer customer = new Customer("zagreus", "hIsForHamazing");
+		Customer customer = new Customer("josukeHigashikata4", "cureijiDaiyamondo", 4);
+		Employee employee = new Employee("josefuJosuta", "hamittoPapuru", 2);
+		Bicycle bicycle = new Bicycle("Speedbicycle", "Smokey City Bike", "Quick and nimble when it needs to be", employee, 88.96, 186);
+		Offer offer = new Offer(customer, bicycle, 35.02, 21);
 		
-		Offer offer = new Offer(customer, bike, 99.99);
-		
-		assertTrue(cf.makeAnOffer(offer));
+		int whatever = ef.addABicycle(bicycle);
+		bicycle.setId(whatever);
+		int offerID = cf.makeAnOffer(offer);
+		assertTrue(ef.rejectAnOffer(offerID));
 	}
 	
 	@Test
@@ -52,12 +53,12 @@ public class CustomerFunctionsTest {
 		
 		Offer offer = new Offer(customer, bike, 99.99);
 		
-		assertFalse(cf.makeAnOffer(offer));
+		assertEquals(-1, cf.makeAnOffer(offer));
 	}
 	
 	@Test
 	public void testLookingAtYourBikesWhenYouHaveBikes() {
-		Customer customer = new Customer("cloudOfDarkness", "cloudOfLight");
+		Customer customer = new Customer("josukeHigashikata4", "cureijiDaiyamondo", 4);
 		CustomerFunctions cf = new CustomerFunctions(customer);
 		Set<Bicycle> customerBikes = cf.viewAllAvailableBicycles();
 		assertNotEquals(0, customerBikes.size());
@@ -71,6 +72,15 @@ public class CustomerFunctionsTest {
 		HashSet<Bicycle> emptyHashSet = new HashSet<Bicycle>();
 		
 		assertArrayEquals(emptyHashSet.toArray(), cf.viewBicyclesYouOwn().toArray());
+	}
+	
+	@Test
+	public void testViewingYourOffers() {
+		Customer josukeHigashikata4 = new Customer("josukeHigashikata4", "cureijiDaiyamondo");
+		CustomerFunctions cf = new CustomerFunctions(josukeHigashikata4);
+		
+		HashSet<Bicycle> emptyHashSet = new HashSet<Bicycle>();
+		assertArrayEquals(emptyHashSet.toArray(), cf.viewOffersYouMade().toArray());
 	}
 	
 	

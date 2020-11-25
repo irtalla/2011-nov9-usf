@@ -9,13 +9,36 @@ public class Offer {
 	
 	private static int idGenerator = 0;
 	
-
+	public Offer() {
+		offerMaker = null;
+		bicycleToBeSold = null;
+		offer = 0.00;
+		status = "pending";
+		id = 0;
+	}
+	
 	public Offer(Customer customer, Bicycle bicycle, double offer) {
 		offerMaker = customer;
 		bicycleToBeSold = bicycle;
 		this.offer = offer;
 		this.status = "pending";
 		id = ++idGenerator;
+	}
+	
+	public Offer(Customer customer, Bicycle bicycle, double offer, int id) {
+		offerMaker = customer;
+		bicycleToBeSold = bicycle;
+		this.offer = offer;
+		this.status = "pending";
+		this.id = id;
+	}
+	
+	public Offer(Customer customer, Bicycle bicycle, double offer, String status, int id) {
+		offerMaker = customer;
+		bicycleToBeSold = bicycle;
+		this.offer = offer;
+		this.status = status;
+		this.id = id;
 	}
 
 	/**

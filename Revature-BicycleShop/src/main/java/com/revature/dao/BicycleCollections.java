@@ -18,7 +18,8 @@ public class BicycleCollections implements BicycleDAO {
 		
 		Bicycle bicycle2 = new Bicycle("Cape Cod", "Kids' Bike Happenstance", "SHort and stout and colorful. Comes with detachable training wheels.", user, 38.66);
 		Customer customer = new Customer("cloudOfDarkness", "cloudOfLight");
-		bicycle2.setStatus("owned");
+		bicycle2.setStatus("owned")
+		;
 		bicycle2.setWhoWillOwnTheBike(customer);
 		offeredBicycles = new HashSet<>();
 		offeredBicycles.add(bicycle);
@@ -42,5 +43,17 @@ public class BicycleCollections implements BicycleDAO {
 	
 	public boolean removeABicycle(Bicycle b) {
 		return offeredBicycles.remove(b);
+	}
+
+	@Override
+	public Set<Bicycle> getAllBicycles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int addABicycle(Bicycle b) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
