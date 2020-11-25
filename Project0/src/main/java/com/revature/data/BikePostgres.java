@@ -131,8 +131,56 @@ public class BikePostgres implements BikeDAO {
 	}
 	
 	@Override
+	public Set<Bike> getOwnedBikes() {
+		Set<Bike> bikes = new HashSet<>();
+		try (Connection conn = cu.getConnection()) {
+			String sql = "";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				Bike bike = new Bike();
+				bike.setId(rs.getInt("id"));
+				bike.setName(rs.getString("name"));
+				bike.setPrice(rs.getDouble("Price"));
+				Model m = new Model();
+				m.setId(rs.getInt("model_id"));
+				m.setName(rs.getString("model_name"));
+				bike.setModel(m);
+				Status s = new Status();
+				s.setId(rs.getInt("status_id"));
+				s.setName(rs.getString("status_name"));
+				bike.setStatus(s);
+				
+				
+				
+				bikes.add(bike);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bikes;
+	}
+	
+	@Override
 	public void update(Bike t) {
 		// TODO Auto-generated method stub
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			//update from pending to accepted
+			String sql = "update bike set status_id = 2 where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId());
+			pstmt.executeUpdate();
+			conn.commit();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

@@ -9,8 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.Offer;
+import com.revature.beans.Status;
 import com.revature.beans.User;
 import com.revature.beans.Bike;
+import com.revature.beans.Model;
 import com.revature.utils.ConnectionUtil;
 
 public class OfferPostgres implements OfferDAO {
@@ -24,11 +26,12 @@ public class OfferPostgres implements OfferDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into Offer values (default, ?, ?)";
+			String sql = "insert into Offer values (default, ?, ?, ?)";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setInt(1, t.getUserId());
 			pstmt.setInt(2, t.getBikeId());
+			pstmt.setString(3, t.getOfferStatus());
 			
 			
 			pstmt.executeUpdate();
@@ -47,30 +50,34 @@ public class OfferPostgres implements OfferDAO {
 		}
 		return o;
 	}
-
+	
+	
 	@Override
 	public Offer getById(Integer id) {
 		// TODO Auto-generated method stub
 		Offer o = null;
-		try(Connection conn = cu.getConnection()) {
-			if(id != null) {
-				conn.setAutoCommit(false);
-				String sql = "select * from Offer where Offer_id = ?";
-				PreparedStatement stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, id);
-				ResultSet rs = stmt.executeQuery(sql);
-				if(rs.next()) {
-					o = new Offer();
-					o.setId(rs.getInt("id"));
-					o.setUserId(rs.getInt("userId"));
-					o.setUserId(rs.getInt("bikeId"));
-					
-				}
+
+		try (Connection conn = cu.getConnection()) {			
+			// Get the cat object
+			String sql = "select * from offer where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				o = new Offer();
+				o.setId(rs.getInt("id"));
+				o.setUserId(rs.getInt("user_id"));
+				o.setBikeId(rs.getInt("bike_id"));
+				o.setOfferStatus(rs.getString("status"));
+				
+				
 			}
-		}catch(Exception e) {
+					
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return o;
 	}
 
 	@Override
@@ -81,7 +88,26 @@ public class OfferPostgres implements OfferDAO {
 	
 	@Override
 	public Set<Offer> getAvailableOffers() {
-		return null;
+		Set<Offer> offers = new HashSet<>();
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select * from offer where status = 'Pending' ";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				Offer offer = new Offer();
+				offer.setId(rs.getInt("id"));
+				offer.setUserId(rs.getInt("user_id"));
+				offer.setBikeId(rs.getInt("bike_id"));
+				offer.setOfferStatus(rs.getString("status"));
+				
+				offers.add(offer);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return offers;
 	}
 	
 	@Override
@@ -89,10 +115,63 @@ public class OfferPostgres implements OfferDAO {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public void delete(Offer t) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void removeOffer(Offer o) {
+		// TODO Auto-generated method stub
+		//nuke the offer, send him to planks yarrr!!
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			//update from pending to accepted
+			String sql = "delete from offer where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, o.getId());
+			pstmt.executeUpdate();
+			conn.commit();
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+
+
+	@Override
+	public void completeOffer(Offer o) {
+		// TODO Auto-generated method stub
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			//update from pending to accepted
+			String sql = "update offer set status = 'Accepted' where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, o.getId());
+			pstmt.executeUpdate();
+			conn.commit();
+			
+			
+			// add user and bike
+			sql = "insert into user_bike values ( ? , ? )";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, o.getUserId());
+			pstmt.setInt(2, o.getBikeId());
+			pstmt.executeUpdate();
+			conn.commit();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -29,6 +29,8 @@ public class BikeServiceImpl implements BikeService {
     public Integer addBike(Bike b) {
         return bikeDao.add(b).getId();
     }
+	
+	
     @Override
     public Bike getBikeById(Integer id) {
         return bikeDao.getById(id);
@@ -41,6 +43,12 @@ public class BikeServiceImpl implements BikeService {
     public Set<Bike> getAvailableBikes() {
         return bikeDao.getAvailableBikes();
     }
+    
+    @Override
+    public Set<Bike> getOwnedBikes() {
+        return bikeDao.getAvailableBikes();
+    }
+    
     @Override
     public void updateBike(Bike b) {
         bikeDao.update(b);   
