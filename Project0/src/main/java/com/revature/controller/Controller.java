@@ -197,6 +197,7 @@ public class Controller {
 						System.out.println(paymentServ.getPaymentsOnBicycle(b));
 					}
 				}
+				mainMenu(user);
 				break;
 			
 			default:
@@ -285,31 +286,38 @@ public class Controller {
 	
 	private static void viewOwnedBicycles(Person user) {
 		try {	
-			if(bicycleServ.getBicyclesByOwner(user).size() > 0) {
+			if(bicycleServ.getBicycles().size() > 0) {
 				System.out.println("Your bicycles: ");
-				Set<Bicycle> ownedBicycles = bicycleServ.getBicyclesByOwner(user);
+				Set<Bicycle> ownedBicycles = bicycleServ.getBicycles();
 				for (Bicycle b : ownedBicycles) {
-					System.out.println(b);
+					if(b.getOwner().equals(user))
+						System.out.println(b);
 				}
-				System.out.println("Enter bicycle ID: ");
+				System.out.println("Enter bicycle ID: (other to exit)");
 				int userInput = Integer.valueOf(scan.nextLine());
 				
 				if(ownedBicycles.contains(bicycleServ.getBicycleById(userInput))) {
 					Bicycle b = bicycleServ.getBicycleById(userInput);
 					System.out.print(b);
-					System.out.println("1: view payments\n2: calculate weekly payments\nOther: Back");
+					System.out.println("1: Make payments\n2:View payments\n3: calculate weekly payments\nOther: Back");
 					
 					userInput = Integer.valueOf(scan.nextLine());
 					switch(userInput) {
 					case 1:
+						makePayments(user, b);
+						
+					case 2:
 						paymentServ.getPaymentsOnBicycle(b);
 						break;
-					case 2:
+					case 3:
 						calculatePayments(b, user);
 						break;
 					default:
 						mainMenu(user);
 					}
+				}
+				else {
+					mainMenu(user);
 				}
 			}
 			else {
@@ -321,6 +329,10 @@ public class Controller {
 			System.out.println(errorMessage);
 			viewOwnedBicycles(user);
 		}
+	}
+	
+	private static void makePayments(Person user, Bicycle b) {
+		viewOwnedBicycles(user);
 	}
 	
 	private static void calculatePayments(Bicycle b, Person user) {
@@ -483,7 +495,7 @@ public class Controller {
 	
 	 private static void manageOffers(Person user) {
 	 	try {
-	 		System.out.println("\n1: all offers\n2: Pending Offers\n3: offers by bicycle\n3: offers by user\nOther: Back");
+	 		System.out.println("\n1: all offers\n2: Pending Offers\n3: offers by bicycle\n4: offers by user\nOther: Back");
 			int userInput = Integer.valueOf(scan.nextLine());
 			switch(userInput) {
 			case 1:
@@ -540,11 +552,16 @@ public class Controller {
 				switch(userInput) {
 				case 1:
 					offerServ.acceptOffer(o);
+					manageOffers(user);
+					break;
 				case 2:
 					offerServ.rejectOffer(o);
+					manageOffers(user);
+					break;
 				default:
 					manageOffers(user);
 				}
+				mainMenu(user);
 			}
 			catch(NullPointerException e) {
 				System.out.println(errorMessage);
