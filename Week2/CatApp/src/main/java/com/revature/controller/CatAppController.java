@@ -20,11 +20,6 @@ public class CatAppController {
 	private static CatService catServ = new CatServiceImpl();
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-
-		
-=======
 		scan = new Scanner(System.in);
 		boolean userActive = true;
 		
@@ -77,10 +72,13 @@ public class CatAppController {
 					loggedInUser = null;
 					break menuLoop;
 				}
+				if (loggedInUser == null) {
+					System.out.println("See you next time!");
+					break menuLoop;
+				}
 			}
 		}
 		scan.close();
->>>>>>> 14c4f16f445f8bc716af654a0929ded9dd89d004
 	}
 
 	/*

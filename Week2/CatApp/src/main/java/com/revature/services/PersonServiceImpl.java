@@ -8,10 +8,6 @@ import com.revature.exceptions.NonUniqueUsernameException;
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
-	
-	
-	
-	
 	public PersonServiceImpl() {
 		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		personDao = personDaoFactory.getPersonDAO();
@@ -29,15 +25,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Person getPersonByUsername(String username) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		
-		System.out.println("");
-		
-		return null;
-=======
 		return personDao.getByUsername(username);
->>>>>>> 14c4f16f445f8bc716af654a0929ded9dd89d004
 	}
 
 	@Override
@@ -47,23 +35,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public void deletePerson(Person p) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-		
-		int i=p.getId();
-		p.setId(0);
-		p.setPassword("");
-		p.setRole(null);
-		p.setUsername("");
-		
 		personDao.delete(p);
-		
-		
-		
-		
-=======
-		personDao.delete(p);
->>>>>>> 14c4f16f445f8bc716af654a0929ded9dd89d004
 	}
 
 }
