@@ -110,7 +110,7 @@ public Set<Bikes> getAvailableBikes() {
 	public void update(Bikes t) {
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "update bike set bike.name = ?, bike.status_name = ? where id = ?";
+			String sql = "update bike set name = ?, status_name = ? where id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, t.getName());
 			pstmt.setString(2, t.getStatus());

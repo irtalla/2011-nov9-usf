@@ -27,13 +27,10 @@ public class BikeController {
 		
 		mainLoop: while (userActive) {
 			System.out.println("Hello! Welcome to the BikeApp!");
-			System.out.println("   -           __              ");
-			System.out.println(" --          ~( @\\   \\       ");
-			System.out.println("---   _________]_[__/_>_________");
-			System.out.println("     /  ____ \\ <>     |    ____ \\ ") ;
-			System.out.println("    =\\_/ __ \\_\\_______|_/  __ \\__D") ;
-			System.out.println("_________(__)________________(__)____");
-			System.out.println("\n\n\n\n\n\n\n");
+			System.out.println("o__         __o        ,__o        __o           __o");
+			System.out.println(",>/_       -\\<,      _-\\_<,       _`\\<,_       _ \\<_");
+			System.out.println("(*)`(*).....O/ O.....(*)/'(*).....(*)/ (*).....(_)/(_)");
+			System.out.println("\n\n\n");
 			Usr loggedInUsr = null; 
 			
 			while (loggedInUsr == null) {
@@ -252,6 +249,7 @@ private static Usr logInUsr() {
 				Bikes bike;
 				try {
 					bike = bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
+					
 				} catch (NumberFormatException e) {
 					break;
 				}
@@ -295,7 +293,8 @@ private static Usr logInUsr() {
 							System.out.println("Enter the Offer ID you would like to accept.");
 							Integer inputId= Integer.valueOf(scan.nextLine());
 							userServ.acceptOffer(inputId);
-							
+							//userServ.setMoney(userServ.getMoney(userServ.getUserById(userServ.getOfferById(inputId).getOfferer())) - (userServ.getOfferById(inputId)).getAmount(), (userServ.getUserById(userServ.getOfferById(inputId).getOfferer())));
+							break;
 						}
 						else { break;
 						}

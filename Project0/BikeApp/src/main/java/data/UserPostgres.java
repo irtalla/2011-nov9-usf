@@ -299,17 +299,13 @@ public void accept(Integer id) {
 			pstmt.setInt(2, offer.getTargetBike().getId());
 			pstmt.executeUpdate();
 			conn.commit();
-			String sql3 ="update usr set money = ? where id = ?";
-			PreparedStatement pstmt3 = conn.prepareStatement(sql3);
-			pstmt3.setDouble(1, (getMoney(userDao.getById(offer.getOfferer())))-offer.getAmount());
-			conn.commit();
 	} catch (Exception e) {
 		e.printStackTrace();
 	} 
 }
 @Override
 public Set<Bikes> getBikesByUsername(String username) {
-	// TODO Auto-generated method stub
+
 	// no need to freakin care
 	return null;
 }
