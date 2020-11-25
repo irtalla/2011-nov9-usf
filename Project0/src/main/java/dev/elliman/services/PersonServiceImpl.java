@@ -63,4 +63,9 @@ public class PersonServiceImpl implements PersonService {
 	public Person getAdminUser() {
 		return getPersonByUsername("admin");
 	}
+
+	@Override
+	public Set<Person> getAllUsers() {
+		return personDAO.getAll();
+	}
 }

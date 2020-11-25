@@ -192,6 +192,12 @@ public class BikeShopController {
 			case 11:
 				UserHandler.viewAllRemainingPayments(currentUser);
 				break;
+			case 12:
+				UserHandler.promoteUser(currentUser);
+				break;
+			case 13:
+				UserHandler.demoteUser(currentUser);
+				break;
 			}
 		}
 		

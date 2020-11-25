@@ -26,7 +26,8 @@ public class Role {
 		options.add(new Option("Accept offer", 3));
 		options.add(new Option("Reject offer", 3));
 		options.add(new Option("View all remaining payments", 3));
-		//options.add(new Option("Promote user", 1));
+		options.add(new Option("Promote user", 2));
+		options.add(new Option("Demote user", 2));
 	}
 	
 	public Role() {
@@ -43,6 +44,34 @@ public class Role {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void promote(Role autherizedUserRole) throws UnautherizedException {
+		if(autherizedUserRole == null || autherizedUserRole.getID() > 2) {
+			throw new UnautherizedException();
+		} else {
+			if(autherizedUserRole.getID().equals(1) && id > 1) {
+				id--;
+			} else if(autherizedUserRole.getID().equals(2) && id > 3) {
+				id--;
+			} else if(autherizedUserRole.getID().equals(2) && id == 2) {
+				throw new UnautherizedException();
+			}
+		}
+	}
+	
+	public void demote(Role autherizedUserRole) throws UnautherizedException {
+		if(autherizedUserRole == null || autherizedUserRole.getID() > 2) {
+			throw new UnautherizedException();
+		} else {
+			if(autherizedUserRole.getID().equals(1) && id < 4 ) {
+				id++;
+			} else if (autherizedUserRole.getID().equals(2) && id.equals(3)) {
+				id++;
+			} else if (autherizedUserRole.getID().equals(2) && (id.equals(2) || id.equals(1))) {
+				throw new UnautherizedException();
+			}
+		}
 	}
 	
 	public void setAdmin(Role autherizedUserRole) throws UnautherizedException {
@@ -88,7 +117,20 @@ public class Role {
 	
 	public void setLevel(PersonDAO auth, Integer level) {
 		id = level;
-		name = "Admin";
+		switch (level) {
+		case 1:
+			name = "Admin";
+			break;
+		case 2:
+			name = "Manager";
+			break;
+		case 3:
+			name = "Employee";
+			break;
+		case 4:
+			name = "Customer";
+			break;
+		}
 	}
 	
 	public String[] getOptions() {

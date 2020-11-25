@@ -17,6 +17,7 @@ public interface PersonService {
 	public Person getPersonById(Integer id);
 	public Person getPersonByUsername(String username);
 	public Person getAdminUser();
+	public Set<Person> getAllUsers();
 
 	//update
 	public void updatePerson(Person p);

@@ -7,6 +7,7 @@ import dev.elliman.beans.Bike;
 import dev.elliman.beans.Offer;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.ScannerSingleton;
+import dev.elliman.exceptions.UnautherizedException;
 import dev.elliman.services.BikeService;
 import dev.elliman.services.BikeServiceImpl;
 import dev.elliman.services.OfferService;
@@ -299,6 +300,90 @@ public class UserHandler {
 				//System.out.println(o);
 				System.out.println("Offer [id=" + o.getId() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", status=" + o.getStatus() + ", payment size=" + o.getPaymentSize() + "]");
 			}
+		}
+	}
+	
+	public static void promoteUser(Person user) {
+		System.out.println("Who would you like to promote? (-1 to cancel)");
+		Set<Person> users = ps.getAllUsers();
+		for(Person p : users) {
+			System.out.println(p.getID() + ": " + p.getFirstName() + " " + p.getLastName() + ", " + p.getUsername() + ", " + p.getRole().getName());
+		}
+		
+		Person person = null;
+		Integer personID = null;
+		while(true) {
+			try {
+				personID = Integer.valueOf(input.nextLine());
+				if(personID < 1) {
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Person p : users) {
+						if(p.getID().equals(personID)) {
+							person = p;
+							break;
+						}
+					}
+					if(person == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
+		
+		try {
+			person.getRole().promote(user.getRole());
+			ps.updatePerson(person);
+		} catch (UnautherizedException e) {
+			System.out.println("You do not have permission to do that.");
+		}
+	}
+	
+	public static void demoteUser(Person user) {
+		System.out.println("Who would you like to demote? (-1 to cancel)");
+		Set<Person> users = ps.getAllUsers();
+		for(Person p : users) {
+			System.out.println(p.getID() + ": " + p.getFirstName() + " " + p.getLastName() + ", " + p.getUsername() + ", " + p.getRole().getName());
+		}
+		
+		Person person = null;
+		Integer personID = null;
+		while(true) {
+			try {
+				personID = Integer.valueOf(input.nextLine());
+				if(personID < 1) {
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Person p : users) {
+						if(p.getID().equals(personID)) {
+							person = p;
+							break;
+						}
+					}
+					if(person == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
+		
+		try {
+			person.getRole().demote(user.getRole());
+			ps.updatePerson(person);
+		} catch (UnautherizedException e) {
+			System.out.println("You do not have permission to do that.");
 		}
 	}
 }

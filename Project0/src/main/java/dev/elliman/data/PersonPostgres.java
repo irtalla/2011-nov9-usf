@@ -98,6 +98,7 @@ public class PersonPostgres implements PersonDAO {
 						rs.getString("user_name"),
 						rs.getString("passwrd"),
 						role);
+				p.setID(rs.getInt("person_id"));
 				people.add(p);
 			}
 
