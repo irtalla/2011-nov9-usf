@@ -42,7 +42,7 @@ public class ConnectionUtil {
 			// registering the postgres JDBC Driver class
 			Class.forName(properties.getProperty("drv"));
 			conn = DriverManager.getConnection(
-						properties.getProperty("url"),
+						properties.getProperty("aws"),
 						properties.getProperty("usr"),
 						properties.getProperty("psw")
 					);
