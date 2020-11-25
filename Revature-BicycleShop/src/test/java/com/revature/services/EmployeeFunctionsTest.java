@@ -147,6 +147,7 @@ public class EmployeeFunctionsTest {
 		offer.getBicycleToBeSold().setWhoWillOwnTheBike(customer);
 		offer.getBicycleToBeSold().setStatus("owned");
 		
+		/*
 		for(Offer no: acceptedOfferSet) {
 			if (no.getId() == offer.getId()) {
 				System.out.println("Do customers match? " + no.getOfferMaker().equals(offer.getOfferMaker()));
@@ -171,6 +172,7 @@ public class EmployeeFunctionsTest {
 				break;
 			}
 		}
+		*/
 		
 		assertTrue(acceptedOfferSet.contains(offer));
 		

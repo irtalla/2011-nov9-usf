@@ -109,6 +109,8 @@ public class OfferPostgres implements OfferDAO {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			Offer nullOffer = new Offer();
+			allOffers.add(nullOffer);
 		}
 		
 		return allOffers;
@@ -150,12 +152,12 @@ public class OfferPostgres implements OfferDAO {
 	@Override
 	public boolean removeAnOffer(Offer o) {		
 		try (Connection conn = cu.getConnection()){			
-			String sql = "delete from offer where offer_id = ?";
+			String sql = "delete from offers where offer_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, o.getId());
 
 			
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 
 			return true;
 		}
@@ -287,9 +289,9 @@ public class OfferPostgres implements OfferDAO {
 				
 				//employee-exclusive stuff is set up here
 				//rs.getInt(17) repeat of rs.getInt(14)
-				employee.setUsername(rs.getString(18));
-				employee.setPassword(rs.getString(19));
-				employee.setType(rs.getString(20));
+				employee.setUsername(rs.getString(19));
+				employee.setPassword(rs.getString(20));
+				employee.setType(rs.getString(21));
 				bicycle.setSeller(employee);
 				
 				if (offer.getStatus().equals("accepted")) {
@@ -349,6 +351,7 @@ public class OfferPostgres implements OfferDAO {
 				employee.setUsername(rs.getString(19));
 				employee.setPassword(rs.getString(20));
 				employee.setType(rs.getString(21));
+				bicycle.setSeller(employee);
 				
 				if (bicycle.getStatus().equals("owned")) {
 					String getUsersOwningBikes = "select * from bike_shop_users where user_id = (select owner_id from bicycles where bike_id = ?)";

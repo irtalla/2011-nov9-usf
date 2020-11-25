@@ -39,6 +39,8 @@ public class UserPostgres implements UserDAO {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			User nullUser = new User();
+			allUsers.add(nullUser);
 		}
 		
 		return allUsers;
@@ -65,6 +67,9 @@ public class UserPostgres implements UserDAO {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			Employee nullEmployee = new Employee();
+			nullEmployee.setType("user");
+			allEmployees.add(nullEmployee);
 		}
 		
 		return allEmployees;
@@ -90,6 +95,9 @@ public class UserPostgres implements UserDAO {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			Customer nullCustomer = new Customer();
+			nullCustomer.setType("user");
+			allCustomers.add(nullCustomer);
 		}
 		
 		return allCustomers;

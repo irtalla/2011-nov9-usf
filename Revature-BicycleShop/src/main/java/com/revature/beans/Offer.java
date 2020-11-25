@@ -102,7 +102,7 @@ public class Offer {
 
 	@Override
 	public String toString() {
-		return offerMaker.getUsername() + " is offering " + bicycleToBeSold.getSeller().getUsername() + offer + " for the " + bicycleToBeSold.getBikeModel() + " " + bicycleToBeSold.getBikeType(); 
+		return offerMaker.getUsername() + " is offering " + bicycleToBeSold.getSeller().getUsername() + " " + offer + " for the " + bicycleToBeSold.getBikeModel() + " " + bicycleToBeSold.getBikeType(); 
 	}
 
 	@Override

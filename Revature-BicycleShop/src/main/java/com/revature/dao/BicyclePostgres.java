@@ -49,6 +49,8 @@ public class BicyclePostgres implements BicycleDAO {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			Bicycle nullBicycle = new Bicycle();
+			allTheBicycles.add(nullBicycle);
 		}
 		
 		return allTheBicycles;
@@ -166,6 +168,8 @@ public class BicyclePostgres implements BicycleDAO {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			Bicycle nullBicycle = new Bicycle();
+			allTheBicycles.add(nullBicycle);
 		}
 		
 		return allTheBicycles;
@@ -216,6 +220,8 @@ public class BicyclePostgres implements BicycleDAO {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+			Bicycle nullBicycle = new Bicycle();
+			yourBicycles.add(nullBicycle);
 		}
 		
 		return yourBicycles;
