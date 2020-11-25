@@ -26,7 +26,7 @@ public class PersonPostgres implements PersonDAO{
 		Person p = null;
 		
 		try (Connection conn = cu.getConnection()) {
-			conn.setAutoCommit(false);
+//			conn.setAutoCommit(false);
 			String sql = "insert into person values (default, ?, ?, ?)";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
@@ -60,8 +60,8 @@ public class PersonPostgres implements PersonDAO{
 		Person person = null;
 		
 		try (Connection conn = cu.getConnection()) {
-			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
-					+ "user_role.name as role_name from person join user_role on user_role_id = user_role.id "
+			String sql = "select person.id as person_id, role_id, role.name, username, password, "
+					+ "from person join role on role_id = role.id "
 					+ "where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
@@ -69,12 +69,12 @@ public class PersonPostgres implements PersonDAO{
 			
 			if (rs.next()) {
 				person = new Person();
-				person.setId(rs.getInt("person_id"));
+				person.setId(rs.getInt("person.id"));
 				person.setUsername(rs.getString("username"));
-				person.setPassword(rs.getString("passwd"));
+				person.setPassword(rs.getString("password"));
 				Role role = new Role();
-				role.setId(rs.getInt("role_id"));
-				role.setName(rs.getString("role_name"));
+				role.setId(rs.getInt("role.id"));
+				role.setName(rs.getString("role.name"));
 				person.setRole(role);
 				
 				person.setBikes(getBikesByPersonId(person.getId(), conn));
@@ -91,24 +91,24 @@ public class PersonPostgres implements PersonDAO{
 		Set<Person> people = new HashSet<>();
 		
 		try (Connection conn = cu.getConnection()) {
-			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
-					+ "user_role.name as role_name from person join user_role on user_role_id = user_role.id";
+			String sql = "select person.id, role.id, role.name, username, password"
+					+ "from person join role on user.role_id = role.id";
 			Statement state = conn.createStatement();
 			ResultSet rs = state.executeQuery(sql);
 			
 			while (rs.next()) {
-				Person human = new Person();
-				human.setId(rs.getInt("person_id"));
-				human.setUsername(rs.getString("username"));
-				human.setPassword(rs.getString("passwd"));
+				Person person = new Person();
+				person.setId(rs.getInt("person.id"));
+				person.setUsername(rs.getString("username"));
+				person.setPassword(rs.getString("password"));
 				Role job = new Role();
-				job.setId(rs.getInt("role_id"));
-				job.setName(rs.getString("role_name"));
-				human.setRole(job);
+				job.setId(rs.getInt("role.id"));
+				job.setName(rs.getString("role.name"));
+				person.setRole(job);
 				
-				human.setBikes(getBikesByPersonId(human.getId(), conn));
+				person.setBikes(getBikesByPersonId(person.getId(), conn));
 				
-				people.add(human);
+				people.add(person);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,57 +119,83 @@ public class PersonPostgres implements PersonDAO{
 
 	@Override
 	public Person getByUsername(String username) {
-		Person human = null;
+		Person person = null;
 		
 		try (Connection conn = cu.getConnection())
 		{
-			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
-					+ "user_role.name as role_name from person "
-					+ "join user_role on user_role_id = user_role.id where username = ?";
+			String sql = "select person.id, person.role_id, role.id, role.name, username, password, "
+					+ "from person join role on person.role_id = role.id where username = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
 			ResultSet rs = pstmt.executeQuery();
 			
-			if (rs.next())
-			{
-				human = new Person();
-				human.setUsername(rs.getString("username"));
-				human.setId(rs.getInt("person_id"));
-				human.setPassword(rs.getString("passwd"));
+			if (rs.next()){
+				person = new Person();
+				person.setUsername(rs.getString("username"));
+				person.setId(rs.getInt("person.id"));
+				person.setPassword(rs.getString("password"));
+				
 				Role job = new Role();
-				job.setId(rs.getInt("role_id"));
+				job.setId(rs.getInt("role.id"));
 				job.setName(rs.getString("role_name"));
-				human.setRole(job);
-				human.setBikes(getBikesByPersonId(human.getId(), conn));
+				person.setRole(job);
+				
+				person.setBikes(getBikesByPersonId(person.getId(), conn));
 			}
-						
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 		
-		return human;
+		return person;
 	}
 
 	@Override
-	public Person update(Person t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Person update(Person t) throws NonUniqueUsernameException {
+		Person p = null;
+		
+		try (Connection conn = cu.getConnection()) {
+//			conn.setAutoCommit(false);
+			String sql = "update person set username = ?, password = ?, role_id = ?) where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, t.getUsername());
+			pstmt.setString(2, t.getPassword());
+			pstmt.setInt(3, t.getRole().getId());
+			pstmt.setInt(4, t.getId());
+			
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				p = t;
+				p.setId(rs.getInt(1));
+				conn.commit();
+			} else {
+				conn.rollback();
+			}			
+		} catch (Exception e) {
+			if (e.getMessage().contains("violates unique constraint")) {
+				throw new NonUniqueUsernameException();
+			}
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 	@Override
 	public void delete(Person t) {
-		try (Connection conn =  cu.getConnection())
-		{
-			String sql = "delete from person_bike where person_id = ?; delete from person where id = ?";
+		try (Connection conn =  cu.getConnection()){
+			conn.setAutoCommit(false);
+			
+			String sql = "update bike set owner_id = null where owner_id = ?;"
+						+ "update offer set person_id = null where person_id = ?;"
+						+ "delete from person where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId());
 			pstmt.setInt(2, t.getId());
-			int rowsAffected = pstmt.executeUpdate();
+			pstmt.executeUpdate();
 			
-			if (rowsAffected > 0)
-				conn.commit();
-			else
-				conn.rollback();
+			conn.commit();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -177,16 +203,22 @@ public class PersonPostgres implements PersonDAO{
 	
 	private Set<Bike> getBikesByPersonId(Integer id, Connection conn) throws SQLException {
 		Set<Bike> bikes = new HashSet<>();
-		BikeDAO bikeDao = new BikePostgres();
 		
-		String sql = "select * from person_bike where person_id = ?";
+		String sql = "select model, brand, color, owner_id, bike.id, user.id, bike.owner_id from bike join person on bike.owner_id = person.id where person_id = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, id);
 		ResultSet rs = pstmt.executeQuery();
 		
 		while (rs.next()) {
-			Bike pet = bikeDao.getById(rs.getInt("bike_id"));
-			bikes.add(pet);
+			Bike bike = new Bike();
+			bike.setId(rs.getInt("bike.id"));
+			bike.setBrand(rs.getString("brand"));
+			bike.setModel(rs.getString("model"));
+			bike.setColor(rs.getString("color"));
+			
+			Person owner = this.getById(rs.getInt("owner_id"));
+			bike.setOwner(owner);
+			bikes.add(bike);
 		}
 		
 		return bikes;

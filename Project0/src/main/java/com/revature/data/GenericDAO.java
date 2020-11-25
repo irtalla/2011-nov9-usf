@@ -9,6 +9,6 @@ public interface GenericDAO <T> {
 	public T add(T t) throws Exception;
 	public T getById(Integer id);
 	public Set<T> getAll();
-	public T update(T t);
+	public T update(T t) throws NonUniqueUsernameException;
 	public void delete(T t);
 }

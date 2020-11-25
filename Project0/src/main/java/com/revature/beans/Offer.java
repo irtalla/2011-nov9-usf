@@ -6,6 +6,7 @@ public class Offer {
 	private Person person;
 	private double weeklyPayment;
 	private int weeks;
+	private Status status;
 	
 	public Integer getId() {
 		return id;
@@ -39,5 +40,12 @@ public class Offer {
 	
 	public void setWeeks(int weeks) {
 		this.weeks = weeks;
+	}
+	
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

@@ -9,6 +9,8 @@ public class Bike {
 	private String color;
 	private Status status;
 	private Set<Offer> offers;
+	private Person owner;
+//	private Offer acceptedOffer;
 	
 	public Integer getId() {
 		return id;
@@ -46,4 +48,16 @@ public class Bike {
 	public void setOffers(Set<Offer> offers) {
 		this.offers = offers;
 	}
+	public Person getOwner() {
+		return owner;
+	}
+	public void setOwner(Person owner) {
+		this.owner = owner;
+	}
+//	public Offer getAcceptedOffer() {
+//		return acceptedOffer;
+//	}
+//	public void setAcceptedOffer(Offer acceptedOffer) {
+//		this.acceptedOffer = acceptedOffer;
+//	}
 }
