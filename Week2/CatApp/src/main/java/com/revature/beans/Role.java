@@ -4,6 +4,7 @@ public class Role {
 	private Integer id;
 	private String name;
 	
+	//	Need insert into id_user values (1, 'Employee'); in SQL
 	public Role() {
 		id = 1;
 		name = "user";
