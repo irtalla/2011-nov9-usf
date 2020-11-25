@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 import com.revature.beans.Person;
 import com.revature.utils.ConnectionUtil;
@@ -48,14 +49,88 @@ public class PersonPostgres implements PersonDAO {
 
 	@Override
 	public Person getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Person returnedPerson = null;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = " select "
+						+ "	person.id as person_id, "
+						+ "	person.username as person_username, "
+						+ "	person.passwd as person_password, "
+						+ "	person.user_role_id as role_id, "
+						+ "	user_role.name as role_name "
+						+ "	from person "
+						+ "		join user_role "
+						+ "		on person.user_role_id = user_role.id "
+						+ "	where person.id = ? ";
+			
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			ResultSet rs = pstmt.executeQuery(); 
+			
+			if ( rs.next() ) {
+				
+				try {
+					returnedPerson = deserializeProduct(rs); 
+					returnedPerson.setOffers( this.offerPostgres.getOffersByCustomerId(returnedPerson.getId()) );
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+
+			} else {
+				conn.rollback();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return returnedPerson; 
 	}
 
 	@Override
 	public Set<Person> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Set<Person> persons = new HashSet<Person>();
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = " select "
+						+ "	person.id as person_id, "
+						+ "	person.username as person_username, "
+						+ "	person.passwd as person_password, "
+						+ "	person.user_role_id as role_id, "
+						+ "	user_role.name as role_name "
+						+ "	from person "
+						+ "		join user_role "
+						+ "		on person.user_role_id = user_role.id ";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			ResultSet rs = pstmt.executeQuery(); 
+			
+			Person returnedPerson = null; 
+			while ( rs.next() ) {
+				
+				try {
+					returnedPerson = deserializeProduct(rs); 
+					persons.add(returnedPerson);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return persons; 
 	}
 	
 	@Override
@@ -139,7 +214,7 @@ public class PersonPostgres implements PersonDAO {
 			String sql = " delete from person "
 						+ " where "
 						+ " person.id = ? and "
-						+ " person.user_role_id = employee "; 
+						+ " person.user_role_id = 2 "; 
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId() ); 
@@ -150,6 +225,8 @@ public class PersonPostgres implements PersonDAO {
 				conn.rollback();
 				// TODO : throw custom exception and rollback 
 			}
+			
+			conn.commit(); 
 
 		} catch (Exception e) {			
 			e.printStackTrace();

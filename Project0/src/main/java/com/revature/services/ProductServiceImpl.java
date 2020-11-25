@@ -113,4 +113,13 @@ public class ProductServiceImpl implements ProductService {
 				product.getPrice()% minPayment
 				 ); 	
 	}
+
+
+
+	@Override
+	public Set<Product> getProductByCategory(String userChoice) {
+		Set<Product> products = getProducts(); 
+		products.removeIf( product -> ! product.getCategory().getName().equalsIgnoreCase(userChoice) );
+		return products;
+	}
 }

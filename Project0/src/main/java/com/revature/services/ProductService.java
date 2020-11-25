@@ -15,6 +15,7 @@ public interface ProductService {
 	public Product addProduct(Product c);
 	// "read" methods
 	public Product getProductById(Integer Id);
+	public Set<Product> getProductByCategory(String userChoice); 
 	public Set<Product> getProductsByOwnerId(Integer customerId);
 	public Set<Product> getProducts();
 	public Set<Product> getAvailableProducts();
@@ -22,5 +23,5 @@ public interface ProductService {
 	public void updateProduct(Product c);
 	// "delete" methods
 	public void removeProduct(Integer productId);
-	public void getRemainingPayments(Integer productId); 
+	public void getRemainingPayments(Integer productId);
 }

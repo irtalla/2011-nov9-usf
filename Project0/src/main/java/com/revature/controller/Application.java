@@ -56,6 +56,7 @@ public class Application {
 	
 	private static CustomerController customerController = null; 
 	private static EmployeeController employeeController = null; 
+	private static ManagerController managerController = null; 
 
 	
 	private static PersonService personServ = new PersonServiceImpl(); 
@@ -120,6 +121,11 @@ public class Application {
 				System.out.printf("Welcome, %s! Our shop doesn't work if you don't!\n\n", 
 						Application.getCurrentUser().getUsername() );
 				break; 
+			case "MANAGER": 
+				Application.managerController = ManagerController.getManagerController(); 
+				System.out.printf("Welcome, %s! These priamtes need managing - and you're just the person to do it!\n\n", 
+						Application.getCurrentUser().getUsername() );
+				break; 
 			default: 	
 				System.out.println("Uh oh : something when wrong!"); 
 		} 
@@ -149,6 +155,15 @@ public class Application {
 		System.out.printf("(%s) Enter input here: ", Application.getCurrentUser().getUsername()); 
 		String userResponse = Application.userInputScanner.nextLine();
 		
+		switch ( userResponse.toUpperCase() ) {
+			case "LOGOUT": 
+				logout();
+				return; 
+			case "EXIT": 
+				exit();
+				return;
+		}
+		
 		String userRoleName = Application.getCurrentUser().getRole().getName(); 
 		switch( userRoleName.toUpperCase() ) {
 		case "CUSTOMER": 
@@ -156,9 +171,14 @@ public class Application {
 			break; 
 		case "EMPLOYEE":
 			EmployeeController.dispatchUserActionBasedOnResponse(userResponse);
+			break;
+		case "MANAGER":
+			ManagerController.dispatchUserActionBasedOnResponse(userResponse);
 			break; 
 		}
 	}
+	
+	
 	
 	static String getUserInput() {
 		System.out.printf("(%s) Enter input here: ", Application.getCurrentUser().getUsername());
@@ -317,11 +337,29 @@ public class Application {
 		
 		Person currentUser = getCurrentUser();
 		currentUser = null; 
+		customerController = null; 
+		employeeController = null; 
+		managerController = null; 
 		showExitScreen(); 
 		System.out.printf("\n\n\n\n\n\n\n\n\n");
 		showWelcomeScreen(); 
 		
 	}; 
+	
+	// TODO : this is bad, but can only be fixed by implementing another
+	// DAO for features. It isn't maintainable and doesn't scale, but should
+	// only be fixed if the application see further development !
+	public static Integer getCategoryIdByName(String name) {
+		
+		switch ( name.toUpperCase() ) {
+		case "UNSPECIFIED": return 1;
+		case "BIKE": return 2;
+		case "HELMET": return 3;
+		case "PEGS": return 4;
+		case "CHAIN": return 5;
+		default: return 0; 
+		}
+	}
 	
 	
 	

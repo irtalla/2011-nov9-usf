@@ -77,10 +77,10 @@ public class Person {
 	@Override
 	public String toString() {
 		return String.format(
-				  "id: %d"
-				+ "username: %s"
-				+ "password: *******"
-				+ "role: %s",
+				  "id: %d\n"
+				+ "username: %s\n"
+				+ "password: *******\n"
+				+ "role: %s\n",
 				id, username, role.getName()
 				);
 	}

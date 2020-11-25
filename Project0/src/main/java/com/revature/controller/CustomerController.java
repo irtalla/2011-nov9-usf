@@ -24,7 +24,11 @@ public class CustomerController {
 			"	VIEW_MY_PRODUCTS	        - view the bicycles that I own",
 			"	VIEW_MY_PAYMENTS 			- view all payments",
 	};
-	
+		
+	public static String[] getCommandDescriptions() {
+		return commandDescriptions;
+	}
+
 	protected CustomerController() {
 		
 		CustomerController.productService = new ProductServiceImpl();  
@@ -72,42 +76,61 @@ public class CustomerController {
 		final String command = userInputArray[0].toUpperCase(); 
 		
 		switch (command) {
-			// GENERIC ACTIONS : LOGIN, REGISTER, HELP, EXIT 
-			case "LOGIN":
-				Application.login();
-				break; 
-			case "REGISTER": 
-				Application.register();
-				break;
 			case "HELP":
 				for (String str : commandDescriptions) { System.out.println(str); }
 				break; 
-			case "LOGOUT": 
-				Application.logout(); 
-				break; 
-			case "EXIT": 
-				Application.exit();
-				break; 
 			// CUSTOMER ACTIONS : GET_PRODUCTS, MAKE_OFFER, VIEW_MY_PRODUCTS, VIEW_REMAINING_PAYMENTS
 			case "GET_PRODUCTS":
-				Application.displayDataSet( CustomerController.productService.getAvailableProducts() ); 
+				handleGetProductsRequest();
 				break;
 			case "MAKE_OFFER":
-				CustomerController.createAndAddOffer();
+				createAndAddOffer();
 				break;
 			case "VIEW_MY_PRODUCTS": 
-				Application.displayDataSet(CustomerController.productService
-						.getProductsByOwnerId( 
+				Application.displayDataSet(productService.getProductsByOwnerId( 
 								Application.getCurrentUser().getId() 
 								)
 						);
 				break;
 			case "VIEW_MY_PAYMENTS":
-				CustomerController.productService.getRemainingPayments(Application.getCurrentUser().getId() );
+				productService.getRemainingPayments(Application.getCurrentUser().getId() );
 				break; 
 			default: 
 				System.out.printf("Sorry, I didn't understand that! Check your spelling. Unknown command: %s\n", userInput);
 		}
+	}
+	
+	
+	private static void handleGetProductsRequest() {
+		
+		System.out.print("Would you like to browse a particular category of products? If so, enter 'yes'");
+		final String userInput = Application.getUserInput();
+		
+		if ( ! userInput.equalsIgnoreCase("YES")  ) {
+			Application.displayDataSet( productService.getAvailableProducts() );
+			return; 
+		}
+		
+		while (true) {
+			
+			String[] categories = { "  Bike", "  Helmet", "  Pegs", "  Chain" };
+			System.out.printf("Categories: \n\n");
+			for (String category : categories) { System.out.println(category); }
+			System.out.println("What is the category of the products you are interested in? :");
+			final String userChoice = Application.getUserInput();
+			if ( Application.getCategoryIdByName(userChoice) == 0 ) {
+				System.out.printf("Sorry, %s, you know we don't sell those.\n", Application.getCurrentUser().getUsername()); 
+				System.out.printf("Would you like to try again? If so, enter 'yes'\n"); 
+				if ( Application.getUserInput().equalsIgnoreCase("YES") ) {
+					continue; 
+				} else {
+					break; 
+				}
+			} else {
+				Application.displayDataSet(productService.getProductByCategory(userChoice));
+				break; 
+			}
+		}		
 	}
 	
 	

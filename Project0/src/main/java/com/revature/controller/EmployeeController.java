@@ -27,6 +27,10 @@ public class EmployeeController {
 			"VIEW_ALL_PAYMENS                -  see all payments made so far"
 	};
 	
+	public static String[] getCommandDescriptions() {
+		return commandDescriptions;
+	}
+	
 	protected EmployeeController() {}
 	public static EmployeeController getEmployeeController() {
 		
@@ -50,21 +54,8 @@ public class EmployeeController {
 		final Integer offerId = productId; 
 
 		switch (command) {
-			// GENERIC ACTIONS : LOGIN, REGISTER, HELP, EXIT 
-			case "LOGIN":
-				Application.login();
-				break; 
-			case "REGISTER": 
-				Application.register();
-				break;
 			case "HELP":
 				for (String str : commandDescriptions) { System.out.println(str); }
-				break; 
-			case "LOGOUT":
-				Application.logout();
-				break; 
-			case "EXIT": 
-				Application.exit();
 				break; 
 			case "GET_PRODUCTS":
 				Application.displayDataSet( EmployeeController.productService.getAvailableProducts() );
@@ -85,7 +76,7 @@ public class EmployeeController {
 				EmployeeController.productService.removeProduct(productId);
 				break;
 			case "VIEW_ALL_OFFERS":
-				Application.displayDataSet( EmployeeController.offerService.getOffers() );
+				Application.displayDataSet( EmployeeController.offerService.getAll() );
 				break; 
 			case "ACCEPT_OFFER":
 				if (offerId == null) {
@@ -107,32 +98,19 @@ public class EmployeeController {
 	}
 	
 	
-	// TODO : this is bad, but can only be fixed by implementing another
-	// DAO for features. It isn't maintainable and doesn't scale, but should
-	// only be fixed if the application see further development !
-	private static Integer getCategoryIdByName(String name) {
-		
-		switch ( name.toUpperCase() ) {
-		case "UNSPECIFIED": return 1;
-		case "BIKE": return 2;
-		case "HELMENT": return 3;
-		case "PEGS": return 4;
-		case "CHAIN": return 5;
-		default: return 0; 
-		}
-	}
+
 	
-	private static void createAndAddProduct() {
+	protected static void createAndAddProduct() {
 		
 		while (true) {
 			
-			String[] categories = { "  Unspecified", "  Bike", "  Helment", "  Pegs", "  Chain" };
+			String[] categories = { "  Unspecified", "  Bike", "  Helmet", "  Pegs", "  Chain" };
 			System.out.printf("Categories: \n\n");
 			for (String category : categories) { System.out.println(category); }
 			System.out.printf("\n");
-			System.out.print("What is the category of the product you are adding? :");
+			System.out.println("What is the category of the product you are adding? :");
 			final String userInput = Application.getUserInput();
-			if ( getCategoryIdByName(userInput) == 0 ) {
+			if ( Application.getCategoryIdByName(userInput) == 0 ) {
 				System.out.printf("Now, %s, you know we don't sell those.\n", Application.getCurrentUser().getUsername()); 
 				System.out.printf("Would you like to try again? If so, enter 'yes'\n"); 
 				if ( Application.getUserInput().equalsIgnoreCase("YES") ) {
@@ -143,7 +121,7 @@ public class EmployeeController {
 			}
 			
 			Product newProduct = new Product();
-			newProduct.getCategory().setId( getCategoryIdByName(userInput) );
+			newProduct.getCategory().setId( Application.getCategoryIdByName(userInput) );
 
 			System.out.print("What is the name of product you are adding? :");		
 			newProduct.setName( Application.getUserInput() );

@@ -32,7 +32,7 @@ public class OfferServiceImpl implements OfferService {
 	
 	
 	@Override
-	public Set<Offer> getOffers() {
+	public Set<Offer> getAll() {
 		return offerDao.getAll(); 
 	}
 
@@ -59,6 +59,14 @@ public class OfferServiceImpl implements OfferService {
 		rejectedOffer.getStatus().setId(5);
 		rejectedOffer.getStatus().setName("rejected");
 		return offerDao.update(rejectedOffer);
+	}
+
+
+	@Override
+	public Set<Offer> getAllAcceptedOffers() {
+		Set<Offer> offers = getAll(); 
+		offers.removeIf( offer -> ! offer.getStatus().getName().equalsIgnoreCase("ACCEPTED") );
+		return offers; 
 	}
 
 }

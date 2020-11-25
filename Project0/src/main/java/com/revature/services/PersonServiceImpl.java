@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.Set;
+
 import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
@@ -19,8 +21,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public Person getPersonById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return personDao.getById(id);
 	}
 
 	@Override
@@ -35,9 +36,14 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public void deletePerson(Person p) {
-		// TODO Auto-generated method stub
+	public boolean deletePerson(Person p) {
+		return personDao.delete(p);
 		
+	}
+
+	@Override
+	public Set<Person> getAll() {
+		return personDao.getAll(); 
 	}
 
 }
