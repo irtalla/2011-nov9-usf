@@ -1,7 +1,5 @@
 package dev.warrington.controller;
 
-//import java.sql.Connection;
-//import java.sql.SQLException;
 import java.util.Formatter;
 import java.util.Scanner;
 import java.util.Set;
@@ -15,8 +13,6 @@ import dev.warrington.services.PaymentServiceImpl;
 import dev.warrington.services.PersonService;
 
 import dev.warrington.services.PersonServiceImpl;
-
-//import dev.warrington.exceptions.NonUniqueUsernameException;
 
 import dev.warrington.beans.Role;
 import dev.warrington.beans.Bicycle;
@@ -280,6 +276,8 @@ public class BicycleShopController {
 					o.setId(os.addOffer(o));
 					System.out.println("\nOffer submitted:\n");
 					System.out.println("ID: " + o.getId() + "   Amount: $" + f1.format("%1.2f", o.getAmount()) + "\n");
+					
+					f1.close();
 					
 				}
 		
@@ -550,6 +548,8 @@ public class BicycleShopController {
 						System.out.println("\nYou have " + p.getPaymentsRemaining() + " payments of $" + f1.format("%1.2f", p.getWeeklyPayment()) + " each remaining "
 								+ "with an outstanding balance of $" + f2.format("%1.2f", p.getTotalOwed()) + "\n");
 						
+						f1.close();
+						f2.close();
 					}
 		
 			}
