@@ -24,6 +24,7 @@ public class OfferPostgres implements OfferDAO{
 		Offer o = null;
 		
 		try(Connection conn = cu.getConnection()){
+			conn.setAutoCommit(false);
 			String sql = "insert into offer values (default, ?, ?, ?, ?)";
 			String[] keys = {"offer_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
@@ -120,6 +121,8 @@ public class OfferPostgres implements OfferDAO{
 				s.setId(rs.getInt("status_id"));
 				s.setName(rs.getString("status_name"));
 				o.setStatus(s);
+				
+				offers.add(o);
 			}
 		}
 		catch(Exception e) {
@@ -161,14 +164,11 @@ public class OfferPostgres implements OfferDAO{
 	@Override
 	public void delete(Offer t) {
 		try(Connection conn = cu.getConnection()){
-			String sql = "delete from bicycle_offer where offer_id = ?";
+			conn.setAutoCommit(false);
+			String sql = "delete from offer where offer_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId());
 			pstmt.executeUpdate();
-			
-			sql = "delete from person_offer where offer_id = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(2, t.getId());
 			
 			int rowsAffected = pstmt.executeUpdate();
 			if(rowsAffected > 0)
@@ -214,6 +214,8 @@ public class OfferPostgres implements OfferDAO{
 				s.setId(rs.getInt("status_id"));
 				s.setName(rs.getString("status_name"));
 				o.setStatus(s);
+				
+				offers.add(o);
 			}
 		}
 		catch(Exception e) {
@@ -254,6 +256,7 @@ public class OfferPostgres implements OfferDAO{
 				s.setId(rs.getInt("status_id"));
 				s.setName(rs.getString("status_name"));
 				o.setStatus(s);
+				offers.add(o);
 			}
 		}
 		catch(Exception e) {
@@ -271,16 +274,16 @@ public class OfferPostgres implements OfferDAO{
 					"offer.amount, " + 
 					"offer.status_id, " + 
 					"status.status_name, " + 
-					"bicycle_offer.bicycle_id, " + 
-					"person_offer.person_id " + 
+					"offer.bicycle_id, " + 
+					"offer.person_id " + 
 					"from offer " + 
-					"join bicycle_offer " + 
-					"on offer.offer_id = bicycle_offer.offer_id " + 
+					"join bicycle " + 
+					"on offer.bicycle_id = bicycle.bicycle_id " + 
 					"join status " + 
 					"on offer.status_id = status.status_id " + 
-					"join person_offer " + 
-					"on offer.offer_id = person_offer.offer_id "
-					+ "where person_offer.person_id = ?";
+					"join person " + 
+					"on offer.person_id = person.person_id "
+					+ "where person.person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, p.getId());
 			ResultSet rs = pstmt.executeQuery();
@@ -298,18 +301,14 @@ public class OfferPostgres implements OfferDAO{
 				s.setId(rs.getInt("status_id"));
 				s.setName(rs.getString("status_name"));
 				o.setStatus(s);
+				
+				offers.add(o);
 			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		return offers;
-	}
-
-	@Override
-	public void updateOwner(Offer o, Person p) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

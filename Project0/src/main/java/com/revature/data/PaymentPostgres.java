@@ -114,11 +114,13 @@ public class PaymentPostgres implements PaymentDAO{
 			String sql = "update payment set " + 
 			"payment.bicycle_id = ?, " + 
 			"payment.amount = ?, " + 
-			"payment.ts = ?";
+			"payment.ts = ? "
+			+ "where payment.id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getBicycle().getId());
 			pstmt.setDouble(2, t.getAmount());
 			pstmt.setTimestamp(3, t.getTs());
+			pstmt.setInt(4, t.getId());
 			
 			int rowsAffected = pstmt.executeUpdate();
 			

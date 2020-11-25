@@ -160,13 +160,15 @@ public class BicyclePostgres implements BicycleDAO{
 					+ "price = ?, "
 					+ "status_id = ?, "
 					+ "color_id = ?, "
-					+ "owner_id = ?";
+					+ "owner_id = ? "
+					+ "where bicycle_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, t.getModel());
 			pstmt.setDouble(2, t.getPrice());
 			pstmt.setInt(3, t.getStatus().getId());
 			pstmt.setInt(4, t.getColor().getId());
 			pstmt.setInt(5, t.getOwner().getId());
+			pstmt.setInt(6, t.getId());
 			
 			int rowsAffected = pstmt.executeUpdate();
 			
@@ -185,6 +187,7 @@ public class BicyclePostgres implements BicycleDAO{
 	@Override
 	public void delete(Bicycle t) {
 		try(Connection conn = cu.getConnection()){
+			conn.setAutoCommit(false);
 			// We need to delete the offers for the bicycle first
 			String sql = "delete from offer where bicycle_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -193,7 +196,7 @@ public class BicyclePostgres implements BicycleDAO{
 			
 			// Now we delete the bicycle
 			sql = "delete from bicycle where bicycle_id = ?";
-			pstmt.setInt(2, t.getId());
+			pstmt.setInt(1, t.getId());
 			int rowsAffected = pstmt.executeUpdate();
 			
 			if(rowsAffected > 0)

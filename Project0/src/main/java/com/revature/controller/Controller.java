@@ -1,11 +1,13 @@
 package com.revature.controller;
 
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 import com.revature.beans.Bicycle;
 import com.revature.beans.Color;
 import com.revature.beans.Offer;
+import com.revature.beans.Payment;
 import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
@@ -72,9 +74,10 @@ public class Controller {
 			
 			Person user = personServ.getPersonByUsername(username);
 			if(personServ.getPersonByUsername(username) == null) {
-				System.out.println("That's cap");
+				System.out.println("Wrong username my guy");
 			}
 			else if (user.getPassword().contentEquals(password)){
+				System.out.println("\nWe're live, baby");
 				mainMenu(user);
 			}
 			else {
@@ -117,7 +120,7 @@ public class Controller {
 			int userInput = Integer.valueOf(scan.nextLine());
 			
 			if(userInput == 2) {
-				System.out.println("\nThat's cap\n");
+				System.out.println("\nThat's cap. Nice try, customer.\n");
 			}
 			
 			Role r = new Role();
@@ -135,7 +138,7 @@ public class Controller {
 			case 1:
 				try {
 					user.setId(personServ.addPerson(user));
-					System.out.println("\nWe live baby\n");
+					System.out.println("\nWe're live, baby");
 					mainMenu(user);
 				}
 				catch(NonUniqueUsernameException e) {
@@ -158,11 +161,11 @@ public class Controller {
 	
 	private static void mainMenu(Person user) {
 		try {
-			System.out.println("\nWe're live baby.");
-			System.out.println("1: View available bicycles\n2: View your bicycles");
+			System.out.println("\nWhat's the move?");
+			System.out.println("1: View available bicycles\n2: View your bicycles\n3: View my offers");
 			
 			if(user.getRole().getName().equals("Employee")){
-				System.out.println("3: Manage bicycles\n4: Manage Offers\n");
+				System.out.println("4: Manage bicycles\n5: Manage offers\n6: View all payments\n");
 			}
 			System.out.println("Other: log out");
 			
@@ -175,15 +178,27 @@ public class Controller {
 			
 			case 2:
 				viewOwnedBicycles(user);
-			
+				
 			case 3:
-				if(employeeCheck(user))
-					manageBicycles(user);
+				viewMyOffers(user);
 			
 			case 4:
 				if(employeeCheck(user))
+					manageBicycles(user);
+			
+			case 5:
+				if(employeeCheck(user))
 					manageOffers(user);
-				
+			
+			case 6:
+				if(employeeCheck(user)) {
+					System.out.println("Payments: ");
+					for(Bicycle b : bicycleServ.getBicycles()) {
+						System.out.println(paymentServ.getPaymentsOnBicycle(b));
+					}
+				}
+				break;
+			
 			default:
 				user = null;
 			}
@@ -224,12 +239,21 @@ public class Controller {
 					o.setBicycle(b);
 					o.setPerson(user);
 					
+					Status s = new Status();
+					s.setId(3);
+					s.setName("Pending");
+					o.setStatus(s);
+					
+					offerServ.addOffer(o, b);
+					
 					System.out.println("Receipt: " + o.getAmount() + " for " + b.getModel());
 					user = personServ.getPersonById(user.getId());
 					
-					System.out.println("1: Continue\n2: Back");
+					System.out.println("1: Continue\nOther: Back");
 					userInput = Integer.valueOf(scan.nextLine());
-					if(userInput != 1)
+					if(userInput == 1)
+						viewAvailableBicycles(user);
+					else
 						mainMenu(user);
 				}
 				else {
@@ -244,6 +268,19 @@ public class Controller {
 			System.out.println(errorMessage);
 			viewAvailableBicycles(user);
 		}
+	}
+	
+	private static void viewMyOffers(Person user) {
+		if(offerServ.getOffersByPerson(user).size() > 0) {
+			System.out.println("Offers: ");
+			for(Offer o : offerServ.getOffersByPerson(user)) {
+				System.out.println(o);
+			}
+		}
+		else {
+			System.out.println("None lol");
+		}
+		mainMenu(user);
 	}
 	
 	private static void viewOwnedBicycles(Person user) {
@@ -288,16 +325,26 @@ public class Controller {
 	
 	private static void calculatePayments(Bicycle b, Person user) {
 		try {
-			System.out.println("How many weeks do you want to pay this off?");
-			int userInput = Integer.valueOf(scan.nextLine());
-			if(userInput > 0)
-				System.out.println("That'll be $" + (b.getPrice()/userInput) + "per week.");
-			else
-				System.out.println("That'll be $" + b.getPrice() + "upfront.");
+			System.out.println("Original price: " + b.getPrice());
+			Set<Payment> payments = paymentServ.getPaymentsOnBicycle(b);
+			double remainingPayment = b.getPrice();
+			System.out.println("Payments: ");
+			if(payments.size() > 0) {
+				for(Payment p : payments) {
+					System.out.println(p.getTs() + ": " + p.getAmount());
+					remainingPayment = remainingPayment - p.getAmount();
+				}
+			}
+			else {
+				System.out.print("None");
+			}
+			System.out.println("How much do you want to pay every week?");
+			Double userInput = Double.valueOf(scan.nextLine());
+			System.out.println("You have " + remainingPayment/userInput + " weekly payments left");
 			
 			System.out.println("1: Run another calculation\n2: Back to my bicycles\nOther: Back");
-			userInput = Integer.valueOf(scan.nextLine());
-			switch(userInput){
+			int userInput2 = Integer.valueOf(scan.nextLine());
+			switch(userInput2){
 			case 1:
 				calculatePayments(b, user);
 				break;
@@ -364,24 +411,40 @@ public class Controller {
 			}
 			
 			else if(userInput == 2) {
-				Set<Bicycle> bicycles = bicycleServ.getAvailableBicycles();
+				Set<Bicycle> bicycles = bicycleServ.getBicycles();
 				for(Bicycle b : bicycles) {
 					System.out.println(b);
 				}
-				System.out.println("Pick a bicycle to update (by ID)");
-				
+				System.out.println("Input Bicycle ID: ");
 				userInput = Integer.valueOf(scan.nextLine());
-				Bicycle b2 = bicycleServ.getBicycleById(userInput);
-				System.out.println(b2.getModel() + "status: " + b2.getStatus().getName());
+				Bicycle b = bicycleServ.getBicycleById(userInput);
+				System.out.println(b.getModel() + "status: " + b.getStatus().getName());
+				if(b.getStatus().getName() == "Sold")
+					System.out.println("Owner: " + b.getOwner());
 				System.out.println("1: Update status\nOther: Back");
 				userInput = Integer.valueOf(scan.nextLine());
 				switch(userInput) {
 				case 1:
 					Status s = new Status();
-					s.setId(2);
-					s.setName("Sold");
-					b2.setStatus(s);
-					System.out.println(b2);
+					if(b.getStatus().getName().equals("Available")) {
+						s.setId(2);
+						s.setName("Sold");
+						b.setStatus(s);
+						System.out.println("New Owner ID: ");
+						userInput = Integer.valueOf(scan.nextLine());
+						bicycleServ.updateBicycle(b);
+						System.out.println("Updated: " + b);
+					}
+					else if(b.getStatus().getName().equals("Sold")) {
+						s.setId(1);
+						s.setName("Available");
+						b.setStatus(s);
+						// This is the user made to fill the owner foreign key when the bicycles haven't been sold yet 
+						b.setOwner(personServ.getPersonById(0));
+						bicycleServ.updateBicycle(b);
+						System.out.println("Updated: " + b);
+					}
+					
 					break;
 				default:
 					mainMenu(user);
@@ -392,10 +455,11 @@ public class Controller {
 				for(Bicycle b : bicycleServ.getAvailableBicycles()) {
 					System.out.println(b);
 				}
-				System.out.println("Pick a bicycle to delete (by ID)");
+				System.out.println("Input Bicycle ID: ");
 				userInput = Integer.valueOf(scan.nextLine());
 				Bicycle b = bicycleServ.getBicycleById(userInput);
 				bicycleServ.deleteBicycle(b);
+				System.out.println("Deleted: " + b.getModel());
 			}
 			
 			else {
@@ -419,7 +483,7 @@ public class Controller {
 	
 	 private static void manageOffers(Person user) {
 	 	try {
-	 		System.out.println("1: all offers\n2: offers by bicycle\n3: offers by user\nOther: Back");
+	 		System.out.println("\n1: all offers\n2: Pending Offers\n3: offers by bicycle\n3: offers by user\nOther: Back");
 			int userInput = Integer.valueOf(scan.nextLine());
 			switch(userInput) {
 			case 1:
@@ -430,8 +494,18 @@ public class Controller {
 				}
 				break;
 			
-			case 2:
-				System.out.println("Bicycle ID: ");
+			case 2: 
+				System.out.println("Pending Offers: ");
+				Set<Offer> pendingOffers = new HashSet<>();
+				for(Offer o : offerServ.getOffers()) {
+					if(o.getStatus().getName().equals("Pending"))
+						pendingOffers.add(o);
+						System.out.println(o);
+				}
+				break;
+				
+			case 3:
+				System.out.println("Input Bicycle ID: ");
 				userInput = Integer.valueOf(scan.nextLine());
 				Bicycle b = bicycleServ.getBicycleById(userInput);
 				Set<Offer> bicycleOffers = offerServ.getOffersByBicycle(b);
@@ -441,8 +515,8 @@ public class Controller {
 				}
 				break;
 			
-			case 3:
-				System.out.println("Person ID: ");
+			case 4:
+				System.out.println("Input Person ID: ");
 				userInput = Integer.valueOf(scan.nextLine());
 				Person p = personServ.getPersonById(userInput);
 				Set<Offer> personOffers = offerServ.getOffersByPerson(p);
@@ -456,7 +530,7 @@ public class Controller {
 				mainMenu(user);
 			}
 			
-			System.out.println("Offer ID: ");
+			System.out.println("Input Offer ID: ");
 			userInput = Integer.valueOf(scan.nextLine());
 			
 			try {

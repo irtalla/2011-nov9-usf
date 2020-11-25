@@ -11,5 +11,4 @@ public interface OfferDAO extends GenericDAO<Offer>{
 	public Set<Offer> getOffersByBicycle(Bicycle b);
 	public Set<Offer> getPendingBicycleOffers(Bicycle b);
 	public Set<Offer> getOffersByPerson(Person p);
-	public void updateOwner(Offer o, Person p);
 }

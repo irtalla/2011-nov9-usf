@@ -75,8 +75,10 @@ public class OfferServiceImpl implements OfferService{
 		// Rejects other pending offers when an offer is accepted
 		Set<Offer> pendingOffers = offerDAO.getPendingBicycleOffers(b);
 		for(Offer offer : pendingOffers) {
-			rejectOffer(offer);
-			offerDAO.update(offer);
+			if(!(offer.equals(o))){
+				rejectOffer(offer);
+				offerDAO.update(offer);
+			}
 		}
 		b.setPrice(o.getAmount());
 		bicycleDAO.update(b);
