@@ -1,5 +1,6 @@
 package com.james.controller;
 
+import java.lang.ModuleLayer.Controller;
 import java.util.Scanner;
 
 
@@ -137,6 +138,8 @@ public class BikeStoreAppController {
 				try {
 					newAccount.setId(personServ.addPerson(newAccount));
 					System.out.println("Confirmed. Welcome new customer!");
+					Person loggedInUser = null;	
+					loggedInUser = logInUser();
 					return newAccount;
 				} catch (NonUniqueUsernameException e) {
 					System.out.println("Sorry, that username is taken - let's try again.");
@@ -147,6 +150,7 @@ public class BikeStoreAppController {
 				break;
 			default:
 				System.out.println("Okay, let's go back.");
+				
 				return null;
 			}
 			
@@ -204,7 +208,8 @@ public class BikeStoreAppController {
 				break;
 			default:
 				System.out.println("Okay, let's go back.");				
-			
+				Person loggedInUser = null;	
+				loggedInUser = logInUser();
 			}
 		}
 			
@@ -271,7 +276,8 @@ public class BikeStoreAppController {
 				break;			
 			default:
 				System.out.println("Okay, let's go back.");				
-			
+				Person loggedInUser = null;	
+				loggedInUser = logInUser();
 			}
 		}
 		
