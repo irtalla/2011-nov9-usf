@@ -53,33 +53,42 @@ public class BikeController {
 		menuLoop: while (true) {
 			System.out.println("What would you like to do?");
 			System.out.println("1. View available bikes \n2. View my bikes. \n3. Add money to account. Negative adds go to jail.");
-			if (loggedInUsr.getRole().getName().equals("Usr")) {
-				System.out.println("other. Log out");
-			} else if (loggedInUsr.getRole().getName().equals("Employee")) {
-				System.out.println("4. Manage bikes \n 5. Manage users\n other. Log Out.");
+			try {
+				if (loggedInUsr.getRole().getName().equals("Usr")) {
+					System.out.println("other. Log out");
+				} else if (loggedInUsr.getRole().getName().equals("Employee")) {
+					System.out.println("4. Manage bikes \n 5. Manage users\n other. Log Out.");
+				}
+			} catch (Exception e1) {
+				break menuLoop;
 			}
 		int userInput = Integer.valueOf(scan.nextLine());
-		switch (userInput) {
-		case 1:
-			loggedInUsr = viewAvailableBikes(loggedInUsr);
-			break;
-		case 2:
-			loggedInUsr = viewUserBikes(loggedInUsr);
-			break;
-		case 3:
-			loggedInUsr = AddUserMoney(loggedInUsr);
-			break;
-		case 4:
-			loggedInUsr = manageBikes(loggedInUsr);
-			break;
-		case 5:
-			loggedInUsr = manageUsers(loggedInUsr);
-			break;
-		default:
-			System.out.println("See you next time!");
-			loggedInUsr = null;
-			break menuLoop;
-			}
+		try {
+			switch (userInput) {
+			case 1:
+				loggedInUsr = viewAvailableBikes(loggedInUsr);
+				break;
+			case 2:
+				loggedInUsr = viewUserBikes(loggedInUsr);
+				break;
+			case 3:
+				loggedInUsr = AddUserMoney(loggedInUsr);
+				break;
+			case 4:
+				loggedInUsr = manageBikes(loggedInUsr);
+				break;
+			case 5:
+				loggedInUsr = manageUsers(loggedInUsr);
+				break;
+			default:
+				System.out.println("See you next time!");
+				loggedInUsr = null;
+				break menuLoop;
+				}
+		} catch (Exception e) {
+				loggedInUsr = null;
+				break menuLoop;
+		}
 		}
 	}
 	scan.close();
