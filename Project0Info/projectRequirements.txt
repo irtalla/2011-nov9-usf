@@ -21,29 +21,30 @@
 ## User Stories
 Total Points: 25 Points
 
-* As a user, I can login.
+* As a user, I can login. --
 	* 2 points
-* As an employee, I can add a bicycle to the shop.
+* As an employee, I can add a bicycle to the shop. --
 	* 3 points
-* As a customer, I can view the available bicycles.
+* As a customer, I can view the available bicycles. --
 	* 1 point
-* As a customer, I can make an offer for a bicycle.
+* As a customer, I can make an offer for a bicycle.--
 	* 3 points
-* As an employee, I can accept or reject a pending offer for a bicycle.
+* As an employee, I can accept or reject a pending offer for a bicycle.v--
 	* 2 points
-* As the system, I update a bicycle to an owned state when an offer is accepted.
+* As the system, I update a bicycle to an owned state when an offer is accepted.v--
 	* 2 points
-* As the system, I reject all other pending offers for a bicycle when an offer is accepted.
+* As the system, I reject all other pending offers for a bicycle when an offer is accepted. --
 	* 3 points
-* As a user, I can register for a customer account.
+* As a user, I can register for a customer account. --
 	* 3 points
-* As an employee, I can remove a bicycle from the shop.
+* As an employee, I can remove a bicycle from the shop. --
 	* 2 points
-* As a customer, I can view the bicycles that I own.
+* As a customer, I can view the bicycles that I own. --
 	* 1 point
 * As a customer, I can view my remaining payments for a bicycle.
 	* 1 point
-* As an employee, I can view all payments.
+* As an employee, I can view all payments.--
 	* 1 point
 * As the system, I can calculate the weekly payment.
 	* 1 point
+
