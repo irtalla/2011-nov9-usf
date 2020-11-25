@@ -1,0 +1,11 @@
+package services;
+
+import data.BikeDao;
+import data.BikePostgres;
+
+public class OfferDaoFactory {
+	 public OfferDao getOfferDAO() {
+	        
+	        return new BikePostgres();
+	    }
+}

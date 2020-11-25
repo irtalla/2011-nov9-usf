@@ -1,0 +1,10 @@
+package models;
+
+public class Offer {
+	private int OfferId;
+	private double Amount;
+	private int CustomerId;
+	private int SellerId;
+	private String Status;
+	
+}

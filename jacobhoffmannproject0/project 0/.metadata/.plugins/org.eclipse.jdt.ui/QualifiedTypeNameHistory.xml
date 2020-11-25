@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="org.omg.CORBA.portable.InputStream"/>
+<fullyQualifiedTypeName name="javax.net.ssl.SSLEngineResult.Status"/>
+<fullyQualifiedTypeName name="services.BikeServiceImpl"/>
+<fullyQualifiedTypeName name="data.BikeDao"/>
+<fullyQualifiedTypeName name="data.BikePostgres"/>
+<fullyQualifiedTypeName name="models.Model"/>
+<fullyQualifiedTypeName name="models.Status"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="utils.ConnectionUtil"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="data.UserPostgres"/>
+<fullyQualifiedTypeName name="data.UserDao"/>
+<fullyQualifiedTypeName name="exceptions.NonUniqueUsernameException"/>
+<fullyQualifiedTypeName name="data.OfferPostgres"/>
+<fullyQualifiedTypeName name="models.Bike"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="data.PaymentPostgress"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="services.BikeService"/>
+<fullyQualifiedTypeName name="models.User"/>
+<fullyQualifiedTypeName name="services.OfferServiceImpl"/>
+<fullyQualifiedTypeName name="models.Offer"/>
+<fullyQualifiedTypeName name="data.OfferDao"/>
+<fullyQualifiedTypeName name="services.OfferService"/>
+<fullyQualifiedTypeName name="models.Payment"/>
+<fullyQualifiedTypeName name="services.PaymentServiceImpl"/>
+<fullyQualifiedTypeName name="data.PaymentDAO"/>
+</qualifiedTypeNameHistroy>

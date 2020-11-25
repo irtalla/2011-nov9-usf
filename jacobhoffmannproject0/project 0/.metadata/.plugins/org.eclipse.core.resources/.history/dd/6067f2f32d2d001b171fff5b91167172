@@ -1,0 +1,90 @@
+package models;
+
+public class Offer {
+	private int OfferId;
+	private float Amount;
+	private int CustomerId;
+	private String Status;
+	private int BikeId;
+	
+	public Offer() {
+		super();
+	}
+	public Offer(int offerId, float amount, int customerId, String status, int bikeId) {
+		super();
+		OfferId = offerId;
+		Amount = amount;
+		CustomerId = customerId;
+		Status = status;
+		BikeId = bikeId;
+	}
+	public int getOfferId() {
+		return OfferId;
+	}
+	public void setOfferId(int offerId) {
+		OfferId = offerId;
+	}
+	public float getAmount() {
+		return Amount;
+	}
+	public void setAmount(float amount) {
+		Amount = amount;
+	}
+	public int getCustomerId() {
+		return CustomerId;
+	}
+	public void setCustomerId(int customerId) {
+		CustomerId = customerId;
+	}
+	public String getStatus() {
+		return Status;
+	}
+	public void setStatus(String status) {
+		Status = status;
+	}
+	public int getBikeId() {
+		return BikeId;
+	}
+	public void setBikeId(int bikeId) {
+		BikeId = bikeId;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(Amount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + BikeId;
+		result = prime * result + CustomerId;
+		result = prime * result + OfferId;
+		result = prime * result + ((Status == null) ? 0 : Status.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Offer other = (Offer) obj;
+		if (Double.doubleToLongBits(Amount) != Double.doubleToLongBits(other.Amount))
+			return false;
+		if (BikeId != other.BikeId)
+			return false;
+		if (CustomerId != other.CustomerId)
+			return false;
+		if (OfferId != other.OfferId)
+			return false;
+		if (Status == null) {
+			if (other.Status != null)
+				return false;
+		} else if (!Status.equals(other.Status))
+			return false;
+		return true;
+	}
+	
+	
+}

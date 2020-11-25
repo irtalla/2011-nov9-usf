@@ -1,0 +1,11 @@
+package main;
+import java.util.LinkedList;
+
+import resources.models.*;
+
+public class main {
+	 public static void main(String[] args) {
+		 LinkedList<String> BikeList 
+         = new LinkedList<Offer>(); 
+	    }
+}

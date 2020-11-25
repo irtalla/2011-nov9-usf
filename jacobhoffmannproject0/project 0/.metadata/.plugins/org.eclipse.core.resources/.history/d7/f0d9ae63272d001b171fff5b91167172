@@ -1,0 +1,130 @@
+package data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Set;
+
+import exceptions.NonUniqueUsernameException;
+import models.User;
+import utils.ConnectionUtil;
+
+public class UserPostgres implements UserDao{
+	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
+	public User add(User u) throws NonUniqueUsernameException {
+		User t = new User();
+	
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into users values (default, ?, ?, ?, ?, ?)";
+			String[] keys = {"user_id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			pstmt.setString(1, u.getFname());
+			pstmt.setString(2, u.getLname());
+			pstmt.setString(3, u.getUsername());
+			pstmt.setString(4, u.getPassword());
+			pstmt.setBoolean(5, u.isIsEmployee());
+			
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				u = t;
+				u.setUserId(rs.getInt(1));
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		
+	}catch (Exception e) {
+		if (e.getMessage().contains("violates unique constraint")) {
+			throw new NonUniqueUsernameException();
+		}
+		e.printStackTrace();
+	}	return t;
+	}
+	
+	public User getByUsername(String username) {
+	User human = null;
+		
+		try (Connection conn = cu.getConnection())
+		{
+			String sql = "select user_id, fname, lname,username,passwords,is_empolyee "
+					+ "from users "
+					+ " where username = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				human = new User();
+				human.setUsername(rs.getString("username"));
+				human.setUserId(rs.getInt("user_id"));
+				human.setPassword(rs.getString("passwords"));
+				human.setIsEmployee(rs.getBoolean("is_Empolyee"));
+				human.setFname(rs.getString("fname"));
+				human.setFname(rs.getString("lname"));
+			}
+						
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return human;	
+	}
+
+	@Override
+	public User getById(Integer id) {
+	User human = null;
+		
+		try (Connection conn = cu.getConnection())
+		{
+			String sql = "select user_id, fname, lname,username,passwords,is_empolyee "
+					+ "from users "
+					+ " where user_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				human = new User();
+				human.setUsername(rs.getString("username"));
+				human.setUserId(rs.getInt("user_id"));
+				human.setPassword(rs.getString("passwords"));
+				human.setIsEmployee(rs.getBoolean("is_Empolyee"));
+				human.setFname(rs.getString("fname"));
+				human.setFname(rs.getString("lname"));
+			}
+						
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return human;	
+	}
+
+	@Override
+	public Set<User> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(User t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(User t) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	}

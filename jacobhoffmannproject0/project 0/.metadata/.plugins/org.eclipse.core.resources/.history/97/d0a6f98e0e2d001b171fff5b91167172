@@ -1,0 +1,114 @@
+package data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
+
+import models.Bike;
+import models.Model;
+import models.Status;
+import utils.ConnectionUtil;
+
+public class BikePostgres implements BikeDao {
+	//private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
+	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
+	
+	public Bike add(Bike t) {
+		Bike c = t;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into bike values (default, ?, ?, ?, ?)";
+			//String[] keys = {"id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, t.getColor());
+			pstmt.setString(2, t.getSize());
+			pstmt.setInt(3, t.getStatus().getId());
+			pstmt.setInt(4, t.getModeltype().getId());
+			
+			pstmt.executeUpdate();
+			
+					conn.commit();
+			/*if (rs.next()) {
+				if (t.getSpecialNeeds().size() > 0) {
+					if (addSpecialNeeds(t, conn)) {
+						c = t;
+						c.setId(rs.getInt(1));
+						conn.commit();
+					} else {
+						conn.rollback();
+					}
+				} else {
+				
+				}
+			} else {
+				conn.rollback();
+			}*/
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return c;
+			}
+	public Set<Bike> getAvailableBikes(){
+		return null;
+		
+	}
+	@Override
+	public Bike getById(Integer id) {
+		Bike bike = null;
+
+		try (Connection conn = cu.getConnection()) {			
+			// Get the cat object
+			String sql = "select bike_status.status_id, color, bike_size, bike.model_id, bike.status_id, status_avalibilty,  "
+					+ "model.mname as model_name, btype, year_made, brand from "
+					+ "(select bike.bike_id, bike.color, bike.bike_size, bike.status_id, bike.model_id, status.avalibilty as status_avalibilty from "
+					+ " bike join status on status.status_id = bike.status_id) as bike_status "
+					+ "join model on bike_status.model_id = model.model_id where model_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				bike = new Bike();
+				bike.setId(rs.getInt("id"));
+				bike.setColor(rs.getString("color"));
+				bike.setSize(rs.getString("size"));
+				Model b = new Model();
+				b.setId(rs.getInt("model_id"));
+				b.setName(rs.getString("model_name"));
+				b.setType(rs.getString("btype"));
+				b.setYear(rs.getInt("year_made"));
+				b.setBrand(rs.getString("brand"));
+				bike.setModeltype(b);
+				Status s = new Status();
+				s.setId(rs.getInt("status_id"));
+				s.setAvalibilty(rs.getString("status_avalibilty"));
+				bike.setStatus(s);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+
+		}
+		return bike;
+	}
+	@Override
+	public Set<Bike> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void update(Bike t) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void delete(Bike t) {
+		// TODO Auto-generated method stub
+		
+	}
+}

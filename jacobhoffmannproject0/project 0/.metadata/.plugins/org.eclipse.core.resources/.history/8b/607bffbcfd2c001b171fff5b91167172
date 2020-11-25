@@ -1,0 +1,113 @@
+package models;
+
+import java.util.Set;
+
+public class Bike {
+	private int Id;
+	private Model Modeltype;
+	private String Color;
+	private Status Status;
+	private String Issues;
+	private Set<Issue> problems;
+	
+	public Bike() {
+		super();
+	}
+	public Bike(int id, Model modeltype, String color, models.Status status, String issues, Set<Issue> problems) {
+		super();
+		Id = id;
+		Modeltype = modeltype;
+		Color = color;
+		Status = status;
+		Issues = issues;
+		this.problems = problems;
+	}
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
+	}
+	public Model getModeltype() {
+		return Modeltype;
+	}
+	public void setModeltype(Model modeltype) {
+		Modeltype = modeltype;
+	}
+	public String getColor() {
+		return Color;
+	}
+	public void setColor(String color) {
+		Color = color;
+	}
+	public Status getStatus() {
+		return Status;
+	}
+	public void setStatus(Status status) {
+		Status = status;
+	}
+	public String getIssues() {
+		return Issues;
+	}
+	public void setIssues(String issues) {
+		Issues = issues;
+	}
+	public Set<Issue> getProblems() {
+		return problems;
+	}
+	public void setProblems(Set<Issue> problems) {
+		this.problems = problems;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Color == null) ? 0 : Color.hashCode());
+		result = prime * result + Id;
+		result = prime * result + ((Issues == null) ? 0 : Issues.hashCode());
+		result = prime * result + ((Modeltype == null) ? 0 : Modeltype.hashCode());
+		result = prime * result + ((Status == null) ? 0 : Status.hashCode());
+		result = prime * result + ((problems == null) ? 0 : problems.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bike other = (Bike) obj;
+		if (Color == null) {
+			if (other.Color != null)
+				return false;
+		} else if (!Color.equals(other.Color))
+			return false;
+		if (Id != other.Id)
+			return false;
+		if (Issues == null) {
+			if (other.Issues != null)
+				return false;
+		} else if (!Issues.equals(other.Issues))
+			return false;
+		if (Modeltype == null) {
+			if (other.Modeltype != null)
+				return false;
+		} else if (!Modeltype.equals(other.Modeltype))
+			return false;
+		if (Status == null) {
+			if (other.Status != null)
+				return false;
+		} else if (!Status.equals(other.Status))
+			return false;
+		if (problems == null) {
+			if (other.problems != null)
+				return false;
+		} else if (!problems.equals(other.problems))
+			return false;
+		return true;
+	}
+	
+	
+}

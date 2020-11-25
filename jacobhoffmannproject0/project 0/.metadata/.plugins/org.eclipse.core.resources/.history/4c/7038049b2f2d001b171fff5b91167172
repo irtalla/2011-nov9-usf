@@ -1,0 +1,7 @@
+package services;
+
+import data.OfferDao;
+
+public class OfferServiceImpl implements OfferService{
+	private OfferDao offerdao = new OfferDao();
+}

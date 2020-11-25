@@ -1,0 +1,9 @@
+package data;
+
+import models.Status;
+
+public class StatusPostgres implements StatusDao{
+	public Status add(Status s) {
+		return null;
+	}
+}

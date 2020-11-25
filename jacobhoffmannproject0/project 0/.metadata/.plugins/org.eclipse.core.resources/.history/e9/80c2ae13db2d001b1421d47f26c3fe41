@@ -1,0 +1,45 @@
+package data;
+
+import java.util.Set;
+
+import models.Payment;
+
+public class PaymentPostgress implements PaymentDAO{
+
+	@Override
+	public Payment add(Payment t) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Payment getById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Payment> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Payment t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Payment t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Payment> getAllByUserId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

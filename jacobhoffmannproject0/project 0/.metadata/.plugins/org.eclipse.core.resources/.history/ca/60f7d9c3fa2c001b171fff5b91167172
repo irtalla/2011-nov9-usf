@@ -1,0 +1,33 @@
+package services;
+
+import java.util.Set;
+
+import data.BikeDao;
+import models.Bike;
+import models.*;
+public class BikeServiceImpl implements BikeService {
+	// "create" method: returns the unique identifier of the added Cat
+	private BikeDao bikeDao;
+	public Integer addBike(Bike c) {
+		return null;
+	}
+	// "read" methods
+	public Integer getBikeById(Bike b) {
+		return bikeDao.add(c);
+	}
+	public Set<Bike> getBikes(){
+		return null;
+	}
+	public Set<Bike> getAvailableBikes(){
+	return null;	
+	}
+	// "update" methods
+	public void updateBike(Bike c) {
+		
+	}
+	//public void adoptCat(User p, Bike c);
+	// "delete" methods
+	public void removeBike(Bike c) {
+		
+	}
+}

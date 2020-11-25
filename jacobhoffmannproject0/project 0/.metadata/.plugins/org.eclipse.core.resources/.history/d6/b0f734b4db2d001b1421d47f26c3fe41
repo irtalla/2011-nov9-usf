@@ -1,0 +1,13 @@
+package services;
+
+import java.util.Set;
+
+import models.Payment;
+
+public interface PaymentService {
+	public Set<Payment> getAllByUserId(Integer i);
+	public Set<Payment> getAll();
+	public Set<Payment> getByUserId(Integer id);
+	public void updatePayment(Payment p);
+	public void deletePayment(Payment p);
+}

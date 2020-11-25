@@ -1,0 +1,39 @@
+package models;
+
+public class Payment {
+private double amount;
+private int weektotal;
+private int weeksdone;
+private User customer;
+private boolean complete;
+private int bike;
+
+public Payment() {
+	super();
+}
+
+public Payment(double amount, int weektotal, int weeksdone, User customer, boolean complete, int bike) {
+	super();
+	this.amount = amount;
+	this.weektotal = weektotal;
+	this.weeksdone = weeksdone;
+	this.customer = customer;
+	this.complete = complete;
+	this.bike = bike;
+}
+
+public Payment(double amount, int weektotal, User customer, int bike) {
+	super();
+	this.amount = amount;
+	this.weektotal = weektotal;
+	this.weeksdone = 0;
+	this.customer = customer;
+	this.complete = false;
+	this.bike = bike;
+}
+
+public int MakePayment() {
+	weeksdone++;
+	return(weeksdone);
+}
+}

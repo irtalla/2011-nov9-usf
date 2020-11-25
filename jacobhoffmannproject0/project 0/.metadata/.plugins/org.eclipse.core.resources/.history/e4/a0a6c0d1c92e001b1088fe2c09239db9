@@ -1,0 +1,77 @@
+package zeromain;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import data.BikeDao;
+import data.UserDao;
+import models.Bike;
+import models.Model;
+import models.Status;
+import services.BikeService;
+import services.BikeServiceImpl;
+public class BikeTests {
+	@Mock
+	static BikeDao bikeDao;
+	
+	@Mock
+	static UserDao userDao;
+	
+	
+
+	@InjectMocks
+	static BikeServiceImpl bikeServ;
+	static Set<Bike> bikesMock = new HashSet<>();
+	static Integer bikeSequenceMock = 1;
+	
+	@Test
+	public void testAddValidBike() {
+		Bike c = new Bike();
+		Model b = new Model();
+		b.setId(1);
+		b.setBrand("a");
+		b.setName("yo");
+		b.setType("aaa");
+		b.setYear(33333);
+		c.setId(1);
+		c.setColor("hhh");
+		c.setModeltype(b);
+		c.setSize("aaa");
+		Status s = new Status();
+		s.setId(1);
+		s.setAvalibilty("do");
+		c.setStatus(s);
+		
+		bikesMock.add(c);
+		Bike c2 = new Bike();
+		c2.setId(bikeSequenceMock++);
+		c2.setStatus(c.getStatus());
+		c2.setModeltype(b);
+	//	when(bikeDao.add(c)).thenReturn(c2);
+		//assertEquals(c.getId(), bikeServ.addBike(c).intValue());
+	//assertNotEquals(c.getId().intValue(), bikeServ.addBike(c).intValue());
+		when(bikeDao.add(c)).thenReturn(c2);
+		assertNotEquals(c.getId(), bikeServ.addBike(c).intValue());
+	verify(bikeDao).add(c);
+	}
+	
+	@Test
+	public void testGetValidBikes(){
+		Set<Bike> bikesMock2 = bikeDao.getAvailableBikes();
+		assertEquals(bikesMock2.size(),bikesMock2.size());
+		//Iterator<Bike> iterator = bikesMock.iterator();
+	}
+	
+}

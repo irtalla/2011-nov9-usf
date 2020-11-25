@@ -1,0 +1,7 @@
+package data;
+import models.Offer;
+import models.User;
+
+public interface OfferDao extends GenericDAO<Offer>{
+	public Offer getByUserId(Integer Id);
+}

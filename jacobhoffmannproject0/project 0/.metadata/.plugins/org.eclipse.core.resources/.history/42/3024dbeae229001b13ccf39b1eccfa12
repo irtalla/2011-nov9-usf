@@ -1,0 +1,10 @@
+package models;
+
+public class User {
+	private int UserId;
+	private String Fname;
+	private String Lname;
+	private boolean IsEmployee;
+	
+	
+}

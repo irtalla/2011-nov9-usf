@@ -1,0 +1,133 @@
+package models;
+
+public class Payment {
+private double amount;
+private int weektotal;
+private int weeksdone;
+private User customer;
+private boolean complete;
+private int bike;
+
+public Payment() {
+	super();
+}
+
+public Payment(double amount, int weektotal, int weeksdone, User customer, boolean complete, int bike) {
+	super();
+	this.amount = amount;
+	this.weektotal = weektotal;
+	this.weeksdone = weeksdone;
+	this.customer = customer;
+	this.complete = complete;
+	this.bike = bike;
+}
+
+public Payment(double amount, int weektotal, User customer, int bike) {
+	super();
+	this.amount = amount;
+	this.weektotal = weektotal;
+	this.weeksdone = 0;
+	this.customer = customer;
+	this.complete = false;
+	this.bike = bike;
+}
+
+public double getAmount() {
+	return amount;
+}
+
+public void setAmount(double amount) {
+	this.amount = amount;
+}
+
+public int getWeektotal() {
+	return weektotal;
+}
+
+public void setWeektotal(int weektotal) {
+	this.weektotal = weektotal;
+}
+
+public int getWeeksdone() {
+	return weeksdone;
+}
+
+public void setWeeksdone(int weeksdone) {
+	this.weeksdone = weeksdone;
+}
+
+public User getCustomer() {
+	return customer;
+}
+
+public void setCustomer(User customer) {
+	this.customer = customer;
+}
+
+public boolean isComplete() {
+	return complete;
+}
+
+public void setComplete(boolean complete) {
+	this.complete = complete;
+}
+
+public int getBike() {
+	return bike;
+}
+
+public void setBike(int bike) {
+	this.bike = bike;
+}
+
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	long temp;
+	temp = Double.doubleToLongBits(amount);
+	result = prime * result + (int) (temp ^ (temp >>> 32));
+	result = prime * result + bike;
+	result = prime * result + (complete ? 1231 : 1237);
+	result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+	result = prime * result + weeksdone;
+	result = prime * result + weektotal;
+	return result;
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Payment other = (Payment) obj;
+	if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+		return false;
+	if (bike != other.bike)
+		return false;
+	if (complete != other.complete)
+		return false;
+	if (customer == null) {
+		if (other.customer != null)
+			return false;
+	} else if (!customer.equals(other.customer))
+		return false;
+	if (weeksdone != other.weeksdone)
+		return false;
+	if (weektotal != other.weektotal)
+		return false;
+	return true;
+}
+
+public int MakePayment() {
+	weeksdone++;
+	return(weeksdone);
+}
+public double TotalOwed() {
+	double i = (this.getWeektotal()-this.getWeeksdone())*this.getAmount();
+	return i;
+}
+}

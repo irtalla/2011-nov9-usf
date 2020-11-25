@@ -1,0 +1,61 @@
+package data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.Set;
+
+import models.Bike;
+import models.Offer;
+
+public class OfferPostgres implements OfferDao{
+
+	@Override
+	public Offer add(Offer t) throws Exception {
+Bike c = t;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into offer values (default, ?, ?, ?, ?)";
+			//String[] keys = {"id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, t.getColor());
+			pstmt.setString(2, t.getSize());
+			pstmt.setInt(3, t.getStatus().getId());
+			pstmt.setInt(4, t.getModeltype().getId());
+			
+			pstmt.executeUpdate();
+			
+					conn.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return c;
+	}
+
+	@Override
+	public Offer getById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Offer> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Offer t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Offer t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

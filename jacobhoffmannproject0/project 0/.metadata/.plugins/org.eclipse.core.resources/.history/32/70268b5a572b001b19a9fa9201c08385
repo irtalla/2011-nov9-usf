@@ -1,0 +1,5 @@
+epackage services;
+
+public interface Bike {
+
+}

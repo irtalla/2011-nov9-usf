@@ -1,0 +1,32 @@
+package services;
+
+import data.UserDao;
+import models.User;
+
+public class UserServiceImpl implements UserService {
+	private UserDao userDao;
+	public UserServiceImpl() {
+		UserDaoFactory UserDaoFactory = new UserDaoFactory();
+		userDao = UserDaoFactory.getUserDAO();
+	}
+	// create
+	public Integer addUser(User u) {
+		return null;
+	}
+	// read
+	public User getUserById(Integer id) {
+		return null;
+	}
+	public User getUserByUsername(String username) {
+		return null;
+	}
+	// update
+	public void updateUser(User u) {
+		
+	}
+	// delete
+	public void deleteUser(User u) {
+		
+	}
+
+}

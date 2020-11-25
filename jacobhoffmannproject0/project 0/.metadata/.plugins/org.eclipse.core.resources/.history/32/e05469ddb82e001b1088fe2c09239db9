@@ -1,0 +1,456 @@
+package controller;
+
+import java.util.Scanner;
+import java.util.Set;
+
+import exceptions.NonUniqueUsernameException;
+import models.*;
+import services.*;
+
+public class BikeAppController {
+	public static Scanner scan;
+	private static UserService userServ = new UserServiceImpl();
+	private static BikeService bikeServ = new BikeServiceImpl();
+	private static OfferService offerServ = new OfferServiceImpl();
+	private static PaymentService payServ = new PaymentServiceImpl();
+	//private static ModelService modelServ = new ModelServiceImpl();
+	public static void main(String[] args) {
+		
+		scan = new Scanner(System.in);
+
+		User testU = new User(3,"temp4","temp","temp1","temp",true);
+		Payments(testU);
+		//CheckmyweeklyPayment(testU);
+		//modifyOffer(testU);
+		/*		
+		boolean userActive = true;
+		
+		mainLoop: while (userActive) {
+		System.out.println("Welcome to the Bike Shop");
+		User LoggedInUser = null;
+		Bike CurrentBike = null;//might not need
+		while (LoggedInUser == null) {
+			System.out.println("What would you like to do?");
+			System.out.println("1. Register\n2. Log in\nother. Exit");
+			int userInput = Integer.valueOf(scan.nextLine());
+			
+			switch (userInput) {
+			case 1:
+				LoggedInUser = registerUser();
+				break;
+			case 2:
+				LoggedInUser = logInUser();
+				break;
+			default:
+				userActive = false;
+				break mainLoop;
+			}
+		}// end of loggedinuser loop
+		menuLoop: while (true) {
+			System.out.println("What would you like to do?");
+			System.out.println("1. View available bikes\n2. View my bikes \n3. View all payments \n4. View remaining payments on a bike");
+			if (LoggedInUser.isIsEmployee() == (false)) {
+				System.out.println("other. Log out");
+			} else if (LoggedInUser.isIsEmployee() == (true)) {
+				System.out.println("6. Add new Bike \n7. Manage offers \n8. Remove Bike \n9. View All Payments \nother Log out");
+			}
+			int userInput = Integer.valueOf(scan.nextLine());
+			switch (userInput) {
+			case 1:
+				LoggedInUser = viewAvailableBikes(LoggedInUser);
+				break;
+			case 2:
+				//LoggedInUSer = viewMyBikes(LoggedInUser)
+				break;
+			case 3:
+				LoggedInUser = CheckmyweeklyPayment(LoggedInUser);
+				break;
+			case 4:
+				//LoggedInUser = manageUsers(LoggedInUser);
+				break;
+			default:
+				System.out.println("See you next time!");
+				LoggedInUser = null;
+				break menuLoop;
+			}
+			if (LoggedInUser == null) {
+				System.out.println("See you next time!");
+				break menuLoop;
+			}
+		}
+		
+		}*/
+		}
+	private static User Payments(User user) {
+		System.out.println("Enter the id of the Payment");
+		int input = Integer.valueOf(scan.nextLine());
+		Payment pay = payServ.getById(input);
+		Float a =(float)(pay.getWeektotal());
+		Float x = pay.getAmount()/a;
+		System.out.println("You have "+x+" weeks of payment left on this bike");
+		return user;
+	}
+	private static User CheckmyweeklyPayment(User user) {
+		Set<Payment> availablePay = payServ.getAll();
+		Float total = 0f;
+		for (Payment pay : availablePay) {
+		//	total = total + (availablePay.getAmount()/pay.getWeektotal());
+		}
+		System.out.println("This weeks payment is $" + total);
+		return user;
+	}
+	private static User getAllPayments(User user, User customer) {
+		if (!(user.isIsEmployee() == true))
+			return null;
+		Set<Payment> availablePay = payServ.getAll();		
+		for (Payment pay : availablePay) {
+			System.out.println(pay);
+		}
+		return user;
+	}
+	private static User getMyPayments(User user) {
+		if (!(user.isIsEmployee() == true))
+			return null;
+		Set<Payment> availablePay = payServ.getAllByUserId(user.getUserId());		
+		for (Payment pay : availablePay) {
+			System.out.println(pay);
+		}
+		return null;
+	}
+	private static User modifyOffer(User user) {
+		if (!(user.isIsEmployee() == true))
+			return null;
+		
+		while (true) {
+			for (Offer offer : offerServ.getAllOffers()) {
+				System.out.println(offer);
+			}
+			System.out.println("Choose the id of the offer you would like to modify");
+			int input = Integer.valueOf(scan.nextLine());
+			Offer newOffer = offerServ.getOfferById(input);
+			System.out.println("What would you like to do \n1 for accepting \n2 for counter offering ");
+			input = Integer.valueOf(scan.nextLine());
+			if(input == 1) {
+				newOffer.setStatus("Accepted");
+				Bike newBike = bikeServ.getBikeById(newOffer.getBikeId().getId());
+				
+				Status newStatus = new Status(1, "Sold");
+				newBike.setStatus(newStatus);
+				bikeServ.updateBike(newBike);
+				offerServ.updateOffer(newOffer);
+				offerServ.MassUpdate(newBike.getId(), newOffer.getOfferId());
+			}else if(input == 2){
+				System.out.println("Please enter your counter offer");
+				Float f = Float.valueOf(scan.nextLine());
+				newOffer.setAmount(f);
+				offerServ.updateOffer(newOffer);
+			}else {
+				return user;
+			}
+		}
+		}
+	
+	private static void makeOffer(User user) {
+		for (Bike bike : bikeServ.getAvailableBikes()) {
+			System.out.println(bike);
+		}
+		Boolean makeOffer = true;
+		while(makeOffer == true) {
+		System.out.println("Which Bike would you like to place an offer on? Enter its ID.");
+		//Integer input = Integer.valueOf(scan.nextLine());
+		int input = Integer.valueOf(scan.nextLine());
+		Bike newBike = bikeServ.getBikeById(input);
+		Offer newOffer = new Offer();
+		newOffer.setBikeId(newBike);
+		System.out.println("What would you like to offer");
+		newOffer.setAmount(Integer.valueOf(scan.nextLine()));
+		newOffer.setCustomerId(user);
+		newOffer.setStatus("Pending");
+		offerServ.addOffer(newOffer);
+		makeOffer=false;
+		}
+	}
+	private static User registerUser() {
+		while (true) {
+			User newAccount = new User();
+			System.out.println("Enter a username: ");
+			newAccount.setUsername(scan.nextLine());
+			System.out.println("Enter a password: ");
+			newAccount.setPassword(scan.nextLine());
+			System.out.println("Enter Your: ");
+			newAccount.setFname(scan.nextLine());
+			System.out.println("Enter your Lastname: ");
+			newAccount.setLname(scan.nextLine());
+			newAccount.setIsEmployee(false);
+			System.out.println("Does this look good?");
+			System.out.println("Username: " + newAccount.getUsername()
+					+ " Password: " + newAccount.getPassword()+ " First name: "+newAccount.getFname()+" Last name: "+newAccount.getLname());
+			System.out.println("1 to confirm, 2 to start over, other to cancel");
+			int input = Integer.valueOf(scan.nextLine());
+			switch (input) {
+			case 1:
+				try {
+					newAccount.setUserId(userServ.addUser(newAccount));
+					System.out.println("Confirmed. Welcome!");
+					return newAccount;
+				} catch (NonUniqueUsernameException e) {
+					System.out.println("Sorry, that username is taken - let's try again.");
+				}
+				break;
+			case 2:
+				System.out.println("Okay, let's try again.");
+				break;
+			default:
+				System.out.println("Okay, let's go back.");
+				return null;
+			}
+			
+		}
+	}
+	
+	private static User logInUser() {
+		while (true) {
+			System.out.println("Enter username: ");
+			String username = scan.nextLine();
+			System.out.println("Enter password: ");
+			String password = scan.nextLine();
+			
+			User user = userServ.getUserByUsername(username);
+			if (user == null) {
+				System.out.print("Nobody exists with that username. ");
+			} else if (user.getPassword().equals(password)) {
+				System.out.println("Welcome back!");
+				return user;
+			} else {
+				System.out.print("That password is incorrect. ");
+			}
+			System.out.println("Do you want to try again? 1 for yes, other for no.");
+			int input = Integer.valueOf(scan.nextLine());
+			if (input != 1) {
+				break;
+			}
+		}
+		return null;
+	}
+	
+
+private static User viewAvailableBikes(User user) {
+	Set<Bike> availableBikes = bikeServ.getAvailableBikes();
+	
+	for (Bike bike : availableBikes) {
+		System.out.println(bike);
+	}
+	
+	System.out.println("Would you like to put in an offer on a bike? 1 for yes, other for no");
+	int input = Integer.valueOf(scan.nextLine());
+	if (input == 1) {
+		while (true) {
+			System.out.println("Which Bike? Type its ID.");
+			input = Integer.valueOf(scan.nextLine());
+			Bike bike = bikeServ.getBikeById(input);
+			if (bike != null && bike.getStatus().getAvalibilty().equals("For Sale")) {//not working
+				System.out.println(bike);
+		
+				System.out.println("You want to place this offer on this bike? 1 for yes, other for no");
+				input = Integer.valueOf(scan.nextLine());
+				if (input == 1) {
+					System.out.println("Please enter the amount for the offer");
+					input = Integer.valueOf(scan.nextLine());
+					Offer o = new Offer(input,user,bike);
+					offerServ.addOffer(o);
+					System.out.println("Your offer has been placed.");
+					// get the person with their updated cat set
+					user = userServ.getUserById(user.getUserId());
+					break;
+				} else {
+					System.out.println("Okay, did you want to place another offer for a different bike? 1 for yes, other for no");
+					input = Integer.valueOf(scan.nextLine());
+					if (input != 1)
+						break;
+				}
+			} else {
+				System.out.println("Sorry, that's not an available bike. Do you want to try again?"
+						+ " 1 for yes, other for no");
+				input = Integer.valueOf(scan.nextLine());
+				if (input != 1) {
+					System.out.println("Okay, that's fine.");
+					break;
+				}
+			}
+		}
+	} else {
+		System.out.println("Okay, that's fine.");
+	}
+	
+	return user;
+}
+private static User manageBikes(User user) {
+	if (!(user.isIsEmployee() == true))
+		return null;
+	
+	while (true) {
+		System.out.println("Manage Bikes:\n1. Add a bike\n2. Edit a bike\n3. Remove a bike \nother. Cancel");
+		int input = Integer.valueOf(scan.nextLine());
+		
+		if (input == 1) {//adding new bike
+			Bike newBike = new Bike();
+			System.out.println("Enter a Color: ");
+			newBike.setColor(scan.nextLine());
+			System.out.println("Enter an size: ");
+			newBike.setSize(scan.nextLine());
+			System.out.println("Choose a Model by entering its ID:"
+					+ "\n1. Persian\n2. Domestic Shorthair\n3. Calico\nother. Other");
+			Model model = new Model();
+			model.setId(Integer.valueOf(scan.nextLine()));
+			switch(model.getId()) {
+			case 1:
+				//model.setName("Persian");
+				break;
+			case 2:
+				//breed.setName("Domestic Shorthair");
+				break;
+			case 3:
+				//breed.setName("Calico");
+				break;
+			default:
+				//breed.setName("Other");
+				break;
+			}
+			newBike.setModeltype(model);
+			Status status = new Status();
+			status.setId(1);
+			status.setAvalibilty("For Sale");
+			newBike.setStatus(status);
+			System.out.println(newBike);
+			System.out.println("Look good? 1 to confirm, other to start over");
+			input = Integer.valueOf(scan.nextLine());
+			if (input == 1) {
+				newBike.setId(bikeServ.addBike(newBike));
+				System.out.println("You successfully added a new bike with the id " + newBike.getId() + "!");
+			}
+		} else if (input == 2) {//editing bikes
+			for (Bike bike : bikeServ.getAvailableBikes()) {
+				System.out.println(bike);
+			}
+			System.out.println("Which Bike would you like to update? Enter its ID.");
+			Bike bike = bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
+			Bike newBike = bike;
+			if (bike != null) {
+				System.out.println("Editing " + bike.getColor());
+				System.out.println("Current changes:\nColor: " + newBike.getId()
+						+ " Color: " + newBike.getColor() + " Size: " + newBike.getSize());
+				boolean editing = true;
+				while (editing) {
+					System.out.println("Edit:\n1. Size\n2. Color\n3. Save changes\nother. Cancel");
+					input = Integer.valueOf(scan.nextLine());
+					switch (input) {
+					case 1:
+						System.out.println("Enter new Color: ");
+						bike.setColor(scan.nextLine());
+						break;
+					case 2:
+						System.out.println("Enter new Size: ");
+						bike.setSize(scan.nextLine());
+						break;
+					case 3:
+						bikeServ.updateBike(newBike);
+						System.out.println("You updated " + newBike.getId() + " successfully.");
+					default:
+						editing = false;
+						break;
+					}
+				}
+			}
+		} else if(input == 3){//deleting
+			for (Bike bike : bikeServ.getBikes()) {
+				System.out.println(bike);
+			}
+			System.out.println("Which Bike would you like to remove? Enter its ID.");
+			Bike bike = bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
+			Bike newBike = bike;
+			bikeServ.removeBike(newBike);
+			System.out.println("This Bike has been removed");
+		}
+		else {
+			break;
+		}
+	}
+	
+	return user;
+}
+}
+/*
+private static void viewUserCats(User user) {
+	if (user.get().size() > 0) {
+		System.out.println("Viewing your Bikes: ");
+		for (Cat cat : user.getCats()) {
+			System.out.println(cat);
+		}
+		boolean petCat = false;
+		while (true) {
+			System.out.print("...would you like to pet ");
+			if (petCat)
+				System.out.print("another ");
+			System.out.println("one? 1 for yes, other for no");
+			int input = Integer.valueOf(scan.nextLine());
+			if (input == 1) {
+				System.out.println("Which one? Type its ID.");
+				input = Integer.valueOf(scan.nextLine());
+				Cat cat = catServ.getCatById(input);
+				if (cat != null && user.getCats().contains(cat)) {
+					System.out.println("You pet " + cat.getName() + ". Purrrr");
+					petCat = true;
+				} else
+					System.out.println("Sorry, that's not one of your cats.");
+			} else {
+				break;
+			}
+		}
+	} else {
+		System.out.println("You don't have any cats... yet.");
+	}
+}
+}
+
+/*
+	public static void main(String[] args){
+	
+	String color = "purple";
+	String size = "large";
+	String username ="temp1";
+	String password = "temp";
+	String fname = "temp4";
+	String lname = "temp";
+	String stat = "open";
+	Status newStatus = new Status();
+	float f = 200.50f;
+	newStatus.setId(1);
+	Model newMod = new Model();
+	newMod.setId(1);
+BikeService bikeServ = new BikeServiceImpl();
+UserService userServ = new UserServiceImpl();
+Bike newBike= new Bike(2, color, size, newMod, newStatus );
+User newUser = new User(1,fname,lname,username,password,true);
+//try {
+//	userServ.addUser(newUser);
+//} catch (NonUniqueUsernameException e) {
+	// TODO Auto-generated catch block
+//	e.printStackTrace();
+//}
+newUser.setUserId(3);
+//Offer offer = new Offer (1,f,newUser,stat, newBike);
+Payment pay = new Payment (1,2000.0f, 8, newUser,newBike);
+PaymentService payserv = new PaymentServiceImpl();
+System.out.println(payserv.getAllByUserId(3));
+//OfferService offerserv = new OfferServiceImpl();
+//offerserv.MassUpdate(2,1);
+//System.out.println(offer);
+/*try {
+userServ.addUser(newUser);
+}catch(NonUniqueUsernameException e) {
+	System.out.println("Sorry, that username is taken - let's try again.");
+}
+//System.out.println("Hello");
+}
+}
+*/

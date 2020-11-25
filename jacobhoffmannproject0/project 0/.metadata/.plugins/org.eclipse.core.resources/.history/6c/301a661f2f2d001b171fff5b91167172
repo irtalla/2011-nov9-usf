@@ -1,0 +1,6 @@
+package data;
+import models.Offer;
+
+public interface OfferDao extends GenericDAO<Offer>{
+
+}

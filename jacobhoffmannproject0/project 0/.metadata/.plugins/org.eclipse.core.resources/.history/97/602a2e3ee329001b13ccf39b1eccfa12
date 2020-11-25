@@ -1,0 +1,9 @@
+package models;
+
+public class Bike {
+	private int Id;
+	private String Model;
+	private String Color;
+	private String Status;
+	private String Issues;
+}

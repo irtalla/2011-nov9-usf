@@ -1,0 +1,13 @@
+package data;
+
+import models.User;
+
+public class UserPostgres {
+	public User add(User u) {
+		return null;
+	}
+	
+	public User getByUsername(String username) {
+	return null;	
+	}
+	}
