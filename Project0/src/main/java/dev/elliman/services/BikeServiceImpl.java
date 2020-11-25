@@ -3,6 +3,7 @@ package dev.elliman.services;
 import java.util.Set;
 
 import dev.elliman.beans.Bike;
+import dev.elliman.beans.Person;
 import dev.elliman.data.BikeDAO;
 import dev.elliman.data.BikeDAOFactory;
 import dev.elliman.data.PersonDAO;
@@ -48,6 +49,11 @@ public class BikeServiceImpl implements BikeService {
 	@Override
 	public Set<Bike> getAll() {
 		return bikeDAO.getAll();
+	}
+
+	@Override
+	public Set<Bike> getOwnedBikes(Person person) {
+		return bikeDAO.getOwnedBikes(person);
 	}
 
 }

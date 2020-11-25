@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dev.elliman.beans.Bike;
+import dev.elliman.beans.Person;
 import dev.elliman.utils.DBConnectionUtil;
 
 public class BikePostgres implements BikeDAO {
@@ -154,6 +155,30 @@ public class BikePostgres implements BikeDAO {
 			String sql = "select * from bike_shop.bike where bike_owner = 1";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
+
+			Bike b;
+			while(rs.next()) {
+				b = new Bike(rs.getString("model"), rs.getString("color"));
+				b.setId(rs.getInt("bike_id"));
+				bikes.add(b);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return bikes;
+	}
+
+	@Override
+	public Set<Bike> getOwnedBikes(Person person) {
+		Set<Bike> bikes = new HashSet<>();
+
+		try(Connection conn = cu.getConnection()){
+			String sql = "select * from bike_shop.bike where bike_owner = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, person.getID());
+			
+			ResultSet rs = pstmt.executeQuery();
 
 			Bike b;
 			while(rs.next()) {

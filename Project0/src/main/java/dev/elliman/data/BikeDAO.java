@@ -3,6 +3,7 @@ package dev.elliman.data;
 import java.util.Set;
 
 import dev.elliman.beans.Bike;
+import dev.elliman.beans.Person;
 
 public interface BikeDAO {
 	
@@ -19,4 +20,6 @@ public interface BikeDAO {
 	public Bike getByModel(String model);
 	
 	public Set<Bike> getAvalibleBikes();
+	
+	public Set<Bike> getOwnedBikes(Person person);
 }

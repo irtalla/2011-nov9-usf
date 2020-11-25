@@ -5,14 +5,18 @@ import java.util.Set;
 import dev.elliman.beans.Bike;
 import dev.elliman.beans.Offer;
 import dev.elliman.beans.Person;
+import dev.elliman.data.BikeDAO;
+import dev.elliman.data.BikeDAOFactory;
 import dev.elliman.data.OfferDAO;
 import dev.elliman.data.OfferDAOFactory;
 
 public class OfferServiceImpl implements OfferService{
 	private OfferDAO offerDAO;
+	private BikeDAO bikeDAO;
 	
 	public OfferServiceImpl() {
 		offerDAO = new OfferDAOFactory().getOfferDAO();
+		bikeDAO = new BikeDAOFactory().getBikeDAO();
 	}
 
 	@Override
@@ -50,6 +54,9 @@ public class OfferServiceImpl implements OfferService{
 		} else {
 			o.accept();
 			offerDAO.update(o);
+			Bike bike = o.getBike();
+			bike.setOwner(o.getPerson());
+			bikeDAO.update(bike);
 			
 			//the offer is accepted, the rest for this bike must be rejected
 			offerDAO.rejectAll(o.getBike());

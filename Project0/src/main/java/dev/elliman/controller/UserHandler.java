@@ -240,7 +240,7 @@ public class UserHandler {
 	}
 
 	public static void viewOwnedBikes(Person user) {
-		Set<Bike> ownedBikes = user.getOwnedBikes();
+		Set<Bike> ownedBikes = bs.getOwnedBikes(user);
 		if(ownedBikes.size() == 0) {
 			System.out.println("You do not own any bikes.");
 		} else {

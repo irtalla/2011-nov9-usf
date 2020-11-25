@@ -3,6 +3,7 @@ package dev.elliman.services;
 import java.util.Set;
 
 import dev.elliman.beans.Bike;
+import dev.elliman.beans.Person;
 
 public interface BikeService {
 	public Integer addBike(Bike bike);
@@ -18,4 +19,6 @@ public interface BikeService {
 	public void delete(Bike bike);
 	
 	public Set<Bike> getAll();
+	
+	public Set<Bike> getOwnedBikes(Person person);
 }
