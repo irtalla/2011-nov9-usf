@@ -94,7 +94,17 @@ public class PaymentPostgres implements PaymentDAO {
 
 	@Override
 	public void delete(Payment t) {
-		// TODO Auto-generated method stub
+		
+		try (Connection conn = cu.getConnection()) {
+
+			String sql = "delete from payments where id = " + t.getId();
+			Statement stmt = conn.createStatement();
+			
+			stmt.executeUpdate(sql);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 

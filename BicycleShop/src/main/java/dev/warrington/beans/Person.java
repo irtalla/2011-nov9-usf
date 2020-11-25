@@ -39,6 +39,4 @@ public class Person {
 		this.id = id;
 	}
 	
-	
-	
 }

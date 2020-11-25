@@ -1,7 +1,6 @@
 package dev.warrington.services;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
@@ -18,11 +17,11 @@ public class BicycleServiceTest {
 		
 		BicycleService bs = new BicycleServiceImpl();
 		Bicycle bike1 = new Bicycle("test", "test", 0.00, "test");
-		Bicycle bike2 = new Bicycle("test", "test", 0.00, "test");
 		
-		Integer id = bs.addBicycle(bike1);
+		bike1.setId(bs.addBicycle(bike1));
+		Set<Bicycle> bikes = bs.getAll();
 		
-		assertNotEquals(id, bike2.getId());
+		assertTrue(bikes.contains(bike1));
 		
 		bs.deleteBicycle(bike1);
 		
@@ -34,7 +33,7 @@ public class BicycleServiceTest {
 		BicycleService bs = new BicycleServiceImpl();
 		Bicycle bike1 = new Bicycle("test", "test", 0.00, "test");
 		
-		bs.addBicycle(bike1);
+		bike1.setId(bs.addBicycle(bike1));
 		Set<Bicycle> allBikes = bs.getAll();
 		
 		assertTrue(allBikes.contains(bike1));

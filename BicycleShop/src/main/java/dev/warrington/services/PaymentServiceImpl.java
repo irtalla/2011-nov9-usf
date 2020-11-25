@@ -38,4 +38,11 @@ public class PaymentServiceImpl implements PaymentService {
 		
 	}
 
+	@Override
+	public void deletePayment(Payment p) {
+
+		paymentDao.delete(p);
+		
+	}
+
 }

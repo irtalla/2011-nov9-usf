@@ -12,4 +12,5 @@ public interface PaymentService {
 	
 	public Set<Payment> getMyPayments(Integer id);
 	
+	public void deletePayment(Payment p);
 }

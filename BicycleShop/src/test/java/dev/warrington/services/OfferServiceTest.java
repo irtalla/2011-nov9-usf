@@ -1,7 +1,6 @@
 package dev.warrington.services;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -18,13 +17,11 @@ public class OfferServiceTest {
 		OfferService os = new OfferServiceImpl();
 		
 		Offer offer1 = new Offer(9, 3);
-		Offer offer2 = new Offer(9, 3);
 		offer1.setAmount(0.0);
-		offer2.setAmount(0.0);
 		
-		Integer id = os.addOffer(offer1);
-		
-		assertNotEquals(id, offer2.getId());
+		offer1.setId(os.addOffer(offer1));
+		Set<Offer> offers = os.getAllOffers();
+		assertTrue(offers.contains(offer1));
 		
 		os.deleteOffer(offer1);
 	}
@@ -36,7 +33,7 @@ public class OfferServiceTest {
 		Offer offer1 = new Offer(9, 3);
 		offer1.setAmount(0.0);
 		
-		os.addOffer(offer1);
+		offer1.setId(os.addOffer(offer1));
 		Set<Offer> allOffers = os.getAllOffers();
 		
 		assertTrue(allOffers.contains(offer1));
@@ -68,8 +65,8 @@ public class OfferServiceTest {
 		offer1.setAmount(0.0);
 		offer2.setAmount(0.0);
 		
-		os.addOffer(offer1);
-		os.addOffer(offer2);
+		offer1.setId(os.addOffer(offer1));
+		offer2.setId(os.addOffer(offer2));
 		
 		Set<Offer> fullOffers = os.getAllOffers();
 		

@@ -3,6 +3,7 @@ package dev.warrington.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 //import java.sql.SQLException;
 //import java.sql.Statement;
 //import java.util.HashSet;
@@ -38,7 +39,17 @@ public class PersonPostgres implements PersonDAO {
 
 	@Override
 	public void delete(Person t) {
-		// TODO Auto-generated method stub
+		
+		try (Connection conn = cu.getConnection()) {
+
+			String sql = "delete from bike_shop_users where id = " + t.getId();
+			Statement stmt = conn.createStatement();
+			
+			stmt.executeUpdate(sql);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
