@@ -41,13 +41,28 @@ public class PaymentPostgreSQL implements PaymentDAO{
 				currentBalance = rs3.getDouble(1);
 			}
 			
+			String sql4 = "select payments_remaining "
+					+ " from users "
+					+ " where user_id = ?";
+			PreparedStatement pstmt4 = conn.prepareStatement(sql4);
+			pstmt4.setInt(1,  p.getUserId());
+			
+			ResultSet rs4 = pstmt4.executeQuery();
+			Integer numPayments = 0;
+			if(rs4.next()) {
+				//System.out.println("Got here");
+				numPayments = rs4.getInt(1);
+			}
+			
 			//Automatically updates user's account balance
 			String sql2 = "update users "
-					+ " set account_balance = ? "
+					+ " set account_balance = ?, "
+					+ " payments_remaining = ?"
 					+ " where user_id = ?" ;
 			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 			pstmt2.setDouble(1,  (currentBalance - p.getAmount()));
-			pstmt2.setInt(2,  p.getUserId());
+			pstmt2.setInt(2, (numPayments - 1));
+			pstmt2.setInt(3,  p.getUserId());
 			
 			int r = pstmt2.executeUpdate();
 			ResultSet rs2 = pstmt.getGeneratedKeys();

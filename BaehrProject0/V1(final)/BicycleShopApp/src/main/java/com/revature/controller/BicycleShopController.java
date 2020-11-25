@@ -137,7 +137,7 @@ public class BicycleShopController {
 			if(userInput == 1) {
 				paymentServ.addPayment(p);
 				System.out.println("Payment successful!");
-				return loggedInUser;
+				return userServ.getUserById(loggedInUser.getUserID());
 			} else {
 				System.out.println("Payment cancelled");
 			return loggedInUser;
