@@ -11,16 +11,12 @@ public class Person {
 	private String password;//scary plain text passwords
 	private Role role;//employee/customer/manager/etc...
 	
-	private Set<Bike> ownedBikes;
-	
 	public Person(String firstName, String lastName, String username, String password, Role role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
 		this.role = role;
-		
-		ownedBikes = new HashSet<Bike>();
 	}
 
 	public void setUsername(String username) {
@@ -70,14 +66,6 @@ public class Person {
 	public String getUsername() {
 		return username;
 	}
-	
-	public Set<Bike> getOwnedBikes() {
-		return ownedBikes;
-	}
-
-	public void addBike(Bike bike) {
-		ownedBikes.add(bike);
-	}
 
 	@Override
 	public int hashCode() {
@@ -86,7 +74,6 @@ public class Person {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((ownedBikes == null) ? 0 : ownedBikes.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
