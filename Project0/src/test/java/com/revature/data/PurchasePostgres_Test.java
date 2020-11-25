@@ -9,12 +9,12 @@ import com.revature.beans.Purchase;
 
 public class PurchasePostgres_Test {
 
+	PurchasePostgres testPurchasePostgres = new PurchasePostgres(); 
 	
 	@DisplayName("Test add()") 
 	@Test
 	public void addTest() {
 		
-		PurchasePostgres testPurchasePostgres = new PurchasePostgres(); 
 		Purchase newPurchase = new Purchase(); 
 		newPurchase.setCustomerId(2);
 		newPurchase.setProductId(7);

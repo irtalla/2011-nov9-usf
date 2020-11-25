@@ -24,20 +24,21 @@ public class EmployeeController {
 			"VIEW_ALL_OFFERS  			     -  see all offers for all products",
 			"ACCEPT_OFFER < offer id >       -  accept an offer for product. Reject all other offers",
 			"REJECT_OFFER < offer id >       -  reject a specific offer for product",
-			"VIEW_ALL_PAYMENS                -  see all payments made so far"
+			"VIEW_ALL_PAYMENTS                -  see all payments made so far"
 	};
 	
 	public static String[] getCommandDescriptions() {
 		return commandDescriptions;
 	}
 	
-	protected EmployeeController() {}
+	protected EmployeeController() {
+		EmployeeController.productService = new ProductServiceImpl();  
+		EmployeeController.offerService = new OfferServiceImpl(); 
+	}
 	public static EmployeeController getEmployeeController() {
 		
 		if (EmployeeController.employeeController == null) {
 			EmployeeController.employeeController =  new EmployeeController();
-			EmployeeController.productService = new ProductServiceImpl();  
-			EmployeeController.offerService = new OfferServiceImpl(); 
 		}
 		
 		return EmployeeController.employeeController; 
@@ -58,7 +59,7 @@ public class EmployeeController {
 				for (String str : commandDescriptions) { System.out.println(str); }
 				break; 
 			case "GET_PRODUCTS":
-				Application.displayDataSet( EmployeeController.productService.getAvailableProducts() );
+				Application.displayDataSet( productService.getAvailableProducts() );
 				break;
 			case "VIEW_REMAINING_PAYMENTS":
 //				EmployeeController.productService.getRemainingPayments(productId);
@@ -73,24 +74,24 @@ public class EmployeeController {
 					System.out.println("You forgot to enter an id for the product!");
 					break;
 				}
-				EmployeeController.productService.removeProduct(productId);
+				productService.removeProduct(productId);
 				break;
 			case "VIEW_ALL_OFFERS":
-				Application.displayDataSet( EmployeeController.offerService.getAll() );
+				Application.displayDataSet( offerService.getAll() );
 				break; 
 			case "ACCEPT_OFFER":
 				if (offerId == null) {
 					System.out.println("You forgot to enter an id for the offer!");
 					break;
 				}
-				EmployeeController.offerService.acceptOffer(offerId);
+				offerService.acceptOffer(offerId);
 				break; 
 			case "REJECT_OFFER":
 				if (offerId == null) {
 					System.out.println("You forgot to enter an id for the offer!");
 					break;
 				}
-				EmployeeController.offerService.rejectOffer(offerId); 
+				offerService.rejectOffer(offerId); 
 				break; 
 			default: 
 				System.out.printf("Sorry, I didn't understand that! Check your spelling. Unknown command: %s\n", userResponse);
@@ -145,7 +146,7 @@ public class EmployeeController {
 			
 			newProduct.setPrice(productPrice);
 			
-			Product addedProduct = EmployeeController.productService.addProduct(newProduct); 
+			Product addedProduct = productService.addProduct(newProduct); 
 			
 			if (addedProduct != null) {
 				System.out.printf("\nSuccessfully added product: \n\n");
