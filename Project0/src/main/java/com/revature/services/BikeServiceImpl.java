@@ -51,7 +51,7 @@ public class BikeServiceImpl implements BikeService {
     
     @Override
     public void updateBike(Bike b) {
-        bikeDao.update(b);   
+        bikeDao.update(b); 
     }
     @Override
     public void ownBike(User u, Bike b) {
