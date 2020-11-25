@@ -172,30 +172,33 @@ public class BikeShopController {
 				UserHandler.viewRemaingPayments(currentUser);
 				break;
 			case 5:
-				UserHandler.viewOfferStatus(currentUser);
+				UserHandler.makePayment(currentUser);
 				break;
 			case 6:
-				UserHandler.addBike(currentUser);
+				UserHandler.viewOfferStatus(currentUser);
 				break;
 			case 7:
-				UserHandler.removeBike(currentUser);
+				UserHandler.addBike(currentUser);
 				break;
 			case 8:
-				UserHandler.viewActiveOffers(currentUser);
+				UserHandler.removeBike(currentUser);
 				break;
 			case 9:
-				UserHandler.acceptOffer(currentUser);
+				UserHandler.viewActiveOffers(currentUser);
 				break;
 			case 10:
-				UserHandler.rejectOffer(currentUser);
+				UserHandler.acceptOffer(currentUser);
 				break;
 			case 11:
-				UserHandler.viewAllRemainingPayments(currentUser);
+				UserHandler.rejectOffer(currentUser);
 				break;
 			case 12:
-				UserHandler.promoteUser(currentUser);
+				UserHandler.viewAllRemainingPayments(currentUser);
 				break;
 			case 13:
+				UserHandler.promoteUser(currentUser);
+				break;
+			case 14:
 				UserHandler.demoteUser(currentUser);
 				break;
 			}

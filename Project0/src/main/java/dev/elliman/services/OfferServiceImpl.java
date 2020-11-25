@@ -92,4 +92,7 @@ public class OfferServiceImpl implements OfferService{
 		return offerDAO.getAllAcceptedOffers();
 	}
 
+	public void update(Offer offer) {
+		offerDAO.update(offer);
+	}
 }

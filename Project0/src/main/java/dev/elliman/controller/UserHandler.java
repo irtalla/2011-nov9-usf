@@ -386,4 +386,53 @@ public class UserHandler {
 			System.out.println("You do not have permission to do that.");
 		}
 	}
+	
+	public static void makePayment(Person user) {
+		Set<Offer> offers = os.getAcceptedOffer(user);
+		if(offers.size() == 0) {
+			System.out.println("You do not owe anything.");
+			return;
+		}
+		
+		System.out.println("Which offer would you like to make a payment on?");
+		for(Offer o : offers) {
+			System.out.println("Offer [id=" + o.getId() + ", bike=" + o.getBike().getModel() + ", price=" + o.getPrice() + ", remaining=" + o.getPaymentRemaining() + ", payment size=" + o.getPaymentSize() + "]");
+		}
+		
+		Offer offer = null;
+		Integer id = null;
+		while(true) {
+			try {
+				id = Integer.valueOf(input.nextLine());
+				if(id < 1) {
+					System.out.println("Canceling...");
+					return;
+				} else {
+					//check that the id is valid
+					for(Offer o : offers) {
+						if(o.getId().equals(id)) {
+							offer = o;
+							break;
+						}
+					}
+					if(offer == null) {
+						System.out.println("Please enter a valid number. (-1 to cancel)");
+					} else {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid number. (-1 to cancel)");
+			}
+		}
+		
+		System.out.println("Please drop the sacks of flour off behind the store.");
+		
+		offer.setPaymentRemaining(offer.getPaymentRemaining()-offer.getPaymentSize());
+		if(offer.getPaymentRemaining() < 0) {
+			offer.setPaymentRemaining(0);
+		}
+		
+		os.update(offer);
+	}
 }

@@ -104,6 +104,7 @@ public class OfferPostgres implements OfferDAO {
 						rs.getInt("price"),
 						rs.getInt("payment_size"),
 						rs.getInt("payment_remaining"));
+				o.setId(rs.getInt("offer_id"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -139,6 +140,7 @@ public class OfferPostgres implements OfferDAO {
 						rs.getInt("price"),
 						rs.getInt("payment_size"),
 						rs.getInt("payment_remaining"));
+				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}
 			
@@ -169,6 +171,7 @@ public class OfferPostgres implements OfferDAO {
 						rs.getInt("price"),
 						rs.getInt("payment_size"),
 						rs.getInt("payment_remaining"));
+				o.setId(rs.getInt("offer_id"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -204,6 +207,7 @@ public class OfferPostgres implements OfferDAO {
 						rs.getInt("price"),
 						rs.getInt("payment_size"),
 						rs.getInt("payment_remaining"));
+				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}
 			
@@ -233,6 +237,7 @@ public class OfferPostgres implements OfferDAO {
 						rs.getInt("price"),
 						rs.getInt("payment_size"),
 						rs.getInt("payment_remaining"));
+				o.setId(rs.getInt("offer_id"));
 				if("Accepted".contentEquals(rs.getString("status"))) {
 					o.accept();
 				} else if ("Rejected".contentEquals(rs.getString("status"))) {
@@ -330,6 +335,7 @@ public class OfferPostgres implements OfferDAO {
 						rs.getInt("price"),
 						rs.getInt("payment_size"),
 						rs.getInt("payment_remaining"));
+				o.setId(rs.getInt("offer_id"));
 				offers.add(o);
 			}
 			

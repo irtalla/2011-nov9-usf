@@ -23,4 +23,5 @@ public interface OfferService {
 		//update
 		public Boolean acceptOffer(Integer id, Person person);
 		public void rejectOffer(Integer id);
+		public void update(Offer offer);
 }
