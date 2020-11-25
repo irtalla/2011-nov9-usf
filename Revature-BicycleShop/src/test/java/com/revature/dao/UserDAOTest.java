@@ -74,7 +74,7 @@ public class UserDAOTest {
 		String password = "password2";
 	
 		int customerID = up.registerACustomer(username, password);
-		int sizeBeforeTest = up.getAllUsers().size();
+		//int sizeBeforeTest = up.getAllUsers().size();
 		assertTrue(up.removeACustomer(customerID));
 		
 	}
