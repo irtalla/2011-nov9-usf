@@ -219,6 +219,7 @@ public class CustomerPostgres implements CustomerDAO {
 				{
 					r.setName(rs2.getString("name"));
 					r.setId(rs2.getInt("id"));
+					c.setRole(r);
 				}
 				else
 				{
@@ -312,11 +313,11 @@ public class CustomerPostgres implements CustomerDAO {
 			
 			
 			pstmt.execute();
-			
+			/*
 			Set<Accessory> accs = t.getCart().keySet();
 			for (Accessory a : accs)
 			{
-				sql = "insert into customer_accessory (num_owned, customer_id, accessory_id) values (?,?,?) on confict do update customer_accessory set num_owned = ? "
+				sql = "insert into customer_accessory (num_owned, customer_id, accessory_id) values (?,?,?) on conflict do update customer_accessory set num_owned = ? "
 						+ "where customer_id = ? and accessory_id = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, t.getCart().get(a));
@@ -328,7 +329,7 @@ public class CustomerPostgres implements CustomerDAO {
 				
 				pstmt.execute();
 			}
-			
+			*/
 			
 			for (Offer o: t.getOffers())
 			{
@@ -365,6 +366,12 @@ public class CustomerPostgres implements CustomerDAO {
 			
 			String sql = "delete from customer_bicycle where customer_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getID());
+			
+			pstmt.executeUpdate();
+			
+			sql = "delete from customer_accessory where customer_id = ?";
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getID());
 			
 			pstmt.executeUpdate();

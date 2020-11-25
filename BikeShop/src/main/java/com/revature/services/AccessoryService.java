@@ -11,6 +11,7 @@ public interface AccessoryService {
 	public Accessory getAccessoryById(Integer id);
 	public Set<Accessory> getAccessories();
 	// "update" methods
+	public void purchase(Accessory a, Integer customerID, Integer num);
 	public void updateAccessory(Accessory c);
 	// "delete" methods
 	public void removeAccessory(Accessory c);

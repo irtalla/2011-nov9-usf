@@ -12,6 +12,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import com.revature.beans.Accessory;
+import com.revature.beans.Customer;
 
 public class AccessoryPostgresTest {
 	public DAOFactory fac = DAOFactory.getDAOFactory();
@@ -79,6 +80,27 @@ public class AccessoryPostgresTest {
 		Set<Accessory> results = aDao.getAll();
 		
 		assertFalse(results.contains(b));
+	}
+	
+	@Test
+	public void testPurchase()
+	{
+		Accessory a = new Accessory();
+		a.setPrice(5f);
+		AccessoryDAO aDao = DAOFactory.getAccessoryDAO();
+		Accessory b = aDao.add(a);
+		
+		Customer testCust = new Customer();
+		CustomerDAO cDao = DAOFactory.getCustomerDAO();
+		testCust = cDao.add(testCust);
+		
+		aDao.purchase(b, testCust.getID(), 2);
+		testCust = cDao.getById(testCust.getID());
+		assertEquals(testCust.getBalance(), 10f);
+		cDao.delete(testCust);
+		aDao.delete(b);
+		
+		
 	}
 	
 }

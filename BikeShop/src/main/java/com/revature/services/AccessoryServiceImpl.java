@@ -32,4 +32,10 @@ public class AccessoryServiceImpl implements AccessoryService {
 
 	}
 
+	@Override
+	public void purchase(Accessory a, Integer customerID, Integer num) {
+		dao.purchase(a, customerID, num);
+		
+	}
+
 }

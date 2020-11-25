@@ -8,6 +8,7 @@ import com.revature.beans.Bicycle;
 import com.revature.beans.Customer;
 import com.revature.beans.Offer;
 import com.revature.beans.Payment;
+import com.revature.beans.Role;
 import com.revature.services.AccessoryService;
 import com.revature.services.AccessoryServiceImpl;
 import com.revature.services.BicycleService;
@@ -119,13 +120,15 @@ public class BikeShopController
 				System.out.println("What would you like to do? (Please enter the number of your choice)");
 				
 				System.out.println("1. Logout\n2. View Balance Details\n3. View Available Bicycles\n4. View Bicycle Accessories");
-				System.out.println("5. View Owned Bicycles\n6. View owned Accessories");
+				System.out.println("5. View Owned Bicycles\n6. View Owned Accessories");
 				switch(user.getRole().getId())
 				{
+				case 1:
+					System.out.println("7. View User payments");
+					break;
 				case 2:
-					System.out.println("7. View user payments");
-				case 3:
-					System.out.println("8. View Employee Accounts\n9. View Offer History");
+					System.out.println("7. View User payments\n8. View Employee Accounts\n9. View Offer History");
+					break;
 				}
 				
 				try
@@ -137,7 +140,7 @@ public class BikeShopController
 					valid = false;
 				}
 				
-				if(choice < 1 || choice > 8 || (user.getRole().getId() < 1 && choice > 6) || (user.getRole().getId() < 2 && choice > 7))
+				if(choice < 1 || choice > 9 || (user.getRole().getId() < 1 && choice > 6) || (user.getRole().getId() < 2 && choice > 7))
 					valid = false;
 				
 				if (valid)
@@ -220,13 +223,26 @@ public class BikeShopController
 			Set<Bicycle> bikes = bikeServ.getBicycles();
 			for (Bicycle b : bikes)
 			{
-				System.out.println("ID: "+ b.getID() + " Model: " + b.getModel() + " Brand: " + b.getBrand() + " Asking Price: " + b.getPrice());
-				System.out.print("\tOffers: ");
-				for (Offer o : b.getOffers())
+				boolean available = true;
+				
+				for(Offer o : b.getOffers())
 				{
-					System.out.print( "ID: " + o.getID() + " Price: " + o.getPrice() + " Status: " + o.getStatus().getName() + "\t");
+					if (o.getStatus().getID() == 1)
+						available = false;
 				}
-				System.out.println();
+				
+				if (available)
+				{
+					System.out.println("ID: "+ b.getID() + " Model: " + b.getModel() + " Brand: " + b.getBrand() + " Asking Price: " + b.getPrice());
+					System.out.print("\tOffers: ");
+					for (Offer o : b.getOffers())
+					{
+						System.out.print( "ID: " + o.getID() + " Price: " + o.getPrice() + " Status: " + o.getStatus().getName() + "\t");
+					}
+					System.out.println();
+				}
+				
+				
 			}
 			Integer choice = null;
 			if (user.getRole().getId() > 0)
@@ -428,21 +444,85 @@ public class BikeShopController
 			}
 			else if (choice == 2)
 			{
-				Accessory Selected = null;
+				Accessory selected = null;
 				
 				while(true)
 				{
 					boolean valid = false;
-					Integer input = getIntegerUserInput(0,null,"Please select an Accessort\nID: ");
+					Integer input = getIntegerUserInput(0,null,"Please select an Accessory\nID: ");
 					for (Accessory a: all)
 					{
 						if (input == a.getID())
 						{
 							valid = true;
-							Selected = a;
+							selected = a;
 						}
+						
+
 					}
+					if (valid)
+						break;
+					System.out.println("Error! Accessory not Foind!");
 				}
+				
+				System.out.println("Category: " + selected.getCategory() + " Name: " + selected.getName() + " Brand: " + selected.getBrand() + " Price " + selected.getPrice());
+				Integer num = getIntegerUserInput(1,null,"How many would you like to purchase?");
+				accServ.purchase(selected, user.getID(), num);
+				user.setBalance(user.getBalance() + num * selected.getPrice());
+				if(user.getCart().containsKey(selected))
+				{
+					user.getCart().put(selected, user.getCart().get(selected)+num);
+				}
+				else
+					user.getCart().put(selected, num);
+				System.out.println("Purchase Successful!");
+			}
+			else if (choice == 3)
+			{
+				Accessory toAdd = new Accessory();
+				System.out.println("Please enter a Name");
+				toAdd.setName(scan.nextLine());
+				System.out.println("Please enter a Catagory");
+				toAdd.setCategory(scan.nextLine());
+				System.out.println("Please enter a Brand");
+				toAdd.setBrand(scan.nextLine());
+				toAdd.setPrice(getFloatUserInput(0f,null,"Please enter a Price"));
+				accServ.addAccessory(toAdd);
+				System.out.println("Accessory Added Successfully!");
+			}
+			else if (choice == 4)
+			{
+				Accessory selected = null;
+				
+				while(true)
+				{
+					boolean valid = false;
+					Integer input = getIntegerUserInput(0,null,"Please select an Accessory\nID: ");
+					for (Accessory a: all)
+					{
+						if (input == a.getID())
+						{
+							valid = true;
+							selected = a;
+						}
+						
+
+					}
+					if (valid)
+						break;
+					System.out.println("Error! Accessory not Foind!");
+				}
+				System.out.println("Current Attributes:");
+				System.out.println("Category: " + selected.getCategory() + " Name: " + selected.getName() + " Brand: " + selected.getBrand() + " Price " + selected.getPrice());
+				System.out.println("Please enter a Name");
+				selected.setName(scan.nextLine());
+				System.out.println("Please enter a Catagory");
+				selected.setCategory(scan.nextLine());
+				System.out.println("Please enter a Brand");
+				selected.setBrand(scan.nextLine());
+				selected.setPrice(getFloatUserInput(0f,null,"Please enter a Price"));
+				accServ.updateAccessory(selected);
+				System.out.println("Accessory Updated Successfully!");
 			}
 			
 		}
@@ -464,7 +544,16 @@ public class BikeShopController
 	}
 	private static void viewMyAccessories(Customer user)
 	{
-		
+		while(true)
+		{
+			for(Accessory a : user.getCart().keySet())
+			{
+				System.out.println("ID: " + a.getID() + " Category: " + a.getCategory() + " Name: " + a.getName() + " Brand: " + a.getBrand() + " Price: " + a.getPrice() + " Amount: " + user.getCart().get(a));
+			}
+			
+			getIntegerUserInput(1,1,"Press 1 to Return");
+			return;
+		}
 	}
 	private static void viewUserPayments(Customer user)
 	{
@@ -477,10 +566,85 @@ public class BikeShopController
 	}
 	private static void viewEmployeeAccounts(Customer user)
 	{
+		while(true)
+		{
+			Set<Customer> all = custServ.getCustomers();
+			
+			for(Customer c : all)
+			{
+				if (c.getRole().getId() == 1)
+					System.out.println("ID: " + c.getID() + " Name: " + c.getName());
+			}
+			
+			Integer choice = getIntegerUserInput(1,3,"What would you like to do?\n1. Return\n2. Hire New Employee\n3. Fire an Employee");
+			if(choice == 1)
+			{
+				return;
+			}
+			else if (choice == 2)
+			{
+				Customer newEmployee = new Customer();
+				Role role = new Role();
+				role.setId(1);
+				role.setName("employee");
+				newEmployee.setRole(role);
+				System.out.println("Please enter a name:");
+				newEmployee.setName(scan.nextLine());
+				System.out.println("Please enter a username:");
+				newEmployee.setUsername(scan.nextLine());
+				System.out.println("Please enter a password:");
+				newEmployee.setPassword(scan.nextLine());
+				custServ.addCustomer(newEmployee);
+				System.out.println("New Employee " + newEmployee.getName() + " Hired!");
+			}
+			else if (choice == 3)
+			{
+				Customer selected = null;
+				while (true)
+				{
+					boolean valid = false;
+					Integer id = getIntegerUserInput(0,null,"Please choose an unfortunate soul\nID:");
+					
+					for(Customer c : all)
+					{
+						if (c.getID() == id && c.getRole().getId() == 1)
+						{
+							valid = true;
+							selected = c;
+						}
+					}
+					
+					if(valid)
+						break;
+					System.out.println("Error! No ID found!");
+				}
+				Role role = new Role();
+				role.setId(0);
+				role.setName("customer");
+				selected.setRole(role);
+				custServ.updateCustomer(selected);
+				System.out.println("Employee Fired!");
+				
+			}
+		}
+		
+		
 		
 	}
 	private static void viewOfferHistory(Customer user)
 	{
+		while(true)
+		{
+			Set<Offer> all = offServ.getOffers();
+			
+			for(Offer o : all)
+			{
+				System.out.println("ID: " + o.getID() + " Customer ID: " + o.getOwner() + " Bicycle ID: " + o.getItem() + " Price: " + o.getPrice() + " Status: " + o.getStatus().getName());
+			}
+			getIntegerUserInput(1,1,"Press 1 to return");
+			return;
+		}
+		
 		
 	}
 	
@@ -517,6 +681,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (choice > upperBound)
 					valid = false;
@@ -534,6 +699,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (choice < lowBound)
 					valid = false;
@@ -551,6 +717,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (choice > upperBound || choice < lowBound)
 					valid = false;
@@ -579,6 +746,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (valid)
 				{
@@ -594,6 +762,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (choice > upperBound)
 					valid = false;
@@ -611,6 +780,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (choice < lowBound)
 					valid = false;
@@ -628,6 +798,7 @@ public class BikeShopController
 				catch(NumberFormatException e)
 				{
 					valid = false;
+					continue;
 				}
 				if (choice > upperBound || choice < lowBound)
 					valid = false;

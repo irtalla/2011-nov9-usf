@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.Accessory;
+import com.revature.beans.Customer;
 import com.revature.utils.ConnectionUtil;
 
 public class AccessoryPostgres implements AccessoryDAO {
@@ -220,8 +221,24 @@ public class AccessoryPostgres implements AccessoryDAO {
 		
 		try
 		{
-			String sql = "insert into customer_accessory values (?, ?, ?) on conflict ("
-					+ "update customer_accessory set num_owned = num_owned + ? where customer_id = ? and accessory_id = ?";
+			String sql = "insert into customer_accessory values (?, ?, ?) on conflict (customer_id, accessory_id) do "
+					+ "update set num_owned = customer_accessory.num_owned + ? where customer_accessory.customer_id = ? "
+					+ "and customer_accessory.accessory_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, customerID);
+			pstmt.setInt(2, t.getID());
+			pstmt.setInt(3, num);
+			
+			pstmt.setInt(4, num);
+			pstmt.setInt(5, customerID);
+			pstmt.setInt(6, t.getID());
+			
+			pstmt.executeUpdate();
+			
+			
+			Customer owner = DAOFactory.getCustomerDAO().getById(customerID);
+			owner.setBalance(owner.getBalance() + num * t.getPrice());
+			DAOFactory.getCustomerDAO().update(owner);
 			
 		}
 		catch(Exception e)
