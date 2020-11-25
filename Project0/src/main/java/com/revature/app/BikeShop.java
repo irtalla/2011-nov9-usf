@@ -1,5 +1,6 @@
 package com.revature.app;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -83,6 +84,8 @@ public class BikeShop {
 					return newAccount;
 				} catch (NonUniqueUsernameException e) {
 					System.out.println("Sorry, that username is taken - let's try again.");
+				} catch (Exception e) {
+					System.out.println("Sorry, an error occured. Try again.");
 				}
 				break;
 			case 2:
@@ -213,7 +216,7 @@ public class BikeShop {
 					input = Integer.valueOf(scan.nextLine());
 					Bike bike = bikeServ.getBikeById(input);
 					
-					Offer acceptedOffer = offerServ.getAcceptedOfferForBike(bike);
+					Offer acceptedOffer = ((ArrayList<Offer>) offerServ.getActiveOffersForBike(bike)).get(0);
 					if (bike != null && user.getBikes().contains(bike)) {
 						System.out.println("Your remaining payments for the " + bike.getBrand() + "bike with id " + bike.getId() + "are " + acceptedOffer.getWeeklyPayment() + "for " + acceptedOffer.getWeeks() + " more weeks" );
 						viewRemainingPayments = false;
@@ -228,7 +231,7 @@ public class BikeShop {
 		}
 	}
 	
-	private static Person manageBikes(Person user) {
+	private static Person manageBikes(Person user) throws NonUniqueUsernameException {
 		if (!(user.getRole().getName().equals("Employee")))
 			return null;
 		

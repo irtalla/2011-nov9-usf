@@ -11,7 +11,7 @@ public interface PersonService {
 	public Person getPersonById(Integer id);
 	public Person getPersonByUsername(String username);
 	// update
-	public void updatePerson(Person p);
+	public Person updatePerson(Person p) throws NonUniqueUsernameException;
 	// delete
 	public void deletePerson(Person p);
 	public Set<Person> getAll();

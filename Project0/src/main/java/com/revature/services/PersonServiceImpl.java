@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.Set;
+
 import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
@@ -29,12 +31,17 @@ public class PersonServiceImpl implements PersonService{
 	}
 
 	@Override
-	public void updatePerson(Person p) {
-		personDao.update(p);
+	public Person updatePerson(Person p) throws NonUniqueUsernameException {
+		return personDao.update(p);
 	}
 
 	@Override
 	public void deletePerson(Person p) {
 		personDao.delete(p);
+	}
+
+	@Override
+	public Set<Person> getAll() {
+		return personDao.getAll();
 	}
 }

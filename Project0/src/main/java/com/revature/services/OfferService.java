@@ -9,12 +9,11 @@ import com.revature.beans.Person;
 public interface OfferService {
 	public Offer makeOffer(Offer offer);
 	
-	//read
 	public Set<Offer> getActiveOffersMadeByPerson(Person p);
 	
 	public Set<Offer> getActiveOffersForBike(Bike b);
 	
-	public Offer getAcceptedOfferForBike(Bike b);
+//	public Offer getAcceptedOfferForBike(Bike b);
 	
 	public void acceptOfferForBike(Bike b, Offer o);
 	
@@ -26,5 +25,5 @@ public interface OfferService {
 
 	public Set<Offer> getAll();
 
-	public Offer addOffer(Offer offer1);
+	public Offer addOffer(Offer offer1) throws Exception;
 }

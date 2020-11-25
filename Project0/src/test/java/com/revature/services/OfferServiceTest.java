@@ -33,7 +33,7 @@ public class OfferServiceTest {
 	}
 	
 	@Test
-	public void testAddOffer() throws NonUniqueUsernameException {
+	public void testAddOffer() throws Exception {
 		Offer updatedOffer1 = offerService.addOffer(offer1);
 		assertNotNull(offer1);
 	
@@ -42,7 +42,7 @@ public class OfferServiceTest {
 	}
 	
 	@Test
-	public void testGetAllPeople() throws NonUniqueUsernameException {
+	public void testGetAllPeople() throws Exception {
 		Offer updatedOffer1 = offerService.addOffer(offer1);
 		Offer updatedOffer2 = offerService.addOffer(offer1);
 		
@@ -52,7 +52,7 @@ public class OfferServiceTest {
 	}
 	
 	@Test
-	public void testDeleteOffer() throws NonUniqueUsernameException {
+	public void testDeleteOffer() throws Exception {
 		Offer updatedOffer1 = offerService.addOffer(offer1);
 		offerService.deleteOffer(updatedOffer1);
 		

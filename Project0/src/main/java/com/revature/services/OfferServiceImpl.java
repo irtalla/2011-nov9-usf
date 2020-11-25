@@ -51,7 +51,17 @@ public class OfferServiceImpl implements OfferService {
 	}
 
 	@Override
-	public Offer getAcceptedOfferForBike(Bike b) {
-		return offerDao.getAcceptedOfferForBike(b);
+	public void deleteOffer(Offer t) {
+		offerDao.delete(t);
+	}
+
+	@Override
+	public Set<Offer> getAll() {
+		return offerDao.getAll();
+	}
+
+	@Override
+	public Offer addOffer(Offer t) throws Exception {
+		return offerDao.add(t);
 	}
 }

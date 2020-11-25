@@ -3,6 +3,7 @@ package com.revature.services;
 import java.util.Set;
 
 import com.revature.beans.Bike;
+import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.beans.Bike;
 
 public interface BikeService {
@@ -10,7 +11,7 @@ public interface BikeService {
 	
 	public Bike getBikeById(Integer id);
 	
-	public Bike updateBike(Bike p);
+	public Bike updateBike(Bike p) throws NonUniqueUsernameException;
 	
 	public void deleteBike(Bike p);
 	

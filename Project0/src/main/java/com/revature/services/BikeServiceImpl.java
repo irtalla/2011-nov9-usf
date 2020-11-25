@@ -5,8 +5,7 @@ import java.util.Set;
 import com.revature.beans.Bike;
 import com.revature.data.BikeDAO;
 import com.revature.data.BikeDAOFactory;
-import com.revature.data.OfferDAO;
-import com.revature.data.OfferDAOFactory;
+import com.revature.exceptions.NonUniqueUsernameException;
 
 public class BikeServiceImpl implements BikeService{
 
@@ -23,12 +22,11 @@ public class BikeServiceImpl implements BikeService{
 
 	@Override
 	public Bike getBikeById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return bikeDao.getById(id);
 	}
 
 	@Override
-	public Bike updateBike(Bike bike) {
+	public Bike updateBike(Bike bike) throws NonUniqueUsernameException {
 		return bikeDao.update(bike);
 	}
 
@@ -42,13 +40,8 @@ public class BikeServiceImpl implements BikeService{
 		return bikeDao.getAvailableBikes();
 	}
 
-//	@Override
-//	public Bike getByModel(String model) {
-//		return bikeDao.getByModel(model);
-//	}
-
 	@Override
-	public Set<Bike> getAllBikes() {
+	public Set<Bike> getAll() {
 		return bikeDao.getAll();
 	}
 }

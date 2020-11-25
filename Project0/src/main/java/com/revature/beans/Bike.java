@@ -10,7 +10,7 @@ public class Bike {
 	private Status status;
 	private Set<Offer> offers;
 	private Person owner;
-//	private Offer acceptedOffer;
+	private Offer acceptedOffer;
 	
 	public Integer getId() {
 		return id;
