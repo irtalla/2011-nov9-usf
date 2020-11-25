@@ -14,6 +14,7 @@ public interface BikeService {
 	public Bike getBikeById(Integer id);
 	public Set<Bike> getBikes();
 	public Set<Bike> getAvailableBikes();
+	public Set<Bike> getOwnedBikes();
 	//update
 	public void updateBike(Bike b);
 	public void ownBike(User u, Bike b);

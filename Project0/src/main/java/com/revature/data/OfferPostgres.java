@@ -115,11 +115,32 @@ public class OfferPostgres implements OfferDAO {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public void delete(Offer t) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeOffer(Offer o) {
+		// TODO Auto-generated method stub
 		//nuke the offer, send him to planks yarrr!!
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			//update from pending to accepted
+			String sql = "delete from offer where id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, o.getId());
+			pstmt.executeUpdate();
+			conn.commit();
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 
 	}

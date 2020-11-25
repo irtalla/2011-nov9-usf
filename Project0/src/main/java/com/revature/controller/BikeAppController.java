@@ -331,7 +331,7 @@ public class BikeAppController {
 		
 		System.out.println("_______________________________________");
 		
-		System.out.println("Manage Offers: \nPlease enter the ID of Offer you want to View:\n");
+		System.out.println("Manage Offers: \nPlease enter the  Offer_ID of the Offer you want to View:\n");
 		
 		
 		Offer offerToJudge = offerServ.getById(Integer.valueOf(scan.nextLine()));
@@ -357,10 +357,17 @@ public class BikeAppController {
 			Bike bike = new Bike();
 			bike.setId(offerToJudge.getBikeId());
 			bikeServ.updateBike(bike);
+			//assign bike
+			
 			System.out.println("----Accepted Offer----\n------------------");
 			
 		} else if (input == 2 ) {
 			//reject the offer by deleting the offer
+			Offer offer = new Offer();
+			offer.setId(offerToJudge.getId());
+			offerServ.removeOffer(offer);
+			//execute deletion
+			
 			System.out.println("else");
 			
 		}else {System.out.println("You gave me garbage, back to main");}

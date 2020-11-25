@@ -105,3 +105,16 @@ CREATE TABLE offer (
 	CONSTRAINT offer_bike_id_fkey FOREIGN KEY (bike_id) REFERENCES bikeapp.bike(id),
 	CONSTRAINT offer_user_id_fkey FOREIGN KEY (user_id) REFERENCES bikeapp.user_acc(id)
 );
+
+
+
+
+select bike.id as bike_id, bike.name as bike_name, bike.price as bike_payments
+from bike
+join user_bike 
+on bike.id = user_bike.bike_id
+where user_id = 3;
+
+
+
+
