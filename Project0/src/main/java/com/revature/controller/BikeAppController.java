@@ -66,7 +66,7 @@ public class BikeAppController {
 			//User Menu
 			menuLoop: while (true) {
 				System.out.println("Main Menu: Enter Number to Select Option");
-				System.out.println("1. Available Bikes\n2. View your Bikes\n6. Log Out");
+				System.out.println("1. Available Bikes\n2. View your Bikes and Bills\n6. Log Out");
 				
 				//check if user is a customer or an employee
 				if (loggedInUser.getRole().getName().equals("Customer")) {
@@ -239,13 +239,14 @@ public class BikeAppController {
 	private static User viewUserBikes(User user) {
 		
 		if (user.getBikes().size() > 0) {
-			System.out.println("Viewing your bikes: ");
+			System.out.println("Viewing your bikes:\n--------------------------------------\n ");
 			for (Bike bike : user.getBikes()) {
 				System.out.println(bike);
+				System.out.println("Your Weekly Payment: " + bike.getPrice()/52 + " Dollars\nYour Remaining Balance: " + bike.getPrice() + "\n");
 			}
-			
+			System.out.println("________________________________________\n");
 		} else {
-			System.out.println("You don't have any bikes... yet.\n");
+			System.out.println("You don't have do not own a bike!\n");
 		}
 		return user;
 	}
