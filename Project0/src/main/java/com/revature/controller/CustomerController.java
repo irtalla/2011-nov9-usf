@@ -103,14 +103,8 @@ public class CustomerController {
 	
 	private static void handleGetProductsRequest() {
 		
-		System.out.print("Would you like to browse a particular category of products? If so, enter 'yes'");
-		final String userInput = Application.getUserInput();
-		
-		if ( ! userInput.equalsIgnoreCase("YES")  ) {
-			Application.displayDataSet( productService.getAvailableProducts() );
-			return; 
-		}
-		
+		System.out.println("What is the category of product you are interested in?");
+
 		while (true) {
 			
 			String[] categories = { "  Bike", "  Helmet", "  Pegs", "  Chain" };
@@ -127,6 +121,7 @@ public class CustomerController {
 					break; 
 				}
 			} else {
+				System.out.println("Fetching products...");
 				Application.displayDataSet(productService.getProductByCategory(userChoice));
 				break; 
 			}
