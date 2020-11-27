@@ -1,0 +1,72 @@
+[LEGEND]
+* : Class
++ : field
+- : method
+? : does this even belong here?
+$ : bonus point
+[] : some sort of data structure
+[/LEGEND]
+
+
+Models
+* User
+    + Id
+    + Username
+    + Password
+    - login
+    - register for a customer account
+    -$ make payment
+    -$? view different categories of bike accessories
+    -$? purchase said accessories
+* Role
+    * Customer
+        +? Fund
+        + <Bike>[]
+        + <BikePart>[]
+        + <Payment>[]
+        - view available bikes
+        - make offer for bikes
+        - view owned bikes
+        - view remaining payments for a bike
+    * Employee
+        - add/remove bike to/from service
+        - accept/reject pending offer
+        - view all payments
+        -$ edit existing bikes
+    *$ Manager
+        - make Employee accounts
+        - fire employees
+        - view sales history of all offers
+* System
+    - update bike ownership state when offer accepted
+    - reject all other pending offers for a bike when offer accepted
+    - calculate weekely payment
+    +? <Bike>[], <User>[], <BikePart>[] 
+* Bike
+    + Id
+    + Type
+    + Value
+    + Ownership State
+    + <BikePart>[]
+* BikePart
+    + Id
+    + Type
+    + Value
+* Payment
+    + Value
+    +? Customer
+    +? Employee
+    +? Bike
+    +? Date/Time
+
+Controller
+* BicycleShopAppController
+
+Data (CRUD)
+* DAO
+* Collections
+* Postgres
+
+Services
+* Service
+* ServiceImpl
