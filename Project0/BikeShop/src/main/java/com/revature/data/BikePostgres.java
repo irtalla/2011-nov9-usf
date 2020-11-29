@@ -164,11 +164,11 @@ public class BikePostgres implements BikeDAO {
 //					+ "bike join status on status_id = status.id) as bike_status "
 //					+ "join brand on brand_id = brand.id) as available where available.status_name = 'available'";
 			
-				"select * from (select bike_status.bike_id, bike_status.name, bike_status.condition, bike_status.status_id, bike_status.status_name, brand.brand_id, brand.name as brand_name " 
-				+ "from (select bike.bike_id, bike.name, bike.condition, bike.status_id, bike.brand_id, status.name as status_name " 
-				+ "from bike join status on bike.status_id = status.status_id) as bike_status " 
-				+ "join brand on brand.brand_id = brand.brand_id) as available " 
-				+ "where available.status_name = 'available'";
+"select * from (select bike_status.bike_id, bike_status.name, bike_status.condition, bike_status.status_id, bike_status.status_name, brand.brand_id, brand.name as brand_name " 
++ "from (select bike.bike_id, bike.name, bike.condition, bike.status_id, bike.brand_id, status.name as status_name " 
++ "from bike join status on bike.status_id = status.status_id) as bike_status " 
++ "join brand on brand.brand_id = bike_status.brand_id) as available " 
++ "where available.status_name = 'available' order by available.bike_id";
 			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -218,11 +218,16 @@ public class BikePostgres implements BikeDAO {
 			int rowsAffected = pstmt.executeUpdate();
 			
 			if (rowsAffected > 0) {
-				if (updateSpecialFeatures(t, conn))
+				if (updateSpecialFeatures(t, conn)) {
+					System.out.println("UpdateSpecialFeatures succeded");
 					conn.commit();
-				else
+				}		
+				else {
+					System.out.println("UpdateSpecialFeatures failed");
 					conn.rollback();
+				}
 			} else {
+				System.out.println("Bike.update did not update anything!"); 
 				conn.rollback();
 			}
 		} catch (Exception e) {
@@ -322,7 +327,7 @@ public class BikePostgres implements BikeDAO {
 	// this is just ONE way of handling this problem, and it isn't
 	// necessarily the best way! :) just want to show different options.
 	private boolean updateSpecialFeatures(Bike bk, Connection conn) throws SQLException {
-		return false;    ////????
+		return true;    ////????
 //		int needsInDatabase = 0;
 //		
 //		String sql = "select bike_id, special_feature_id, name "

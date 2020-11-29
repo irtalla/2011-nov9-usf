@@ -209,11 +209,11 @@ public class BikeShopController {
 				Bike bike = bikeServ.getBikeById(input);
 				if (bike != null && bike.getStatus().getName().equals("available")) {
 					System.out.println(bike);
-					System.out.println("You want to bike " + bike.getBrand() + "? 1 for yes, other for no");
+					System.out.println("Do you want to purchase bike " + bike.getId() + ", brand " + bike.getBrand().getName() + "? 1 for yes, other for no");
 					input = Integer.valueOf(scan.nextLine());
 					if (input == 1) {
 						bikeServ.purchaseBike(user, bike);
-						System.out.println("You did it! You purchased " + bike.getBrand() + ".");
+						System.out.println("You did it! You purchased " + bike.getId() + ", brand " + bike.getBrand().getName() + ".");
 						// get the person with their updated cat set
 						user = personServ.getPersonById(user.getId());
 						break;

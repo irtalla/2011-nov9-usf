@@ -164,8 +164,31 @@ public class PersonPostgres implements PersonDAO {
 
 	@Override
 	public void update(Person t) {
-		// TODO Auto-generated method stub
+		// update the person
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+//			String sql = "update cat set name = ?, age = ?, status_id = ?, breed_id = ? where id = ?";
+			String sql = "update person set username = ?, passwd = ?, user_role_id = ? where person_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, t.getUsername());
+			pstmt.setString(2, t.getPassword());
+			pstmt.setInt(3, t.getRole().getId());
+			pstmt.setInt(4,  t.getId());
+			
+			int rowsAffected = pstmt.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+		// update the person bike
+		// delete all records from personbike table for this person in database by executing a query 
+		// insert each person bike record into the table
 	}
 
 	@Override
