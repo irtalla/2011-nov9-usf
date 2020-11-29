@@ -45,4 +45,11 @@ public class PaymentServiceImpl implements PaymentService {
 		
 	}
 
+	@Override
+	public void makePayment(Payment p) {
+		
+		paymentDao.update(p);
+		
+	}
+
 }

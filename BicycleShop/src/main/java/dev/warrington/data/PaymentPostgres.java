@@ -87,8 +87,21 @@ public class PaymentPostgres implements PaymentDAO {
 	}
 
 	@Override
-	public void update(Payment t) {
-		// TODO Auto-generated method stub
+	public void update(Payment p) {
+		
+		try (Connection conn = cu.getConnection()) {
+			
+			String sql = "update payments set total_owed = " + p.getTotalOwed() + ", payments_remaining = "
+					+ p.getPaymentsRemaining() + " where id = " + p.getId();
+			Statement stmt = conn.createStatement();
+			
+			stmt.executeUpdate(sql);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
 		
 	}
 

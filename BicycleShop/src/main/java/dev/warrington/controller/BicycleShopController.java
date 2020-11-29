@@ -550,6 +550,20 @@ public class BicycleShopController {
 						
 						f1.close();
 						f2.close();
+						
+						System.out.print("Press 1 to make a payment and any other number to go back:");
+						input = Integer.valueOf(scan.nextLine());
+						
+						if (input == 1) {
+							
+							p.setPaymentsRemaining(p.getPaymentsRemaining() - 1);
+							p.setTotalOwed(p.getTotalOwed() - p.getWeeklyPayment());
+							
+							ps.makePayment(p);
+							
+							System.out.println("\nPayment successfully made!\n");
+							
+						}
 					}
 		
 			}
@@ -589,5 +603,6 @@ public class BicycleShopController {
 		}
 		
 	}
+
 	
 }
