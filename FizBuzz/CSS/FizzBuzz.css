@@ -1,0 +1,29 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #813434;
+    background-color: #EECC99;
+}
+
+main {
+    background-color: rgb(60, 147, 153);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+button {
+    color: white;
+    background-color: #602e8a;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+input {
+    color: #22a14c;
+    background-color: #101b05;
+}
+
+#listdiv 
+{
+    color: #cc2168;
+}
