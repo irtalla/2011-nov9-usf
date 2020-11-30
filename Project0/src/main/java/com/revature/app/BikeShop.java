@@ -1,6 +1,7 @@
 package com.revature.app;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -84,8 +85,7 @@ public class BikeShop {
 				}
 			}
 			
-			boolean loggedIn = true;
-			while(loggedIn) {
+			while(loggedInUser != null) {
 				if(loggedInUser.getRole().getName().equals("Customer")) {
 					System.out.println("Press 1 to view available bikes. Press 2 to view bikes in your collection. Press 3 to log out. Press 4 to exit.");
 					try {
@@ -98,11 +98,11 @@ public class BikeShop {
 								viewUserBikes(loggedInUser);
 								break;
 							case 3:
-								loggedIn = false;
+								loggedInUser = null;
 								System.out.println("You have been logged out.");
 								break;
 							case 4:
-								loggedIn = false;
+								loggedInUser = null;
 								proceed = false;
 								System.out.println("Exiting... Have a good day!");
 								break;
@@ -116,9 +116,25 @@ public class BikeShop {
 						e.printStackTrace();
 					}
 				}else if(loggedInUser.getRole().getName().equals("Employee")){
-					boolean isManaging = true;
-					while(isManaging) {
-						isManaging = manageBikes();
+					System.out.println("Press 1 to manage bikes. Press 2 to log out.");
+					try {
+						Integer input = Integer.valueOf(scan.nextLine());
+						switch(input) {
+							case 1:
+								manageBikes();
+								break;
+							case 2:
+								loggedInUser = null;
+								System.out.println("Logging out.");
+								break;
+							default:
+								notifyOfInvalidInput();
+								break;
+						}
+					}catch(NumberFormatException e) {
+						notifyOfInvalidInput();
+					}catch(Exception e) {
+						e.printStackTrace();
 					}
 				}else {
 					System.out.println("This user is neither an employee nor a customer.");
@@ -168,6 +184,7 @@ public class BikeShop {
 			switch (input) {
 			case 1:
 				try {
+					newAccount.setBikes(new HashSet<Bike>());
 					newAccount.setId(personServ.addPerson(newAccount).getId());
 					System.out.println("Confirmed. Welcome!");
 					return newAccount;
@@ -328,12 +345,14 @@ public class BikeShop {
 		}
 	}
 	
-	private static boolean manageBikes() throws NonUniqueUsernameException{
+	private static boolean manageBikes() {
+		boolean keepManaging = true;
 		System.out.println("Manage Bikes:\n1. Add a bike to the inventory\n2. Edit a bike in the inventory \n3. Manage active offers\n4. Remove a bike from the inventory. \n5. View Remaining Payments for a Bike \n6. Cancel");
 		int input = Integer.valueOf(scan.nextLine());
-			
-		inputHandling: switch(input) {
-			case 1:
+		
+//		inputHandling: switch(input) {
+		try {
+			if(input == 1) {
 				Bike newBike = new Bike();
 				System.out.println("Enter a brand name: ");
 				newBike.setBrand(scan.nextLine());
@@ -354,8 +373,7 @@ public class BikeShop {
 					newBike.setId(bikeServ.addBike(newBike).getId());
 					System.out.println("You successfully added a " + newBike.getBrand() + " with id " + newBike.getId() + "!");
 				}
-				break;
-			case 2:
+			}else if(input == 2) {
 				for (Bike bike: bikeServ.getAvailableBikes()) {
 					System.out.println(bike.toString());
 				}
@@ -398,25 +416,27 @@ public class BikeShop {
 						}
 					}
 				}
-				break;
-			case 3:
+			}else if(input == 3) {
 				manageOffers();
-				break;
-			case 4:
+			}else if (input == 4) {
 				manageRemovalOfBikeFromInventory();
-				break;
-			case 5:
+			}else if(input == 5) {
 				viewRemainingPaymentsForBikeAsEmployee();
-				break;
-			case 6:
-				return false;
-//				break inputHandling;
-			default:
+			}else if(input == 6) {
+	//			return false;
+				keepManaging = false;
+	//				break;
+	//				break inputHandling;
+			}else {
 				notifyOfInvalidInput();
-				break;
+			}
+		}catch(NumberFormatException e) {
+			notifyOfInvalidInput();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 		
-		return false;
+		return keepManaging;
 	}
 	
 	private static void viewRemainingPaymentsForBikeAsEmployee() {
