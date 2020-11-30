@@ -1,0 +1,25 @@
+body {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #111111;
+    background-color: powderblue;
+}
+
+main {
+    background-color: #FFBB33;
+    padding: 3px;
+	border: thin;
+    border-radius: 5px;
+	margin: 20px;
+}
+
+button {
+    color: white;
+    background-color: cyan;
+    border: fat;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+main>* {
+    margin: 8px;
+}
