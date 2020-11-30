@@ -54,6 +54,15 @@ public class Bike {
 	public void setOwner(Person owner) {
 		this.owner = owner;
 	}
+	
+	public boolean isAvailable() {
+		return this.owner == null;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Brand: " + this.brand + ", Model: " + this.model + ", Color: " + this.color + ", id: %d", this.id); 
+	}
 //	public Offer getAcceptedOffer() {
 //		return acceptedOffer;
 //	}

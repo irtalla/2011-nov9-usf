@@ -13,11 +13,11 @@ public interface OfferService {
 	
 	public Set<Offer> getActiveOffersForBike(Bike b);
 	
-//	public Offer getAcceptedOfferForBike(Bike b);
+	public Offer getAcceptedOfferForBike(Bike b);
 	
-	public void acceptOfferForBike(Bike b, Offer o);
-	
-	public void rejectOfferForBike(Bike b, Offer o);
+	Offer acceptOffer(Offer t);
+
+	Offer rejectOffer(Offer t);
 	
 	public Offer getOfferById(Integer id);
 
@@ -26,4 +26,6 @@ public interface OfferService {
 	public Set<Offer> getAll();
 
 	public Offer addOffer(Offer offer1) throws Exception;
+
+	public Set<Offer> getAllActiveOffers();
 }

@@ -36,13 +36,13 @@ public class OfferServiceImpl implements OfferService {
 	}
 
 	@Override
-	public void acceptOfferForBike(Bike b, Offer o) {
-		offerDao.rejectOfferForBike(b, o);
+	public Offer acceptOffer(Offer o) {
+		return offerDao.acceptOffer(o);
 	}
 	
 	@Override
-	public void rejectOfferForBike(Bike b, Offer o) {
-		offerDao.rejectOfferForBike(b, o);
+	public Offer rejectOffer(Offer o) {
+		return offerDao.rejectOffer(o);
 	}
 
 	@Override
@@ -63,5 +63,15 @@ public class OfferServiceImpl implements OfferService {
 	@Override
 	public Offer addOffer(Offer t) throws Exception {
 		return offerDao.add(t);
+	}
+
+	@Override
+	public Set<Offer> getAllActiveOffers() {
+		return offerDao.getAllActiveOffers();
+	}
+
+	@Override
+	public Offer getAcceptedOfferForBike(Bike b) {
+		return offerDao.getAcceptedOfferForBike(b);
 	}
 }

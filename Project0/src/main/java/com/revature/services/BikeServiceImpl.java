@@ -44,4 +44,9 @@ public class BikeServiceImpl implements BikeService{
 	public Set<Bike> getAll() {
 		return bikeDao.getAll();
 	}
+
+	@Override
+	public Set<Bike> getUnavailableBikes() {
+		return bikeDao.getUnavailableBikes();
+	}
 }

@@ -48,4 +48,14 @@ public class Offer {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	@Override
+	public String toString() {
+		String rep = "Offer (with id " + this.id + ") by person with id " + this.person.getId() 
+			+ " and username " + this.person.getUsername() + " to purchase bike"
+			+ " with id " + this.bike.getId() + ", brand " + this.bike.getBrand() 
+			+ ", model " + this.bike.getModel() + ", and color " + this.bike.getColor()
+			+ " for " + this.weeks + " weekly payments of $" + this.weeklyPayment;
+		return rep;
+	}
 }

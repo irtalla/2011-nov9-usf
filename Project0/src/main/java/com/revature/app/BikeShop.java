@@ -9,6 +9,7 @@ import com.revature.beans.Offer;
 import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
+import com.revature.data.BikePostgres;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.BikeService;
 import com.revature.services.BikeServiceImpl;
@@ -22,17 +23,41 @@ public class BikeShop {
 	private static PersonService personServ;
 	private static BikeService bikeServ;
 	private static OfferService offerServ;
+	private static Role customerRole;
+	private static Role employeeRole;
+	private static Status active;
+	private static Status accepted;
+	private static Status rejected;
 	
 	static {
 		scan = new Scanner(System.in);
 		personServ = new PersonServiceImpl();
 		bikeServ = new BikeServiceImpl();
 		offerServ = new OfferServiceImpl();
+		
+		//these rows are pre-existing in db:
+		customerRole = new Role();
+		customerRole.setId(1);
+		customerRole.setName("Customer");
+		employeeRole = new Role();
+		employeeRole.setId(2);
+		employeeRole.setName("Employee");
+		
+		active = new Status();
+		active.setId(1);
+		active.setName("Active");
+		accepted = new Status();
+		accepted.setId(1);
+		accepted.setName("Accepted");
+		rejected = new Status();
+		rejected.setId(1);
+		rejected.setName("Rejected");
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NonUniqueUsernameException {
 		boolean proceed = true;
 		
+		mainLoop:
 		while(proceed) {
 			System.out.println("Hello! Welcome to the Bike Shop!");
 			Person loggedInUser = null;
@@ -40,17 +65,63 @@ public class BikeShop {
 			while (loggedInUser == null) {
 				System.out.println("What would you like to do?");
 				System.out.println("1. Register\n2. Log in\nother. Exit");
-				int userInput = Integer.valueOf(scan.nextLine());
-				
-				switch (userInput) {
-				case 1:
-					loggedInUser = registerUser();
-					break;
-				case 2:
-					loggedInUser = logInUser();
-					break;
-				default:
-					break;
+				try {
+					int userInput = Integer.valueOf(scan.nextLine());
+					
+					switch (userInput) {
+						case 1:
+							loggedInUser = registerUser();
+							break;
+						case 2:
+							loggedInUser = logInUser();
+							break;
+						default:
+							System.out.println("Exiting... Thank you! Have a good day!");
+							break mainLoop;
+					}
+				}catch (Exception e){
+					System.out.println("Invalid input! Try again!\n");
+				}
+			}
+			
+			boolean loggedIn = true;
+			while(loggedIn) {
+				if(loggedInUser.getRole().getName().equals("Customer")) {
+					System.out.println("Press 1 to view available bikes. Press 2 to view bikes in your collection. Press 3 to log out. Press 4 to exit.");
+					try {
+						Integer choice = Integer.valueOf(scan.nextLine());
+						switch (choice) {
+							case 1:
+								viewAvailableBikes(loggedInUser);
+								break;
+							case 2:
+								viewUserBikes(loggedInUser);
+								break;
+							case 3:
+								loggedIn = false;
+								System.out.println("You have been logged out.");
+								break;
+							case 4:
+								loggedIn = false;
+								proceed = false;
+								System.out.println("Exiting... Have a good day!");
+								break;
+							default:
+								notifyOfInvalidInput();
+								break;
+						}
+					}catch(NumberFormatException e) {
+						notifyOfInvalidInput();
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+				}else if(loggedInUser.getRole().getName().equals("Employee")){
+					boolean isManaging = true;
+					while(isManaging) {
+						isManaging = manageBikes();
+					}
+				}else {
+					System.out.println("This user is neither an employee nor a customer.");
 				}
 			}
 		}
@@ -67,10 +138,28 @@ public class BikeShop {
 			newAccount.setUsername(scan.nextLine());
 			System.out.println("Enter a password: ");
 			newAccount.setPassword(scan.nextLine());
-			Role r = new Role();
-			r.setId(2);
-			r.setName("User");
-			newAccount.setRole(r);
+			System.out.println("Is this account for an employee? 1 for yes, 2 for no.");
+			boolean acceptingRoleSelection = true;
+			while(acceptingRoleSelection) {
+				try {
+					switch (Integer.valueOf(scan.nextLine())) {
+						case 1:
+							newAccount.setRole(employeeRole);
+							acceptingRoleSelection = false;
+							break;
+						case 2:
+							newAccount.setRole(customerRole);
+							acceptingRoleSelection = false;
+							break;
+						default:
+							notifyOfInvalidInput();
+							break;
+					}
+				}catch(Exception e) {
+					notifyOfInvalidInput();
+				}
+			}
+
 			System.out.println("Does this look good?");
 			System.out.println("Username: " + newAccount.getUsername()
 					+ " Password: " + newAccount.getPassword());
@@ -128,22 +217,24 @@ public class BikeShop {
 		Set<Bike> availableBikes = bikeServ.getAvailableBikes();
 		
 		for (Bike bike : availableBikes) {
-			System.out.println(bike);
+			System.out.println(bike.toString());
 		}
 		
 		System.out.println("Would you like to make an offer for a bike? 1 for yes, other for no");
 		int input = Integer.valueOf(scan.nextLine());
 		if (input == 1) {
 			while (true) {
-				System.out.println("Which bike? Type its ID.");
+				System.out.println("Which bike? Type its Id.");
 				input = Integer.valueOf(scan.nextLine());
 				Bike bike = bikeServ.getBikeById(input);
-				if (bike != null && bike.getStatus().getName().equals("Available")) {
-					System.out.println(bike);
+				if (bike != null && bike.isAvailable()) {
+					System.out.println(bike.toString());
 					System.out.println("You want to make an offer to purchase a " + bike.getBrand() + " model " +  bike.getModel() + " in " + bike.getColor() + "? 1 for yes, other for no");
 					input = Integer.valueOf(scan.nextLine());
 					if (input == 1) {
 						Offer newOffer = new Offer();
+						newOffer.setPerson(user);
+						newOffer.setBike(bike);
 						System.out.println("Go ahead and input a weekly payment you think is fair.");
 						
 						boolean validInput = false;
@@ -207,21 +298,27 @@ public class BikeShop {
 			}
 			boolean viewRemainingPayments = true;
 			while (viewRemainingPayments) {
-				System.out.print("View Remaining Payments?");
-				System.out.println("one? 1 for yes, other for no");
+				System.out.println("View Remaining Payments?");
+				System.out.println("1 for yes, other for no");
 				int input = Integer.valueOf(scan.nextLine());
 				if (input == 1) {
-					System.out.println("Which one? Type its ID.");
+					System.out.println("Which one? Type its id.");
 					
-					input = Integer.valueOf(scan.nextLine());
-					Bike bike = bikeServ.getBikeById(input);
+					try {
+						input = Integer.valueOf(scan.nextLine());
+						Bike bike = new BikePostgres().getByIdWithoutRelations(input);
 					
-					Offer acceptedOffer = ((ArrayList<Offer>) offerServ.getActiveOffersForBike(bike)).get(0);
-					if (bike != null && user.getBikes().contains(bike)) {
-						System.out.println("Your remaining payments for the " + bike.getBrand() + "bike with id " + bike.getId() + "are " + acceptedOffer.getWeeklyPayment() + "for " + acceptedOffer.getWeeks() + " more weeks" );
-						viewRemainingPayments = false;
-					} else
-						System.out.println("Sorry, that's not one of your bikes.");
+//						Offer acceptedOffer = new ArrayList<Offer>(offerServ.getActiveOffersForBike(bike)).get(0);
+						Offer acceptedOffer = offerServ.getAcceptedOfferForBike(bike);
+						if (bike != null && acceptedOffer != null) {
+							System.out.println("Your remaining payments for the bike with id " + bike.getId() + " are $" + acceptedOffer.getWeeklyPayment() + " for " + acceptedOffer.getWeeks() + " more weeks." );
+							viewRemainingPayments = false;
+						} else {
+							System.out.println("Sorry, that's not one of your bikes.");
+						}
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
 				} else {
 					break;
 				}
@@ -231,15 +328,12 @@ public class BikeShop {
 		}
 	}
 	
-	private static Person manageBikes(Person user) throws NonUniqueUsernameException {
-		if (!(user.getRole().getName().equals("Employee")))
-			return null;
-		
-		while (true) {
-			System.out.println("Manage Bikes:\n1. Add a bike to the inventory\n2. Edit a bike in the inventory\nother. Cancel");
-			int input = Integer.valueOf(scan.nextLine());
+	private static boolean manageBikes() throws NonUniqueUsernameException{
+		System.out.println("Manage Bikes:\n1. Add a bike to the inventory\n2. Edit a bike in the inventory \n3. Manage active offers\n4. Remove a bike from the inventory. \n5. View Remaining Payments for a Bike \n6. Cancel");
+		int input = Integer.valueOf(scan.nextLine());
 			
-			if (input == 1) {
+		inputHandling: switch(input) {
+			case 1:
 				Bike newBike = new Bike();
 				System.out.println("Enter a brand name: ");
 				newBike.setBrand(scan.nextLine());
@@ -247,63 +341,152 @@ public class BikeShop {
 				newBike.setModel(scan.nextLine());
 				System.out.println("Enter a color: ");
 				newBike.setColor(scan.nextLine());
-				
+			
 				Status status = new Status();
 				status.setId(1);
 				status.setName("Available");
 				newBike.setStatus(status);
-				System.out.println(newBike);
+				
+				System.out.println(newBike.toString());
 				System.out.println("Look good? 1 to confirm, other to start over");
 				input = Integer.valueOf(scan.nextLine());
 				if (input == 1) {
 					newBike.setId(bikeServ.addBike(newBike).getId());
-					System.out.println("You successfully added a " + newBike.getBrand() + "wit id " + newBike.getId() + "!");
+					System.out.println("You successfully added a " + newBike.getBrand() + " with id " + newBike.getId() + "!");
 				}
-			} else if (input == 2) {
+				break;
+			case 2:
 				for (Bike bike: bikeServ.getAvailableBikes()) {
-					System.out.println(bike);
+					System.out.println(bike.toString());
 				}
-				System.out.println("Which bikewould you like to update? Enter its ID.");
+				System.out.println("Which bike would you like to update? Enter its Id.");
 				Bike bike= bikeServ.getBikeById(Integer.valueOf(scan.nextLine()));
-				Bike newBike = bike;
+				
 				if (bike!= null) {
 					System.out.println("Editing bike with id" + bike.getId());
-					System.out.println("Current changes:\nBrand: " + newBike.getModel()
-							+ " Model: " + newBike.getModel() + " Color: " + newBike.getColor());
+					System.out.println("Current changes:\nBrand: " + bike.getModel()
+						+ " Model: " + bike.getModel() + " Color: " + bike.getColor());
 					boolean editing = true;
 					while (editing) {
 						System.out.println("Edit:\n1. Brand\n2. Model\n3. Color\n4. Save changes\nother. Cancel");
-						input = Integer.valueOf(scan.nextLine());
-						switch (input) {
-						case 1:
-							System.out.println("Enter new brand: ");
-							bike.setBrand(scan.nextLine());
-							break;
-						case 2:
-							System.out.println("Enter new model: ");
-							bike.setModel(scan.nextLine());
-							break;
-						case 3:
-							System.out.println("Enter new color: ");
-							bike.setColor(scan.nextLine());
-							break;
-						case 4:
-							bikeServ.updateBike(newBike);
-							System.out.println("You updated the bike with brand " + newBike.getBrand() + " and id " + newBike.getId() + " successfully.");
-						default:
-							editing = false;
-							break;
+						try {
+							input = Integer.valueOf(scan.nextLine());
+							switch (input) {
+								case 1:
+									System.out.println("Enter new brand: ");
+									bike.setBrand(scan.nextLine());
+								break;
+									case 2:
+									System.out.println("Enter new model: ");
+									bike.setModel(scan.nextLine());
+									break;
+								case 3:
+									System.out.println("Enter new color: ");
+									bike.setColor(scan.nextLine());
+									break;
+								case 4:
+									bikeServ.updateBike(bike);
+									System.out.println("You updated the bike with brand " + bike.getBrand() + " and id " + bike.getId() + " successfully.");
+								default:
+									editing = false;
+									break;		
+							}
+						}catch(NumberFormatException e) {
+							notifyOfInvalidInput();
+						}catch(Exception e) {
+							e.printStackTrace();
 						}
 					}
 				}
-			} else {
 				break;
-			}
+			case 3:
+				manageOffers();
+				break;
+			case 4:
+				manageRemovalOfBikeFromInventory();
+				break;
+			case 5:
+				viewRemainingPaymentsForBikeAsEmployee();
+				break;
+			case 6:
+				return false;
+//				break inputHandling;
+			default:
+				notifyOfInvalidInput();
+				break;
 		}
 		
-		return user;
+		return false;
 	}
 	
+	private static void viewRemainingPaymentsForBikeAsEmployee() {
+		Set<Bike> purchasedBikes = bikeServ.getUnavailableBikes();
+		
+		for (Bike bike : purchasedBikes) {
+			System.out.println(bike.toString());
+		}
+		
+		boolean viewingRemainingPayments = true;
+		while(viewingRemainingPayments) {
+			System.out.println("Type in the id of the bike whose remaining payments you wish to view.");
+		
+			try {
+				Integer input = Integer.valueOf(scan.nextLine());
+				Bike bike = new BikePostgres().getByIdWithoutRelations(input);
+		
+				Offer acceptedOffer = offerServ.getAcceptedOfferForBike(bike);
+				if (bike != null && acceptedOffer != null) {
+//					System.out.println("Selected bike: " + bike.toString());
+					System.out.println("The remaining payments for the bike with id " + bike.getId() + " are $" + acceptedOffer.getWeeklyPayment() + " for " + acceptedOffer.getWeeks() + " more weeks." );
+					viewingRemainingPayments = false;
+				} else {
+					System.out.println("Sorry, that's not a purchased bike.");
+				}
+			}catch(NumberFormatException e) {
+				notifyOfInvalidInput();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static void manageRemovalOfBikeFromInventory() {
+		Set<Bike> availableBikes = bikeServ.getAvailableBikes();
+		
+		for (Bike bike : availableBikes) {
+			System.out.println(bike.toString());
+		}
+		
+		if(availableBikes.size() == 0) {
+			System.out.println("No available bikes!");
+			return;
+		}
+		
+		while(true) {
+			System.out.println("Type in the id of the bike you would like to remove. Press 0 to cancel.");
+			try{
+				int input = Integer.valueOf(scan.nextLine());
+				if(input == 0) {
+					return;
+				}
+				
+				Bike selected = bikeServ.getBikeById(input);
+				
+				if(selected != null) {
+					bikeServ.deleteBike(selected);
+					System.out.println("Successfully removed bike with id " + selected.getId() + " from the shop.");
+					return;
+				}else {
+					notifyOfInvalidInput();
+				}
+			}catch(NumberFormatException e) {
+				notifyOfInvalidInput();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}		
+	}
+
 	private static Person manageUsers(Person user) {
 		// if a user is not an employee, then they meant to log out, not go to this menu
 		if (!(user.getRole().getName().equals("Employee")))
@@ -314,11 +497,11 @@ public class BikeShop {
 			int input = Integer.valueOf(scan.nextLine());
 			
 			if (input == 1) {
-				System.out.println("1. Remove by ID\n2. Remove by username\nother. Cancel");
+				System.out.println("1. Remove by id\n2. Remove by username\nother. Cancel");
 				input = Integer.valueOf(scan.nextLine());
 				Person personToRemove = null;
 				if (input == 1) {
-					System.out.println("Enter the ID of the user you want to remove.");
+					System.out.println("Enter the id of the user you want to remove.");
 					personToRemove = personServ.getPersonById(Integer.valueOf(scan.nextLine()));
 				} else if (input == 2) {
 					System.out.println("Enter the username of the user you want to remove.");
@@ -372,5 +555,63 @@ public class BikeShop {
 		}
 		
 		return user;
+	}
+	
+	public static void manageOffers() {
+		Set<Offer> activeOffers = offerServ.getAllActiveOffers();
+		if(activeOffers.size() == 0) {
+			System.out.println("No active offers!");
+			return;
+		}
+		
+		for(Offer offer : activeOffers) {
+			System.out.println(offer.toString());
+		}
+		System.out.println();
+		boolean isManagingOffer = true;	
+		
+		while(isManagingOffer) {
+			System.out.println("Input the id of the offer you would like to accept or reject. Input 0 to cancel.");
+			
+			try {
+				Integer input = Integer.valueOf(scan.nextLine());
+				if(input == 0) {
+					return;
+				}else {
+					Offer selected = offerServ.getOfferById(input);
+					System.out.println("Press 1 to accept this offer. Press 2 to reject this offer. Press 3 to select a different offer. Press 0 to cancel altogether.");
+					input = Integer.valueOf(scan.nextLine());
+					
+					switch(input) {
+						case 0:
+							return;
+						case 1:
+							offerServ.acceptOffer(selected);
+							System.out.println("Offer accepted!");
+							isManagingOffer = false;
+							break;
+						case 2:
+							offerServ.rejectOffer(selected);
+							System.out.println("Offer rejected!");
+							isManagingOffer = false;
+							break;
+						case 3:
+							System.out.println("No problem.");
+							break;
+						default:
+							notifyOfInvalidInput();
+							break;
+					}
+				}
+			}catch(NumberFormatException e) {
+				notifyOfInvalidInput();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void notifyOfInvalidInput() {
+		System.out.println("Invalid input! Please try again!");
 	}
 }

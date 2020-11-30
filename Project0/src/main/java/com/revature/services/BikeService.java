@@ -20,4 +20,6 @@ public interface BikeService {
 //	public Bike getByModel(String model); 
 
 	public Set<Bike> getAll();
+
+	public Set<Bike> getUnavailableBikes();
 }

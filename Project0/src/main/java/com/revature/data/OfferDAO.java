@@ -15,8 +15,11 @@ public interface OfferDAO extends GenericDAO<Offer>{
 	
 //	public Offer getAcceptedOfferForBike(Bike b);
 
-	public void acceptOfferForBike(Bike b, Offer o);
-	
-	public void rejectOfferForBike(Bike b, Offer o);
+	Set<Offer> getAllActiveOffers();
 
+	Offer acceptOffer(Offer t);
+
+	Offer rejectOffer(Offer t);
+
+	Offer getAcceptedOfferForBike(Bike t);
 }
