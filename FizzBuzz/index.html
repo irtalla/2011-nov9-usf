@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>FizzBuzz!</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="fizzbuzz.css"></link>
+    </head>
+
+    <body>
+        <div id="divHead">
+            <h1> Welcome to <span id="headerFB">FizzBuzz</span>! </h1>
+        </div>
+        <div id="divInput">
+            <form>
+                <label for="input">Please enter a natural number </label>
+                <br>
+                <input type="text" id="input" value="100" onkeypress="checkEnter(event)"/>
+            </form>
+            <button onclick=main() id="buttonFB">FizzBuzz</button>
+        </div>
+        <br><br>
+        <div id="divOutput"></div>
+
+    </body>
+    <script src="fizzbuzz.js"></script>
+</html>

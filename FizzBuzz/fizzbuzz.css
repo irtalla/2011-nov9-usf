@@ -1,0 +1,63 @@
+:root {
+    --off-white: #fcfcf3;
+    --off-black: #888888;
+    --red: #FF6961;
+    --blue: #78A2CC;
+    --purple: #b19cd9;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: var(--off-black);
+    background-color: var(--off-white);
+    margin: 20px;
+    text-align: center;
+}
+
+form > label {
+    font-size: 20px;
+}
+
+#table {
+    text-align: center;
+    display: inline-table;
+}
+
+.num {
+    color: var(--off-black);
+}
+
+.fizz {
+    color: var(--red);
+}
+
+.buzz {
+    color: var(--blue);
+}
+
+.fizzbuzz {
+    color: var(--purple);
+}
+
+#headerFB {
+    background-image: -webkit-linear-gradient(left, var(--red), var(--purple), var(--blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#buttonFB {
+    background-image: -webkit-linear-gradient(left, var(--red), var(--purple), var(--blue));
+    color: var(--off-white);
+    font-size: 15px;
+    border-color: var(--off-black);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 1px;
+    padding-right: 1px;
+}
