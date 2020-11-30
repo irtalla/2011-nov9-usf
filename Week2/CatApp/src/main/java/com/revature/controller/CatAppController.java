@@ -72,6 +72,10 @@ public class CatAppController {
 					loggedInUser = null;
 					break menuLoop;
 				}
+				if (loggedInUser == null) {
+					System.out.println("See you next time!");
+					break menuLoop;
+				}
 			}
 		}
 		scan.close();

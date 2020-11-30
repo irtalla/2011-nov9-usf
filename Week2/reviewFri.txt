@@ -1,0 +1,28 @@
+integration testing
+	- make sure that different components work properly with their
+	  dependencies ensuring that things still work as "moving parts"
+	  rather than only in pieces	
+Mockito
+	- open source framework for Java that is used with unit
+	  testing frameworks (like JUnit)
+	- it mocks objects for use with unit tests, so that we don't
+	  have to do things like hit our database in every test
+	- @Mock: designates that Mockito needs to generate a mock
+	  implementation of the interface
+	- @InjectMocks: specifies an object that needs to have the mock
+	  implementation injected into it (to replace a real implementation)
+		- in our example, this was over the service that had the 
+		  CatDAO field in its class, and the mock was injected into
+		  this field (basically stepping over the constructor)
+	- when(mock.method(param)).thenReturn(returnVal);
+	  when(mock.method(param)).thenAnswer(paramName -> {
+			return returnVal;
+		});
+	  when(mock.method()).then(invocation -> {
+			// things happening but no return value
+		});
+	- verify(mock).method(param);
+	- @ExtendWith(MockitoExtension.class): this allows us to specify how
+	  we are running our tests if we need any other resources
+		- we need the mockito runner so that our mock implementations
+		  are generated and injected where appropriate

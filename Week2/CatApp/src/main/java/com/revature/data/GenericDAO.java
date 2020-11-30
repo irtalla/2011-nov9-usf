@@ -2,8 +2,6 @@ package com.revature.data;
 
 import java.util.Set;
 
-import com.revature.exceptions.NonUniqueUsernameException;
-
 public interface GenericDAO <T> {
 	// CRUD operations (create, read, update, delete)
 	public T add(T t) throws Exception;
