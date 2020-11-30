@@ -1,9 +1,59 @@
-<head>
+<!DOCTYPE html>
+<html>
+<body>
 
-</head><style type="text/css">
-h1 {
-	color: DeepSkyBlue;
+
+<p>buzz</p>
+<input type="text" id="end" />
+<button onclick="myFunction()">FizzBuzz</button>
+<p id="result"></p>
+
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+//   var person = parseInt(prompt("Please enter Number"));
+// 	///var inis=0;
+
+//   if (person != null) {
+// // 	for(var i =0;i<=person;i++){
+// // 	document.getElementById("demo").innerHTML =
+// //     "Hello " + person + "! How are you today?";
+// //   }
+//   var i;
+// for (i = 0; i <= person; i++) {
+	
+// 	document.getElementById("demo").innerHTML= i + "<br>";
+// 		console.log(i); 
+// }
+// }
+
+var start = 0;
+  var end = document.getElementById("end").value;
+  var i;
+  var el = document.getElementById("demo");
+  var output = "";
+  for (i = start; i <= end; i++) {
+    if (i % 3 == 0 && i % 5 == 0){
+      output += 'FizzBuzz </br>';
+    }
+      //Display number as "FizzBuzz"
+    else if (i % 3 == 0 && i % 5 != 0){
+      output += 'Fizz </br>';
+    }
+    else if (i % 3 != 0 && i % 5 == 0){
+      output += 'Buzz </br>';
+    }
+    else{
+      output += i+' </br>';      
+    }
+  }
+  
+  el.innerHTML = output;
+
 }
-</style>
+</script>
 
-<h1>Hello, world!</h1>
+</body>
+</html>
