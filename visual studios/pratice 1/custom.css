@@ -1,0 +1,33 @@
+body {
+    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+
+  }
+  
+  .head1{
+         color: navy;
+    margin-left: 20px;
+  }
+
+
+  .delay {
+    
+     margin-top: 25px;
+    font-size: 21px;
+    text-align: center;
+    animation: fadein 4s;
+    -moz-animation: fadein 4s; /* Firefox */
+    animation-name: fadein;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+
+
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
