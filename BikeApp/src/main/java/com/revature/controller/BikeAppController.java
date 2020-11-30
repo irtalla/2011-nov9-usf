@@ -210,6 +210,7 @@ public class BikeAppController {
 				input = Integer.valueOf(scan.nextLine());
 				if(input ==1){
 					newbike.setStatus(newstatus);
+					newbike.setId(bikeServ.addBike(newbike));
 					System.out.printf("The %s %s %s %s bike has been successfully added to the store for $%f.\n",
 					newbike.getYear(), newbike.getColor(), newbike.getBrand().getName(),newbike.getType().getName(), newbike.getPrice());
 				} 			
