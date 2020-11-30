@@ -1,0 +1,62 @@
+<html>
+
+<head>
+
+</head>
+<div id="fizz" class="center">
+<h1> Fizz Buzz</h1>
+<form>
+    Enter Number<br>
+    <input id="numInput" type="text" style="width: 75px;"><br>
+    <button type="button" onclick="fizzbuzz()">Begin</button><br>
+    <ul id=list>
+        <!-- <li> example list item</li> -->
+    </ul>
+</form>
+</div>
+<style>
+    .center {
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+  text-align: center;
+}
+#list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+}
+</style>
+<script>
+    function fizzbuzz() {
+        let num = document.getElementById("numInput").value;
+        let list = document.getElementById("list");
+        for (let i = 1; i <= num; i++) {
+            var node = document.createElement("LI");
+            if (i % 3 == 0 && i % 5 == 0) {
+                var textnode = document.createTextNode("fizz buzz");         // Create a text node
+                node.appendChild(textnode);
+                list.appendChild(node);
+            }
+            else if (i % 3 == 0) {
+                var textnode = document.createTextNode("fizz");         // Create a text node
+                node.appendChild(textnode);
+                list.appendChild(node);
+            }
+            else if (i % 5 == 0) {
+                var textnode = document.createTextNode("buzz");         // Create a text node
+                node.appendChild(textnode);
+                list.appendChild(node);
+            }
+            else {
+                var textnode = document.createTextNode(i);         // Create a text node
+                node.appendChild(textnode);
+                list.appendChild(node);
+            }
+        }
+    }
+</script>
+
+</html>
