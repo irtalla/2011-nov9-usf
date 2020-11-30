@@ -1,58 +1,35 @@
 <!DOCTYPE html>
 <html>
-<body>
+  <style>
+    .container {
+      height: 200px;
+      position: relative;
+      border: 3px solid green;
+    }
+    
+    .vertical-center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+    </style>
+<body style="background-color:rgb(114, 163, 228);">
 
 
 <p>buzz</p>
 <input type="text" id="end" />
-<button onclick="myFunction()">FizzBuzz</button>
+<button name="btn1" id="mybtn" >FizzBuzz</button>
 <p id="result"></p>
 
 
 <p id="demo"></p>
 
-<script>
-function myFunction() {
-//   var person = parseInt(prompt("Please enter Number"));
-// 	///var inis=0;
+<div id= "list"></div>
 
-//   if (person != null) {
-// // 	for(var i =0;i<=person;i++){
-// // 	document.getElementById("demo").innerHTML =
-// //     "Hello " + person + "! How are you today?";
-// //   }
-//   var i;
-// for (i = 0; i <= person; i++) {
-	
-// 	document.getElementById("demo").innerHTML= i + "<br>";
-// 		console.log(i); 
-// }
-// }
+<script src="javascript.js">
 
-var start = 0;
-  var end = document.getElementById("end").value;
-  var i;
-  var el = document.getElementById("demo");
-  var output = "";
-  for (i = start; i <= end; i++) {
-    if (i % 3 == 0 && i % 5 == 0){
-      output += 'FizzBuzz </br>';
-    }
-      //Display number as "FizzBuzz"
-    else if (i % 3 == 0 && i % 5 != 0){
-      output += 'Fizz </br>';
-    }
-    else if (i % 3 != 0 && i % 5 == 0){
-      output += 'Buzz </br>';
-    }
-    else{
-      output += i+' </br>';      
-    }
-  }
-  
-  el.innerHTML = output;
-
-}
 </script>
 
 </body>
