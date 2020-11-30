@@ -1,0 +1,24 @@
+h1{
+    color: blue;
+    font-size: 71pt;;
+}
+body {
+    background-image: url("terrycrews.jpg");
+    background-repeat: repeat;
+    background-size: 150px;
+  }
+
+  #tect{
+    color:red;
+  }
+.rotate{
+    animation: rotation 2s infinite linear;
+}
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
