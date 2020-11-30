@@ -235,9 +235,8 @@ public class MainProgram {
 					break;
 				case "3":
 					System.out.println("Please choose a bike to remove.");
-					int bicycleIndex = 1;
 					for (Bicycle bicycle: allBicycles) {
-						System.out.println(bicycleIndex + ". " + bicycle.getBikeModel() + bicycle.getBikeType());
+						System.out.println(bicycle.getId()+ ". " + bicycle.getBikeModel() + bicycle.getBikeType());
 					}
 					
 					String bikeOption = scanner.nextLine();

@@ -23,7 +23,7 @@ public class UserLoginTest {
 	public void testUserValidationIfNotThere() {
 		UserFunctions userCollections = new UserFunctions();
 		
-		assertEquals(-1, userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
+		assertNotNull(userCollections.validatePotentialUser("lesenfantesclotildes", "14605"));
 	}
 	
 	//username and password are separate because
