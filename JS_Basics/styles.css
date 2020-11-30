@@ -1,0 +1,33 @@
+body{
+    background-color: black;
+    margin-top: 15%;
+    margin-bottom: 15%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+main{
+
+    background-image: url("photos/fizzbuzz_comb.png");
+    background-position: center;
+    text-align: center;
+    background-repeat: repeat-x;
+    background-size: contain;
+    
+}
+
+.border
+{
+    text-align: center;
+    background-image: url("photos/MrFizzBuzz.png");
+    background-position: center;
+    background-size: contain;
+}
+
+.rainbow-text {
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-size-adjust: initial;
+    background-color: black;
+  }
+
