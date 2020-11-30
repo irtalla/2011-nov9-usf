@@ -19,44 +19,7 @@ public class BikePostgres implements BikeDAO{
 
 
 	public Bike getById(Integer id) {
-		Bike bike = null;
-
-		try (Connection conn = cu.getConnection()) {			
-
-			String sql = "select bike_status.id, bike_status.name, year, status_id, status_name, brand_id, color, price, type_id, type_name, "
-					+ "brand.name as brand_name from "
-					+ "(select bike.id, bike.name, year, status_id, brand_id, status.name as status_name from "
-					+ "bike join status on status_id = status.id) as bike_status "
-					+ "join brand on brand_id = brand.id where id = ?";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, id);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				bike = new Bike();
-				bike.setId(rs.getInt("id"));
-				bike.setColor(rs.getString("color"));
-				bike.setYear(rs.getInt("year"));
-				bike.setPrice(rs.getDouble("price"));
-				Brand b = new Brand();
-				b.setId(rs.getInt("brand_id"));
-				b.setName(rs.getString("brand_name"));
-				bike.setBrand(b);
-				Status s = new Status();
-				s.setId(rs.getInt("status_id"));
-				s.setName(rs.getString("status_name"));
-				Type t = new Type();
-				t.setId(rs.getInt("type_id"));
-				t.setName(rs.getString("type_name"));
-				bike.setStatus(s);
-				bike.setOffers(getOffersByID(bike.getId(), conn));
-			}
-					
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return bike;
+		return null;
 	}
 
 	private Set<Offer> getOffersByID(Integer id, Connection conn) {
@@ -103,35 +66,32 @@ public class BikePostgres implements BikeDAO{
 		Set<Bike> bikes = new HashSet<>();
 		
 		try (Connection conn = cu.getConnection()) {
-			String sql = "select bike_status.id, bike_status.name, year, status_id, status_name, brand_id, color, price, type_id, type_name, "
-					+ "brand.name as brand_name from "
-					+ "(select bike.id, bike.name, year, status_id, brand_id, status.name as status_name from "
-					+ "bike join status on status_id = status.id) as bike_status "
-					+ "join brand on brand_id = brand.id";
+			Bike b;
+			String sql = "select * from bikes";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while (rs.next()) {
-				Bike bike = new Bike();
-				bike.setId(rs.getInt("id"));
-				bike.setColor(rs.getString("color"));
-				bike.setYear(rs.getInt("year"));
-				bike.setPrice(rs.getDouble("price"));
-				Brand b = new Brand();
-				b.setId(rs.getInt("brand_id"));
-				b.setName(rs.getString("brand_name"));
-				bike.setBrand(b);
+				b = new Bike();
+				b.setId(rs.getInt("id"));
+				b.setColor(rs.getString("color"));
+				b.setYear(rs.getInt("year"));
+				b.setPrice(rs.getDouble("price"));
+				Brand r = new Brand();
+				r.setId(rs.getInt("brand_id"));
+				r.setName(rs.getString("brand_name"));
+				b.setBrand(r);
 				Status s = new Status();
 				s.setId(rs.getInt("status_id"));
 				s.setName(rs.getString("status_name"));
 				Type t = new Type();
 				t.setId(rs.getInt("type_id"));
 				t.setName(rs.getString("type_name"));
-				bike.setStatus(s);
+				b.setStatus(s);
 				
-				bike.setOffers(getOffersByID(bike.getId(), conn));
+				b.setOffers(getOffersByID(b.getId(), conn));
 				
-				bikes.add(bike);
+				bikes.add(b);
 			}
 			
 		} catch (Exception e) {
@@ -147,7 +107,13 @@ public class BikePostgres implements BikeDAO{
 	}
 
 	public void delete(Bike t) {
-		// TODO Auto-generated method stub
+		try (Connection conn = cu.getConnection()){
+			String sql = "delete from bikes where id = " + t.getId();
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -211,14 +177,28 @@ public class BikePostgres implements BikeDAO{
 	}
 
 	public Set<Bike> getAvailableBikes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Offer> getOffer() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Bike> bikes = new HashSet<>();
+		try(Connection conn = cu.getConnection()) {
+			Bike b;
+			String sql = "Select * from bikes where status = 1";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				b = new Bike();
+				b.setId(rs.getInt("id"));
+				b.setYear(rs.getInt("year"));
+				b.setPrice(rs.getDouble("price"));
+				b.setColor(rs.getString("color"));
+				Type t = new Type();
+				t.setName(rs.getString("name"));
+				Brand r = new Brand();
+				r.setName(rs.getString("name"));
+				bikes.add(b);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bikes;
 	}
 
 }

@@ -11,10 +11,11 @@ public interface BikeService {
 	public Set<Bike> getBikes();
 	public Set<Bike> getAvailableBikes();
 	public void updateBike(Bike b);
-	public void updateOffer(Person p);
+	public void updateOffer(Offer offer);
 	public void addOffer(Person p, Bike b);
-	public Set<Offer> getOffers();
 	public void rejectOffer(Person p);
 	public void adoptBike(Person p, Bike b);
 	public void removeBike(Bike b);
+	public Set<Offer> getOffers();
+
 }

@@ -171,9 +171,5 @@ public class BikeCollections implements BikeDAO{
 		BikeCollections.bikes = bikes;
 	}
 
-	@Override
-	public Set<Offer> getOffer() {
-		return offers;
-	}
 
 }

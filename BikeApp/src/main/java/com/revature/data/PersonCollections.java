@@ -17,7 +17,7 @@ public class PersonCollections implements PersonDAO{
 		Person p = new Person();
 		p.setId(1);
 		p.setUsername("jose");
-		p.setPassword("pass");
+		p.setPassword("password");
 		Offer o = new Offer();
 		o.setOffer(0.0);
 		Role r = new Role();

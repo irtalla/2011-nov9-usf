@@ -10,10 +10,12 @@ import com.revature.data.BikeDAO;
 import com.revature.data.BikeDAOFactory;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
+import com.revature.data.OfferDAO;
 
 public class BikeServiceImplementation implements BikeService{
 	private BikeDAO bikeDao;
 	private PersonDAO personDao;
+	private OfferDAO offerDao;
 	
 	public BikeServiceImplementation(){
 		BikeDAOFactory bikeDaoFactory = new BikeDAOFactory();
@@ -68,8 +70,8 @@ public class BikeServiceImplementation implements BikeService{
 	}
 	
 	@Override
-	public void updateOffer(Person p) {
-		personDao.update(p);	
+	public void updateOffer(Offer p) {
+		offerDao.update(p);	
 	}
 
 	@Override
@@ -77,14 +79,9 @@ public class BikeServiceImplementation implements BikeService{
 		Offer offer = new Offer();
 		offer.setName("Rejected");
 		p.setOffer(offer);
-		updateOffer(p);
+		updateOffer(offer);
 	}
 
-	@Override
-	public Set<Offer> getOffers() {
-		return bikeDao.getOffer();
-	}
-	
 	@Override
 	public void addOffer(Person p, Bike b) {
 		bikeDao.getById(b.getId());
@@ -92,12 +89,17 @@ public class BikeServiceImplementation implements BikeService{
 		offer.setName(p.getUsername());
 		offer.setOffer(347.99);
 		p.setOffer(offer);
-		updateOffer(p);
+		updateOffer(offer);
 		Set<Offer> set = b.getOffers();
 		set.add(p.getOffer());
 		b.setOffers(set);
 		bikeDao.update(b);
 		
+	}
+
+	@Override
+	public Set<Offer> getOffers() {
+		return offerDao.getOffers();
 	}
 
 

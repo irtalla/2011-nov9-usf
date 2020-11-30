@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.revature.beans.Bike;
 import com.revature.beans.Brand;
+import com.revature.beans.Offer;
 import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.beans.Status;
@@ -52,24 +53,35 @@ public class BikeAppController {
 			
 			menuLoop: while (true) {
 				System.out.println("What would you like to do?");
-				System.out.println("1. View available bikes\n2. View my bikes");
+				
 				if (loggedInUser.getRole().getName().equals("User")) {
+					System.out.println("1. View available bikes\n2. View my bikes");
 					System.out.println("other. Log out");
+					int userInput = Integer.valueOf(scan.nextLine());
+					switch (userInput) {
+					case 1:
+						loggedInUser = viewAvailableBikes(loggedInUser);
+						break;
+					case 2:
+						viewUserBikes(loggedInUser);
+						break;
+					default:
+						System.out.println("See you next time!");
+						loggedInUser = null;
+						break menuLoop;
+					}
 				} else if (loggedInUser.getRole().getName().equals("Employee")) {
-					System.out.println("3. Manage bikes\n4. View offers\nother. Log out");
+					System.out.println("1. Manage bikes\n2. View offers\nother. Log out");
 				}
 				int userInput = Integer.valueOf(scan.nextLine());
 				switch (userInput) {
 				case 1:
-					loggedInUser = viewAvailableBikes(loggedInUser);
-					break;
-				case 2:
-					viewUserBikes(loggedInUser);
-					break;
-				case 3:
 					loggedInUser = manageBikes(loggedInUser);
 					break;
-				case 4:
+				case 2:
+					loggedInUser = manageOffers(loggedInUser);
+					break;
+				case 3:
 					loggedInUser = manageUsers(loggedInUser);
 					break;
 				default:
@@ -86,16 +98,42 @@ public class BikeAppController {
 		scan.close();
 	}
 	
+	private static Person manageOffers(Person loggedInUser) {
+		Set<Offer> bikeOffers = bikeServ.getOffers();
+		System.out.println("Current Offers:\n");
+		for(Offer offers: bikeOffers ){
+			System.out.println(offers);
+		}
+		
+		while(true){
+			System.out.println("What would you like to do?\n1: Accept offer\n2: Reject offer \nOther: Back");
+			int input = Integer.valueOf(scan.nextLine());
+			switch (input) {
+			case 1:
+				System.out.println("Select Offer ID:\n");
+				input = Integer.valueOf(scan.nextLine());
+				Bike bike = bikeServ.updateOffer(loggedInUser.getOffer());
+				break;
+
+			default:
+				break;
+			}
+			
+		}
+		
+		return null;
+	}
+
 	private static Person manageBikes(Person loggedInUser) {
 		if (!(loggedInUser.getRole().getName().equals("Employee")))
 			return null;
 		while(true){
-			System.out.println("Manage Bikes\n1. Add a bike\n2Edit a bike\nOther. Back");
+			System.out.println("Manage Bikes\n1: Add a bike\n2: Edit a bike\nOther: Back");
 			int input = Integer.valueOf(scan.nextLine());
 			if (input == 1){
 				Bike newbike = new Bike();
 				System.out.println("Select bike brand by entering its ID:\n"
-						+"1. Diamondback\n2.Trek\n3. Fuji\n4. Santana\n");
+						+"1. Diamondback\n2. Trek\n3. Fuji\n4. Santana\n");
 				Brand newbrand = new Brand();
 				newbrand.setId(Integer.valueOf(scan.nextLine()));
 				switch (newbrand.getId()) {
@@ -115,7 +153,7 @@ public class BikeAppController {
 				newbike.setBrand(newbrand);
 				
 				System.out.println("Choose bike type by entering its ID:\n"
-						+ "1. Mountain\n2.Racing\n3.Electric\n4.Tandem\n");
+						+ "1. Mountain\n2. Racing\n3. Electric\n4. Tandem\n");
 				Type newbiketype = new Type();
 				newbiketype.setId(Integer.valueOf(scan.nextLine()));
 				switch (newbiketype.getId()) {
@@ -133,8 +171,33 @@ public class BikeAppController {
 					break;
 				}
 				newbike.setType(newbiketype);
-				System.out.println("Choose a color:\n1. Red\n2. Yellow\n3.Green\n4. Blue\n5. Purple"
+				System.out.println("Choose a color:\n1. Red\n2. Yellow\n3. Green\n4. Blue\n5. Purple"
 						+ "\n6. Black\n7. White");
+				Integer colorName = Integer.valueOf(scan.nextLine());
+				switch (colorName) {
+				case 1:
+					newbike.setColor("red");
+					break;
+				case 2:
+					newbike.setColor("yellow");			
+					break;
+				case 3:
+					newbike.setColor("green");
+					break;
+				case 4:
+					newbike.setColor("blue");
+					break;
+				case 5:
+					newbike.setColor("purple");
+					break;
+				case 6:
+					newbike.setColor("black");
+					break;
+				case 7:
+					newbike.setColor("white");
+					break;
+				}
+				
 				System.out.println("Enter bike's year.\n");
 				newbike.setYear(Integer.valueOf(scan.nextLine()));
 				System.out.println("Enter price of bike.\n");
@@ -142,13 +205,13 @@ public class BikeAppController {
 				Status newstatus = new Status();
 				newstatus.setId(1);
 				newstatus.setName("Available");
-				System.out.printf("Are you sure you want to add the %s %s %s %s bike for$%f? \n1. Yes\n2. No",
-				newbike.getYear(), newbike.getColor(), newbike.getBrand(),newbike.getType(), newbike.getPrice());
+				System.out.printf("Are you sure you want to add the %s %s %s %s bike for $%f? \n1. Yes\n2. No",
+				newbike.getYear(), newbike.getColor(), newbike.getBrand().getName(),newbike.getType().getName(), newbike.getPrice());
 				input = Integer.valueOf(scan.nextLine());
 				if(input ==1){
 					newbike.setStatus(newstatus);
-					System.out.printf("The %s %s %s %s bike has been successfully added to the store for $%f.",
-					newbike.getYear(), newbike.getColor(), newbike.getBrand(),newbike.getType(), newbike.getPrice());
+					System.out.printf("The %s %s %s %s bike has been successfully added to the store for $%f.\n",
+					newbike.getYear(), newbike.getColor(), newbike.getBrand().getName(),newbike.getType().getName(), newbike.getPrice());
 				} 			
 			}else if(input ==2){
 				for (Bike bike : bikeServ.getAvailableBikes()){
@@ -278,50 +341,52 @@ public class BikeAppController {
 		for (Bike bike : availablebikes) {
 			System.out.println(bike);
 		}
-		
-		System.out.println("Would you like to buy a bike? 1 for yes, other for no");
-		int input = Integer.valueOf(scan.nextLine());
-		if (input == 1) {
-			while (true) {
-				System.out.println("Which bike? Type its ID.");
-				input = Integer.valueOf(scan.nextLine());
-				Bike bike = bikeServ.getBikeById(input);
-				if (bike != null && bike.getStatus().getName().equals("Available")) {
-					System.out.println(bike);
-					System.out.println("Do you want to make an offer on  " + bike.getName() + "? 1 for yes, other for no");
+		if (!(user.getRole().getName().equals("Employee"))){
+			System.out.println("Would you like to buy a bike? 1 for yes, other for no");
+			int input = Integer.valueOf(scan.nextLine());
+			if (input == 1) {
+				while (true) {
+					System.out.println("Which bike? Type its ID.");
 					input = Integer.valueOf(scan.nextLine());
-					if (input == 1) {
-						System.out.println("How much are you willing to offer?");
-						double offer = Double.valueOf(scan.nextLine());
-						System.out.printf("Are you sure you want to offer $%f?\n1. Yes\nOther. No", offer);
+					Bike bike = bikeServ.getBikeById(input);
+					if (bike != null && bike.getStatus().getName().equals("Available")) {
+						System.out.println(bike);
+						System.out.println("Do you want to make an offer on  " + bike.getName() + "? 1 for yes, other for no");
 						input = Integer.valueOf(scan.nextLine());
-						if (input == 1){
-							bikeServ.addOffer(user, bike);
-							System.out.printf("You have made on offer on  the %s %s %s %s bike for $%f.\n",
-							bike.getYear(), bike.getColor(), bike.getBrand(),bike.getType(), offer);
-							user = personServ.getPersonById(user.getId());
-							break;
-						} else break;
-						
+						if (input == 1) {
+							System.out.println("How much are you willing to offer?");
+							double offer = Double.valueOf(scan.nextLine());
+							System.out.printf("Are you sure you want to offer $%f?\n1. Yes\nOther. No", offer);
+							input = Integer.valueOf(scan.nextLine());
+							if (input == 1){
+								bikeServ.addOffer(user, bike);
+								System.out.printf("You have made on offer on  the %s %s %s %s bike for $%f.\n",
+								bike.getYear(), bike.getColor(), bike.getBrand().getName(),bike.getType().getName(), offer);
+								user = personServ.getPersonById(user.getId());
+								break;
+							} else break;
+							
+						} else {
+							System.out.println("Do you wish to cancel your offer? 1 for yes, other for no");
+							input = Integer.valueOf(scan.nextLine());
+							if (input != 1)
+								break;
+						}
 					} else {
-						System.out.println("Do you wish to cancel your offer? 1 for yes, other for no");
+						System.out.println("Sorry, " + bike.getName() + " is currently unavailable. Do you wish to make another selection?"
+								+ " 1 for yes, other for no");
 						input = Integer.valueOf(scan.nextLine());
-						if (input != 1)
+						if (input != 1) {
+							System.out.println("Returning to bike selection menu....");
 							break;
-					}
-				} else {
-					System.out.println("Sorry, " + bike.getName() + " is currently unavailable. Do you wish to make another selection?"
-							+ " 1 for yes, other for no");
-					input = Integer.valueOf(scan.nextLine());
-					if (input != 1) {
-						System.out.println("Returning to bike selection menu....");
-						break;
+						}
 					}
 				}
+			} else {
+				System.out.println("Returning to main menu...");
 			}
-		} else {
-			System.out.println("Returning to main menu...");
-		}
+		} else return user;
+		
 		
 		return user;
 	}
