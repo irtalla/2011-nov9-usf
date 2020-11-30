@@ -1,0 +1,30 @@
+#usermessage{
+    width: 300px;
+}
+
+body{
+    background-color: deeppink;
+    padding: 5px;
+}
+#inputs{
+    text-align: center;
+}
+
+#info{
+    background-color: rgb(233, 174, 78);
+    border-radius: .75em;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+#result{
+    background-color: aqua;
+    text-align: center;
+    border-radius: .75em;
+}
+#menu{
+    background-color: rgba(88, 76, 76, 0.501);
+    border-radius: .75em;
+    width: 75px;
+    height: 130px;
+}

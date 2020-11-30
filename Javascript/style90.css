@@ -1,0 +1,56 @@
+body{
+    background-color: rgb(4, 110, 52);
+}
+
+h1{
+    color: white;
+}
+
+.Post{
+    border-style: solid;
+    border-width: 11px;
+    background-color: aquamarine;
+}
+
+#Ganondorf{
+    width: 90px;
+    margin-bottom: -17px;
+    border-style: solid;
+    border-width: 5px;
+}
+#profilename{
+    font-weight: bold;
+    color: red;
+    /* outline: auto; */
+}
+#profilecomments{
+    width: 45px;
+    margin-bottom: -25px;
+    border-style: solid;
+    border-width: 5px;
+}
+.Comments{
+    
+    background-color: yellow;
+}
+.contact{
+    background-color: purple;
+    position: fixed;
+    bottom: 35%;
+    left: 35%;
+    border-style: solid;
+    border-width: 11px;
+    
+
+}
+#Contactus{
+    font-weight: bold;
+}
+#comment1{
+    border-style: solid;
+    border-width: 5px;
+}
+#comment2{
+    border-style: solid;
+    border-width: 5px;
+}
