@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.Set;
 
+import com.revature.beans.PersonBike;
 import com.revature.beans.Bike;
 import com.revature.beans.Person;
 import com.revature.beans.Status;
@@ -10,9 +11,13 @@ import com.revature.data.BikeDAOFactory;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
 
+import com.revature.data.PersonBikeDAO;
+import com.revature.data.PersonBikeDAOFactory;
+
 public class BikeServiceImpl implements BikeService {
 	private BikeDAO bikeDao;
 	private PersonDAO personDao;
+	private PersonBikeDAO pbDAO;
 	
 	public BikeServiceImpl() {
 		BikeDAOFactory bikeDaoFactory = new BikeDAOFactory();
@@ -22,6 +27,8 @@ public class BikeServiceImpl implements BikeService {
 		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		personDao = personDaoFactory.getPersonDAO();
 
+		PersonBikeDAOFactory PersonBikeDAOFactory = new PersonBikeDAOFactory();
+		pbDAO = PersonBikeDAOFactory.getPersonBikeDAO();
 	}
 	@Override
 	public Integer addBike(Bike b) {
@@ -62,7 +69,15 @@ public class BikeServiceImpl implements BikeService {
 		set.add(b);
 		System.out.println("purchaseBike " + p);
 		p.setBikes(set);
-		personDao.update(p);
+		personDao.update(p); //reset it back
+		
+		// Add to person_bike table
+		PersonBike pb = new PersonBike();
+		pb.setPerson_id(p.getId());
+		pb.setBike_id(b.getId());
+		
+		pbDAO.add(pb); 
+		
 	}
 
 	@Override

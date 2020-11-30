@@ -24,7 +24,8 @@ public class BikePostgres implements BikeDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into bike (name, condition, status_id, brand_id) values (?, ?, ?, ?)";
+			String sql = "insert into bike (name, condition, status_id, brand_id) values (?, ?, ?, ?)";		
+			
 			String[] keys = {"bike_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, t.getName());

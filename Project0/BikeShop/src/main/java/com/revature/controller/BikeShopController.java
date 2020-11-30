@@ -214,7 +214,7 @@ public class BikeShopController {
 					if (input == 1) {
 						bikeServ.purchaseBike(user, bike);
 						System.out.println("You did it! You purchased " + bike.getId() + ", brand " + bike.getBrand().getName() + ".");
-						// get the person with their updated cat set
+						// get the person with their updated bike set
 						user = personServ.getPersonById(user.getId());
 						break;
 					} else {

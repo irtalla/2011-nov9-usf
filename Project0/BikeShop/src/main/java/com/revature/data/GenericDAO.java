@@ -2,6 +2,8 @@ package com.revature.data;
 
 import java.util.Set;
 
+import com.revature.beans.Bike;
+
 
 public interface GenericDAO <T> {
 

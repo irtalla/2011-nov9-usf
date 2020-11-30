@@ -163,7 +163,8 @@ public class PersonPostgres implements PersonDAO {
 	}
 
 	@Override
-	public void update(Person t) {
+	public void update(Person t) { 
+				
 		// update the person
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
@@ -186,9 +187,6 @@ public class PersonPostgres implements PersonDAO {
 			e.printStackTrace();
 		}
 
-		// update the person bike
-		// delete all records from personbike table for this person in database by executing a query 
-		// insert each person bike record into the table
 	}
 
 	@Override
