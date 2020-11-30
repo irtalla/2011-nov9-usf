@@ -1,0 +1,9 @@
+table, tr, td {
+    border: 1px solid black;
+}
+
+div {
+    padding: 5px;
+    background-color: aqua;
+    border-radius: 10px;
+}
