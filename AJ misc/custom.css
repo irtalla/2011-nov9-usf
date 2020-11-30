@@ -1,0 +1,41 @@
+body {
+    /* color: gray; */
+    background-color: lightslategray;
+}
+
+main {
+    background-color: rgb(162, 200, 223);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+button {
+    color: black;
+    background-color: aquamarine;
+    border: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+table {
+    /* color: beige; */
+    background-color: moccasin;
+    border: 10px;
+    padding: 10px;
+}
+tr {
+    padding: 20px;
+}
+
+td {
+    /* color: beige; */
+    background-color: lightpink;
+    border: 10px;
+    padding: 10px;
+}
+
+h1 {
+    color: darkorchid;
+}
