@@ -30,7 +30,7 @@ public class PersonCollections implements PersonDAO{
 		p.setUsername("customer");
 		p.setPassword("pass");
 		o.setOffer(0.0);
-		r.setName("Customer");
+		r.setName("Employee");
 		r.setId(2);
 		p.setRole(r);
 		people.add(p);
