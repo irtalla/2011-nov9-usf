@@ -14,8 +14,7 @@
 3. A custom stored procedure is called to perform some portion of the functionality.
 4. Data Access is performed through the use of JDBC in a data layer consisting of Data Access Objects.
 5. All input is received using the java.util.Scanner class.
-6. Log4j is implemented to log events to a file.
-7. All methods (aside from getters/setters, hashcode/equals, etc.) must have at least one JUnit test.
+6. All methods (aside from getters/setters, hashcode/equals, etc.) must have at least one JUnit test.
 
 
 ## User Stories
