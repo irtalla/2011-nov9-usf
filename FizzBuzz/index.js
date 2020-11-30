@@ -11,7 +11,9 @@ function handleChangeToNumber(event){
         
     for(i = 1; i <= number; i++){
         let innerHtml = i;
-        if(i % 3 == 0){
+        if(i % 3 == 0 && i % 5 == 0){
+            innerHtml = "FizzBuzz";
+        }else if(i % 3 == 0){
             innerHtml = "Fizz";
         }else if(i % 5 == 0){
             innerHtml = "Buzz";
