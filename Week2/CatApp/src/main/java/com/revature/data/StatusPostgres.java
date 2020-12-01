@@ -8,14 +8,15 @@ public class StatusPostgres implements StatusDAO {
 
 	@Override
 	public Status add(Status t) {
-		// TODO Auto-generated method stub
+		// Currently, there is no reason to create a new status
 		return null;
 	}
 
 	@Override
 	public Status getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			
+		}
 	}
 
 	@Override
