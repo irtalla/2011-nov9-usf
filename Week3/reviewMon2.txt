@@ -1,0 +1,61 @@
+JavaScript
+	syntax is mostly very similar to Java
+		// line comments
+		/* block comments */
+		semi-colon injection (it will put semi-colons at the end of statements implicitly where it feels it is appropriate)
+			- sometimes this will put semi-colons in places you don't really want them, so it's good to be explicit and 
+			  pay attention to when you're putting things on separate lines
+	callback functions
+		functions that are passed into other functions as parameters
+		these functions can then be called from within the other function using the parameter name
+			- if i pass a function into a parameter that is named "funcName", then i can
+			  call it by calling funcName();
+	template literals
+		where a regular string literal would be in double quotes "string", template literals are in ``
+		this allows us to specify a string in the exact format that we want it to be ultimately
+		document.getElementById("idName").innerHTML = ``;
+		benefits: we don't have to use newline characters (\n), we don't have to concatenate to add variables
+			- with concatenation: element.innerHTML = "Hello, " + name + "!";
+			- with template literal: element.innerHTML = `Hello, ${name}!`;
+				element.innerHTML = `Your total is ${sum * tax}`;
+	event listeners
+		these are listeners that wait for certain events to happen, and then execute certain functions when they happen
+		document.getElementById("idName").onclick = funcName; // we don't include parentheses/params with the function because that would just call it
+			- JS passes in an "event" object implicitly as a parameter
+		document.getElementById("idName").addEventListener("keydown", checkIfEnter, false);
+	scopes
+		global scope: a variable is global scope when it doesn't have a label at declaration
+			i = 0; // no matter WHERE this is declared, it is global (it is accessible from anywhere in the script)
+			when using strict mode, ("use strict";) you cannot create variables this way
+		function scope: a variable is function scope when it is declared with "var"
+			var i = 0; // this is scoped to whatever function it is in, even if it is declared within a smaller block
+			function scoped variables are "hoisted" meaning they are declared at the top of their scope
+				(regardless of where you actually declare them), but not defined until the script gets to your declaration/definition
+			because of hoisting causing unexpected behavior at times, it is generally considered bad practice
+		block scope: a variable is block scope when it is declared with "let" or "const"
+			let i = 0; // this is scoped to whatever block it is declared in
+			const i = 0; // this is a block scoped constant
+			hoisting does not occur for block-scoped variables so they are good practice to use anywhere
+			specifying this scope is new to ES6
+mimicking OOP pillars
+	- closure: using/returning an inner function from outside its outer function in order to access variables in the outer function's scope
+		- any variables that are in the outer function's scope are accessible from the inner function,
+		  even when the outer function is no longer executing
+		- if we return the inner function and use it from outside the outer function, we can still access these variables
+		- mimics encapsulation, because the outer function's variables act as "private" variables,
+		  and the inner function that is returned can have "getters/setters"
+	- prototyping: using an object as a prototype for another object, which allows the other object to share or "inherit"
+	  certain fields and functions of the prototype or "parent" object
+		- mimics inheritance
+		- they can't have multiple inheritance, but they can have multiple levels of inheritance
+event propagation
+	- the way that event listeners handle events for elements that have parents/children with event listeners
+	- two types of event propagation
+		- bubbling: default, the event "bubbles" up from the innermost child element to the outermost parent
+		- capturing: the event starts at the outermost parent and moves down through to the innermost child element
+	- we specify which type to use when adding event listeners
+		- element.addEventListener("event", callbackFunc, true/false)
+		- true is capturing, false is bubbling
+		- when we set up our event listeners using the "on" method, it defaults to bubbling
+			- element.onclick = callbackFunc;
+	- we also can stop propagation by using event.stopPropagation() in the callback function for the event listener
