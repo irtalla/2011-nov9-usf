@@ -1,0 +1,70 @@
+create table user_acc(
+	user_id serial primary key,
+	firstname varchar(30) not null,
+	lastname varchar(30) not null,
+	username varchar(30) unique not null,
+	pwd varchar(30) not null,
+	role_id integer refernces role
+);
+
+create table role(
+	role_id serial primary key,
+	role_name varchar(30) unique not null
+);
+
+create table user_role(
+	user_id integer references user_acc,
+	role_id integer references role
+);
+
+create table committee(
+	comittee_id serial primary key,
+	genre_id integer references genre
+);
+
+create table user_committee(
+	committee_id integer references comittee,
+	user_id references user_acc
+);
+
+___________________________________________________________________________________________
+
+
+create table pitch(
+	pitch_id serial primary key,
+	completion_date timestamp not null,
+	tagline varchar(120) not null,
+	description varchar(150) not null,
+	genre_id integer references genre,
+	story_type_id integer references story_type,
+	priority_id integer references priority,
+	status_id integer references status
+);
+
+
+create table genre(
+	genre_id integer primary key,
+	genre_name varchar(30) unique not null
+);
+
+create table story_type(
+	story_type_id integer primary key,
+	story_type_name varchar(30) unique not null,
+	story_type_worth integer not null
+);
+
+create table priority(
+	priority_id integer primary key,
+	priority_name varchar(30) unique not null
+);
+
+create table review_status(
+	review_status_id integer primary key,
+	review_status_name varchar(30) unique not null
+
+);
+create table author_pitch(
+	user_id integer references user_acc,
+	pitch_id integer references pitch
+);
+
