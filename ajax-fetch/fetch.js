@@ -33,7 +33,7 @@ function populateData(names){
     for(let name of names){
         const listItem = document.createElement("li");
         console.log(name);
-        listItem.innerHTML = `Language: ${name["language"]["name"]} \n`;
+        listItem.innerHTML = `Language: ${name["language"]["name"]}: \n`;
         listItem.innerHTML += name.name;
 
         list.appendChild(listItem);
