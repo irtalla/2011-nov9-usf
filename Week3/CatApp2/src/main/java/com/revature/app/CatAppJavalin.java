@@ -5,6 +5,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 import io.javalin.Javalin;
 import com.revature.controllers.CatController;
 import com.revature.controllers.PersonController;
+import com.revature.controllers.BreedController;
 
 public class CatAppJavalin {
 	
@@ -49,6 +50,11 @@ public class CatAppJavalin {
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
 				});
+			});
+			
+			// all requests to /breeds go to this handler
+			path("breeds", () -> {
+				post(BreedController::addBreed);
 			});
 		});
 	}
