@@ -53,7 +53,6 @@ public class CatServiceImpl implements CatService {
         set.add(c);
         p.setCats(set);
         personDao.update(p);
-        
     }
     @Override
     public void removeCat(Cat c) {
