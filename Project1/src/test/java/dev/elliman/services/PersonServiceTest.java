@@ -1,5 +1,6 @@
 package dev.elliman.services;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ public class PersonServiceTest {
 		testPerson.setLastName("last");
 		testPerson.setAmountClaimed(0D);
 		Role role = new Role();
-		role.setId(0);
+		role.setId(1);
 		role.setName("role");
 		testPerson.setRole(role);
 	}
@@ -46,6 +47,24 @@ public class PersonServiceTest {
 		when(personDAO.getPersonByUsername(testPerson.getUsername())).thenReturn(testPerson);
 		
 		assertTrue(personServ.login(testPerson.getUsername(), testPerson.getPassword()));
+		
+		verify(personDAO).getPersonByUsername(testPerson.getUsername());
+	}
+	
+	@Test
+	public void testIncorrectPasswordLogin() {
+		when(personDAO.getPersonByUsername(testPerson.getUsername())).thenReturn(testPerson);
+		
+		assertFalse(personServ.login(testPerson.getUsername(), "wrongPassword"));
+		
+		verify(personDAO).getPersonByUsername(testPerson.getUsername());
+	}
+	
+	@Test
+	public void testUsernameNotFoundLogin() {
+		when(personDAO.getPersonByUsername(testPerson.getUsername())).thenReturn(null);
+		
+		assertFalse(personServ.login(testPerson.getUsername(), testPerson.getPassword()));
 		
 		verify(personDAO).getPersonByUsername(testPerson.getUsername());
 	}
