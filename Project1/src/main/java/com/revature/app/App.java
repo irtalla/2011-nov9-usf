@@ -2,6 +2,8 @@ package com.revature.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.revature.controllers.AuthController;
+
 import io.javalin.Javalin;
 
 public class App {
@@ -12,7 +14,14 @@ public class App {
 			config.enableCorsForAllOrigins();
 		});
 		
-		app.start(8080);
+		app.start(4000);
+		
+		app.routes(() -> {
+			// authentication route for login 
+			path("api/auth/login", () -> {
+				post(AuthController::login);
+			}); 
+		});
 		
 
 		

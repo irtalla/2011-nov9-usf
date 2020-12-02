@@ -2,23 +2,35 @@ const authorRedirect = `/Users/majestikmind/Revature_Training/2011-nov9-usf/Proj
 const editorRedirect = `/Users/majestikmind/Revature_Training/2011-nov9-usf/Project1/client/editor/editorDashBoard.html`;
 
 
-const checkUser = async (user) => { 
+const checkUser = async (user) => {
 
-}; 
+};
+
+
 
 const auth = async (event) => {
-    alert('attempting to sign in');
 
-    let inputUsername = document.getElementById('inputUsername').value; 
-    let inputPassword = document.getElementById('inputPassword').value; 
+    let inputUsername = document.getElementById('inputUsername').value;
+    let inputPassword = document.getElementById('inputPassword').value;
     const user = {
-        username : inputUsername,
-        password : inputPassword
-    }; 
+        id: 0,
+        username: inputUsername,
+        password: inputPassword
+    };
 
     console.log(user);
 
-    if (inputUsername === 'Chris' && inputPassword == '1234') {
+    let response = await fetch('http://localhost:4000/api/auth/login', {
+        method: 'POST',
+        headers: {
+            'content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+
+    console.log(response);
+
+    if (response.status == 200) {
         window.location.href = authorRedirect;
     } else {
         alert('Authentication failed'); 

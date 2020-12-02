@@ -1,6 +1,9 @@
 
-const populateModalWithData = () => {
 
+/**
+ * Callback method to populate modal with 
+ */
+const populateModalWithData = () => {
     document.getElementById('exampleModalLabel').innerHTML = 'make it happen'; 
 }; 
 
