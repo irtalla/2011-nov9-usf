@@ -1,10 +1,10 @@
 body {
     background-color: #f74f4f;
-    min-width: fit-content;
-    min-height: fit-content;
+    /* min-width: fit-content;
+    min-height: fit-content; */
 }
 
-h1, h2 {
+/*h1, h2 {
     text-align: center;
 }
 
@@ -17,7 +17,7 @@ h1, h2 {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#login {
+.login {
     background-color: #ffcebf;
     border-radius: 0.5cm;
     border-width: 1px;
@@ -26,4 +26,18 @@ h1, h2 {
     box-shadow: 2px 2px 5px black;
     width: 4in;
     height: 2in;
+    align-content: center;
+}
+
+#loginButton {
+    border-radius: 1mm;
+} */
+
+#login-box {
+    background-color: #ffcebf;
+    border-radius: 2mm;
+}
+
+.row {
+    padding: 2mm;
 }
