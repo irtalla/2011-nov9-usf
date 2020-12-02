@@ -58,7 +58,7 @@ public class PersonPostgres implements PersonDAO {
 		try (Connection conn = cu.getConnection()) {
 			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
 					+ "user_role.name as role_name from person join user_role on user_role_id = user_role.id "
-					+ "where person_id = ?";
+					+ "where person.id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
@@ -158,10 +158,15 @@ public class PersonPostgres implements PersonDAO {
 	public void delete(Person t) {
 		try (Connection conn =  cu.getConnection())
 		{
-			String sql = "delete from person_cat where person_id = ?; delete from person where id = ?";
+			conn.setAutoCommit(false);
+			String sql = "delete from person_cat where person_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId());
-			pstmt.setInt(2, t.getId());
+			pstmt.executeUpdate();
+			
+			sql = "delete from person where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId());
 			int rowsAffected = pstmt.executeUpdate();
 			
 			if (rowsAffected > 0)
