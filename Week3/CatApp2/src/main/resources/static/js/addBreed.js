@@ -13,7 +13,7 @@ function setupBreed(){
     inputButton.textContent = 'create breed';
     inputButton.disabled = !loggedUser;
     //check if user is employee here
-    //inputButton.disabled = !loggedUser
+    inputButton.disabled = !loggedUser.role.name === 'Employee';
 
     breedSection.appendChild(label);
     breedSection.appendChild(input);
