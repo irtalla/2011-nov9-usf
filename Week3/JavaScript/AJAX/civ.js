@@ -2,7 +2,7 @@
     MUST BE FILLED IN TO CUSTOMIZE EXAMPLE
 */
 // Endpoint you are sending a GET request to
-var apiURL = '';
+var apiURL = 'https://api.openbrewerydb.org/breweries?by_city=';
 
 document.getElementById('getData').onclick = getData;
 
@@ -17,6 +17,7 @@ function getData() {
 
     // STEP 2: Set a callback function for the readystatechange event
     xhttp.onreadystatechange = receiveData;
+
 
     // STEP 3: Open the request
     xhttp.open('GET', apiURL + userInput);
@@ -58,9 +59,21 @@ function getData() {
 }
 
 function populateData(response) {
-    var dataSection = document.getElementById('data');
-    /*
-        Process data from the API to display on the page.
-    */
+    let dataSection = document.getElementById('data');
+    
     console.log("success");
+
+    let nameTag = document.createElement('h3');
+    console.log(response)
+    let breweriesArray = response
+    let breweries = document.createElement('ul');
+    for (let individual of breweriesArray){
+        let breweriesLi = document.createElement('li');
+        let entry = "" + individual.name + "<br />" + individual.postal_code + "<br /> <a id = "+ "site " +"href = " + individual.website_url +"> " + individual.website_url + "</a>" + "<br /> <hr />" ;
+        breweriesLi.innerHTML = entry;
+        breweries.appendChild(breweriesLi);
+    }
+
+    dataSection.appendChild(breweries);
+
 }
