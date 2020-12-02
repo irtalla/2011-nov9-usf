@@ -1,25 +1,30 @@
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: #888888;
-    background-color: #EECC99;
+    color: #000000;
+    background-color: #800616;
+    text-align: center;
+}
+
+section[id="data"] {
+    text-align: left;
 }
 
 main {
     background-color: white;
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 5px;
 }
 
 button {
     color: white;
-    background-color: #FFBB77;
+    background-color: #700315;
     border: none;
-    border-radius: 12px;
+    border-radius: 5px;
     padding: 10px;
 }
 
 button:hover {
-    background-color: #EEAA66;
+    background-color: #75685b;
 }
 
 button:active {
@@ -28,13 +33,4 @@ button:active {
 
 main>* {
     margin: 8px;
-}
-
-th {
-    color: #555555;
-}
-
-th, td {
-    border-bottom: 2px solid orange;
-    border-right: 2px solid orange;
 }
