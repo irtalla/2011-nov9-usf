@@ -1,10 +1,25 @@
 package dev.elliman.app;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+
+import dev.elliman.controller.PersonController;
+import io.javalin.Javalin;
+
 public class TRMSJavalin {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Javalin app = Javalin.create((config) -> {
+			config.addStaticFiles("/static");
+			config.enableCorsForAllOrigins();
+		});
+		
+		app.start(8080);
+		
+		app.routes(() -> {
+			path("users", () -> {
+				put(PersonController::login);//login
+			});
+		});
 	}
 
 }
