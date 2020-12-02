@@ -6,6 +6,7 @@ import java.util.Set;
 import com.revature.beans.Breed;
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
+import com.revature.beans.SpecialNeed;
 import com.revature.beans.Status;
 
 public class CatCollections implements CatDAO {
@@ -124,6 +125,12 @@ public class CatCollections implements CatDAO {
 	public void adoptCat(Person p, Cat c) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public SpecialNeed AddSpecialNeed(SpecialNeed t) {
+	//	cats.add(t);
+		return t;
 	}
 
 

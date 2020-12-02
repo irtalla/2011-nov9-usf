@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
+import com.revature.beans.SpecialNeed;
 
 public interface CatService {
 	// "create" method: returns the unique identifier of the added Cat
@@ -17,5 +18,6 @@ public interface CatService {
 	public void adoptCat(Person p, Cat c);
 	// "delete" methods
 	public void removeCat(Cat c);
+	public Integer addSpecialNeed(SpecialNeed sn);
 
 }

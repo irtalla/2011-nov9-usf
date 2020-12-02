@@ -2,6 +2,7 @@ package com.revature.data;
 
 import java.util.Set;
 
+import com.revature.beans.SpecialNeed;
 import com.revature.exceptions.NonUniqueUsernameException;
 
 public interface GenericDAO <T> {

@@ -6,7 +6,9 @@ setNav();
 function setNav() {
     nav.innerHTML = `
             <a href="index.html"><strong>Cat App</strong></a>
-            <a href="viewCats.html">View Cats</a>`;
+            <a href="viewCats.html">View Cats</a>
+            <a href="specialNeed.html">Special Needs</a>`;
+		
     if (!loggedUser) {
         nav.innerHTML += `
             <form>

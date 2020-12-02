@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
+import com.revature.beans.SpecialNeed;
 import com.revature.services.CatService;
 import com.revature.services.CatServiceImpl;
 
@@ -86,6 +87,15 @@ public class CatController {
 		} else {
 			ctx.status(401);
 		}
+		
+	}
+	
+	public static void addSpecialNeed(Context ctx) {
+		String need = ctx.queryParam("need");
+		SpecialNeed sn = new SpecialNeed();
+		sn.setName(need);
+		catServ.addSpecialNeed(sn);
+		ctx.status(200);
 		
 	}
 }

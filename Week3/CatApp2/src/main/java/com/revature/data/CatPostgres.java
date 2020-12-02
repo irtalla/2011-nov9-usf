@@ -362,4 +362,29 @@ public class CatPostgres implements CatDAO {
 		
 		return (needsInDatabase == c.getSpecialNeeds().size());
 	}
+	
+	@Override
+	public SpecialNeed AddSpecialNeed(SpecialNeed t) {
+		SpecialNeed s = null;
+		
+		try(Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into special_need values (default,?)";
+			String[] keys = {"id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			pstmt.setString(1, t.getName());
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				s=t;
+				s.setId(rs.getInt(1));
+				conn.commit();
+			}else {
+				conn.rollback();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
 }

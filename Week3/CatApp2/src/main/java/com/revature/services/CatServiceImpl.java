@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
+import com.revature.beans.SpecialNeed;
 import com.revature.beans.Status;
 import com.revature.data.CatDAO;
 import com.revature.data.CatDAOFactory;
@@ -58,6 +59,12 @@ public class CatServiceImpl implements CatService {
     @Override
     public void removeCat(Cat c) {
         catDao.delete(c);
+    }
+    @Override
+    public Integer addSpecialNeed(SpecialNeed sn) {
+    	
+    	return catDao.AddSpecialNeed(sn).getId();
+        
     }
 
 }

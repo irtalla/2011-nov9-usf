@@ -32,6 +32,9 @@ public class CatAppJavalin {
 				path ("adopt/:id", () -> {
 					put(CatController::adoptCat); // adopt a cat by its id
 				});
+				path ("specialneeds", () -> {
+					put(CatController::addSpecialNeed); // add special need
+				});
 				path(":id", () -> {
 					get(CatController::getCatById); // get a cat by id
 					put(CatController::updateCat); // update a cat
