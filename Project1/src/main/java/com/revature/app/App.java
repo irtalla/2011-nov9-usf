@@ -12,6 +12,9 @@ public class App {
 		Javalin app = Javalin.create((config) -> {
 			//config.addStaticFiles("/static");
 			config.enableCorsForAllOrigins();
+		    config.requestLogger((ctx, ms) -> {
+		        System.out.printf("Request took: %fms\n", ms); 
+		    });
 		});
 		
 		app.start(4000);

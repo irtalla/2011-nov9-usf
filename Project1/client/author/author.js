@@ -1,5 +1,14 @@
 
 
+const logCurrentUser = () => {
+  
+  if ( ! sessionStorage.getItem("currentUser") ) {
+    populateStorage();
+  }
+  const currentUser = JSON.parse( sessionStorage.getItem("currentUser") ); 
+  console.log(currentUser);
+}
+
 /**
  * Callback method to populate modal with 
  */

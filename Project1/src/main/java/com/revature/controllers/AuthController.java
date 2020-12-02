@@ -16,49 +16,52 @@ public class AuthController {
 	public static void login(Context ctx) {
 		
 		System.out.println( ctx.body() );
-		
-//		Person person = null; 
-//		try {
-//			person = ctx.bodyAsClass(Person.class);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
 	    GsonBuilder builder = new GsonBuilder(); 
 	    builder.setPrettyPrinting(); 
-	      
 	    Gson gson = builder.create(); 
-	    Person person = gson.fromJson( ctx.body(), Person.class); 
-	    System.out.println(person);
-	      
-	      
+	    Person deserializedPerson, queriedPerson;  
+	    
+	    deserializedPerson = gson.fromJson( ctx.body(), Person.class);
+//	    queriedPerson = personServ.getPersonByUsername(deserializedPerson.getUsername());
+//	    
+//	    if ( queriedPerson == null ) {
+//	    	ctx.result("No user with that password found"); 
+//	    	ctx.status(404);
+//	    }
+//	    
+//	    if ( queriedPerson.getPassword().equals(deserializedPerson.getPassword() )) {
+//	    	ctx.result("No combination of that username and password found");
+//	    	ctx.status(404);
+//	    }
+	    
+	    try {
+		    ctx.json( gson.toJson(deserializedPerson) );
+			ctx.status(200);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	ctx.status(500);
+	    }
 		
-		
-		System.out.println(person.getUsername());
-		ctx.status(200);
-		
-//		while (true) {
-//			System.out.print("Enter username: ");
-//			String username = userInputScanner.nextLine();
-//			System.out.print("Enter password: ");
-//			String password = userInputScanner.nextLine();
-//			
-//			Person user = personServ.getPersonByUsername(username);
-//			if (user == null) {
-//				System.out.print("Nobody exists with that username. ");
-//			} else if (user.getPassword().equals(password)) {
-//				System.out.println("Welcome back!");
-//				Application.setCurrentUser(user);
-//				Application.initControllers( Application.currentUser.getRole().getName() );
-//				break;
-//			} else {
-//				System.out.print("That password is incorrect. ");
-//			}
-//			System.out.println("Do you want to try again? 'yes' for yes, other for 'no' for no.");
-//			String input = userInputScanner.nextLine();
-//			if (input.equalsIgnoreCase("no")) {
-//				break;
-//			}
-//		}
 	};
+	
+	public static void logOut(Context ctx) {
+		 
+		ctx.req.getSession().invalidate();
+	}
+	
+	public static void registerUser(Context ctx){
+	    GsonBuilder builder = new GsonBuilder(); 
+	    builder.setPrettyPrinting(); 
+	    Gson gson = builder.create(); 
+	    Person newPerson = gson.fromJson( ctx.body(), Person.class); 
+		try {
+			personServ.addPerson(newPerson);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			ctx.status(409);
+		}
+		ctx.status(200);
+	}
+
 }
