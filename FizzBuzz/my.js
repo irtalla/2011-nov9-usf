@@ -15,11 +15,11 @@ function createTable() {
         tr = document.createElement('tr');
         for (var j = 0; j < cols; j++) {
             var td;
-            if (i === 0) td = document.createElement('th'); // Interesting interaction- because we are looping from 0,
-            else td = document.createElement('td');			// the above line actually creates a header element which 
-				if (i % 15 == 0) td.innerHTML = "FizzBuzz"; // we fill as bold 'FizzBuzz' because it is a header
-				else if (i % 3 == 0) td.innerHTML = "Fizz"; // and the td.innerHTML for %15 == 0 is 'FizzBuzz'.
-				else if (i % 5 == 0) td.innerHTMl = "Buzz";
+            if (i === 0) td = document.createElement('th'); 
+            else td = document.createElement('td');			
+				if ((i % 3 == 0) && (i % 5 == 0)) td.innerHTML = "FizzBuzz";
+				else if (i % 3 == 0) td.innerHTML = "Fizz"; 
+				else if (i % 5 == 0) td.innerHTML = "Buzz";
 				else td.innerHTML = i;
             tr.appendChild(td);
         }
