@@ -37,7 +37,7 @@ public class DBConnectionUtil {
 			Class.forName(properties.getProperty("drv"));
 			conn = DriverManager.getConnection(
 						properties.getProperty("url"),
-						properties.getProperty("user"),
+						properties.getProperty("username"),
 						properties.getProperty("password")
 					);
 		} catch (Exception e) {
