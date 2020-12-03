@@ -1,7 +1,7 @@
 var baseUrl = 'http://localhost:8080';
 var user = null;
 
-checkLogin();
+checkLogin().then(updateClaims);
 
 async function checkLogin(){
     let url = baseUrl + '/users';
@@ -15,5 +15,6 @@ async function checkLogin(){
 }
 
 async function updateClaims(){
-
+    //fetch all claims by this user
+    //let response = fetch
 }
