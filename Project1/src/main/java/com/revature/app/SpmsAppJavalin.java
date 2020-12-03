@@ -8,6 +8,7 @@ public class SpmsAppJavalin {
 
 	public static void main(String[] args) {
 		Javalin app = Javalin.create((config) -> {
+			config.addStaticFiles("/static");
 			config.enableCorsForAllOrigins();
 		});
 				
@@ -15,7 +16,8 @@ public class SpmsAppJavalin {
 		
 		
 		app.routes(() -> {
-			
+			path("users", () -> {
+			});
 		});
 	}
 	

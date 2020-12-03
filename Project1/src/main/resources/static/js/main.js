@@ -5,6 +5,7 @@ let nav = document.getElementById('navBar');
 let loggedUser = null;
 
 checkLogin();
+setNav();
 
 function setNav() {
     nav.innerHTML = ``;
