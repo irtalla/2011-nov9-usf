@@ -3,6 +3,7 @@ package com.revature.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import com.revature.controllers.AuthController;
+import com.revature.controllers.PitchController;
 
 import io.javalin.Javalin;
 
@@ -21,9 +22,35 @@ public class App {
 		
 		app.routes(() -> {
 			// authentication route for login 
-			path("api/auth/login", () -> {
+			path ("api/auth/login", () -> {
 				post(AuthController::login);
 			}); 
+			
+			// all requests to /cats go to this handler
+			path ("api/pitches", () -> {
+				get(PitchController::getPendingPitches); // get available cats is the default
+				post(PitchController::addPitch); // add a cat
+				path(":id", () -> {
+					get(PitchController::getPitchById); // get a cat by id
+					put(PitchController::updatePitch); // update a cat
+					delete(PitchController::deletePitch); // delete a cat
+				});
+				path ("authorId/:id", () -> {
+					get(PitchController::getPitchByAuthorId); // get a cat by id
+
+				});
+				path ("all", () -> {
+					get(PitchController::getAllPitches); // get all cats
+				});
+				path ("reject/:id", () -> {
+					put(PitchController::rejectPitch); // adopt a cat by its id
+				});
+				path ("accept/:id", () -> {
+					put(PitchController::acceptPitch); // adopt a cat by its id
+				});
+			});
+			
+			
 		});
 		
 

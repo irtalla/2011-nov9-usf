@@ -9,6 +9,8 @@ const checkUser = async (user) => {
 
 const auth = async (event) => {
 
+    event.preventDefault(); 
+    
     let inputUsername = document.getElementById('inputUsername').value;
     let inputPassword = document.getElementById('inputPassword').value;
     const user = {
@@ -34,12 +36,10 @@ const auth = async (event) => {
 
 
     if (response.status == 200) {
-        // alert('Authentication succeeded');
+        alert('Authentication succeeded');
         currentUser = returnedUser; 
-        console.log(currentUser);
         currentUser.password = '*****'; 
-
-        sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+        sessionStorage.setItem("currentUser", currentUser);
         window.location.href = authorRedirect;
     } else {
         alert('Authentication failed'); 

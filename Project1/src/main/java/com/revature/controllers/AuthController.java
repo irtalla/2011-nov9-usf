@@ -11,7 +11,9 @@ import io.javalin.http.Context;
 
 public class AuthController {
 	
-	private static PersonService personServ = new PersonServiceImpl(); 
+	private static PersonService personServ = new PersonServiceImpl();
+	
+	
 	
 	public static void login(Context ctx) {
 		
@@ -33,6 +35,8 @@ public class AuthController {
 //	    	ctx.result("No combination of that username and password found");
 //	    	ctx.status(404);
 //	    }
+	    
+	    // TODO : be sure to scrub the password before sending the Person object back to the client
 	    
 	    try {
 		    ctx.json( gson.toJson(deserializedPerson) );
