@@ -18,6 +18,7 @@ public class TRMSJavalin {
 		app.routes(() -> {
 			path("users", () -> {
 				put(PersonController::login);//login
+				get(PersonController::checkLogin);
 			});
 		});
 	}
