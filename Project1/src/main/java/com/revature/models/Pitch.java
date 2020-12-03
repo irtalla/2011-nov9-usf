@@ -1,0 +1,230 @@
+package com.revature.models;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public class Pitch {
+	private Integer id;
+	private User author;
+	private String title;
+	private String tagline;
+	private StoryType storyType;
+	private Genre genre;
+	private String description;
+	private LocalDate completionDate;
+	private LocalDateTime pitchMadeAt;
+	private String priority;
+	private PitchStage pitchStage;
+	private ReviewStatus reviewStatus;
+
+	public Pitch() {
+		id = 0;
+		author = new User();
+		title = "";
+		tagline = "";
+		storyType = new StoryType();
+		genre = new Genre();
+		description = "";
+		completionDate = LocalDate.now();
+		pitchMadeAt = LocalDateTime.now();
+		priority = "Normal";
+		pitchStage = new PitchStage();
+		reviewStatus = new ReviewStatus();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getTagline() {
+		return tagline;
+	}
+
+	public void setTagline(String tagline) {
+		this.tagline = tagline;
+	}
+
+	public StoryType getStoryType() {
+		return storyType;
+	}
+
+	public void setStoryType(StoryType storyType) {
+		this.storyType = storyType;
+	}
+
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public LocalDate getCompletionDate() {
+		return completionDate;
+	}
+
+	public void setCompletionDate(LocalDate completionDate) {
+		this.completionDate = completionDate;
+	}
+
+	public LocalDateTime getPitchMadeAt() {
+		return pitchMadeAt;
+	}
+
+	public void setPitchMadeAt(LocalDateTime pitchMadeAt) {
+		this.pitchMadeAt = pitchMadeAt;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public PitchStage getPitchStage() {
+		return pitchStage;
+	}
+
+	public void setPitchStage(PitchStage pitchStage) {
+		this.pitchStage = pitchStage;
+	}
+
+	public ReviewStatus getReviewStatus() {
+		return reviewStatus;
+	}
+
+	public void setReviewStatus(ReviewStatus reviewStatus) {
+		this.reviewStatus = reviewStatus;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + ((completionDate == null) ? 0 : completionDate.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pitchMadeAt == null) ? 0 : pitchMadeAt.hashCode());
+		result = prime * result + ((pitchStage == null) ? 0 : pitchStage.hashCode());
+		result = prime * result + ((priority == null) ? 0 : priority.hashCode());
+		result = prime * result + ((reviewStatus == null) ? 0 : reviewStatus.hashCode());
+		result = prime * result + ((storyType == null) ? 0 : storyType.hashCode());
+		result = prime * result + ((tagline == null) ? 0 : tagline.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pitch other = (Pitch) obj;
+		if (author == null) {
+			if (other.author != null)
+				return false;
+		} else if (!author.equals(other.author))
+			return false;
+		if (completionDate == null) {
+			if (other.completionDate != null)
+				return false;
+		} else if (!completionDate.equals(other.completionDate))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (genre == null) {
+			if (other.genre != null)
+				return false;
+		} else if (!genre.equals(other.genre))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (pitchMadeAt == null) {
+			if (other.pitchMadeAt != null)
+				return false;
+		} else if (!pitchMadeAt.equals(other.pitchMadeAt))
+			return false;
+		if (pitchStage == null) {
+			if (other.pitchStage != null)
+				return false;
+		} else if (!pitchStage.equals(other.pitchStage))
+			return false;
+		if (priority == null) {
+			if (other.priority != null)
+				return false;
+		} else if (!priority.equals(other.priority))
+			return false;
+		if (reviewStatus == null) {
+			if (other.reviewStatus != null)
+				return false;
+		} else if (!reviewStatus.equals(other.reviewStatus))
+			return false;
+		if (storyType == null) {
+			if (other.storyType != null)
+				return false;
+		} else if (!storyType.equals(other.storyType))
+			return false;
+		if (tagline == null) {
+			if (other.tagline != null)
+				return false;
+		} else if (!tagline.equals(other.tagline))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Pitch [id=" + id + ", author=" + author + ", title=" + title + ", tagline=" + tagline + ", storyType="
+				+ storyType + ", genre=" + genre + ", description=" + description + ", completionDate=" + completionDate
+				+ ", pitchMadeAt=" + pitchMadeAt + ", priority=" + priority + ", pitchStage=" + pitchStage
+				+ ", reviewStatus=" + reviewStatus + "]";
+	}
+
+}

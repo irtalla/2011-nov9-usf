@@ -1,45 +1,59 @@
 package com.revature.models;
 
-public class AdditionalFile {
+import java.util.HashSet;
+import java.util.Set;
+
+public class Committee {
 	private Integer id;
 	private String name;
-	private String contents; //TODO: find a better data type/structure to store large files
+	private Genre genre;
+	private Set<User> editors;
 	
-	public AdditionalFile() {
+	public Committee() {
 		id = 0;
-		name = "";
-		contents = "";
+		name = " Comittee";
+		genre = new Genre();
+		editors = new HashSet<>();
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
-
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getContents() {
-		return contents;
+	
+	public Genre getGenre() {
+		return genre;
 	}
-
-	public void setContents(String contents) {
-		this.contents = contents;
+	
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+	
+	public Set<User> getEditors() {
+		return editors;
+	}
+	
+	public void setEditors(Set<User> editors) {
+		this.editors = editors;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contents == null) ? 0 : contents.hashCode());
+		result = prime * result + ((editors == null) ? 0 : editors.hashCode());
+		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -53,11 +67,16 @@ public class AdditionalFile {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdditionalFile other = (AdditionalFile) obj;
-		if (contents == null) {
-			if (other.contents != null)
+		Committee other = (Committee) obj;
+		if (editors == null) {
+			if (other.editors != null)
 				return false;
-		} else if (!contents.equals(other.contents))
+		} else if (!editors.equals(other.editors))
+			return false;
+		if (genre == null) {
+			if (other.genre != null)
+				return false;
+		} else if (!genre.equals(other.genre))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -74,7 +93,7 @@ public class AdditionalFile {
 
 	@Override
 	public String toString() {
-		return "AdditionalFile [id=" + id + ", name=" + name + ", contents=" + contents + "]";
+		return "Committee [editors=" + editors + ", genre=" + genre + ", id=" + id + ", name=" + name + "]";
 	}
-
+	
 }
