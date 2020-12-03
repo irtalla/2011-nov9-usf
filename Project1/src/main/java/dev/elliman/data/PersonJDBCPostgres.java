@@ -26,6 +26,7 @@ public class PersonJDBCPostgres implements PersonDAO {
 			
 			if(rs.next()) {
 				person = new Person();
+				person.setId(rs.getInt("id"));
 				person.setFirstName(rs.getString("first_name"));
 				person.setLastName(rs.getString("last_name"));
 				person.setUsername(rs.getString("user_name"));
