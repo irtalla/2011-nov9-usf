@@ -3,14 +3,12 @@ package dev.elliman.beans;
 public class Event {
 	private Integer id;
 	private String eventType;
-	private Double passingPercentage;
-	private Character passingLetter;
+	private Double percentageCovered;
 	
 	public Event() {
 		id = null;
 		eventType = null;
-		passingPercentage = null;
-		passingLetter = null;
+		percentageCovered = null;
 	}
 
 	public Integer getId() {
@@ -29,20 +27,12 @@ public class Event {
 		this.eventType = eventType;
 	}
 
-	public Double getPassingPercentage() {
-		return passingPercentage;
+	public Double getPercentageCovered() {
+		return percentageCovered;
 	}
 
-	public void setPassingPercentage(Double passingPercentage) {
-		this.passingPercentage = passingPercentage;
-	}
-
-	public Character getPassingLetter() {
-		return passingLetter;
-	}
-
-	public void setPassingLetter(Character passingLetter) {
-		this.passingLetter = passingLetter;
+	public void setPercentageCovered(Double percentageCovered) {
+		this.percentageCovered = percentageCovered;
 	}
 
 	@Override
@@ -51,8 +41,7 @@ public class Event {
 		int result = 1;
 		result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((passingLetter == null) ? 0 : passingLetter.hashCode());
-		result = prime * result + ((passingPercentage == null) ? 0 : passingPercentage.hashCode());
+		result = prime * result + ((percentageCovered == null) ? 0 : percentageCovered.hashCode());
 		return result;
 	}
 
@@ -75,22 +64,18 @@ public class Event {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (passingLetter == null) {
-			if (other.passingLetter != null)
+		if (percentageCovered == null) {
+			if (other.percentageCovered != null)
 				return false;
-		} else if (!passingLetter.equals(other.passingLetter))
-			return false;
-		if (passingPercentage == null) {
-			if (other.passingPercentage != null)
-				return false;
-		} else if (!passingPercentage.equals(other.passingPercentage))
+		} else if (!percentageCovered.equals(other.percentageCovered))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", eventType=" + eventType + ", passingPercentage=" + passingPercentage
-				+ ", passingLetter=" + passingLetter + "]";
+		return "Event [id=" + id + ", eventType=" + eventType + ", percentageCovered=" + percentageCovered + "]";
 	}
+
+	
 }
