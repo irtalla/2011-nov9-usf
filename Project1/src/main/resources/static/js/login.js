@@ -15,7 +15,9 @@ async function login() {
 
     switch (response.status){
         case 200:
+            //redirect to logged in page
             console.log('login');
+            window.location.replace("home.html");
             break;
         case 400:
             console.log('fail');
