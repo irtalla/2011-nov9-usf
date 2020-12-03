@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class Author {
     private Integer id;
-    private Integer user;
+    private User user;
     private String firstName;
     private String lastName;
     private Integer points;
 
     public Author() {
         id = 0;
-        user = 0;
+        user = null;
         firstName = "";
         lastName = "";
         points = 0;
     }
 
-    public Author(Integer id, Integer user, String firstName, String lastName, Integer points) {
+    public Author(Integer id, User user, String firstName, String lastName, Integer points) {
         this.id = id;
         this.user = user;
         this.firstName = firstName;
@@ -33,11 +33,11 @@ public class Author {
         this.id = id;
     }
 
-    public Integer getUser() {
+    public User getUserId() {
         return user;
     }
 
-    public void setUser(Integer user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
