@@ -1,6 +1,7 @@
 package dev.elliman.services;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -46,7 +47,7 @@ public class PersonServiceTest {
 	public void testLogin() {
 		when(personDAO.getPersonByUsername(testPerson.getUsername())).thenReturn(testPerson);
 		
-		assertTrue(personServ.login(testPerson.getUsername(), testPerson.getPassword()));
+		assertTrue(personServ.login(testPerson.getUsername(), testPerson.getPassword()).equals(testPerson));
 		
 		verify(personDAO).getPersonByUsername(testPerson.getUsername());
 	}
@@ -55,7 +56,7 @@ public class PersonServiceTest {
 	public void testIncorrectPasswordLogin() {
 		when(personDAO.getPersonByUsername(testPerson.getUsername())).thenReturn(testPerson);
 		
-		assertFalse(personServ.login(testPerson.getUsername(), "wrongPassword"));
+		assertNull(personServ.login(testPerson.getUsername(), "wrongPassword"));
 		
 		verify(personDAO).getPersonByUsername(testPerson.getUsername());
 	}
@@ -64,7 +65,7 @@ public class PersonServiceTest {
 	public void testUsernameNotFoundLogin() {
 		when(personDAO.getPersonByUsername(testPerson.getUsername())).thenReturn(null);
 		
-		assertFalse(personServ.login(testPerson.getUsername(), testPerson.getPassword()));
+		assertNull(personServ.login(testPerson.getUsername(), testPerson.getPassword()));
 		
 		verify(personDAO).getPersonByUsername(testPerson.getUsername());
 	}
