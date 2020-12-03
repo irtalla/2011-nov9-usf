@@ -20,7 +20,7 @@ public class PersonDAOTest {
 		personDAO = PersonDAOFactory.getPersonDAO();
 		
 		testPerson = new Person();
-		testPerson.setId(0);
+		testPerson.setId(1);
 		testPerson.setUsername("test");
 		testPerson.setPassword("password");
 		testPerson.setFirstName("first");
@@ -35,6 +35,9 @@ public class PersonDAOTest {
 	@Test
 	public void getPersonByUsername() {
 		Person p = personDAO.getPersonByUsername(testPerson.getUsername());
+		
+		System.out.println(p);
+		System.out.println(testPerson);
 		
 		assertTrue(testPerson.equals(p));
 	}
