@@ -13,7 +13,7 @@ public class Claim {
 	private Double price;
 	private String justification;
 	private Integer hoursMissed;
-	private Integer approvalStage;
+	private Stage approvalStage;
 	private Integer dsaID;
 	private Integer dhaID;
 	private Integer bcaID;
@@ -117,11 +117,11 @@ public class Claim {
 		this.hoursMissed = hoursMissed;
 	}
 
-	public Integer getApprovalStage() {
+	public Stage getApprovalStage() {
 		return approvalStage;
 	}
 
-	public void setApprovalStage(Integer approvalStage) {
+	public void setApprovalStage(Stage approvalStage) {
 		this.approvalStage = approvalStage;
 	}
 
