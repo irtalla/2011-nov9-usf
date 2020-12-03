@@ -24,4 +24,14 @@ public class PersonController {
 			ctx.sessionAttribute("user", p);
 		}
 	}
+	
+	public static void checkLogin(Context ctx) {
+		Person p = ctx.sessionAttribute("user");
+		if(p != null) {
+			ctx.json(p);
+			ctx.status(200);
+		} else {
+			ctx.status(400);
+		}
+	}
 }
