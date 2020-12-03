@@ -1,5 +1,7 @@
 package dev.elliman.beans;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class Claim {
@@ -7,7 +9,8 @@ public class Claim {
 	private Integer personID;
 	private Integer eventID;
 	private Integer gradingID;
-	private LocalDateTime eventDate;
+	private Date eventDate;
+	private Time eventTime;
 	private String eventLocation;
 	private String description;
 	private Double price;
@@ -25,6 +28,7 @@ public class Claim {
 		eventID = null;
 		gradingID = null;
 		eventDate = null;
+		eventTime = null;
 		eventLocation = null;
 		description = null;
 		price = null;
@@ -69,12 +73,20 @@ public class Claim {
 		this.gradingID = gradingID;
 	}
 
-	public LocalDateTime getEventDate() {
+	public Date getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(LocalDateTime eventDate) {
+	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
+	}
+
+	public Time getEventTime() {
+		return eventTime;
+	}
+
+	public void setEventTime(Time eventTime) {
+		this.eventTime = eventTime;
 	}
 
 	public String getEventLocation() {
@@ -168,6 +180,7 @@ public class Claim {
 		result = prime * result + ((dhaID == null) ? 0 : dhaID.hashCode());
 		result = prime * result + ((dsaID == null) ? 0 : dsaID.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
+		result = prime * result + ((eventTime == null) ? 0 : eventTime.hashCode());
 		result = prime * result + ((eventID == null) ? 0 : eventID.hashCode());
 		result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
 		result = prime * result + ((gradingID == null) ? 0 : gradingID.hashCode());
@@ -223,6 +236,11 @@ public class Claim {
 				return false;
 		} else if (!eventDate.equals(other.eventDate))
 			return false;
+		if (eventTime == null) {
+			if (other.eventTime != null)
+				return false;
+		} else if (!eventTime.equals(other.eventTime))
+			return false;
 		if (eventID == null) {
 			if (other.eventID != null)
 				return false;
@@ -269,7 +287,7 @@ public class Claim {
 	@Override
 	public String toString() {
 		return "Claim [id=" + id + ", personID=" + personID + ", eventID=" + eventID + ", gradingID=" + gradingID
-				+ ", eventDate=" + eventDate + ", eventLocation=" + eventLocation + ", description=" + description
+				+ ", eventDate=" + eventDate + ", eventTime=" + eventTime + ", eventLocation=" + eventLocation + ", description=" + description
 				+ ", price=" + price + ", justification=" + justification + ", hoursMissed=" + hoursMissed
 				+ ", approvalStage=" + approvalStage + ", dsaID=" + dsaID + ", dhaID=" + dhaID + ", bcaID=" + bcaID
 				+ ", denialReason=" + denialReason + "]";
