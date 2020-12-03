@@ -31,6 +31,8 @@ public class PersonDAOTest {
 	
 	@Test
 	public void getPersonByUsername() {
+		Person p = personDAO.getPersonByUsername(testPerson.getUsername());
 		
+		assertEquals(testPerson, p);
 	}
 }
