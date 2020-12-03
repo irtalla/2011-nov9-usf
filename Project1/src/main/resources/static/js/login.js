@@ -17,6 +17,11 @@ async function login() {
         case 200:
             console.log('login');
             break;
+        case 400:
+            console.log('fail');
+            let invalidBox = document.getElementById('invalid-box');
+            invalidBox.innerHTML = '<div id="badLogin" class="col justify-content-center">Invalid login credentials</div>'
+            break;
         default:
             console.log('error');
     }
