@@ -13,17 +13,17 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public Person login(String username, String password) {
 		Person p = personDAO.getPersonByUsername(username);
 		
 		if(p == null) {
-			return false;
+			return null;
 		}
 		
 		if(password.equals(p.getPassword())) {
-			return true;
+			return p;
 		} else {
-			return false;
+			return null;
 		}
 	}
 

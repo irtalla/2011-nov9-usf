@@ -1,7 +1,9 @@
 package dev.elliman.services;
 
+import dev.elliman.beans.Person;
+
 public interface PersonService {
 	
 	//read
-	public boolean login(String username, String password);
+	public Person login(String username, String password);
 }
