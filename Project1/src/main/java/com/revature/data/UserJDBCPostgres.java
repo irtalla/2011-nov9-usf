@@ -5,8 +5,10 @@ import java.util.Set;
 import com.revature.exceptions.NonUniqueEmailException;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.models.User;
+import com.revature.util.ConnectionUtil;
 
 public class UserJDBCPostgres implements UserDAO {
+	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
 	@Override
 	public User add(User u) throws NonUniqueUsernameException, NonUniqueEmailException {
