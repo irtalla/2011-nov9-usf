@@ -2,12 +2,12 @@ package dev.elliman.beans;
 
 import java.io.File;
 
-public class Atachment {
+public class Attachment {
 	private Integer id;
 	private Integer claimID;
 	private File file;
 	
-	public Atachment() {
+	public Attachment() {
 		id = null;
 		claimID = null;
 		file = null;
@@ -55,7 +55,7 @@ public class Atachment {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Atachment other = (Atachment) obj;
+		Attachment other = (Attachment) obj;
 		if (claimID == null) {
 			if (other.claimID != null)
 				return false;
