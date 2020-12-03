@@ -16,9 +16,16 @@ public class TRMSJavalin {
 		app.start(8080);
 		
 		app.routes(() -> {
+			
 			path("users", () -> {
 				put(PersonController::login);//login
 				get(PersonController::checkLogin);
+			});
+			
+			path("claims", () -> {
+				path("person/:id", () -> {
+					//get claims by person
+				});
 			});
 		});
 	}
