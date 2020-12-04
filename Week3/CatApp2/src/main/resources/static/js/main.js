@@ -25,7 +25,7 @@ function setNav() {
             <a href="myCats.html">My Cats</a>
             <a href="updateUser.html">Update User</a>
             <span>
-                ${loggedUser.username}&nbsp;
+                <a href="profile.html">${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
