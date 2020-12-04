@@ -3,11 +3,29 @@ package com.revature.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Person {
+	@Id
 	private Integer id;
 	private String username;
+	@Column(name="passwd")
 	private String password;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="person_cat",
+			joinColumns=@JoinColumn(name="person_id"),
+			inverseJoinColumns=@JoinColumn(name="cat_id"))
 	private Set<Cat> cats;
+	@Column(name="user_role_id")
 	private Role role;
 	
 	public Person() {
