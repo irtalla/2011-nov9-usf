@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 public class Status {
+	@Id
 	private Integer id;
 	private String name;
 	
@@ -52,6 +53,9 @@ public class Status {
 	}
 	@Override
 	public String toString() {
+		return "Status [id=" + id + ", name=" + name + "]";
+	}
+
 		return "Status [id=" + id + ", name=" + name + "]";
 	}
 
