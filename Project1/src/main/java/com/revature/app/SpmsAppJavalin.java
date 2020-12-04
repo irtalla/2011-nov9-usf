@@ -2,6 +2,8 @@ package com.revature.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.revature.controller.UserController;
+
 import io.javalin.Javalin;
 
 public class SpmsAppJavalin {
@@ -17,6 +19,24 @@ public class SpmsAppJavalin {
 		
 		app.routes(() -> {
 			path("users", () -> {
+				get(UserController::checkLogin);
+				put(UserController::logIn);
+				post(UserController::registerUser);
+				delete(UserController::logOut);
+				
+				path(":id", () -> {
+					get(UserController::getUserById);
+					put(UserController::updateUser);
+					delete(UserController::deleteUser);
+				});
+				
+				path(":username", () -> {
+					get(UserController::getUserByUsername);
+				});
+				
+				path(":email", () -> {
+					get(UserController::getUserByEmail);
+				});
 			});
 		});
 	}
