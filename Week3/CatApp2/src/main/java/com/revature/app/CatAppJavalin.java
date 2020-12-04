@@ -4,7 +4,6 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 import io.javalin.Javalin;
 
-import com.revature.controllers.BreedController;
 import com.revature.controllers.CatController;
 import com.revature.controllers.PersonController;
 
