@@ -1,4 +1,9 @@
 
+
+/**
+ * This section gets the currentUser object from local broswer storage
+ */
+
 if (!sessionStorage.getItem("currentUser")) {
   populateStorage();
 }
@@ -13,8 +18,17 @@ const logCurrentUser = () => {
 }
 
 
-let pitchMap = new Map();
 
+
+/**
+ * Dictionary that stores all the current user's
+ * pitches. The key is pitch id, the value is the pitch object 
+ */
+const pitchMap = new Map();
+
+/**
+ * Fetch pitches for current user. 
+ */
 const fetchPitches = async () => {
 
 
@@ -37,10 +51,44 @@ const fetchPitches = async () => {
     loadArticleCard(pitch)
   }
 
-
+  loadPitchData(); 
 }
 
+const loadPitchData = () => {
+
+
+  let pitchStatistcs = `
+    <li class="list-group-item">
+      <strong>Ptich Statistics</strong>
+    </li> 
+      <li class="list-group-item list-group-item-info">
+      Total Pitches: ${pitchMap.size}
+    </li>
+    <li class="list-group-item list-group-item-warning">
+      Total Pitches under Genre Review: 0
+    </li>
+    <li class="list-group-item list-group-item-warning">
+      Total Pitches under General Review: 0
+    </li>
+    <li class="list-group-item list-group-item-warning">
+      Total Pitches under Senior Review: 0
+    </li>
+    <li class="list-group-item list-group-item-success">
+      Total Pitches Accepted: 0
+    </li>
+    <li class="list-group-item list-group-item-danger">
+      Total Pitches Rejected: 0
+    </li>`;
+
+    document.getElementById('pitch-data-loading-zone').innerHTML = pitchStatistcs; 
+
+}; 
+
+
 fetchPitches();
+
+
+
 
 
 const createPitchModalTemplate =
@@ -150,6 +198,7 @@ const savePitch = async () => {
     let newPitch = JSON.parse(await response.json());
     pitchMap.set(newPitch.id, newPitch);
     loadArticleCard(newPitch);
+    loadPitchData(); 
     alert("Save successful. Check out your new submission below. Good luck!")
   } else {
     alert("Something went wrong, unable to add pitch");
@@ -166,11 +215,11 @@ const deletePitch = async (id) => {
 
   if (response.status === 200) {
     alert("Delete successful. Trash belongs in the trash!");
-
     document.getElementById('main-data-display-row').removeChild(
       document.getElementById(`pitch-card-${id}`)
     );
-
+    pitchMap.delete(id);
+    loadPitchData(); 
   } else {
     alert("Something went wrong, unable to delete pitch");
   }

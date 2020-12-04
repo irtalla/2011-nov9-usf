@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.beans.Person;
+import com.revature.beans.Role;
 import com.revature.services.PersonService;
 import com.revature.services.PersonServiceImpl;
 
@@ -37,6 +38,11 @@ public class AuthController {
 //	    }
 	    
 	    // TODO : be sure to scrub the password before sending the Person object back to the client
+	    
+	    deserializedPerson.setPassword("******");
+	    Role role = new Role(); 
+	    role.setName("Editor");
+	    deserializedPerson.setRole(role);
 	    
 	    try {
 		    ctx.json( gson.toJson(deserializedPerson) );

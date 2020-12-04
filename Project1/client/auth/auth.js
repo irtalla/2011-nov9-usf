@@ -1,16 +1,16 @@
-const authorRedirect = `/Users/majestikmind/Revature_Training/2011-nov9-usf/Project1/client/author/authorDashBoard.html`;
-const editorRedirect = `/Users/majestikmind/Revature_Training/2011-nov9-usf/Project1/client/editor/editorDashBoard.html`;
+const authorRedirectURL = `/Users/majestikmind/Revature_Training/2011-nov9-usf/Project1/client/author/authorDashBoard.html`;
+const editorRedirectURL = `/Users/majestikmind/Revature_Training/2011-nov9-usf/Project1/client/editor/editorDashBoard.html`;
 
-const checkUser = async (user) => {
-    logCurrentUser(); 
-};
+// const checkUser = async (user) => {
+//     logCurrentUser(); 
+// };
 
 
 
 const auth = async (event) => {
 
     event.preventDefault(); 
-    
+
     let inputUsername = document.getElementById('inputUsername').value;
     let inputPassword = document.getElementById('inputPassword').value;
     const user = {
@@ -19,28 +19,24 @@ const auth = async (event) => {
         password: inputPassword
     };
 
-    console.log(user);
-
-    let response = await fetch('http://localhost:4000/api/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(user)
-    });
+    let response = await checkUser(user); 
  
-    console.log(response);
-    let returnedUser = await response.json();
-    console.log(returnedUser);
-
-
     if (response.status == 200) {
         alert('Authentication succeeded');
-        currentUser = returnedUser; 
-        currentUser.password = '*****'; 
+        let currentUser = await response.json();
         sessionStorage.setItem("currentUser", currentUser);
-        window.location.href = authorRedirect;
+        currentUser = JSON.parse(currentUser);
+        switch ( currentUser.role.name.toUpperCase() ) {
+            case "AUTHOR":
+                window.location.href = authorRedirectURL;
+                break;
+            case "EDITOR":
+                window.location.href = editorRedirectURL; 
+                break; 
+            default:
+                alert('something went wrong :('); 
+                break;
+        }
     } else {
         alert('Authentication failed'); 
     }
