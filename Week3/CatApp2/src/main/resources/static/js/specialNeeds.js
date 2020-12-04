@@ -1,6 +1,11 @@
-checkLogin();
+checkLogin().then(populateNeeds);
+/*setTimeout(function(){populateNeeds();}, 50);*/
 document.getElementById("loadBtn").addEventListener("click", function() {populateNeeds();});
-
+document.addEventListener('click',function(e){
+    if(e.target && e.target.id== 'loginBtn'){
+		setTimeout(function(){populateNeeds();}, 50);
+     }
+ });
 function populateNeeds() {
 	let needSection = document.getElementById('needSection');
 	if(loggedUser!=null && loggedUser.role.name=='Employee'){
