@@ -12,16 +12,19 @@ import io.javalin.http.Context;
 
 public class AuthController {
 	
-	private static PersonService personServ = new PersonServiceImpl();
+//	private static PersonService personServ = new PersonServiceImpl();
+	private static Gson gson; 
 	
+	public static void initGsonBuilder() {
+		GsonBuilder builder = new GsonBuilder(); 
+	    builder.setPrettyPrinting(); 
+	    gson = builder.create(); 
+	}
 	
 	
 	public static void login(Context ctx) {
 		
 		System.out.println( ctx.body() );
-	    GsonBuilder builder = new GsonBuilder(); 
-	    builder.setPrettyPrinting(); 
-	    Gson gson = builder.create(); 
 	    Person deserializedPerson, queriedPerson;  
 	    
 	    deserializedPerson = gson.fromJson( ctx.body(), Person.class);
@@ -60,12 +63,9 @@ public class AuthController {
 	}
 	
 	public static void registerUser(Context ctx){
-	    GsonBuilder builder = new GsonBuilder(); 
-	    builder.setPrettyPrinting(); 
-	    Gson gson = builder.create(); 
 	    Person newPerson = gson.fromJson( ctx.body(), Person.class); 
 		try {
-			personServ.addPerson(newPerson);
+//			personServ.addPerson(newPerson);
 		}
 		catch(Exception e){
 			e.printStackTrace();

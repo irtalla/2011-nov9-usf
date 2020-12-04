@@ -129,188 +129,224 @@
         <div class="container">
           <h1 id="main-header" class="display-3">Welcome Back, Editor!</h1>
           <p>
-            This is the control panel for editors. If you are not an editor, please
-            nagivate away from this page and notify our IT department. If you <em>ARE</em> an
-            editor... time to crush the souls of these little worthsmiths !
+            This is the control panel for editors. If you are not an editor,
+            please nagivate away from this page and notify our IT department. If
+            you <em>ARE</em> an editor... time to crush the souls of these
+            little worthsmiths !
           </p>
         </div>
 
         <div class="container">
+          <button
+            type="button"
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#exampleModal"
+            onClick="populateModalWithData()"
+          >
+            Submit Story Pitch
+          </button>
 
-          <button type="button" 
-          class="btn btn-success" 
-          data-toggle="modal" 
-          data-target="#exampleModal"
-          onClick="populateModalWithData()">
-          Submit Story Pitch
-        </button>
+          <button type="button" class="btn btn-success">
+            See External Requests
+          </button>
+          <button type="button" class="btn btn-success">
+            See Internal Requests
+          </button>
+          <button type="button" class="btn btn-success">
+            See Pitches under Genre Review
+          </button>
+          <button type="button" class="btn btn-success">
+            See Pitches under General Review
+          </button>
+          <button type="button" class="btn btn-success">
+            See Pitches under Final Review
+          </button>
+          <button type="button" class="btn btn-success">
+            See High Priority Pitches
+          </button>
+          <button type="button" class="btn btn-success">
+            See Low Priority Pitches
+          </button>
 
-
-          <button type="button" class="btn btn-success">See External Requests</button>
-          <button type="button" class="btn btn-success">See Internal Requests</button>
-          <button type="button" class="btn btn-success">See Pitches under Genre Review</button>
-          <button type="button" class="btn btn-success">See Pitches under General Review</button>
-          <button type="button" class="btn btn-success">See Pitches under Final Review</button>
-          <button type="button" class="btn btn-success">See High Priority Pitches </button>
-          <button type="button" class="btn btn-success">See Low Priority Pitches</button>
-
-
-          <hr/>
+          <hr />
           <div class="row">
             <div class="col">
               <ul id="pitch-data-loading-zone" class="list-group">
-                  ( Should contain data or some shit ) 
+                ( Should contain data or some shit )
               </ul>
             </div>
             <div class="col">
               <ul class="list-group">
-                ( Should contain data or some shit ) 
+                ( Should contain data or some shit )
               </ul>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="gallery" class="container" onclick="logCurrentUser()">
-
+      <div id="gallery" class="container">
+        <h4>High Priority Pitches</h4>
+        <hr />
         <div id="high-priority-pitch-data-display-row" class="row">
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
 
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
         </div>
+        <br />
 
-
+        <h4>Incoming Communications</h4>
+        <hr />
         <!-- Example row of columns -->
-        <div id="internal-request-data-display-row" class="row">
-          <div class="col-md-4">
+        <div id="incoming-communications-data-display-selection" class="row">
+          <div class="col-md-3">
             <div class="card">
-              ...
+              <div class="card-body">
+                <h5 class="card-title">Request ID</h5>
+                <p>From: requesteeId</p>
+                <p> To: Me (requesteeId) </p>
+                <p>Status : (Open | Closed)</p>
+                <hr />
+                <div>
+                  <p class="card-text">Request Content</p>
+                </div>
+                <div>
+                  <p class="card-text">Response Content</p>
+                </div>
+                <button onclick='alert("clicked Expand: Should open modal")'>
+                  Expand
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
-          </div>
-        </div>
-
-        <hr />
-
-        <div id="external-data-display-row" class="row">
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
         </div>
+        <br />
 
+        <h4>Outgoing Communications</h4>
         <hr />
+        <!-- Example row of columns -->
+        <div id="outgoing-communications-data-display-selection" class="row">
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Request ID</h5>
+                <p>From: Me (requestorId)</p>
+                <p> To: requesteeId </p>
+                <p>Status : (Open | Closed)</p>
+                <hr />
+                <div>
+                  <h6 class="card-text">Request Content<h6>
+                </div>
+                <div>
+                  <h6 class="card-text">Response Content</h6>
+                </div>
+                <button onclick='alert("clicked Expand: Should open modal")'>
+                  Expand
+                </button>
+              </div>
+            </div>
+          </div>
 
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+        </div>
+        <br />
+
+        <h4>Pitches Under Your General Editorship</h4>
+        <hr />
         <div id="general-pitch-data-display-row" class="row">
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
 
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
         </div>
+        <br />
 
+        <h4>Pitches Under Your Genre Editorship</h4>
+        <hr />
         <div id="genre-pitch-data-display-row" class="row">
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
 
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
-          <div class="col-md-4">
-            <div class="card">
-              ...
-            </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
           </div>
         </div>
+        <br /><br />
 
-
+        <!-- Button trigger modal -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          onClick="populateModalWithData(1)"
+        >
+          Launch demo modal
+        </button>
       </div>
       <!-- /container -->
     </main>
 
-    <!-- Button trigger modal -->
-<button type="button" 
-        class="btn btn-primary" 
-        data-toggle="modal" 
-        data-target="#exampleModal"
-        onClick="populateModalWithData(1)">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="pitch-modal-body" class="modal-body">
-        ...
-      </div>
-      <div id="modal-btn-section" class="modal-footer">
-        ...
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="pitch-modal-body" class="modal-body">...</div>
+          <div id="modal-btn-section" class="modal-footer">...</div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
     <footer class="container">
       <p>&copy; Company 2017-2020</p>
     </footer>
+    <script src="../services.js"></script>
     <script src="editor.js"></script>
   </body>
 </html>

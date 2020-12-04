@@ -1,15 +1,5 @@
 package com.revature.beans;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import exceptions.NonExclusiveAuthorRole;
-
-/*
- * 
- * 
- */
-
 
 public class Person {
 	

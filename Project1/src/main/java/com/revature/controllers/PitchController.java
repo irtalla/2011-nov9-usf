@@ -24,6 +24,13 @@ import io.javalin.http.Context;
 public class PitchController {
 	
 	private static PitchService pitchServ = new PitchService(); 
+	private static Gson gson; 
+	
+	public static void initGsonBuilder() {
+		GsonBuilder builder = new GsonBuilder(); 
+	    builder.setPrettyPrinting(); 
+	    gson = builder.create(); 
+	}
 	
 	public static void getPendingPitches(Context ctx) { /* TODO : implement */ }
 	public static void getPitchById(Context ctx) { /* TODO : implement */ }
@@ -43,10 +50,6 @@ public class PitchController {
 	public static void addPitch(Context ctx) {
 		
 		System.out.println( ctx.body() );
-	    GsonBuilder builder = new GsonBuilder(); 
-	    builder.setPrettyPrinting(); 
-	    Gson gson = builder.create(); 
-
 	    
 	    try {
 		    Pitch deserializedPitch;	    
@@ -63,9 +66,6 @@ public class PitchController {
 	
 	public static void getPitchByAuthorId(Context ctx) { 
 		
-	    GsonBuilder builder = new GsonBuilder(); 
-	    builder.setPrettyPrinting(); 
-	    Gson gson = builder.create(); 
 	    Person deserializedPerson, queriedPerson; 
 		
 		Pitch dummyPitchA = new Pitch(); 

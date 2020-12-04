@@ -128,3 +128,7 @@ Therefore, the schema will contain:
 Miscellany 
 Pitches, decisions, requests, and drafts should have a creation time. 
 Pitches and drafts should have a last-modified time. 
+
+
+You request information from an PERSON. So We can probably combine create
+a general request tpye.

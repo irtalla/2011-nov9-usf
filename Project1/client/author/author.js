@@ -32,7 +32,7 @@ const pitchMap = new Map();
 const fetchPitches = async () => {
 
 
-  let response = await fetch(`http://localhost:4000/api/pitches/authorId/${currentUser.id}`, {
+  let response = await fetch(`http://localhost:4000/api/pitches/authorid/${currentUser.id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 import com.revature.controllers.AuthController;
 import com.revature.controllers.PitchController;
+import com.revature.controllers.RequestController;
 
 import io.javalin.Javalin;
 
@@ -17,6 +18,10 @@ public class App {
 		        System.out.printf("Request took: %fms\n", ms); 
 		    });
 		});
+		
+		AuthController.initGsonBuilder();
+		PitchController.initGsonBuilder();
+		RequestController.initGsonBuilder();
 		
 		app.start(4000);
 		
@@ -35,7 +40,7 @@ public class App {
 					put(PitchController::updatePitch); // update a cat
 					delete(PitchController::deletePitch); // delete a cat
 				});
-				path ("authorId/:id", () -> {
+				path ("authorid/:id", () -> {
 					get(PitchController::getPitchByAuthorId); // get a cat by id
 
 				});
@@ -48,7 +53,30 @@ public class App {
 				path ("accept/:id", () -> {
 					put(PitchController::acceptPitch); // adopt a cat by its id
 				});
+				
+				
 			});
+			
+			// all requests to /cats go to this handler
+			path ("api/requests", () -> {
+				get(RequestController::getRequests); // get open requests is the default
+				post(RequestController::addRequest); // add a request
+				path(":id", () -> {
+					get(RequestController::getRequestById); // get a request by id
+					put(RequestController::updateRequest); // update a request by id
+					delete(RequestController::deleteRequest); // delete a request by id
+				});
+				path ("personid/:id", () -> {
+					get(RequestController::getRequestsByPersonId); // all open requests associated with a person
+
+				});
+				path ("all", () -> {
+					get(RequestController::getAllRequests); // get all requests
+				});
+				path ("close/:id", () -> {
+					put(RequestController::closeRequest); // close a request 
+				});
+		});
 			
 			
 		});
