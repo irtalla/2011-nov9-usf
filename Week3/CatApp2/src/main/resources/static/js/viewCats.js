@@ -1,4 +1,7 @@
 getCats();
+let addCatMenuOpen = false;
+
+if (loggedUser.role.name === 'Employee') employeeSetup();
 
 async function getCats() {
     let url = baseUrl + '/cats';
@@ -14,6 +17,7 @@ function populateCats(cats) {
 
     if (cats.length > 0) {
         let table = document.createElement('table');
+        table.id = 'catTable';
 
         table.innerHTML = `
             <tr>
@@ -89,4 +93,55 @@ async function adoptCat() {
                 break;
         }
     }
+}
+
+function employeeSetup() {
+    let employeeSpan = document.getElementById('emp');
+    employeeSpan.hidden = 'false';
+    // add cat
+    let addCatBtn = document.createElement('button');
+    addCatBtn.type = 'button';
+    addCatBtn.textContent = 'Add Cat';
+    addCatBtn.id = 'addCatBtn';
+    addCatBtn.onclick = addCatMenu;
+
+    // edit cat
+    let catsTable = document.getElementById('catTable');
+    for (let tr of catsTable.childNodes) {
+        let td = document.createElement('td');
+        if (tr != catsTable.childNodes[0]) {
+            let editBtn = document.createElement('button');
+            editBtn.id = 'edit_' + tr.childNodes[0].textContent;
+            editBtn.type = 'button';
+            editBtn.textContent = 'Edit';
+            editBtn.onclick = editCat;
+            td.appendChild(editBtn);
+        }
+        tr.appendChild(td);
+    }
+}
+
+function addCatMenu() {
+    let employeeSpan = document.getElementById('emp');
+    addCatMenuOpen = !addCatMenuOpen;
+
+    if (addCatMenuOpen) {
+        employeeSpan.innerHTML += `<form id="add-cat-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="name"/>
+        
+        <label for="age">Age:</label>
+        <input type="text" id="age" placeholder="age"/>
+        
+        <label for="breed">Breed:</label>
+        <input type="text" id="breed" placeholder="breed"/>
+
+        <button onclick="addCat()" id="submit-add-cat-form" >"Add Cat"</button>
+        </form>
+        `;
+    }
+}
+
+function editCat() {
+    let btnId = event.target.id;
 }
