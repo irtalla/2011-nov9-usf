@@ -26,7 +26,22 @@ function populateCats(cats) {
         let table = document.createElement('table');
         table.id = 'catTable';
 
-        table.innerHTML = `
+        if(loggedUser.role.name == 'employee')
+        {
+            table.innerHTML = `
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Breed</th>
+                <th>Special Needs</th>
+                <th></th>
+                <th></th>
+            </tr>
+        `;
+        }
+        else{
+            table.innerHTML = `
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -36,6 +51,8 @@ function populateCats(cats) {
                 <th></th>
             </tr>
         `;
+        }
+        
 
         for (let cat of cats) {
             let tr = document.createElement('tr');
@@ -60,21 +77,91 @@ function populateCats(cats) {
             adoptBtn.id = cat.name + '_' + cat.id;
             adoptBtn.textContent = 'Adopt';
             adoptBtn.disabled = !loggedUser;
+
+            let editBtn = null;
+            if(loggedUser.role.name == 'employee')
+            {
+                editBtn = document.createElement('button');
+                editBtn.type = 'button';
+                editBtn.id = cat.name + '-' + cat.id;
+                editBtn.textContent = 'Edit';
+            }
+
+            
             // <button type="button" id="Howard_6"
             //  disabled="false">Adopt</button>
             
             let btnTd = document.createElement('td');
             btnTd.appendChild(adoptBtn);
             tr.appendChild(btnTd);
+            if(loggedUser.role.name == 'employee')
+            {
+                let editTd = document.createElement('td');
+                editTd.appendChild(editBtn);
+                tr.appendChild(editTd);
+                editBtn.addEventListener('click', editCat);
+            }
             table.appendChild(tr);
             
             adoptBtn.addEventListener('click', adoptCat);
+            
         }
 
         catSection.appendChild(table);
     } else {
         catSection.innerHTML = 'No cats are available.';
     }
+}
+
+function editCat()
+{
+    let editId = event.target.id;
+    let editBtn = document.getElementById(editId);
+    let editTd = editBtn.parentElement();
+    let editTr = editTd.parentElement();
+
+    let nodes = editTr.childNodes;
+
+    
+
+    editTr.innerHTML = `
+        <td>${nodes[0].innerHTML}</td>
+        <input id = "eCName" type = "text" value = ${nodes[1].innerHTML}>
+        <input id = "eCAge" type = "text" value = ${nodes[2].innerHTML}>
+        <td>${nodes[3].innerHTML}</td>
+        <button disabled = 'true'>Adopt</button>
+        <button id = ${editId}>Save</button>
+        `;
+    //<input id = "eCBreed" type = "text" value = ${nodes[3].innerHTML}>
+    editBtn = document.getElementById(editId);
+    editBtn.addEventListener('click', saveCat);
+
+
+}
+
+async function saveCat()
+{
+    let btnId = event.target.id;
+    let index = btnId.indexOf('-'); // find underscore (see line 46)
+    let id = btnId.slice(index+1); // get text after underscore
+
+    let url = baseUrl + '/cats/' + id;
+
+    let response = await fetch(url);
+
+    let cat = await response.json();
+
+    cat.name = document.getElementById("eCName").value;
+    cat.age = document.getElementById("eCAge").value; 
+
+    let newResponse = await fetch(url,{method:'PUT',body:JSON.stringify(cat)});
+    
+
+    let tr = btnId.parentElement().parentElement();
+
+
+    getCats();
+    
 }
 
 async function adoptCat() {
