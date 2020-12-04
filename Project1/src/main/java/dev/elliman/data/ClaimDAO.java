@@ -9,4 +9,7 @@ public interface ClaimDAO {
 	
 	//read 
 	public Set<Claim> getClaimsByPerson(Integer personID);
+	
+	//write
+	public Integer makeClaim(Claim claim);
 }
