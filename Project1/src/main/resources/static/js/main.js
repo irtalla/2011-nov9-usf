@@ -8,19 +8,34 @@ checkLogin();
 setNav();
 
 function setNav() {
-    nav.innerHTML = ``;
+    nav.innerHTML = `
+        <a href="index.html"><strong>STMS</strong></a>
+        `;
     if (loggedUser) {
-        nav.innerHTML += ``;
+        nav.innerHTML += `
+            <span>
+                ${loggedUser.username}&nbsp;
+                <button type="button" id="loginBtn">logout</button>
+             </span>
+            `;
     } else {
-        nav.innerHTML += ``;
+        nav.innerHTML += `
+            <form>
+                <label for="user">username: </lable>
+                <input id="user" name="user" type="text" />
+                <label for="pass">password: </lable>
+                <input id="pass" name="pass" type="password" />
+                <button type="button" id="loginBtn">login</button>
+            </form>
+        `;
     }
 
-    // let loginBtn = document.getElementById('loginBtn');
-    // if (loggedUser) {
-    //     loginBtn.onclick = logout;
-    // } else {
-    //     loginBtn.onclick = login;
-    // }
+    let loginBtn = document.getElementById('loginBtn');
+    if (loggedUser) {
+        loginBtn.onclick = logout;
+    } else {
+        loginBtn.onclick = login;
+    }
 }
 
 async function login() {

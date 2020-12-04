@@ -18,7 +18,7 @@ public class SpmsAppJavalin {
 		
 		
 		app.routes(() -> {
-			path("users", () -> {
+			path("html/users", () -> {
 				get(UserController::checkLogin);
 				put(UserController::logIn);
 				post(UserController::registerUser);
