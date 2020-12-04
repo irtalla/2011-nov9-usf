@@ -1,6 +1,6 @@
 "use strict"
 
-let baseUrl = 'http://localhost:8080';
+let baseUrl = 'http://localhost:8080/html';
 let nav = document.getElementById('navBar');
 let loggedUser = null;
 
