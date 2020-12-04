@@ -3,12 +3,32 @@ package com.revature.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Cat {
+	@Id
 	private Integer id;
 	private String name;
 	private Integer age;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="breed_id")
 	private Breed breed;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="status_id")
 	private Status status;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="cat_special_need",
+			joinColumns=@JoinColumn(name="cat_id"),
+			inverseJoinColumns=@JoinColumn(name="special_need_id"))
 	private Set<SpecialNeed> specialNeeds;
 	
 	public Cat() {

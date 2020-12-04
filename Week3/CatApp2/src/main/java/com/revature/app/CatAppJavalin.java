@@ -3,6 +3,8 @@ package com.revature.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import io.javalin.Javalin;
+
+import com.revature.controllers.BreedController;
 import com.revature.controllers.CatController;
 import com.revature.controllers.PersonController;
 
@@ -49,6 +51,9 @@ public class CatAppJavalin {
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
 				});
+			});
+			path("breeds", () -> {
+				get(BreedController::getBreeds); // get all breeds
 			});
 		});
 	}
