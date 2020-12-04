@@ -4,4 +4,5 @@ import com.revature.beans.Status;
 
 public interface StatusDAO extends GenericDAO<Status> {
 	public Status add(Status s);
+	public Status getByName(String name);
 }
