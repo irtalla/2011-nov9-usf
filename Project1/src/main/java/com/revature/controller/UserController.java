@@ -64,6 +64,7 @@ public class UserController {
 	}
 	
 	public static void registerUser(Context ctx) {
+		System.out.println("Registering user");
 		User newUser = ctx.bodyAsClass(User.class);
 		try {
 			userServ.addUser(newUser);

@@ -1,8 +1,8 @@
 "use strict"
 
-let baseUrl = 'http://localhost:8080/html';
+import {baseUrl, loggedUser, setLoggedUser} from "./global.js";
+
 let nav = document.getElementById('navBar');
-let loggedUser = null;
 
 checkLogin();
 setNav();
@@ -26,6 +26,7 @@ function setNav() {
                 <label for="pass">password: </lable>
                 <input id="pass" name="pass" type="password" />
                 <button type="button" id="loginBtn">login</button>
+                <button type="button" id="registerBtn">register</button>
             </form>
         `;
     }
@@ -35,7 +36,10 @@ function setNav() {
         loginBtn.onclick = logout;
     } else {
         loginBtn.onclick = login;
+        let registerBtn = document.getElementById('registerBtn');
+        registerBtn.onclick = registerUser;
     }
+
 }
 
 async function login() {
@@ -46,7 +50,7 @@ async function login() {
 
     switch (response.status) {
         case 200:
-            loggedUser = await response.json();
+            setLoggedUser(await response.json());
             setNav();
             break;
         case 400:
@@ -71,7 +75,7 @@ async function logout() {
     if (response.status !== 200) {
         alert('Failed to logout');
     }
-    loggedUser = null;
+    setLoggedUser(null);
     setNav();
 }
 
@@ -79,7 +83,11 @@ async function checkLogin() {
     let url = baseUrl + '/users';
     let response = await fetch(url);
     if (response.status === 200) {
-        loggedUser = await response.json();
-    }
+        setLoggedUser(await response.json());
+    } 
     setNav();
+}
+
+async function registerUser() {
+    window.location.replace(baseUrl + "/register.html");
 }

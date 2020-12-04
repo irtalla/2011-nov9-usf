@@ -16,7 +16,6 @@ public class SpmsAppJavalin {
 				
 		app.start(8080);
 		
-		
 		app.routes(() -> {
 			path("html/users", () -> {
 				get(UserController::checkLogin);
@@ -37,6 +36,7 @@ public class SpmsAppJavalin {
 				path(":email", () -> {
 					get(UserController::getUserByEmail);
 				});
+				
 			});
 		});
 	}
