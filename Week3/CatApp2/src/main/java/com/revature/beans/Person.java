@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,7 +22,10 @@ public class Person {
 	private String username;
 	@Column(name = "passwd")
 	private String password;
-	@Transient
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinTable(name="person_cat",
+		joinColumns=@JoinColumn(name="person_id"),
+		inverseJoinColumns=@JoinColumn(name = "cat_id"))
 	private Set<Cat> cats;
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_role_id")
