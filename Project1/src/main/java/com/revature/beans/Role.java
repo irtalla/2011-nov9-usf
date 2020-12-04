@@ -3,10 +3,8 @@ package com.revature.beans;
 public class Role {
 	private Integer id = null;
 	private String name = null; 
-	public static enum Type{CUSTOMER, EMPLOYEE, MANAGER};
 	
-	public Role() {
-	}
+	public Role() {}
 	
 
 	public Integer getId() {

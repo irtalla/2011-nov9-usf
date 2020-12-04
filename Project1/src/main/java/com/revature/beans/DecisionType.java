@@ -1,11 +1,11 @@
 package com.revature.beans;
 
-public class Genre {
+public class DecisionType {
 	
 	private Integer id = null; 
 	private String name = null; 
 	
-	public Genre() {}
+	public DecisionType() {}
 
 	public Integer getId() {
 		return id;
@@ -22,6 +22,4 @@ public class Genre {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

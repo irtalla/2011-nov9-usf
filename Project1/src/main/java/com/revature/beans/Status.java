@@ -1,13 +1,10 @@
 package com.revature.beans;
 
 public class Status {
-	private Integer id;
-	private String name;
+	private Integer id = null;
+	private String name =  null;
 	
-	public Status() {
-		id = 1;
-		name = "Available";
-	}
+	public Status() {}
 	
 	public Integer getId() {
 		return id;

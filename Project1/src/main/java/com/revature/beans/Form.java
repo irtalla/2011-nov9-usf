@@ -1,14 +1,10 @@
 package com.revature.beans;
 
 public class Form {
-	private Integer id;
-	private String name;
+	private Integer id = null; 
+	private String name = null; 
 	
-	public Form() {
-		this.id = 1;
-		this.name = "article";
-		
-	}
+	public Form() {}
 	public Integer getId() {
 		return id;
 	}
