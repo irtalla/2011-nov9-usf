@@ -18,10 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.revature.beans.Breed;
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
-<<<<<<< HEAD
-=======
 import com.revature.beans.Role;
->>>>>>> 258ec0b5e441ebf080c18be8d9464450e316e717
 import com.revature.beans.Status;
 import com.revature.data.CatDAO;
 import com.revature.data.PersonDAO;
@@ -70,7 +67,6 @@ public class CatServiceTest {
 	}
 	
 	@Test
-<<<<<<< HEAD
 	public void testAdoptCat() {
 		Cat c = new Cat();
 		Person p = new Person();
@@ -79,7 +75,6 @@ public class CatServiceTest {
 		
 		assertTrue(p.getCats().contains(c));
 		
-=======
 	public void testGetCats() {
 		when(catDao.getAll()).thenReturn(catsMock);
 		assertEquals(catsMock, catServ.getCats());
@@ -159,7 +154,6 @@ public class CatServiceTest {
 		assertEquals(c.getStatus().getName(),"Adopted");
 		assertTrue(p.getCats().contains(c));
 		verify(catDao).update(c);
->>>>>>> 258ec0b5e441ebf080c18be8d9464450e316e717
 		verify(personDao).update(p);
 	}
 }
