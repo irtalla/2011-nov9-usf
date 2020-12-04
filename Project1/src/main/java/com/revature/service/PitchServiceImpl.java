@@ -21,14 +21,12 @@ public class PitchServiceImpl implements PitchService {
 
 	@Override
 	public void updatePitch(Pitch p) {
-		// TODO Auto-generated method stub
-
+		pDao.update(p);
 	}
 
 	@Override
 	public void deletePitch(Pitch p) {
-		// TODO Auto-generated method stub
-
+		pDao.delete(p);
 	}
 
 }
