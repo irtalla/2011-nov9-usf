@@ -17,5 +17,5 @@ public interface CatService {
 	public void adoptCat(Person p, Cat c);
 	// "delete" methods
 	public void removeCat(Cat c);
-
+	public void addNeed(String need);
 }

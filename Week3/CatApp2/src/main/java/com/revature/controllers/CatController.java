@@ -88,4 +88,8 @@ public class CatController {
 		}
 		
 	}
+	
+	public static void addNeed(Context ctx) {
+		System.out.println(ctx.body());
+	}
 }

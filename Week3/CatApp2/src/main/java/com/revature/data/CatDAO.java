@@ -9,4 +9,5 @@ public interface CatDAO extends GenericDAO<Cat> {
 	public Cat add(Cat c);
 	public Set<Cat> getAvailableCats();
 	public void adoptCat(Person p, Cat c);
+	public void addNeed(String need);
 }

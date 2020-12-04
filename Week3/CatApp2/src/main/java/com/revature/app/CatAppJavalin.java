@@ -16,7 +16,11 @@ public class CatAppJavalin {
 		
 		app.start(8080);
 		
+		
 		app.routes(() -> {
+			path("need", () -> {
+				post(CatController::addNeed);
+			});
 			// all requests to /cats go to this handler
 			path("cats", () -> {
 				get(CatController::getAvailableCats); // get available cats is the default

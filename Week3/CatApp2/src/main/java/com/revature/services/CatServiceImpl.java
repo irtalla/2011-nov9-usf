@@ -60,4 +60,9 @@ public class CatServiceImpl implements CatService {
         catDao.delete(c);
     }
 
+	@Override
+	public void addNeed(String need) {
+		catDao.addNeed(need);		
+	}
+
 }

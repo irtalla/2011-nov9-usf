@@ -126,5 +126,11 @@ public class CatCollections implements CatDAO {
 		
 	}
 
+	@Override
+	public void addNeed(String need) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -25,6 +25,11 @@ function setNav() {
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
+        if (loggedUser.role.id == 2) {
+            nav.innerHTML += `
+                <a href="addSpecial.html">Add Special Need</a>
+            `;
+        }
     }
 
     let loginBtn = document.getElementById('loginBtn');
