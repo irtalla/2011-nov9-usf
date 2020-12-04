@@ -59,6 +59,28 @@ public class StatusPostgres implements StatusDAO {
 		
 		return s;
 	}
+	
+	@Override
+	public Status getByName(String name) {
+		Status s = null;
+		
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select * from status where name = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				s = new Status();
+				s.setId(rs.getInt("id"));
+				s.setName(rs.getString("name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return s;
+	}
 
 	@Override
 	public Set<Status> getAll() {
