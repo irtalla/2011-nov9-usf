@@ -3,6 +3,7 @@ package com.revature.controller;
 import java.util.Set;
 
 import com.revature.exceptions.*;
+import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.services.UserServiceImpl;
@@ -113,7 +114,14 @@ public class UserController {
 	}
 	
 	public static void getUserByRole(Context ctx) {
-		// TODO: need Role dao 
+		Role role = ctx.bodyAsClass(Role.class);
+		Set<User> users = userServ.getUserByRole(role);
+		if (users != null) {
+			ctx.status(200);
+			ctx.json(users);
+		} else {
+			ctx.status(404);
+		}
 	}
 	
 	public static void getAllUsers(Context ctx) {
