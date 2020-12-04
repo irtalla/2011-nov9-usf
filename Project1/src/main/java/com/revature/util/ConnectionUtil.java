@@ -7,8 +7,6 @@ import java.sql.DriverManager;
 import java.util.Properties;
 
 public class ConnectionUtil {
-	// Singleton design pattern as noted by 
-	// private static field and private constructor
 	private static ConnectionUtil cu = null;
 	private static Properties properties;
 	
