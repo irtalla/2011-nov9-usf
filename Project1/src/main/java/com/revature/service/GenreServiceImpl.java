@@ -8,13 +8,11 @@ public class GenreServiceImpl implements GenreService {
 	private GenreDAO gDao = new GenrePostgres();
 	@Override
 	public Integer addGenre(Genre g) {
-		// TODO Auto-generated method stub
 		return gDao.add(g).getId();
 	}
 
 	@Override
 	public Genre getGenreById(Integer id) {
-		// TODO Auto-generated method stub
 		return gDao.getById(id);
 	}
 

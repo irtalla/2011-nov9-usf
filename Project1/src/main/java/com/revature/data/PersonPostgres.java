@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.Person;
+import com.revature.beans.Pitch;
 import com.revature.utils.ConnectionUtil;
 
 public class PersonPostgres implements PersonDAO{
@@ -45,6 +46,12 @@ public class PersonPostgres implements PersonDAO{
 
 	@Override
 	public Person getByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Pitch> getPitchesByPersonId(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

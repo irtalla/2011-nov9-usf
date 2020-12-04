@@ -18,10 +18,6 @@ public class PitchServiceImpl implements PitchService {
 		return pDao.getById(id);
 	}
 
-	@Override
-	public Set<Pitch> getAllPitchesByPersonId(Integer id) {
-		return pDao.;
-	}
 
 	@Override
 	public void updatePitch(Pitch p) {

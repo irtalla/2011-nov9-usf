@@ -1,6 +1,9 @@
 package com.revature.service;
 
+import java.util.Set;
+
 import com.revature.beans.Person;
+import com.revature.beans.Pitch;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonPostgres;
 
@@ -29,6 +32,11 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public void deletePerson(Person p) {
 		pDao.delete(p);
+	}
+
+	@Override
+	public Set<Pitch> getAllPitchesByPersonId(Integer id) {
+		return pDao.getPitchesByPersonId(id);
 	}
 
 }
