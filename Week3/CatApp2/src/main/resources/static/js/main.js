@@ -15,11 +15,15 @@ function setNav() {
                 <label for="pass"> Password: </label>
                 <input id="pass" name="pass" type="password" />
                 <button type="button" id="loginBtn">Log In</button>
+                
             </form>
+            
+            <a href="updateUser.html">Update User</a>
         `;
     } else {
         nav.innerHTML += `
             <a href="myCats.html">My Cats</a>
+            <a href="updateUser.html">Update User</a>
             <span>
                 ${loggedUser.username}&nbsp;
                 <button type="button" id="loginBtn">Log Out</button>
