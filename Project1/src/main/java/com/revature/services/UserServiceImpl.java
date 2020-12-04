@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.data.UserDAO;
 import com.revature.data.UserDAOFactory;
+import com.revature.exceptions.InvalidEmailException;
 import com.revature.exceptions.NonUniqueEmailException;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.models.Role;
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Integer addUser(User u) throws NonUniqueUsernameException, NonUniqueEmailException {
+	public Integer addUser(User u) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
 		return userDao.add(u).getId();
 	}
 
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(User u) {
+	public void updateUser(User u) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
 		userDao.update(u);
 	}
 

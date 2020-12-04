@@ -10,7 +10,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.revature.exceptions.*;
+import com.revature.exceptions.InvalidEmailException;
+import com.revature.exceptions.NonUniqueEmailException;
+import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.models.Role;
 import com.revature.models.User;
 
@@ -52,6 +54,8 @@ class UserDAOTest {
 		} catch (NonUniqueUsernameException e) {
 			e.printStackTrace();
 		} catch (NonUniqueEmailException e) {
+			e.printStackTrace();
+		} catch (InvalidEmailException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,7 +125,17 @@ class UserDAOTest {
 		role.setId(1);
 		role.setName("Author");
 		a.setRole(role);
-		userDao.update(sampleUser);
+		try {
+			userDao.update(sampleUser);
+		}catch (NonUniqueUsernameException e) {
+			e.printStackTrace();
+		} catch (NonUniqueEmailException e) {
+			e.printStackTrace();
+		} catch (InvalidEmailException e) {
+			e.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		User b = userDao.getById(a.getId());
 		assertTrue(b.getEmail().equals("a.r.@rev.net"));

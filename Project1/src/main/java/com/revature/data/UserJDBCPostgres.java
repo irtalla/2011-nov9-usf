@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.revature.exceptions.InvalidEmailException;
 import com.revature.exceptions.NonUniqueEmailException;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.models.Role;
@@ -17,7 +18,7 @@ public class UserJDBCPostgres implements UserDAO {
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
 	@Override
-	public User add(User t) throws NonUniqueUsernameException, NonUniqueEmailException {
+	public User add(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
 		User u = null;
 		
 		try (Connection conn = cu.getConnection()) {
@@ -63,6 +64,12 @@ public class UserJDBCPostgres implements UserDAO {
 				} else {
 					e.printStackTrace();
 				}
+			} else if (e.getMessage().contains("violates check constraint")) {
+				if (e.getMessage().contains("email")) {
+					throw new InvalidEmailException();
+				} else {
+					e.printStackTrace();
+				}
 			}
 			e.printStackTrace();
 		}
@@ -73,7 +80,7 @@ public class UserJDBCPostgres implements UserDAO {
 	
 	@Override
 	public User getById(Integer id) {
-		User u = new User();
+		User u = null;
 		
 		try (Connection conn = cu.getConnection()) {
 			String sql = "where user_id = " + id;
@@ -93,7 +100,7 @@ public class UserJDBCPostgres implements UserDAO {
 
 	@Override
 	public User getByUsername(String username) {
-		User u = new User();
+		User u = null;
 		
 		try (Connection conn = cu.getConnection()) {
 			String sql = "where l.username = '" + username + "'";
@@ -113,7 +120,7 @@ public class UserJDBCPostgres implements UserDAO {
 
 	@Override
 	public User getByEmail(String email) {
-		User u = new User();
+		User u = null;
 		
 		try (Connection conn = cu.getConnection()) {
 			String sql = "where u.email = '" + email + "'";
@@ -162,7 +169,7 @@ public class UserJDBCPostgres implements UserDAO {
 	}
 
 	@Override
-	public void update(User t) {
+	public void update(User t) throws NonUniqueUsernameException, NonUniqueEmailException{
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			int rowsAffected = 0;
@@ -190,8 +197,6 @@ public class UserJDBCPostgres implements UserDAO {
 			pstmt.setInt(5, t.getId());
 			rowsAffected += pstmt.executeUpdate();
 			
-			System.out.println(rowsAffected);
-			
 			if (rowsAffected > 0) {
 				conn.commit();
 			} else {
@@ -201,6 +206,15 @@ public class UserJDBCPostgres implements UserDAO {
 			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
 
 		} catch (Exception e) {
+			if (e.getMessage().contains("violates unique constraint")) {
+				if (e.getMessage().contains("username")) {
+					throw new NonUniqueUsernameException();
+				} else if (e.getMessage().contains("email")) {
+					throw new NonUniqueEmailException();
+				} else {
+					e.printStackTrace();
+				}
+			}
 			e.printStackTrace();
 		}
 	}

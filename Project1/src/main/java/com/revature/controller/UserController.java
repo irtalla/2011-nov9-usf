@@ -72,6 +72,9 @@ public class UserController {
 		} catch (NonUniqueEmailException e) {
 			System.out.println("Email already used");
 			ctx.status(456);
+		} catch (InvalidEmailException e) {
+			System.out.println("Invalid email format");
+			ctx.status(457);
 		}
 		ctx.status(200);
 	}
@@ -125,7 +128,19 @@ public class UserController {
 	
 	public static void updateUser(Context ctx) {
 		User tempUser = ctx.bodyAsClass(User.class);
-		userServ.updateUser(tempUser);
+		try {
+			userServ.updateUser(tempUser);
+		}catch (NonUniqueUsernameException e) {
+			System.out.println("Username already taken");
+			ctx.status(455);
+		} catch (NonUniqueEmailException e) {
+			System.out.println("Email already used");
+			ctx.status(456);
+		} catch (InvalidEmailException e) {
+			System.out.println("Invalid email format");
+			ctx.status(457);
+		}
+
 		ctx.status(202);
 	}
 	
