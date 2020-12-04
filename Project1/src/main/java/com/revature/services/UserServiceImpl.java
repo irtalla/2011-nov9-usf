@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer addUser(User u) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
+		System.out.println(u);
 		return userDao.add(u).getId();
 	}
 
