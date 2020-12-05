@@ -18,7 +18,7 @@ public class UserJDBCPostgres implements UserDAO {
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
 	@Override
-	public User add(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
+	public Integer add(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
 		User u = null;
 		
 		try (Connection conn = cu.getConnection()) {
@@ -74,7 +74,7 @@ public class UserJDBCPostgres implements UserDAO {
 			e.printStackTrace();
 		}
 		
-		return u;
+		return u.getId();
 		
 	}
 	

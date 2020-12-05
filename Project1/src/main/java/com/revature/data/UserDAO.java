@@ -10,7 +10,7 @@ import com.revature.exceptions.InvalidEmailException;
 import com.revature.exceptions.NonUniqueEmailException;
 
 public interface UserDAO extends GenericDAO<User> {
-	public User add(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException;
+	public Integer add(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException;
 	public User getByUsername(String username);
 	public User getByEmail(String email);
 	public Set<User> getByRole(Role role);
