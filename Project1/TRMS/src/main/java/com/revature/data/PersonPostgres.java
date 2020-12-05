@@ -165,6 +165,19 @@ public class PersonPostgres implements PersonDAO {
 			pstmt.setInt(1, t.getId());
 			pstmt.executeUpdate();
 			
+			// added
+			sql = "delete from user_title where person_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId());
+			pstmt.executeUpdate();
+
+			sql = "delete from req_fr_cmnt where person_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, t.getId());
+			pstmt.executeUpdate();
+			
+			// end of additions
+				
 			sql = "delete from person where id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId());
@@ -185,13 +198,15 @@ public class PersonPostgres implements PersonDAO {
 		Set<EvtReq> evtReqs = new HashSet<>();
 		EvtReqDAO evtReqDao = new EvtReqPostgres();
 		
-		String sql = "select * from evt where person_id = ?";
+		String sql = "select * from evt_req where person_id = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, id);
 		ResultSet rs = pstmt.executeQuery();
 		
 		while (rs.next()) {
-			EvtReq request = evtReqDao.getById(rs.getInt("event_id"));
+			// where is "event_id" coming from ? Is it just id from evt_req table?
+			System.out.println("Result Set to show query: " + rs);
+			EvtReq request = evtReqDao.getById(rs.getInt("id"));
 			evtReqs.add(request);
 		}
 		
