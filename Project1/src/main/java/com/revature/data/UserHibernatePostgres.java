@@ -69,7 +69,8 @@ public class UserHibernatePostgres implements UserDAO {
 			s.beginTransaction();
 			String hql = "FROM User WHERE username = '" + username + "'";
 			List<User> resultList = s.createQuery(hql, User.class).list();
-			u = resultList.get(0);
+			System.out.println(resultList.size());
+			if (resultList.size() > 0) u = resultList.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,7 +86,7 @@ public class UserHibernatePostgres implements UserDAO {
 			s.beginTransaction();
 			String hql = "FROM User WHERE email = '" + email + "'";
 			List<User> resultList = s.createQuery(hql, User.class).list();
-			u = resultList.get(0);
+			if (resultList.size() > 0) u = resultList.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
