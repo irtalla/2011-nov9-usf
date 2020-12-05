@@ -5,7 +5,7 @@
  */
 
 if (!sessionStorage.getItem("currentUser")) {
-  populateStorage();
+    populateStorage();
 }
 let currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
 console.log(typeof (currentUser));
@@ -14,7 +14,7 @@ console.log(currentUser);
 document.getElementById('main-header').innerText = `Welcome Back, ${currentUser.username}!`;
 
 const logCurrentUser = () => {
-  console.log(currentUser);
+    console.log(currentUser);
 }
 
 
@@ -32,32 +32,32 @@ const pitchMap = new Map();
 const fetchPitches = async () => {
 
 
-  let response = await fetch(`http://localhost:4000/api/pitches/authorid/${currentUser.id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
+    let response = await fetch(`http://localhost:4000/api/pitches/authorid/${currentUser.id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    });
+
+
+    let pitches = JSON.parse(await response.json());
+
+    console.log(typeof (pitches));
+    console.log(pitches);
+
+    for (const pitch of pitches) {
+        pitchMap.set(pitch.id, pitch)
+        loadArticleCard(pitch)
     }
-  });
 
-
-  let pitches = JSON.parse(await response.json());
-
-  console.log(typeof (pitches));
-  console.log(pitches);
-
-  for (const pitch of pitches) {
-    pitchMap.set(pitch.id, pitch)
-    loadArticleCard(pitch)
-  }
-
-  loadPitchData(); 
+    loadPitchData();
 }
 
 const loadPitchData = () => {
 
 
-  let pitchStatistcs = `
+    let pitchStatistcs = `
     <li class="list-group-item">
       <strong>Ptich Statistics</strong>
     </li> 
@@ -80,9 +80,9 @@ const loadPitchData = () => {
       Total Pitches Rejected: 0
     </li>`;
 
-    document.getElementById('pitch-data-loading-zone').innerHTML = pitchStatistcs; 
+    document.getElementById('pitch-data-loading-zone').innerHTML = pitchStatistcs;
 
-}; 
+};
 
 
 fetchPitches();
@@ -92,7 +92,7 @@ fetchPitches();
 
 
 const createPitchModalTemplate =
-  `<form>
+    `<form>
 <div class="form-group">
   <label for="exampleFormControlInput1">Title</label>
   <input type="text" class="form-control" id="input-title-form" placeholder="Pick something catchy!">
@@ -133,96 +133,74 @@ const createPitchModalTemplate =
  */
 const populateModalWithData = (id = null) => {
 
-  if (id) {
-    const pitch = pitchMap.get(id);
-    document.getElementById("pitch-modal-body").innerHTML = `
+    if (id) {
+        const pitch = pitchMap.get(id);
+        document.getElementById("pitch-modal-body").innerHTML = `
       <h3>Title: ${pitch.title} </h3>
       <h5>Tagline: ${pitch.tagLine} </h5>
       <h5>Genre: ${pitch.genre.name} </h5>
       <h5>Form: ${pitch.form.name} </h5>`;
 
-    document.getElementById("modal-btn-section").innerHTML = `
+        document.getElementById("modal-btn-section").innerHTML = `
       <button type="button" class="btn btn-success">Edit</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       <button type="button" class="btn btn-primary">Save changes</button>
       `;
-  } else {
-    document.getElementById("pitch-modal-body").innerHTML = createPitchModalTemplate;
-    document.getElementById("modal-btn-section").innerHTML = `
+    } else {
+        document.getElementById("pitch-modal-body").innerHTML = createPitchModalTemplate;
+        document.getElementById("modal-btn-section").innerHTML = `
     <button type="button" class="btn btn-success" data-dismiss="modal" onClick="savePitch()">Save</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       `;
 
-  }
+    }
 
 };
 
 const savePitch = async () => {
 
-  const title = document.getElementById('input-title-form').value;
-  const genre = document.getElementById('input-genre-form').value;
-  const form = document.getElementById('input-form-form').value;
-  const tagLine = document.getElementById('input-tagLine-form').value;
+    let pitch = {
+        id: 0,
+        authorId: currentUser.id,
+        tagLine: document.getElementById('input-tagLine-form').value,
+        title: document.getElementById('input-title-form').value,
+        genre: { id: -1, name: document.getElementById('input-genre-form').value },
+        form: { id: -1, name: document.getElementById('input-form-form').value }
+    }
+    console.log(pitch);
 
-  let pitch = {
-    id: 0,
-    title: title,
-    genre: {
-      id: -1,
-      name: genre
-    },
-    form: {
-      id: -1,
-      name: form
-    },
-    tagLine: tagLine,
-    authorId: currentUser.id
-  }
+    let response = await postPitch(pitch);
 
 
-
-
-  console.log(pitch);
-
-  let response = await fetch('http://localhost:4000/api/pitches', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify(pitch)
-  });
-
-
-  if (response.status === 200) {
-    let newPitch = JSON.parse(await response.json());
-    pitchMap.set(newPitch.id, newPitch);
-    loadArticleCard(newPitch);
-    loadPitchData(); 
-    alert("Save successful. Check out your new submission below. Good luck!")
-  } else {
-    alert("Something went wrong, unable to add pitch");
-  }
+    if (response.status === 200) {
+        let newPitch = JSON.parse(await response.json());
+        pitchMap.set(newPitch.id, newPitch);
+        loadArticleCard(newPitch);
+        loadPitchData();
+        alert("Save successful. Check out your new submission below. Good luck!")
+    } else {
+        alert("Something went wrong, unable to add pitch");
+    }
 
 }
 
 const deletePitch = async (id) => {
-  alert(`attempting to delete pitch: ${id}`);
+    alert(`attempting to delete pitch: ${id}`);
 
-  let response = await fetch(`http://localhost:4000/api/pitches/${id}`, {
-    method: 'DELETE',
-  });
+    let response = await fetch(`http://localhost:4000/api/pitches/${id}`, {
+        method: 'DELETE',
+    });
 
-  if (response.status === 200) {
-    alert("Delete successful. Trash belongs in the trash!");
-    document.getElementById('main-data-display-row').removeChild(
-      document.getElementById(`pitch-card-${id}`)
-    );
-    pitchMap.delete(id);
-    loadPitchData(); 
-  } else {
-    alert("Something went wrong, unable to delete pitch");
-  }
+    if (response.status === 200) {
+        alert("Delete successful. Trash belongs in the trash!");
+        document.getElementById('main-data-display-row').removeChild(
+            document.getElementById(`pitch-card-${id}`)
+        );
+        pitchMap.delete(id);
+        loadPitchData();
+    } else {
+        alert("Something went wrong, unable to delete pitch");
+    }
 
 
 }
@@ -238,23 +216,23 @@ const deletePitch = async (id) => {
 
 const loadArticleCard = (pitch) => {
 
-  //     const Item = ({ url, img, title }) => `
-  //     <a href="${url}" class="list-group-item">
-  //       <div class="image">
-  //         <img src="${img}" />
-  //       </div>
-  //       <p class="list-group-item-text">${title}</p>
-  //     </a>
-  //   `;
+    //     const Item = ({ url, img, title }) => `
+    //     <a href="${url}" class="list-group-item">
+    //       <div class="image">
+    //         <img src="${img}" />
+    //       </div>
+    //       <p class="list-group-item-text">${title}</p>
+    //     </a>
+    //   `;
 
-  let generic_image_src = `https://thumbs.dreamstime.com/t/white-feather-quill-pen-glass-inkwell-old-glass-ink-pen-feather-well-quill-image-106467206.jpg`;
+    let generic_image_src = `https://thumbs.dreamstime.com/t/white-feather-quill-pen-glass-inkwell-old-glass-ink-pen-feather-well-quill-image-106467206.jpg`;
 
-  let progressBarColor;
-  let progressBarWidth;
+    let progressBarColor;
+    let progressBarWidth;
 
 
-  const articleCard =
-    `<div id="pitch-card-${pitch.id}" class="col-md-4">
+    const articleCard =
+        `<div id="pitch-card-${pitch.id}" class="col-md-4">
   <div class="card">
     <img src="${generic_image_src} class="card-img-top" alt="..." />
     <div class="card-body">
@@ -285,7 +263,7 @@ const loadArticleCard = (pitch) => {
   </div>
 </div>`;
 
-  document.getElementById('main-data-display-row').innerHTML += articleCard;
+    document.getElementById('main-data-display-row').innerHTML += articleCard;
 
 
 }

@@ -67,10 +67,4 @@ public class Request {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
-	
-	
-	
-	
-
 }

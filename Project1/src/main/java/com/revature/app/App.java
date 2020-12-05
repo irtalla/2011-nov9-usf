@@ -61,9 +61,9 @@ public class App {
 			path ("api/requests", () -> {
 				get(RequestController::getRequests); // get open requests is the default
 				post(RequestController::addRequest); // add a request
+				put(RequestController::updateRequest); // update a request
 				path(":id", () -> {
 					get(RequestController::getRequestById); // get a request by id
-					put(RequestController::updateRequest); // update a request by id
 					delete(RequestController::deleteRequest); // delete a request by id
 				});
 				path ("personid/:id", () -> {

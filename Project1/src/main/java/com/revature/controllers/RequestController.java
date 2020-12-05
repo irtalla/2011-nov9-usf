@@ -8,6 +8,7 @@ import static io.javalin.apibuilder.ApiBuilder.put;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.beans.Request;
 
@@ -25,13 +26,33 @@ public class RequestController {
 	
 	public static void getRequests(Context ctx) {}
 	public static void addRequest(Context ctx) {}
-	public static void ddRequest(Context ctx) {}
-	public static void updateRequest(Context ctx) {}
 	public static void deleteRequest(Context ctx) {}
 	public static void getRequestById(Context ctx) {}
 	public static void getAllRequests(Context ctx) {}
-	public static void closeRequest(Context ctx) {}
 	
+    
+    
+	public static void updateRequest(Context ctx) {
+		
+	    Request request;
+	    request = gson.fromJson( ctx.body(), Request.class);
+	    System.out.println(request.getId());
+	    System.out.println(request.getStatus().getName());
+	    System.out.println(request.getRequestContent());
+	    System.out.println(request.getResponseContent());
+	    ctx.status(200); 
+		
+		
+	}
+    
+    
+	public static void closeRequest(Context ctx) {
+		
+		Integer personId = Integer.parseInt( ctx.pathParam("id") ); 
+		System.out.println(personId);
+		ctx.status(200); 
+		
+	}
 	
 	public static void getRequestsByPersonId(Context ctx) {
 		
