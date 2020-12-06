@@ -1,7 +1,13 @@
 package dev.elliman.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Role {
-	
+	@Id
 	private Integer id;
 	private String name;
 	

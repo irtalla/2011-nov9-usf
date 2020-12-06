@@ -1,6 +1,13 @@
 package dev.elliman.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Stage {
+	@Id
 	private Integer id;
 	private String name;
 	

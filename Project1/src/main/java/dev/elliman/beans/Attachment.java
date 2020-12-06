@@ -2,9 +2,21 @@ package dev.elliman.beans;
 
 import java.io.File;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Attachment {
+	@Id
 	private Integer id;
-	private Integer claimID;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="claim")
+	private Claim claimID;
 	private File file;
 	
 	public Attachment() {
@@ -21,11 +33,11 @@ public class Attachment {
 		this.id = id;
 	}
 
-	public Integer getClaimID() {
+	public Claim getClaimID() {
 		return claimID;
 	}
 
-	public void setClaimID(Integer claimID) {
+	public void setClaimID(Claim claimID) {
 		this.claimID = claimID;
 	}
 

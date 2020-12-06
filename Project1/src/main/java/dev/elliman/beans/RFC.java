@@ -1,15 +1,29 @@
 package dev.elliman.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class RFC {
+	@Id
 	private Integer id;
-	private Integer claimID;
-	private Integer commenterID;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="claim_id")
+	private Claim claim;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="commenter")
+	private Person commenter;
 	private String description;
 	
 	public RFC() {
 		id = null;
-		claimID = null;
-		commenterID = null;
+		claim = null;
+		commenter = null;
 		description = null;
 	}
 
@@ -21,20 +35,20 @@ public class RFC {
 		this.id = id;
 	}
 
-	public Integer getClaimID() {
-		return claimID;
+	public Claim getClaim() {
+		return claim;
 	}
 
-	public void setClaimID(Integer claimID) {
-		this.claimID = claimID;
+	public void setClaimID(Claim claim) {
+		this.claim = claim;
 	}
 
-	public Integer getCommenterID() {
-		return commenterID;
+	public Person getCommenter() {
+		return commenter;
 	}
 
-	public void setCommenterID(Integer commenterID) {
-		this.commenterID = commenterID;
+	public void setCommenter(Person commenter) {
+		this.commenter = commenter;
 	}
 
 	public String getDescription() {
@@ -49,8 +63,8 @@ public class RFC {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((claimID == null) ? 0 : claimID.hashCode());
-		result = prime * result + ((commenterID == null) ? 0 : commenterID.hashCode());
+		result = prime * result + ((claim == null) ? 0 : claim.hashCode());
+		result = prime * result + ((commenter == null) ? 0 : commenter.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
@@ -65,15 +79,15 @@ public class RFC {
 		if (getClass() != obj.getClass())
 			return false;
 		RFC other = (RFC) obj;
-		if (claimID == null) {
-			if (other.claimID != null)
+		if (claim == null) {
+			if (other.claim != null)
 				return false;
-		} else if (!claimID.equals(other.claimID))
+		} else if (!claim.equals(other.claim))
 			return false;
-		if (commenterID == null) {
-			if (other.commenterID != null)
+		if (commenter == null) {
+			if (other.commenter != null)
 				return false;
-		} else if (!commenterID.equals(other.commenterID))
+		} else if (!commenter.equals(other.commenter))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -90,9 +104,8 @@ public class RFC {
 
 	@Override
 	public String toString() {
-		return "RFC [id=" + id + ", claimID=" + claimID + ", commenterID=" + commenterID + ", description="
-				+ description + "]";
+		return "RFC [id=" + id + ", claim=" + claim + ", commenter=" + commenter + ", description=" + description + "]";
 	}
-	
+
 	
 }

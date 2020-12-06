@@ -1,9 +1,21 @@
 package dev.elliman.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Event {
+	@Id
 	private Integer id;
+	@Column(name="event_type")
 	private String eventType;
-	private Double percentageCovered;
+	private Integer percentageCovered;
 	
 	public Event() {
 		id = null;
@@ -27,11 +39,11 @@ public class Event {
 		this.eventType = eventType;
 	}
 
-	public Double getPercentageCovered() {
+	public Integer getPercentageCovered() {
 		return percentageCovered;
 	}
 
-	public void setPercentageCovered(Double percentageCovered) {
+	public void setPercentageCovered(Integer percentageCovered) {
 		this.percentageCovered = percentageCovered;
 	}
 

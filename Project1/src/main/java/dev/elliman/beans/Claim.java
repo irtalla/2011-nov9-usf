@@ -4,28 +4,56 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Claim {
+	@Id
 	private Integer id;
-	private Integer personID;
-	private Integer eventID;
-	private Integer gradingID;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="person")
+	private Person person;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="event")
+	private Event event;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="grading")
+	private Grading grading;
+	@Column(name="event_timestamp")
 	private LocalDateTime eventDate;
+	@Column(name="event_location")
 	private String eventLocation;
 	private String description;
 	private Double price;
 	private String justification;
 	private Integer hoursMissed;
+	@Column(name="approval_stage")
 	private Stage approvalStage;
-	private Integer dsaID;
-	private Integer dhaID;
-	private Integer bcaID;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="person")
+	private Person dsa;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="person")
+	private Person dha;
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="person")
+	private Person bca;
+	@Column(name="denial_reason")
 	private String denialReason;
 	
 	public Claim() {
 		id = null;
-		personID = null;
-		eventID = null;
-		gradingID = null;
+		person = null;
+		event = null;
+		grading = null;
 		eventDate = null;
 		eventLocation = null;
 		description = null;
@@ -33,9 +61,9 @@ public class Claim {
 		justification = null;
 		hoursMissed = null;
 		approvalStage = null;
-		dsaID = null;
-		dhaID = null;
-		bcaID = null;
+		dsa = null;
+		dha = null;
+		bca = null;
 		denialReason = null;
 	}
 
@@ -47,28 +75,28 @@ public class Claim {
 		this.id = id;
 	}
 
-	public Integer getPersonID() {
-		return personID;
+	public Person getPerson() {
+		return person;
 	}
 
-	public void setPersonID(Integer personID) {
-		this.personID = personID;
+	public void setPersonID(Person person) {
+		this.person = person;
 	}
 
-	public Integer getEventID() {
-		return eventID;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setEventID(Integer eventID) {
-		this.eventID = eventID;
+	public void setEventID(Event event) {
+		this.event = event;
 	}
 
-	public Integer getGradingID() {
-		return gradingID;
+	public Grading getGrading() {
+		return grading;
 	}
 
-	public void setGradingID(Integer gradingID) {
-		this.gradingID = gradingID;
+	public void setGrading(Grading grading) {
+		this.grading = grading;
 	}
 
 	public LocalDateTime getEventDate() {
@@ -127,28 +155,28 @@ public class Claim {
 		this.approvalStage = approvalStage;
 	}
 
-	public Integer getDsaID() {
-		return dsaID;
+	public Person getDsa() {
+		return dsa;
 	}
 
-	public void setDsaID(Integer dsaID) {
-		this.dsaID = dsaID;
+	public void setDsa(Person dsa) {
+		this.dsa = dsa;
 	}
 
-	public Integer getDhaID() {
-		return dhaID;
+	public Person getDha() {
+		return dha;
 	}
 
-	public void setDhaID(Integer dhaID) {
-		this.dhaID = dhaID;
+	public void setDha(Person dha) {
+		this.dha = dha;
 	}
 
-	public Integer getBcaID() {
-		return bcaID;
+	public Person getBca() {
+		return bca;
 	}
 
-	public void setBcaID(Integer bcaID) {
-		this.bcaID = bcaID;
+	public void setBca(Person bca) {
+		this.bca = bca;
 	}
 
 	public String getDenialReason() {
@@ -164,19 +192,19 @@ public class Claim {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((approvalStage == null) ? 0 : approvalStage.hashCode());
-		result = prime * result + ((bcaID == null) ? 0 : bcaID.hashCode());
+		result = prime * result + ((bca == null) ? 0 : bca.hashCode());
 		result = prime * result + ((denialReason == null) ? 0 : denialReason.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((dhaID == null) ? 0 : dhaID.hashCode());
-		result = prime * result + ((dsaID == null) ? 0 : dsaID.hashCode());
+		result = prime * result + ((dha == null) ? 0 : dha.hashCode());
+		result = prime * result + ((dsa == null) ? 0 : dsa.hashCode());
+		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
-		result = prime * result + ((eventID == null) ? 0 : eventID.hashCode());
 		result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
-		result = prime * result + ((gradingID == null) ? 0 : gradingID.hashCode());
+		result = prime * result + ((grading == null) ? 0 : grading.hashCode());
 		result = prime * result + ((hoursMissed == null) ? 0 : hoursMissed.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
-		result = prime * result + ((personID == null) ? 0 : personID.hashCode());
+		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		return result;
 	}
@@ -195,10 +223,10 @@ public class Claim {
 				return false;
 		} else if (!approvalStage.equals(other.approvalStage))
 			return false;
-		if (bcaID == null) {
-			if (other.bcaID != null)
+		if (bca == null) {
+			if (other.bca != null)
 				return false;
-		} else if (!bcaID.equals(other.bcaID))
+		} else if (!bca.equals(other.bca))
 			return false;
 		if (denialReason == null) {
 			if (other.denialReason != null)
@@ -210,35 +238,35 @@ public class Claim {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (dhaID == null) {
-			if (other.dhaID != null)
+		if (dha == null) {
+			if (other.dha != null)
 				return false;
-		} else if (!dhaID.equals(other.dhaID))
+		} else if (!dha.equals(other.dha))
 			return false;
-		if (dsaID == null) {
-			if (other.dsaID != null)
+		if (dsa == null) {
+			if (other.dsa != null)
 				return false;
-		} else if (!dsaID.equals(other.dsaID))
+		} else if (!dsa.equals(other.dsa))
+			return false;
+		if (event == null) {
+			if (other.event != null)
+				return false;
+		} else if (!event.equals(other.event))
 			return false;
 		if (eventDate == null) {
 			if (other.eventDate != null)
 				return false;
 		} else if (!eventDate.equals(other.eventDate))
 			return false;
-		if (eventID == null) {
-			if (other.eventID != null)
-				return false;
-		} else if (!eventID.equals(other.eventID))
-			return false;
 		if (eventLocation == null) {
 			if (other.eventLocation != null)
 				return false;
 		} else if (!eventLocation.equals(other.eventLocation))
 			return false;
-		if (gradingID == null) {
-			if (other.gradingID != null)
+		if (grading == null) {
+			if (other.grading != null)
 				return false;
-		} else if (!gradingID.equals(other.gradingID))
+		} else if (!grading.equals(other.grading))
 			return false;
 		if (hoursMissed == null) {
 			if (other.hoursMissed != null)
@@ -255,10 +283,10 @@ public class Claim {
 				return false;
 		} else if (!justification.equals(other.justification))
 			return false;
-		if (personID == null) {
-			if (other.personID != null)
+		if (person == null) {
+			if (other.person != null)
 				return false;
-		} else if (!personID.equals(other.personID))
+		} else if (!person.equals(other.person))
 			return false;
 		if (price == null) {
 			if (other.price != null)
@@ -270,11 +298,11 @@ public class Claim {
 
 	@Override
 	public String toString() {
-		return "Claim [id=" + id + ", personID=" + personID + ", eventID=" + eventID + ", gradingID=" + gradingID
-				+ ", eventDate=" + eventDate + ", eventLocation=" + eventLocation + ", description=" + description
-				+ ", price=" + price + ", justification=" + justification + ", hoursMissed=" + hoursMissed
-				+ ", approvalStage=" + approvalStage + ", dsaID=" + dsaID + ", dhaID=" + dhaID + ", bcaID=" + bcaID
-				+ ", denialReason=" + denialReason + "]";
+		return "Claim [id=" + id + ", person=" + person + ", event=" + event + ", grading=" + grading + ", eventDate="
+				+ eventDate + ", eventLocation=" + eventLocation + ", description=" + description + ", price=" + price
+				+ ", justification=" + justification + ", hoursMissed=" + hoursMissed + ", approvalStage="
+				+ approvalStage + ", dsa=" + dsa + ", dha=" + dha + ", bca=" + bca + ", denialReason=" + denialReason
+				+ "]";
 	}
 
 	

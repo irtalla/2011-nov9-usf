@@ -1,9 +1,20 @@
 package dev.elliman.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Grading {
+	@Id
 	private Integer id;
+	@Column(name="presentation")
 	private Boolean hasPresentation;
+	@Column(name="passing_percentage")
 	private Double passingPercentage;
+	@Column(name="passing_letter")
 	private Character passingLetter;
 	
 	public Grading() {
