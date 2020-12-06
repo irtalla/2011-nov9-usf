@@ -51,7 +51,7 @@ class UserDAOTest {
 		try {
 			Integer newId = userDao.add(sampleUser);
 			sampleUser.setId(0);
-			assertNotEquals(newId, sampleUser.getId());
+			assertNotEquals(newId, 0);
 			sampleUser.setId(newId);
 		} catch (NonUniqueUsernameException e) {
 			e.printStackTrace();

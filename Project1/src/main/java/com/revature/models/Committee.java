@@ -3,10 +3,35 @@ package com.revature.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="committee")
 public class Committee {
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@Transient
 	private String name;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="genre_id")
 	private Genre genre;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="users_committee",
+			joinColumns=@JoinColumn(name="committee_id"),
+			inverseJoinColumns=@JoinColumn(name="user_id"))
 	private Set<User> editors;
 	
 	public Committee() {

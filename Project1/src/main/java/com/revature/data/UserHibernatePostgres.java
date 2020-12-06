@@ -16,12 +16,12 @@ import com.revature.models.User;
 import com.revature.util.HibernateUtil;
 
 public class UserHibernatePostgres implements UserDAO {
-	private SessionFactory session = HibernateUtil.getSessionFactory();
+	private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 	@Override
 	public Integer add(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
 		Integer newId = 0;
-		try (Session s = session.getCurrentSession()){
+		try (Session s = sessionFactory.getCurrentSession()){
 			s.beginTransaction();
 			newId = (Integer) s.save(t);
 			s.getTransaction().commit();
@@ -51,7 +51,7 @@ public class UserHibernatePostgres implements UserDAO {
 	public User getById(Integer id) {
 		User u = null;
 		
-		try (Session s = session.getCurrentSession()) {
+		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			u = s.get(User.class, id);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class UserHibernatePostgres implements UserDAO {
 	public User getByUsername(String username) {
 		User u = null;
 		
-		try (Session s = session.getCurrentSession()) {
+		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			String hql = "FROM User WHERE username = '" + username + "'";
 			List<User> resultList = s.createQuery(hql, User.class).list();
@@ -82,7 +82,7 @@ public class UserHibernatePostgres implements UserDAO {
 	public User getByEmail(String email) {
 		User u = null;
 		
-		try (Session s = session.getCurrentSession()) {
+		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			String hql = "FROM User WHERE email = '" + email + "'";
 			List<User> resultList = s.createQuery(hql, User.class).list();
@@ -98,7 +98,7 @@ public class UserHibernatePostgres implements UserDAO {
 	public Set<User> getByRole(Role role) {
 		Set<User> users = null;
 		
-		try (Session s = session.getCurrentSession()) {
+		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			String hql = "FROM User WHERE role_id = " + role.getId();
 			List<User> resultList = s.createQuery(hql, User.class).list();
@@ -115,7 +115,7 @@ public class UserHibernatePostgres implements UserDAO {
 	public Set<User> getAll() {
 		Set<User> users = null;
 		
-		try (Session s = session.getCurrentSession()) {
+		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			String hql = "FROM User";
 			List<User> resultList = s.createQuery(hql, User.class).list();
@@ -129,7 +129,7 @@ public class UserHibernatePostgres implements UserDAO {
 	
 	@Override
 	public void update(User t) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException {
-		try (Session s = session.getCurrentSession()){
+		try (Session s = sessionFactory.getCurrentSession()){
 			s.beginTransaction();
 			s.update(t);
 			s.getTransaction().commit();
@@ -156,7 +156,7 @@ public class UserHibernatePostgres implements UserDAO {
 	
 	@Override
 	public void delete(User t) {
-		try (Session s = session.getCurrentSession()){
+		try (Session s = sessionFactory.getCurrentSession()){
 			s.beginTransaction();
 			s.delete(t);
 			s.getTransaction().commit();
