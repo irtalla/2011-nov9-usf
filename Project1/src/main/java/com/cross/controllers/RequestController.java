@@ -64,25 +64,25 @@ public class RequestController {
 		
 		// Two outgoing requests 
 		requestA.setId(1);
-		requestA.setRequestorId(personId);
-		requestA.setRequesteeId(4);
+		requestA.setSenderId(personId);
+		requestA.setRecieverId(4);
 		requestA.setRequestContent("I need information from you");
 		
 		requestB.setId(2);
-		requestB.setRequestorId(personId);
-		requestB.setRequesteeId(43);
+		requestB.setSenderId(personId);
+		requestB.setRecieverId(43);
 		requestB.setRequestContent("I need information from you");
 		requestB.setResponseContent("Here is the infomation you request");
 		
 		// Two incoming requests 
 		requestC.setId(3);
-		requestC.setRequestorId(23);
-		requestC.setRequesteeId(personId);
+		requestC.setSenderId(23);
+		requestC.setRecieverId(personId);
 		requestC.setRequestContent("I need information from you");
 		
 		requestD.setId(4);
-		requestD.setRequestorId(12);
-		requestD.setRequesteeId(personId);
+		requestD.setSenderId(12);
+		requestD.setRecieverId(personId);
 		requestD.setRequestContent("I need information from you");
 		requestD.setResponseContent("Here is the infomation you request");
 		

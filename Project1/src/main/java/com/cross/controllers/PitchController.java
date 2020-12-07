@@ -71,7 +71,7 @@ public class PitchController {
 		Pitch dummyPitchA = new Pitch(); 
 		dummyPitchA.setId(1);
 		dummyPitchA.setTitle("On the Joys of Academic Philosophy");
-		dummyPitchA.setTagLine("A tale of one nigga's harrowing escape from cognitive fiefdom"); 
+		dummyPitchA.setTagline("A tale of one nigga's harrowing escape from cognitive fiefdom"); 
 		
 		Genre dummyGenre = new Genre(); 
 		dummyGenre.setId(-1);
@@ -90,7 +90,7 @@ public class PitchController {
 		Pitch dummyPitchB = new Pitch(); 
 		dummyPitchB.setId(2);
 		dummyPitchB.setTitle("Building a Dream");
-		dummyPitchB.setTagLine("One nigga's journey from philosophy to software engineering"); 
+		dummyPitchB.setTagline("One nigga's journey from philosophy to software engineering"); 
 		
 		Genre dummyGenreB = new Genre(); 
 		dummyGenreB.setId(-1);

@@ -35,7 +35,7 @@ const handleCloseRequest = async (id) => {
 
         // Remove from outgoing requests if currentUser is sender, 
         // otherwise remove from incoming requests
-        if (requestMap.get(id).requestorId === currentUser.id) {
+        if (requestMap.get(id).senderId === currentUser.id) {
             document.getElementById('outgoing-requests-display-selection').
                 removeChild(document.getElementById(`request-card-${id}`));
         } else {
@@ -111,8 +111,8 @@ const loadRequestCard = (request) => {
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">${request.id}</h5>
-                <p>From: ${request.requestorId === currentUser.id ? 'Me' : request.requestorId}</p>
-                <p> To: ${request.requesteeId === currentUser.id ? 'Me' : request.requestorId} </p>
+                <p>From: ${request.senderId === currentUser.id ? 'Me' : request.senderId}</p>
+                <p> To: ${request.recieverId === currentUser.id ? 'Me' : request.recieverId} </p>
                 <p>Status: ${request.status.name}</p>
                 <hr />
                 <div>
@@ -125,7 +125,7 @@ const loadRequestCard = (request) => {
                   ${request.responseContent.length > 0 ? request.responseContent : 'No Resposne'}
                   </p>
                 </div>
-                ${request.requestorId === currentUser.id ?
+                ${request.senderId === currentUser.id ?
             ` </div>
               <button type="button" class="btn btn-danger" onClick="handleCloseRequest(${request.id})">Close</button>
                  </div>`
@@ -137,9 +137,9 @@ const loadRequestCard = (request) => {
           </div>`;
 
 
-    if (request.requestorId === currentUser.id) {
+    if (request.senderId === currentUser.id) {
         document.getElementById("outgoing-requests-display-selection").innerHTML += requestCardTemplate;
-    } else if (request.requesteeId === currentUser.id) {
+    } else if (request.recieverId === currentUser.id) {
         document.getElementById("incoming-requests-display-selection").innerHTML += requestCardTemplate;
     } else {
         alert('currentUser is neither sender or reciever of request');
@@ -175,8 +175,8 @@ getRequests(currentUser.id);
 /*
 
     private Integer id;
-    private Integer requestorId;
-    private Integer requesteeId;
+    private Integer senderId;
+    private Integer recieverId;
     private String requestContent;
     private String responseContent;
     private Status status;

@@ -4,7 +4,10 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,8 +19,12 @@ public class Request {
 	private Integer senderId; 
 	@Column(name="reciever_id")
 	private Integer recieverId; 
+	@Column(name="request_content")
 	private String requestContent; 
+	@Column(name="response_content")
 	private String responseContent; 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="status_id")
 	private Status status;
 	private Timestamp creationTime; 
 	
