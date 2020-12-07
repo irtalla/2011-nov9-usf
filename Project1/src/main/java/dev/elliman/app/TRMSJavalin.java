@@ -2,6 +2,7 @@ package dev.elliman.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import dev.elliman.controller.ClaimController;
 import dev.elliman.controller.PersonController;
 import io.javalin.Javalin;
 
@@ -24,7 +25,7 @@ public class TRMSJavalin {
 			
 			path("claims", () -> {
 				path("person/:id", () -> {
-					//get claims by person
+					get(ClaimController::getClaimsByPerson);//show a person all of their claims
 				});
 			});
 		});

@@ -59,12 +59,16 @@ h1 {
 }
 
 #claimsDiv {
-    /* background-color: #ffcebf; */
+    padding: 1mm;
 }
 
 .claim {
     background-color: #ffcebf;
     border-radius: 2mm;
+    padding: 1mm;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
 }
 
 .claimDate {

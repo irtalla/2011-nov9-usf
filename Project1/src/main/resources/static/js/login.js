@@ -2,8 +2,19 @@ var baseUrl = 'http://localhost:8080';
 
 var loginBtn = document.getElementById('loginBtn')
 loginBtn.onclick = login;
+var passwordBox = document.getElementById('password');
+passwordBox.onkeydown = enterLogin;
+
+async function enterLogin(){
+    if(event.keyCode === 13){
+        login();
+    }
+}
 
 async function login() {
+
+
+
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
 

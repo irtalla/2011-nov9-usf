@@ -22,6 +22,7 @@ public class Claim {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	private String title;
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="person")
 	private Person person;
@@ -79,6 +80,14 @@ public class Claim {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Person getPerson() {
