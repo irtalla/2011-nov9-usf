@@ -1,31 +1,52 @@
 package com.revature.beans;
 
-import java.util.Date;
 
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.type.LocalDateTimeType;
+@Entity
+@Table
 public class Pitch {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@ManyToOne
+	@JoinColumn(name = "person_id")
 	private Person author;
 	private String story_title;
-	private Date finish_date;  //Date from java Util.  Might need to be Sql
+	private LocalDateTimeType finish_date;  //Date from java Util.  Might need to be Sql
+	@OneToMany
+	@JoinColumn(name = "storytype_id")
 	private StoryType story_type;
+	@OneToMany
+	@JoinColumn(name = "genre_id")
 	private Genre genre;
 	private String description; //consider file type and adding files
+	@OneToMany
+	@JoinColumn(name = "status_id")
 	private Status status;
+	@OneToMany
+	@JoinColumn(name = "pitch_priority_id")
 	private PitchPriority priority;
+	@OneToMany
+	@JoinColumn(name = "pitch_stage_id")
 	private PitchStage stage;
-	/**
-	 * this may require adding file types to handle the email chain
-	 * or attachments
-	 * alternatively requests of this nature could be handled on the website
-	 * by maitto: in javascript let the humans deal with it
-	 */
+
 	
 	
 	public Pitch() {
 		id = 0;
 		author = new Person();
 		story_title ="";
-		finish_date = new Date();
+		finish_date = new LocalDateTimeType();
 		story_type = new StoryType();
 		genre = new Genre();
 		description = "";
@@ -51,10 +72,11 @@ public class Pitch {
 	public void setStory_title(String story_title) {
 		this.story_title = story_title;
 	}
-	public Date getFinish_date() {
+
+	public LocalDateTimeType getFinish_date() {
 		return finish_date;
 	}
-	public void setFinish_date(Date finish_date) {
+	public void setFinish_date(LocalDateTimeType finish_date) {
 		this.finish_date = finish_date;
 	}
 	public StoryType getStory_type() {

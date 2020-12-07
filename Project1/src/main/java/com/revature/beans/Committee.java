@@ -1,13 +1,27 @@
 package com.revature.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Committee {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String comName;
+	private String committee_name;
+	@ManyToOne
+	@JoinColumn(name="genre_id")
 	private Genre genre;
 	
 	public Committee() {
 		id = 0;
-		comName = "";
+		committee_name = "";
 		genre = new Genre();
 	}
 
@@ -19,12 +33,12 @@ public class Committee {
 		this.id = id;
 	}
 
-	public String getComName() {
-		return comName;
+	public String getcommittee_name() {
+		return committee_name;
 	}
 
-	public void setComName(String comName) {
-		this.comName = comName;
+	public void setcommittee_name(String committee_name) {
+		this.committee_name = committee_name;
 	}
 
 	public Genre getGenre() {
@@ -39,7 +53,7 @@ public class Committee {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((comName == null) ? 0 : comName.hashCode());
+		result = prime * result + ((committee_name == null) ? 0 : committee_name.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -53,10 +67,10 @@ public class Committee {
 		if (getClass() != obj.getClass())
 			return false;
 		Committee other = (Committee) obj;
-		if (comName == null) {
-			if (other.comName != null)
+		if (committee_name == null) {
+			if (other.committee_name != null)
 				return false;
-		} else if (!comName.equals(other.comName))
+		} else if (!committee_name.equals(other.committee_name))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -68,7 +82,7 @@ public class Committee {
 
 	@Override
 	public String toString() {
-		return "Committee: id=" + id + ", Committee Name is" + comName + " Committee Genre is " + genre.getName();
+		return "Committee: id=" + id + ", Committee Name is" + committee_name + " Committee Genre is " + genre.getName();
 	}
 	
 	

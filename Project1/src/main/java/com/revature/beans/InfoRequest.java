@@ -1,11 +1,31 @@
 package com.revature.beans;
 
 import java.lang.ProcessHandle.Info;
+import java.nio.file.StandardCopyOption;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class InfoRequest {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="recipient")
 	private Person recipient;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="sender")
 	private Person sender;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "pitch_id")
 	private Pitch pitch;
 	private String question;
 	private String answer;

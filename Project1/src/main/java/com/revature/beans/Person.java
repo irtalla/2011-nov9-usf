@@ -3,19 +3,41 @@ package com.revature.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+@Entity
+@Table
 public class Person {
+	@Id
 	private Integer id;
 	private String username;
 	private String passwd;
-	private Title title;
+	@ManyToMany
+	@JoinTable(name="person_title",
+		joinColumns=@JoinColumn(name="person_id"),
+		inverseJoinColumns = @JoinColumn(name = "title_id"))
+	private Set<Title> title;
+	@ManyToMany
+	@JoinTable(name="person_committee",
+		joinColumns=@JoinColumn(name="person_id"),
+		inverseJoinColumns = @JoinColumn(name = "committee_id"))
 	private Set<Committee> committees;
+	@OneToMany
+	@JoinTable(name="person_pitch",
+		joinColumns=@JoinColumn(name="person_id"),
+		inverseJoinColumns = @JoinColumn(name = "pitch_id"))
 	private Set<Pitch> pitches;
 	
 	public Person() {
 		id = 0;
 		username = "";
 		passwd = "";
-		title = new Title();
+		title = new HashSet<Title>();
 		committees = new HashSet<Committee>();
 		pitches = new HashSet<Pitch>();
 	}
@@ -44,11 +66,13 @@ public class Person {
 		this.passwd = passwd;
 	}
 
-	public Title getTitle() {
+
+
+	public Set<Title> getTitle() {
 		return title;
 	}
 
-	public void setTitle(Title title) {
+	public void setTitle(Set<Title> title) {
 		this.title = title;
 	}
 
