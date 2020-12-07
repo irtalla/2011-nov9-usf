@@ -2,7 +2,7 @@ package com.revature.services;
 
 import java.util.Set;
 
-import com.revature.beans.Person;
+import com.cross.beans.Person;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
 

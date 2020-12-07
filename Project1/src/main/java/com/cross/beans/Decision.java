@@ -1,12 +1,30 @@
-package com.revature.beans;
+package com.cross.beans;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Decision {
 	
+	@Id
 	private Integer id; 
+	@Column(name="editor_id")
 	private Integer editorId; 
+	@Column(name="pitch_id")
 	private Integer pitchId; 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="decision_type_id")
 	private DecisionType decisionType; 
 	private String explanation;
+	private Timestamp creationTime; 
 	
 	public Decision() {}
 	
@@ -39,6 +57,14 @@ public class Decision {
 	}
 	public void setExplanation(String explanation) {
 		this.explanation = explanation;
+	}
+
+	public Timestamp getCreationTime() {
+		return creationTime;
+	}
+
+	public void setCreationTime(Timestamp creationTime) {
+		this.creationTime = creationTime;
 	} 
 	
 	

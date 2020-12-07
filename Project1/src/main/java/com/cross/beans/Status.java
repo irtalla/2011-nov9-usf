@@ -1,8 +1,15 @@
-package com.revature.beans;
+package com.cross.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Status {
-	private Integer id = null;
-	private String name =  null;
+	@Id
+	private Integer id;
+	private String name;
 	
 	public Status() {}
 	

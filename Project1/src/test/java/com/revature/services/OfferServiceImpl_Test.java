@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.revature.beans.Offer;
-import com.revature.beans.Pitch;
-import com.revature.beans.Purchase;
+import com.cross.beans.Offer;
+import com.cross.beans.Pitch;
+import com.cross.beans.Purchase;
 import com.revature.data.OfferDAOFactory;
 import com.revature.data.ProductPostgres;
 import com.revature.data.PurchasePostgres;

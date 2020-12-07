@@ -1,4 +1,4 @@
-package com.revature.controllers;
+package com.cross.controllers;
 
 import static io.javalin.apibuilder.ApiBuilder.delete;
 import static io.javalin.apibuilder.ApiBuilder.get;
@@ -6,11 +6,11 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 import static io.javalin.apibuilder.ApiBuilder.put;
 
+import com.cross.beans.Person;
+import com.cross.beans.Pitch;
+import com.cross.beans.Request;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.revature.beans.Person;
-import com.revature.beans.Pitch;
-import com.revature.beans.Request;
 
 import io.javalin.http.Context;
 

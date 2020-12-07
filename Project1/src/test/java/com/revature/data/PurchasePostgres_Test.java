@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.postgresql.util.PSQLException;
-import com.revature.beans.Purchase;
+
+import com.cross.beans.Purchase;
 
 
 public class PurchasePostgres_Test {

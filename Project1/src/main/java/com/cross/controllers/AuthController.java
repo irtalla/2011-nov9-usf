@@ -1,10 +1,9 @@
-package com.revature.controllers;
+package com.cross.controllers;
 
-import com.revature.beans.Person;
-import com.revature.beans.Role;
 import com.revature.services.PersonService;
 import com.revature.services.PersonServiceImpl;
-
+import com.cross.beans.Person;
+import com.cross.beans.Role;
 import com.google.gson.Gson; 
 import com.google.gson.GsonBuilder;
 

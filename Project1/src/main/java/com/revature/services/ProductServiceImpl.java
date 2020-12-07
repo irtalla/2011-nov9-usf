@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.revature.beans.Offer;
-import com.revature.beans.Pitch;
-import com.revature.beans.Purchase;
-import com.revature.beans.Person;
 import com.revature.data.ProductDAO;
 import com.revature.data.ProductDAOFactory;
 import com.revature.data.PurchaseDAO;
 import com.revature.data.PurchasePostgres;
+import com.cross.beans.Offer;
+import com.cross.beans.Person;
+import com.cross.beans.Pitch;
+import com.cross.beans.Purchase;
 import com.revature.data.PersonDAO;
 
 public class ProductServiceImpl implements ProductService {

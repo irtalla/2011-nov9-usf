@@ -1,12 +1,17 @@
-package com.revature.beans;
+package com.cross.beans;
 
-public class Attachment {
-	
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class DecisionType {
+	@Id
 	private Integer id; 
 	private String name; 
-	private Integer pitchId; 
 	
-	public Attachment() {}
+	public DecisionType() {}
 
 	public Integer getId() {
 		return id;
@@ -23,14 +28,4 @@ public class Attachment {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Integer getPitchId() {
-		return pitchId;
-	}
-
-	public void setPitchId(Integer pitchId) {
-		this.pitchId = pitchId;
-	}
-	
-	
 }

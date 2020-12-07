@@ -13,7 +13,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 
-import com.revature.beans.Pitch;
+import com.cross.beans.Pitch;
 import com.revature.data.ProductPostgres;
 /*
  * By default, 

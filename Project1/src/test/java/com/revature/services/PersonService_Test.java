@@ -8,9 +8,8 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.revature.beans.Offer;
-import com.revature.beans.Person;
-import com.revature.beans.Person;
+import com.cross.beans.Offer;
+import com.cross.beans.Person;
 import com.revature.data.PersonDAOFactory;
 
 public class PersonService_Test {

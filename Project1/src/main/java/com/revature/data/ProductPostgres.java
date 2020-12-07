@@ -7,8 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import com.revature.beans.Pitch;
-import com.revature.utils.ConnectionUtil;
+
+import com.cross.beans.Pitch;
+import com.cross.utils.ConnectionUtil;
 
 public class ProductPostgres implements ProductDAO {
 	

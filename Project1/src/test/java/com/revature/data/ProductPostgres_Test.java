@@ -5,7 +5,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.revature.beans.Pitch;
+
+import com.cross.beans.Pitch;
 
 public class ProductPostgres_Test {
 	

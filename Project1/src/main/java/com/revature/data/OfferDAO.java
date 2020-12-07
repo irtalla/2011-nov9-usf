@@ -2,7 +2,7 @@ package com.revature.data;
 
 import java.util.Set;
 
-import com.revature.beans.Offer;
+import com.cross.beans.Offer;
 
 public interface OfferDAO extends GenericDAO<Offer> {
 	public Set<Offer> getOffersByStatus(String status);

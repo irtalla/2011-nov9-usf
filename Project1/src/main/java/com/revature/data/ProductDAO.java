@@ -1,7 +1,8 @@
 package com.revature.data;
 
 import java.util.Set;
-import com.revature.beans.Pitch;
+
+import com.cross.beans.Pitch;
 
 /*
  * The ProductDAO extends the GenericDAO by providing a method

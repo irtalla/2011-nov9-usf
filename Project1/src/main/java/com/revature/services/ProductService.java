@@ -3,8 +3,8 @@ package com.revature.services;
 import java.util.List;
 import java.util.Set;
 
-import com.revature.beans.Pitch;
-import com.revature.beans.Person;
+import com.cross.beans.Person;
+import com.cross.beans.Pitch;
 
 /*
  * This is the interface we want to program to. 

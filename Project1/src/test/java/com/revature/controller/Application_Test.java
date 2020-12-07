@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.revature.beans.Offer;
-import com.revature.controllers.Application;
+import com.cross.beans.Offer;
+import com.cross.controllers.Application;
 import com.revature.data.OfferPostgres;
 
 

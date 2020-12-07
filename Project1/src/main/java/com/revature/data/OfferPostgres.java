@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.revature.beans.Offer;
-import com.revature.utils.ConnectionUtil;
+import com.cross.beans.Offer;
+import com.cross.utils.ConnectionUtil;
 
 public class OfferPostgres implements OfferDAO {
 	

@@ -1,11 +1,18 @@
-package com.revature.beans;
+package com.cross.beans;
 
-public class Genre {
-	
-	private Integer id = null; 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class Role {
+	@Id
+	private Integer id = null;
 	private String name = null; 
 	
-	public Genre() {}
+	public Role() {}
+	
 
 	public Integer getId() {
 		return id;
@@ -15,9 +22,11 @@ public class Genre {
 		this.id = id;
 	}
 
+
 	public String getName() {
 		return name;
 	}
+
 
 	public void setName(String name) {
 		this.name = name;

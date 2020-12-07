@@ -1,10 +1,17 @@
-package com.revature.beans;
+package com.cross.beans;
 
-public class Role {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class Stage {
+	@Id
 	private Integer id = null;
 	private String name = null; 
 	
-	public Role() {}
+	public Stage() {}
 	
 
 	public Integer getId() {
@@ -24,6 +31,4 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

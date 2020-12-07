@@ -2,7 +2,7 @@ package com.revature.services;
 
 import java.util.Set;
 
-import com.revature.beans.Person;
+import com.cross.beans.Person;
 
 public interface PersonService {
 	// create

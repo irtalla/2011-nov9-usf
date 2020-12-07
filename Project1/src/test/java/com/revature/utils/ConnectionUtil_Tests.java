@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.revature.utils.ConnectionUtil;
+import com.cross.utils.ConnectionUtil;
 
 public class ConnectionUtil_Tests {
 	

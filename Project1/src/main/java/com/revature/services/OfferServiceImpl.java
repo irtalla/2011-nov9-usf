@@ -2,9 +2,9 @@ package com.revature.services;
 
 import java.util.Set;
 
-import com.revature.beans.Offer;
-import com.revature.beans.Pitch;
-import com.revature.beans.Purchase;
+import com.cross.beans.Offer;
+import com.cross.beans.Pitch;
+import com.cross.beans.Purchase;
 import com.revature.data.OfferDAO;
 import com.revature.data.OfferDAOFactory;
 import com.revature.data.PersonDAO;

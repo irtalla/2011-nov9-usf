@@ -1,10 +1,10 @@
-package com.revature.app;
+package com.cross.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
-import com.revature.controllers.AuthController;
-import com.revature.controllers.PitchController;
-import com.revature.controllers.RequestController;
+import com.cross.controllers.AuthController;
+import com.cross.controllers.PitchController;
+import com.cross.controllers.RequestController;
 
 import io.javalin.Javalin;
 

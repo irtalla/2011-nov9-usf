@@ -1,44 +1,46 @@
-package com.revature.beans;
-
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+package com.cross.beans;
 
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Pitch {
-	
-	
-	
-//	id serial primary key,
-//	title varchar(40),
-//	tag_line varchar(1000),
-//	status_id integer references status,
-//	genre_id integer references genre,
-//	form_id integer references form, 
-//	author_id integer references person,
-//	general_editor_id integer references person,
-//	priority_lvl_id integer references priority,
-//	stage_id integer references stage,
-//	deadline date, 
-//	createdTime date, 
-//	lastModifiedTime date
-	
+	@Id 
 	private Integer id;
+	@Column(name="author_id")
 	private Integer authorId; 
+	@Column(name="general_editor_id")
 	private Integer generalEditorId; 
 	private String title;
-	private String tagLine;
-	private Status status;  
+	private String tagline;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="status_id")
+	private Status status;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="genre_id")
 	private Genre genre;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="form_id")
 	private Form form; 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="stage_id")
 	private Stage stage; 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="priority_lvl_id")
 	private PriorityLevel priorityLevel; 
-	private Date completionDate; 
-	
-	private Integer draftId;
-	private Integer genreComitteeId; 
-	private Set<Integer> attachmentsIds = new HashSet<Integer>();
-	
+	private Timestamp deadline; 
+	private Timestamp createdTime;
+	private Timestamp lastModifiedTime; 
+		
 	public Pitch() {}; 
 	
 	public Integer getId() {
@@ -73,12 +75,12 @@ public class Pitch {
 		this.title = title;
 	}
 	
-	public String getTagLine() {
-		return tagLine;
+	public String getTagline() {
+		return tagline;
 	}
 	
-	public void setTagLine(String tagLine) {
-		this.tagLine = tagLine;
+	public void setTagline(String tagLine) {
+		this.tagline = tagLine;
 	}
 	
 	public Status getStatus() {
@@ -121,37 +123,31 @@ public class Pitch {
 		this.priorityLevel = priorityLevel;
 	}
 	
-	public Date getCompletionDate() {
-		return completionDate;
-	}
 	
-	public void setCompletionDate(Date completionDate) {
-		this.completionDate = completionDate;
+	public Timestamp getDeadline() {
+		return deadline;
 	}
-	
-	public Integer getDraftId() {
-		return draftId;
+
+	public void setDeadline(Timestamp deadline) {
+		this.deadline = deadline;
 	}
-	
-	public void setDraftId(Integer draftId) {
-		this.draftId = draftId;
+
+	public Timestamp getCreatedTime() {
+		return createdTime;
 	}
-	
-	public Integer getGenreComitteeId() {
-		return genreComitteeId;
+
+	public void setCreatedTime(Timestamp createdTime) {
+		this.createdTime = createdTime;
 	}
-	
-	public void setGenreComitteeId(Integer genreComitteeId) {
-		this.genreComitteeId = genreComitteeId;
+
+	public Timestamp getLastModifiedTime() {
+		return lastModifiedTime;
 	}
-	
-	public Set<Integer> getAttachmentsIds() {
-		return attachmentsIds;
+
+	public void setLastModifiedTime(Timestamp lastModifiedTime) {
+		this.lastModifiedTime = lastModifiedTime;
 	}
-	
-	public void setAttachmentsIds(Set<Integer> attachmentsIds) {
-		this.attachmentsIds = attachmentsIds;
-	} 
+
 	
 	
 	

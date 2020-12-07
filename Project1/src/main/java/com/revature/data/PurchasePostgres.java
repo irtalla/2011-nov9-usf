@@ -7,8 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import com.revature.beans.Purchase;
-import com.revature.utils.ConnectionUtil;
+
+import com.cross.beans.Purchase;
+import com.cross.utils.ConnectionUtil;
 
 public class PurchasePostgres implements PurchaseDAO {
 	

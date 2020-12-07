@@ -2,7 +2,7 @@ package com.revature.services;
 
 import java.util.Set;
 
-import com.revature.beans.Offer;
+import com.cross.beans.Offer;
 
 
 /**

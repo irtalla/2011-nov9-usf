@@ -1,11 +1,23 @@
-package com.revature.beans;
+package com.cross.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table
 public class Person {
-	
+	@Id
 	private Integer id; 
+	@Column(name="passwd")
 	private String username; 
 	private String password; 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="role_id")
 	private Role role;
 	private Integer points; 
 

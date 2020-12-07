@@ -3,7 +3,8 @@ package com.revature.data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import com.revature.beans.Person;
+
+import com.cross.beans.Person;
 
 
 public class PersonPostgres_Test {

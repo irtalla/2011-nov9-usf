@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import com.revature.beans.Attachment;
-import com.revature.utils.ConnectionUtil;
+
+import com.cross.beans.Attachment;
+import com.cross.utils.ConnectionUtil;
 
 /**
  * 
