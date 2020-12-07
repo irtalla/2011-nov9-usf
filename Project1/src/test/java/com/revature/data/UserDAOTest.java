@@ -63,7 +63,7 @@ class UserDAOTest {
 	@Order(2)
 	@Test
 	void testDuplicateUser() {
-		assertThrows(NonUniqueUsernameException.class, () -> {
+		assertThrows(NonUniqueEmailException.class, () -> {
 			userDao.add(sampleUser);
 		});
 	}

@@ -110,4 +110,10 @@ class CommitteeDAOTest {
 		assertFalse(committeeDao.getAll().contains(sampleCommittee));
 	}
 	
+	@Order(7)
+	@Test
+	void testAddEditor() {
+		System.out.println("Adding new editor");
+	}
+	
 }

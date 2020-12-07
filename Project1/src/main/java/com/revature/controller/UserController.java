@@ -71,12 +71,15 @@ public class UserController {
 		} catch (NonUniqueUsernameException e) {
 			System.out.println("Username already taken");
 			ctx.status(455);
+			return;
 		} catch (NonUniqueEmailException e) {
 			System.out.println("Email already used");
 			ctx.status(456);
+			return;
 		} catch (InvalidEmailException e) {
 			System.out.println("Invalid email format");
 			ctx.status(457);
+			return;
 		}
 		ctx.status(200);
 	}

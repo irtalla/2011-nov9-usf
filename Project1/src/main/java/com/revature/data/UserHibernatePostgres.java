@@ -26,22 +26,24 @@ public class UserHibernatePostgres implements UserDAO {
 			newId = (Integer) s.save(t);
 			s.getTransaction().commit();
 		} catch (Exception e) {
-			if (e.getMessage().contains("violates unique constraint")) {
-				if (e.getMessage().contains("username")) {
+			if (e.getCause().getMessage().contains("violates unique constraint")) {
+				System.out.println(e.getMessage() + "layer 1");
+				if (e.getCause().getMessage().contains("username")) {
 					throw new NonUniqueUsernameException();
-				} else if (e.getMessage().contains("email")) {
+				} else if (e.getCause().getMessage().contains("email")) {
 					throw new NonUniqueEmailException();
 				} else {
 					e.printStackTrace();
 				}
-			} else if (e.getMessage().contains("violates check constraint")) {
-				if (e.getMessage().contains("email")) {
+			} else if (e.getCause().getMessage().contains("violates check constraint")) {
+				if (e.getCause().getMessage().contains("email")) {
 					throw new InvalidEmailException();
 				} else {
 					e.printStackTrace();
 				}
 			}
 			e.printStackTrace();
+
 		}
 
 		return newId;
@@ -134,16 +136,16 @@ public class UserHibernatePostgres implements UserDAO {
 			s.update(t);
 			s.getTransaction().commit();
 		} catch (Exception e) {
-			if (e.getMessage().contains("violates unique constraint")) {
-				if (e.getMessage().contains("username")) {
+			if (e.getCause().getMessage().contains("violates unique constraint")) {
+				if (e.getCause().getMessage().contains("username")) {
 					throw new NonUniqueUsernameException();
-				} else if (e.getMessage().contains("email")) {
+				} else if (e.getCause().getMessage().contains("email")) {
 					throw new NonUniqueEmailException();
 				} else {
-					e.printStackTrace();
+					e.getCause().printStackTrace();
 				}
-			} else if (e.getMessage().contains("violates check constraint")) {
-				if (e.getMessage().contains("email")) {
+			} else if (e.getCause().getMessage().contains("violates check constraint")) {
+				if (e.getCause().getMessage().contains("email")) {
 					throw new InvalidEmailException();
 				} else {
 					e.printStackTrace();

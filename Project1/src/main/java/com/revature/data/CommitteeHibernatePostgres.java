@@ -26,7 +26,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 			s.getTransaction().commit();
 			
 		} catch (Exception e) {
-			if (e.getMessage().contains("violates unique constraint")) {
+			if (e.getCause().getMessage().contains("violates unique constraint")) {
 				System.out.println("non-unique");
 				throw new NonUniqueCommitteeException();
 			}
@@ -70,15 +70,26 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 	}
 
 	@Override
+	public Integer addEditor(Committee c, User u) {
+		Integer editorId = 0;
+		
+		
+		
+		return editorId;
+	}
+
+	@Override
 	public Set<User> getCommitteeEditorsByRole(Role role) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<User> editors = null;
+		
+		return editors;
 	}
 
 	@Override
 	public Set<User> getCommitteeEditors() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<User> editors = null;
+		
+		return editors;
 	}
 
 	@Override
@@ -107,7 +118,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 			s.update(t);
 			s.getTransaction().commit();
 		} catch (Exception e) {
-			if (e.getMessage().contains("violates unique constraint")) {
+			if (e.getCause().getMessage().contains("violates unique constraint")) {
 				throw new NonUniqueCommitteeException();
 			}
 			e.printStackTrace();
@@ -128,5 +139,9 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 
 	private String assembleName(Committee c) {
 		return (c.getGenre().getName() + " Committee");
+	}
+
+	private void updateEditors() {
+		
 	}
 }

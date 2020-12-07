@@ -13,5 +13,6 @@ public interface CommitteeDAO extends GenericDAO<Committee> {
 	public Committee getByGenre(Genre genre);
 	public Set<User> getCommitteeEditorsByRole(Role role);
 	public Set<User> getCommitteeEditors();
+	public Integer addEditor(Committee c, User u);
 	public void update(Committee t) throws NonUniqueCommitteeException;
 }
