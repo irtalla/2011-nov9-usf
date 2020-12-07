@@ -36,4 +36,10 @@ public class PitchPostgres implements PitchDAO {
 
 	}
 
+	@Override
+	public Set<Pitch> getPitchesByPersonId(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
