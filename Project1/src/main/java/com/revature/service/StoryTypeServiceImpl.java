@@ -2,10 +2,10 @@ package com.revature.service;
 
 import com.revature.beans.StoryType;
 import com.revature.data.StoryTypeDAO;
-import com.revature.data.StoryTypePostgres;
+import com.revature.data.StoryTypeHibernate;
 
 public class StoryTypeServiceImpl implements StoryTypeService {
-	private StoryTypeDAO stDao = new StoryTypePostgres();
+	private StoryTypeDAO stDao = new StoryTypeHibernate();
 	@Override
 	public Integer addStoryType(StoryType st) {
 		return stDao.add(st).getId();

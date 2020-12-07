@@ -5,10 +5,10 @@ import java.util.Set;
 import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.data.PersonDAO;
-import com.revature.data.PersonPostgres;
+import com.revature.data.PersonHibernate;
 
 public class PersonServiceImpl implements PersonService {
-	private PersonDAO pDao = new PersonPostgres();
+	private PersonDAO pDao = new PersonHibernate();
 	@Override
 	public Integer addPerson(Person p) {
 		return pDao.add(p).getId();

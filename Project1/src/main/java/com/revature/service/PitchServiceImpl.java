@@ -4,10 +4,10 @@ import java.util.Set;
 
 import com.revature.beans.Pitch;
 import com.revature.data.PitchDAO;
-import com.revature.data.PitchPostgres;
+import com.revature.data.PitchHibernate;
 
 public class PitchServiceImpl implements PitchService {
-	private PitchDAO pDao = new PitchPostgres();
+	private PitchDAO pDao = new PitchHibernate();
 	@Override
 	public Integer addPitch(Pitch p) {
 		return pDao.add(p).getId();

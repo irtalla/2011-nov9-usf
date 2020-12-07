@@ -1,5 +1,7 @@
 package com.revature.data;
 
-public interface PitchStageDAO extends GenericDAO<PitchStageDAO> {
+import com.revature.beans.PitchStage;
+
+public interface PitchStageDAO extends GenericDAO<PitchStage> {
 
 }
