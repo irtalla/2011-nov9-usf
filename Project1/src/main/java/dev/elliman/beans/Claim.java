@@ -87,7 +87,7 @@ public class Claim {
 		return event;
 	}
 
-	public void setEventID(Event event) {
+	public void setEvent(Event event) {
 		this.event = event;
 	}
 
