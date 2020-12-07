@@ -14,7 +14,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.cross.beans.Draft;
-import com.cross.beans.Draft;
 import com.cross.utils.HibernateUtil;
 
 public class DraftHibernate implements DraftDAO {

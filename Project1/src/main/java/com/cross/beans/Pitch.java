@@ -36,7 +36,7 @@ public class Pitch {
 	private Stage stage; 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="priority_lvl_id")
-	private PriorityLevel priorityLevel; 
+	private Priority priorityLevel; 
 	private Timestamp deadline; 
 	private Timestamp createdTime;
 	private Timestamp lastModifiedTime; 
@@ -115,11 +115,11 @@ public class Pitch {
 		this.stage = stage;
 	}
 	
-	public PriorityLevel getPriorityLevel() {
+	public Priority getPriority() {
 		return priorityLevel;
 	}
 	
-	public void setPriorityLevel(PriorityLevel priorityLevel) {
+	public void setPriority(Priority priorityLevel) {
 		this.priorityLevel = priorityLevel;
 	}
 	

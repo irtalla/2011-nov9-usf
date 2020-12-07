@@ -40,7 +40,7 @@ public class HibernateUtil {
 	}
 	
 	public Session getSession() {
-		return this.getSessionFactory().openSession();
+		return HibernateUtil.getSessionFactory().openSession();
 	}
 
 }

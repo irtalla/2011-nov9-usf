@@ -1,7 +1,13 @@
 package com.cross.beans;
 
-public class PriorityLevel {
-	
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class Priority {
+	@Id
 	private Integer id = null;  
 	private String name = null; 
 	
