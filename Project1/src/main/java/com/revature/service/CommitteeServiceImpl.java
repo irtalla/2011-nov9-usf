@@ -4,7 +4,6 @@ import com.revature.beans.Committee;
 import com.revature.beans.Genre;
 import com.revature.data.CommitteeDAO;
 import com.revature.data.CommitteeHibernate;
-import com.revature.data.CommitteePostgres;
 
 public class CommitteeServiceImpl implements CommitteeService {
 	private CommitteeDAO comDao = new CommitteeHibernate();

@@ -3,7 +3,6 @@ package com.revature.service;
 import com.revature.beans.Draft;
 import com.revature.data.DraftDAO;
 import com.revature.data.DraftHibernate;
-import com.revature.data.DraftPostgres;
 
 public class DraftServiceImpl implements DraftService {
 	private DraftDAO dao = new DraftHibernate();

@@ -2,10 +2,10 @@ package com.revature.service;
 
 import com.revature.beans.InfoRequest;
 import com.revature.data.InfoRequestDAO;
-import com.revature.data.InfoRequestPostgres;
+import com.revature.data.InfoRequestHibernate;
 
 public class InfoRequestServiceImpl implements InfoRequestService {
-	private InfoRequestDAO irDao = new InfoRequestPostgres();
+	private InfoRequestDAO irDao = new InfoRequestHibernate();
 	@Override
 	public Integer addInfoRequest(InfoRequest ir) {
 		return irDao.add(ir).getId();

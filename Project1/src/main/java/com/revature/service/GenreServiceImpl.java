@@ -2,10 +2,10 @@ package com.revature.service;
 
 import com.revature.beans.Genre;
 import com.revature.data.GenreDAO;
-import com.revature.data.GenrePostgres;
+import com.revature.data.GenreHibernate;
 
 public class GenreServiceImpl implements GenreService {
-	private GenreDAO gDao = new GenrePostgres();
+	private GenreDAO gDao = new GenreHibernate();
 	@Override
 	public Integer addGenre(Genre g) {
 		return gDao.add(g).getId();
