@@ -1,16 +1,25 @@
 package com.revature.beans;
 
 import javax.persistence.Entity;
+<<<<<<< HEAD
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+=======
+>>>>>>> 743701e640a15798a972f3179361cdcc0c59d31e
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+<<<<<<< HEAD
 @Table(name="special_need")
 public class SpecialNeed {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+=======
+@Table
+public class SpecialNeed {
+	@Id
+>>>>>>> 743701e640a15798a972f3179361cdcc0c59d31e
 	private Integer id;
 	private String name;
 	

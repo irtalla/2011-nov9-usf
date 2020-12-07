@@ -1,0 +1,29 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    background-color: blue;
+}
+
+main {
+    background-color: grey;
+    padding: 20px;
+    border-radius: 5px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+p{
+    text-align: left;
+}
+
+button {
+    color: white;
+    background-color: black;
+    border: black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+main>* {
+    margin: 8px;
+}
