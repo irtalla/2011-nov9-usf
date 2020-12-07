@@ -2,11 +2,6 @@ package com.revature.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -67,6 +62,14 @@ class UserDAOTest {
 	
 	@Order(2)
 	@Test
+	void testDuplicateUser() {
+		assertThrows(NonUniqueUsernameException.class, () -> {
+			userDao.add(sampleUser);
+		});
+	}
+	
+	@Order(3)
+	@Test
 	void testGetUserById() {
 		System.out.println("Testing id");
 		User a = userDao.getById(sampleUser.getId());
@@ -76,7 +79,7 @@ class UserDAOTest {
 		
 	}
 	
-	@Order(3)
+	@Order(4)
 	@Test
 	void testGetUserByUsername() {
 		System.out.println("Testing username");
@@ -87,7 +90,7 @@ class UserDAOTest {
 		
 	}
 
-	@Order(4)
+	@Order(5)
 	@Test
 	void testGetUserByEmail() {
 		System.out.println("Testing email");
@@ -98,7 +101,7 @@ class UserDAOTest {
 		
 	}
 	
-	@Order(5)
+	@Order(6)
 	@Test
 	void testGetByRole() {
 		System.out.println("Testing role");
@@ -107,7 +110,7 @@ class UserDAOTest {
 		
 	}
 	
-	@Order(6)
+	@Order(7)
 	@Test
 	void testGetAll() {
 		System.out.println("Testing all");
@@ -116,7 +119,7 @@ class UserDAOTest {
 		
 	}
 	
-	@Order(7)
+	@Order(8)
 	@Test
 	void testUpdate() {
 		System.out.println("Testing update");
@@ -147,7 +150,7 @@ class UserDAOTest {
 		
 	}
 	
-	@Order(8)
+	@Order(9)
 	@Test
 	void testDelete() {
 		System.out.println("Testing delete");
