@@ -4,6 +4,6 @@ public class CatDAOFactory {
     
     public CatDAO getCatDAO() {
         
-        return new CatPostgres();
+        return new CatHibernate();
     }
 }
