@@ -1,14 +1,16 @@
 package dev.elliman.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="user_role")
 public class Role {
 	@Id
 	private Integer id;
+	@Column(name="title")
 	private String name;
 	
 	public Integer getId() {

@@ -3,8 +3,11 @@ package dev.elliman.beans;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -12,6 +15,7 @@ import javax.persistence.Table;
 @Table
 public class Person {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name="user_name")
 	private String username;
@@ -23,8 +27,8 @@ public class Person {
 	private String lastName;
 	@Column(name="amount_claimed")
 	private Double amountClaimed;
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="user_role")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="role_id")
 	private Role role;
 	
 	public Person() {

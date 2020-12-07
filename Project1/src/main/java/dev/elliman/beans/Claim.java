@@ -7,9 +7,12 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,14 +20,15 @@ import javax.persistence.Table;
 @Table
 public class Claim {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@OneToMany(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="person")
 	private Person person;
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="event")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="event_type")
 	private Event event;
-	@OneToMany(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="grading")
 	private Grading grading;
 	@Column(name="event_timestamp")
@@ -34,17 +38,19 @@ public class Claim {
 	private String description;
 	private Double price;
 	private String justification;
+	@Column(name="time_missed")
 	private Integer hoursMissed;
-	@Column(name="approval_stage")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="approval_stage")
 	private Stage approvalStage;
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="person")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="dsa")
 	private Person dsa;
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="person")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="dha")
 	private Person dha;
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="person")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="bca")
 	private Person bca;
 	@Column(name="denial_reason")
 	private String denialReason;

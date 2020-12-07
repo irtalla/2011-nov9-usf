@@ -59,5 +59,18 @@ h1 {
 }
 
 #claimsDiv {
+    /* background-color: #ffcebf; */
+}
+
+.claim {
     background-color: #ffcebf;
+    border-radius: 2mm;
+}
+
+.claimDate {
+    text-align: right;
+}
+
+.statusCol {
+    text-align: left;
 }

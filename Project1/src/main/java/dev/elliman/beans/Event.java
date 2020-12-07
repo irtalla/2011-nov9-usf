@@ -9,12 +9,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="event_type")
 public class Event {
 	@Id
 	private Integer id;
 	@Column(name="event_type")
 	private String eventType;
+	@Column(name="p_covered")
 	private Integer percentageCovered;
 	
 	public Event() {

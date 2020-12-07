@@ -26,9 +26,14 @@ public class HibernateUtil {
 	
 	public synchronized static SessionFactory getSessionFactory() {
 		if(sessionFactory == null) {
+			//"/resources/hibernate.cfg.xml"
 			StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().configure().build();
-			Metadata meta = new MetadataSources(standardRegistry).getMetadataBuilder().applyImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE).build();
+			Metadata meta = new MetadataSources(standardRegistry)
+					.getMetadataBuilder()
+					.applyImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE)
+					.build();
 			sessionFactory = meta.getSessionFactoryBuilder().build();
+			
 		}
 		return sessionFactory;
 	}

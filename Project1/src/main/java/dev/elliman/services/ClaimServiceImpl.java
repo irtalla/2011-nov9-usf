@@ -1,5 +1,6 @@
 package dev.elliman.services;
 
+import java.util.List;
 import java.util.Set;
 
 import dev.elliman.beans.Claim;
@@ -15,21 +16,12 @@ public class ClaimServiceImpl implements ClaimService {
 	}
 
 	@Override
-	public Set<Claim> getClaimsByPerson(Person person) {
-		return getClaimsByPerson(person.getId());
+	public List<Claim> getClaimsByPerson(Person person) {
+		return claimDAO.getClaimsByPerson(person);
 	}
 
 	@Override
-	public Set<Claim> getClaimsByPerson(Integer id) {
-		Set<Claim> claims = null;
-		
-		claimDAO.getClaimsByPerson(id);
-		
-		return claims;
-	}
-
-	@Override
-	public Integer makeClaim(Claim claim) {
+	public Claim makeClaim(Claim claim) {
 		return claimDAO.makeClaim(claim);
 	}
 
