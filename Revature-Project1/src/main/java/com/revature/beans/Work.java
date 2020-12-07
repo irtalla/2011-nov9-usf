@@ -2,13 +2,51 @@ package com.revature.beans;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="proposed_works")
 public class Work {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="proposed_works_id")
 	private int id;
+	
+	@Column(name="creator_id")
+	@OneToOne
+	@JoinTable(name="author_id", 
+		joinColumns=@JoinColumn(name="author_id"),
+		inverseJoinColumns=@JoinColumn(name="user_id"))
 	private Author author;
+	
+	@ManyToOne
+	@JoinTable(name="genres",
+			joinColumns=@JoinColumn(name="genre"),
+			inverseJoinColumns=@JoinColumn(name="genre_id"))
 	private Genre genre;
+	
+	@Column(name="tentative_title")
 	private String title;
+	
+	@Column(name="tentative_completion_date")
 	private Date tentativeCompletionDate;
+	
 	private String description;
+	
+	@ManyToOne
+	@JoinColumn(name="work_length_type_id")
+	private LengthOfWork lengthOfWork;
 	
 	public Work() {
 		id = 0;

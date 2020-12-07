@@ -1,7 +1,37 @@
 package com.revature.beans;
 
+import javax.persistence.Column;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
+@Entity
+@Table(name="editors")
 public class Editor extends User {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="editor_id")
+	@OneToOne
+	@JoinTable(name="all_users", 
+			joinColumns=@JoinColumn(name="editor_id"),
+			inverseJoinColumns=@JoinColumn(name="user_id"))
+	private int id;
+	
+	@Column(name="editor_name")
 	private String name;
+	
+	@JoinTable
+	private String committeePosition;
 	
 	public Editor() {
 		super("editor");

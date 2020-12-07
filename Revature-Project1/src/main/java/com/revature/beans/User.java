@@ -1,20 +1,30 @@
 package com.revature.beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="all_users")
 public class User {
-	private int id;
+	
+	@Column(name="user_username")
 	private String username;
+	
+	@Column(name="user_password")
 	private String password;
+	
+	@Transient
 	private String role;
 	
 	public User() {
-		id = 0;
 		username = "";
 		password = "";
 		role = "user";
 	}
 	
 	public User(String role) {
-		id = 0;
 		username = "";
 		password = "";
 		this.role = role;

@@ -1,23 +1,80 @@
 package com.revature.beans;
 
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="approvals")
 public class StoryPitch {
-	private Work proposedWork;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="approval_id")
 	private int id;
-	private String denialReason;
+	
+	@OneToOne
+	@JoinColumn(name="proposed_work_id")
+	private Work proposedWork;
+	
+	@ManyToOne
+	@JoinColumn(name="approval_stage_id")
 	private Stage stage;
+	
+	@Column(name="denial_reason")
+	private String denialReason;
+	
+	@Column(name="high_priority_marker")
 	private boolean highPriority;
-	private Status status;
+	
+	@ManyToOne
+	@JoinColumn(name="editor_id")
 	private Editor assignedEditor;
+	
+	@ManyToOne
+	@JoinColumn(name="status_id")
+	private Status status;
+	
+	@Column(name="senior_editor_change")
 	private boolean seniorEditorChange;
 	
+	@Column(name="stage_start")
+	private Date dateWhenStageStarted;
+
 	public StoryPitch() {
 		proposedWork = null;
 		denialReason = "";
-		stage = Stage.ASSISTANT_EDITOR;
+		stage = null;
 		highPriority = false;
-		status = Status.PENDING;
+		status = null;
 		assignedEditor = null;
 		seniorEditorChange = false;
+	}
+	
+	public Editor getAssignedEditor() {
+		return assignedEditor;
+	}
+
+	public void setAssignedEditor(Editor assignedEditor) {
+		this.assignedEditor = assignedEditor;
+	}
+
+	public Date getDateWhenStageStarted() {
+		return dateWhenStageStarted;
+	}
+
+	public void setDateWhenStageStarted(Date dateWhenStageStarted) {
+		this.dateWhenStageStarted = dateWhenStageStarted;
 	}
 
 	/**
@@ -123,11 +180,10 @@ public class StoryPitch {
 		String denialString = new String("");
 		String seniorEditor = new String("");
 		
-		if (status == Status.REJECTED) {
+		if (status != null && status.getStatus().equals("rejected")) {
 			denialString += "Denied because: " + denialReason;
 		}
-		
-		else if (stage == Stage.SENIOR_EDITOR || stage == Stage.FINAL_CHECK) {
+		else if (stage != null && (stage.getStageName().equals("senior editor")  || stage.getStageName().equals("final check"))) {
 			seniorEditor += "Senior editor has edited your work: " + seniorEditorChange; 
 		}
 		
@@ -142,6 +198,7 @@ public class StoryPitch {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((assignedEditor == null) ? 0 : assignedEditor.hashCode());
+		result = prime * result + ((dateWhenStageStarted == null) ? 0 : dateWhenStageStarted.hashCode());
 		result = prime * result + ((denialReason == null) ? 0 : denialReason.hashCode());
 		result = prime * result + (highPriority ? 1231 : 1237);
 		result = prime * result + id;
@@ -166,6 +223,11 @@ public class StoryPitch {
 				return false;
 		} else if (!assignedEditor.equals(other.assignedEditor))
 			return false;
+		if (dateWhenStageStarted == null) {
+			if (other.dateWhenStageStarted != null)
+				return false;
+		} else if (!dateWhenStageStarted.equals(other.dateWhenStageStarted))
+			return false;
 		if (denialReason == null) {
 			if (other.denialReason != null)
 				return false;
@@ -182,9 +244,15 @@ public class StoryPitch {
 			return false;
 		if (seniorEditorChange != other.seniorEditorChange)
 			return false;
-		if (stage != other.stage)
+		if (stage == null) {
+			if (other.stage != null)
+				return false;
+		} else if (!stage.equals(other.stage))
 			return false;
-		if (status != other.status)
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		return true;
 	}

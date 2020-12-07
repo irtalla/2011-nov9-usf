@@ -3,10 +3,37 @@ package com.revature.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="genre_committee")
 public class GenreCommittee {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="genre_committee_id")
+	private int id;
+	
+	@OneToOne
+	@JoinColumn(name="genre_id")
 	private Genre genre;
+	
+	@Column(name="genre_committee_name")
 	private String name;
-	private Set<Editor> editorsInTheCommittee;
+	
+	
+	private Set<GenreCommitteeMember> editorsInTheCommittee;
 	
 	public GenreCommittee() {
 		genre = new Genre();
@@ -46,10 +73,10 @@ public class GenreCommittee {
 		editorsInTheCommittee.add(editor);
 	}
 	
-	public Editor retrieveAnEditor(int id) {
-		for (Editor e: editorsInTheCommittee) {
-			if (e.getId() == id) {
-				return e;
+	public GenreCommitteeMember retrieveAnEditor(int id) {
+		for (GenreCommitteeMember gcm: editorsInTheCommittee) {
+			if (gcm.getEditor().getId() == id) {
+				return gcm;
 			}
 		}
 		
@@ -57,9 +84,9 @@ public class GenreCommittee {
 	}
 	
 	public boolean removeAnEditor(int id) {
-		for (Editor e: editorsInTheCommittee) {
-			if (e.getId() == id) {
-				return editorsInTheCommittee.remove(e);
+		for (GenreCommitteeMember gcm: editorsInTheCommittee) {
+			if (gcm.getId() == id) {
+				return editorsInTheCommittee.remove(gcm);
 			}
 		}
 		
@@ -69,7 +96,7 @@ public class GenreCommittee {
 	/**
 	 * @return the editorsInTheCommittee
 	 */
-	public Set<Editor> getEditorsInTheCommittee() {
+	public Set<GenreCommitteeMember> getEditorsInTheCommittee() {
 		return editorsInTheCommittee;
 	}
 

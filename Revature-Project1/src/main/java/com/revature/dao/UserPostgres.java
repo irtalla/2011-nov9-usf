@@ -47,7 +47,23 @@ public class UserPostgres implements UserDAO {
 		Connection conn = cu.getConnection();
 		
 		try{
-			String sqlSetup = "";
+			conn.setAutoCommit(false);
+			String sqlApproval = "delete from approvals where approvals.proposed_works_id = (select proposed_work_id from proposed_works where creator_id = ?)";
+			String sqlWork = "delete from proposed_works where creator_id = ?";
+			String sqlEditor = "delete from authors where author_id = ?";
+			
+			PreparedStatement pstmtA = conn.prepareStatement(sqlApproval);
+			PreparedStatement pstmtW = conn.prepareStatement(sqlWork);
+			PreparedStatement pstmtE = conn.prepareStatement(sqlEditor);
+			
+			pstmtA.setInt(1, i);
+			pstmtW.setInt(1, i);
+			pstmtE.setInt(1, i);
+			
+			
+			
+			
+			return true;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
