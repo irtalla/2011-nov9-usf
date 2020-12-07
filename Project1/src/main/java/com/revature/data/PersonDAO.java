@@ -1,7 +1,21 @@
 package com.revature.data;
 
+import java.util.Set;
+
 import com.cross.beans.Person;
 
-public interface PersonDAO extends GenericDAO<Person> {
-	public Person getByUsername(String username);
+public interface PersonDAO {
+
+	Person getById(Integer id);
+
+	Set<Person> getAll();
+
+	boolean update(Person t);
+
+	boolean delete(Person t);
+
+	Person add(Person c);
+
+	Person getByUsername(String username);
+
 }

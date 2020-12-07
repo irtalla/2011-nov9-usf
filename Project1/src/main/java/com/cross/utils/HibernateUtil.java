@@ -18,7 +18,7 @@ public class HibernateUtil {
 		super(); 
 	}
 	
-	public synchronized static HibernateUtil getHibernateUitl() {
+	public synchronized static HibernateUtil getHibernateUtil() {
 		
 		if (hu == null) {
 			hu = new HibernateUtil(); 

@@ -24,6 +24,21 @@ Converting between representational forms proved
 to be a little tricky. Javalin's bodyAsClass() method is not very reliable. So I installed 
 GSON and Jackson to facilitate converting between JSON Objects and Java Beans. 
 
+Another issue I faced was mapping requests to their targets. Unlike the mapping between comments and requests, a request can be mapped
+to a previous decision, a pitch, or a draft. A
+request HAS reciever id, but this is not sufficient to indicate the function of the request. A request meant for an editor has a different function that a request meant for an author. Moreover, it should not be the case that *all* of an author's pitches are held up because of one outstanding request. So logically, requests should be associated with pitches. But requests are not *necessarily* associated with pitches, so this information should not be placed in the request relation. I could create multiple join tables. I could create multiple request types. The best solution seems to be to create a target_type relation and assign a target_id and target_type_id to the request relation. The problem is that we could not place a foreign-key constraint on target_id, which seems like bad practice. Another solution is to 
+maintain dummy tuples in decision, pitch, and draft, and give each request a reference to each like so: 
+
+	...
+	target_draft_id references draft,
+	target_pitch_id references pitch,
+	target_decision_id references decision 
+	}
+
+A little inelegant, but straightforward enough. Two values will be -1, and one value will be a positive integer. This can be designated client-side. And we don't need more join tables or request types!
+
+One interesting observation is that almost every attribute of a pitch is a target for a query. This makes sense, as pitches are the main product. But it is an interesting observation. 
+
 ### Authentication and User Session 
 I chose a multi-page front-end. After sign-in, I needed a way to save the user information, so
 I used the widely-supported Web Storage API along with JSON.stringify() and JSON.parse(). This was

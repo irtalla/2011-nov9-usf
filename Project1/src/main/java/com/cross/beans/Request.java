@@ -27,6 +27,12 @@ public class Request {
 	@JoinColumn(name="status_id")
 	private Status status;
 	private Timestamp creationTime; 
+	@Column(name="target_draft_id")
+	private Integer targetDraftId;
+	@Column(name="target_pitch_id")
+	private Integer targetPitchId;
+	@Column(name="target_decision_id")
+	private Integer targetDecisionId; 
 	
 	public Request() {
 		
@@ -93,6 +99,32 @@ public class Request {
 	public void setCreationTime(Timestamp creationTime) {
 		this.creationTime = creationTime;
 	}
+
+	public Integer getTargetDraftId() {
+		return targetDraftId;
+	}
+
+	public void setTargetDraftId(Integer targetDraftId) {
+		this.targetDraftId = targetDraftId;
+	}
+
+	public Integer getTargetPitchId() {
+		return targetPitchId;
+	}
+
+	public void setTargetPitchId(Integer targetPitchId) {
+		this.targetPitchId = targetPitchId;
+	}
+
+	public Integer getTargetDecisionId() {
+		return targetDecisionId;
+	}
+
+	public void setTargetDecisionId(Integer targetDecisionId) {
+		this.targetDecisionId = targetDecisionId;
+	}
+	
+	
 	
 	
 }

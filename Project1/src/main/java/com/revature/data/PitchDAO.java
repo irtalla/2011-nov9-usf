@@ -1,28 +1,29 @@
 package com.revature.data;
 
-import org.hibernate.Session;
+import java.util.Set;
 
 import com.cross.beans.Pitch;
-import com.cross.utils.HibernateUtil;
 
-public class PitchDAO {
-	
-	
-	public static void addPitch(Pitch p) {
-		
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        
-        try {
-            session.save(p);	
-        } catch (Exception e) {
-        	session.getTransaction().rollback();
-        	e.printStackTrace();
-        }
- 
-        //Commit the transaction
-        session.getTransaction().commit();
-        session.clear();
-	}
+public interface PitchDAO {
+
+	Set<Pitch> getByGeneralEditorId(String generalEditorId);
+
+	Set<Pitch> getByStage(String stageName);
+
+	Set<Pitch> getByStatus(String statusName);
+
+	Set<Pitch> getByGenre(String genreName);
+
+	Set<Pitch> getByAuthorId(Integer pitchId);
+
+	Pitch add(Pitch c);
+
+	boolean delete(Pitch t);
+
+	boolean update(Pitch t);
+
+	Set<Pitch> getAll();
+
+	Pitch getById(Integer id);
 
 }
