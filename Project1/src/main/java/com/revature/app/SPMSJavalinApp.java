@@ -1,6 +1,8 @@
 package com.revature.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.revature.controller.PersonController;
+
 import io.javalin.Javalin;
 
 public class SPMSJavalinApp {
