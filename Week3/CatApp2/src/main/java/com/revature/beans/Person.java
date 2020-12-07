@@ -5,22 +5,37 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+<<<<<<< HEAD
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+=======
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+>>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table
 public class Person {
+<<<<<<< HEAD
 	
 	@Id
+=======
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+>>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 	private Integer id;
 	private String username;
 	@Column(name="passwd")
 	private String password;
+<<<<<<< HEAD
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="cat_id")
@@ -28,6 +43,15 @@ public class Person {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="role_id")
+=======
+	@OneToMany
+	@JoinTable(name="person_cat",
+		joinColumns=@JoinColumn(name="person_id"),
+		inverseJoinColumns=@JoinColumn(name="cat_id"))
+	private Set<Cat> cats;
+	@ManyToOne
+	@JoinColumn(name="user_role_id")
+>>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 	private Role role;
 	
 	public Person() {
