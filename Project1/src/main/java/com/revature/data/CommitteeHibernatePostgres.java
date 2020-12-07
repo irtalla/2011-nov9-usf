@@ -42,7 +42,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			c = s.get(Committee.class, id);
-			c.setName(c.getGenre().getName() + " Committee");
+			c.setName(assembleName(c));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,7 +60,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 			List<Committee> resultList = s.createQuery(hql, Committee.class).list();
 			if (resultList.size() > 0) {
 				c = resultList.get(0);
-				c.setName(c.getGenre().getName() + " Committee");
+				c.setName(assembleName(c));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +90,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 			String hql = "FROM Committee";
 			List<Committee> resultList = s.createQuery(hql, Committee.class).list();
 			for (Committee c : resultList) {
-				c.setName(c.getGenre().getName() + " Committee");
+				c.setName(assembleName(c));
 			}
 			committees = new HashSet<Committee>(resultList);
 		} catch (Exception e) {
@@ -126,4 +126,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 
 	}
 
+	private String assembleName(Committee c) {
+		return (c.getGenre().getName() + " Committee");
+	}
 }

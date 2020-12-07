@@ -36,7 +36,7 @@ public class Committee {
 	
 	public Committee() {
 		id = 0;
-		name = " Comittee";
+		name = "Comittee";
 		genre = new Genre();
 		editors = new HashSet<>();
 	}
