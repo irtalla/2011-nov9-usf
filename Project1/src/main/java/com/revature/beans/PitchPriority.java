@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "Pitch_Priority")
 public class PitchPriority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

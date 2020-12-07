@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "pitch_stage")
 public class PitchStage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

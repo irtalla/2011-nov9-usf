@@ -29,23 +29,23 @@ public class SPMSJavalinApp {
 				});
 			});
 			
-		
-			path("pitch", () -> { 
-				post(PitchController::addCat); 
-				path ("all", () -> {
-					get(PitchController::getAllPitches); 
-				});
-				path(":id", () -> {
-					get(PitchController::getPitchById); 
-					put(PitchController::updatePitch); 
-					delete(PitchController::deletePitch);
-				});
-			});
-
-
-			path("Committee", () -> {
-				get(CommitteeController::getCommittee); 
-			});
+//		
+//			path("pitch", () -> { 
+//				post(PitchController::addCat); 
+//				path ("all", () -> {
+//					get(PitchController::getAllPitches); 
+//				});
+//				path(":id", () -> {
+//					get(PitchController::getPitchById); 
+//					put(PitchController::updatePitch); 
+//					delete(PitchController::deletePitch);
+//				});
+//			});
+//
+//
+//			path("Committee", () -> {
+//				get(CommitteeController::getCommittee); 
+//			});
 		});
 	}
 }
