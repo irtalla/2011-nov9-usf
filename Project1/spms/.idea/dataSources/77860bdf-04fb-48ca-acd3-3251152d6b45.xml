@@ -791,7 +791,7 @@ false posixrules
       <ObjectId>14313</ObjectId>
       <Comment>default administrative connection database</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>5322</IntrospectionStateNumber>
+      <IntrospectionStateNumber>5927</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|16421|16423|1
 sequence|table|16434|16436|1
@@ -918,7 +918,7 @@ U/10
       <ObjectId>24736</ObjectId>
       <StateNumber>4720</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>5323</IntrospectionStateNumber>
+      <IntrospectionStateNumber>5928</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <schema id="25" parent="2" name="pg_catalog">
@@ -1103,35 +1103,35 @@ UC/16394
       <StateNumber>4726</StateNumber>
       <DataType>integer|0s</DataType>
     </sequence>
-    <table id="50" parent="24" name="author">
+    <table id="50" parent="24" name="approval">
+      <ObjectId>24947</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>5908</StateNumber>
+    </table>
+    <table id="51" parent="24" name="author">
       <ObjectId>24761</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>4727</StateNumber>
     </table>
-    <table id="51" parent="24" name="committee">
+    <table id="52" parent="24" name="committee">
       <ObjectId>24821</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>4732</StateNumber>
     </table>
-    <table id="52" parent="24" name="editor">
+    <table id="53" parent="24" name="editor">
       <ObjectId>24834</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>4733</StateNumber>
+      <StateNumber>5340</StateNumber>
     </table>
-    <table id="53" parent="24" name="editor_committee">
+    <table id="54" parent="24" name="editor_committee">
       <ObjectId>24932</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>4743</StateNumber>
     </table>
-    <table id="54" parent="24" name="editor_role">
+    <table id="55" parent="24" name="editor_role">
       <ObjectId>24810</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>4733</StateNumber>
-    </table>
-    <table id="55" parent="24" name="final_approval">
-      <ObjectId>24947</ObjectId>
-      <Owner>postgres</Owner>
-      <StateNumber>4759</StateNumber>
     </table>
     <table id="56" parent="24" name="genre">
       <ObjectId>24799</ObjectId>
@@ -1167,254 +1167,32 @@ UC/16394
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>4727</StateNumber>
-      <DefaultExpression>nextval(&apos;online_publisher.author_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="63" parent="50" name="user_id">
-      <Position>2</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>4727</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="64" parent="50" name="first_name">
-      <Position>3</Position>
-      <DataType>varchar|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4727</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="65" parent="50" name="last_name">
-      <Position>4</Position>
-      <DataType>varchar|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4727</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="66" parent="50" name="points">
-      <Position>5</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4727</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="67" parent="50" name="author_pkey">
-      <ObjectId>24768</ObjectId>
-      <StateNumber>4727</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationIds>0</CollationIds>
-      <ClassIds>1978</ClassIds>
-    </index>
-    <key id="68" parent="50" name="author_pkey">
-      <ObjectId>24769</ObjectId>
-      <StateNumber>4727</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>author_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="69" parent="50" name="author_user_id_fkey">
-      <ObjectId>24770</ObjectId>
-      <StateNumber>4727</StateNumber>
-      <ColNames>user_id</ColNames>
-      <RefTableId>24750</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>user_login</RefTableName>
-      <RefKeyName>user_login_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="70" parent="51" name="id">
-      <Position>1</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4732</StateNumber>
-      <DefaultExpression>nextval(&apos;online_publisher.committee_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="71" parent="51" name="genre">
-      <Position>2</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>4732</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="72" parent="51" name="committee_pkey">
-      <ObjectId>24825</ObjectId>
-      <StateNumber>4732</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationIds>0</CollationIds>
-      <ClassIds>1978</ClassIds>
-    </index>
-    <key id="73" parent="51" name="committee_pkey">
-      <ObjectId>24826</ObjectId>
-      <StateNumber>4732</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>committee_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="74" parent="51" name="committee_genre_fkey">
-      <ObjectId>24827</ObjectId>
-      <StateNumber>4732</StateNumber>
-      <ColNames>genre</ColNames>
-      <RefTableId>24799</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>genre</RefTableName>
-      <RefKeyName>genre_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="75" parent="52" name="id">
-      <Position>1</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4733</StateNumber>
-      <DefaultExpression>nextval(&apos;online_publisher.editor_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="76" parent="52" name="first_name">
-      <Position>2</Position>
-      <DataType>varchar|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4733</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="77" parent="52" name="last_name">
-      <Position>3</Position>
-      <DataType>varchar|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4733</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="78" parent="52" name="editor_role">
-      <Position>4</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>4733</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <index id="79" parent="52" name="editor_pkey">
-      <ObjectId>24841</ObjectId>
-      <StateNumber>4733</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationIds>0</CollationIds>
-      <ClassIds>1978</ClassIds>
-    </index>
-    <key id="80" parent="52" name="editor_pkey">
-      <ObjectId>24842</ObjectId>
-      <StateNumber>4733</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>editor_pkey</UnderlyingIndexName>
-    </key>
-    <foreign-key id="81" parent="52" name="editor_editor_role_fkey">
-      <ObjectId>24843</ObjectId>
-      <StateNumber>4733</StateNumber>
-      <ColNames>editor_role</ColNames>
-      <RefTableId>24810</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>editor_role</RefTableName>
-      <RefKeyName>editor_role_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="82" parent="53" name="editor">
-      <Position>1</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>4743</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="83" parent="53" name="committee">
-      <Position>2</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>4743</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <foreign-key id="84" parent="53" name="editor_committee_editor_fkey">
-      <ObjectId>24935</ObjectId>
-      <StateNumber>4743</StateNumber>
-      <ColNames>editor</ColNames>
-      <RefTableId>24834</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>editor</RefTableName>
-      <RefKeyName>editor_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="85" parent="53" name="editor_committee_committee_fkey">
-      <ObjectId>24940</ObjectId>
-      <StateNumber>4743</StateNumber>
-      <ColNames>committee</ColNames>
-      <RefTableId>24821</RefTableId>
-      <RefColPositions>1</RefColPositions>
-      <RefTableName>committee</RefTableName>
-      <RefKeyName>committee_pkey</RefKeyName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="86" parent="54" name="id">
-      <Position>1</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4731</StateNumber>
-      <DefaultExpression>nextval(&apos;online_publisher.editor_role_id_seq&apos;::regclass)</DefaultExpression>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="87" parent="54" name="editor_role">
-      <Position>2</Position>
-      <DataType>varchar|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4731</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <index id="88" parent="54" name="editor_role_pkey">
-      <ObjectId>24817</ObjectId>
-      <StateNumber>4731</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationIds>0</CollationIds>
-      <ClassIds>1978</ClassIds>
-    </index>
-    <key id="89" parent="54" name="editor_role_pkey">
-      <ObjectId>24818</ObjectId>
-      <StateNumber>4731</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>editor_role_pkey</UnderlyingIndexName>
-    </key>
-    <column id="90" parent="55" name="id">
-      <Position>1</Position>
-      <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
       <StateNumber>4759</StateNumber>
-      <DefaultExpression>nextval(&apos;online_publisher.final_approval_id_seq&apos;::regclass)</DefaultExpression>
+      <DefaultExpression>nextval(&apos;final_approval_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="91" parent="55" name="story">
+    <column id="63" parent="50" name="story">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4759</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="92" parent="55" name="editor">
+    <column id="64" parent="50" name="editor">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4759</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="93" parent="55" name="approval">
+    <column id="65" parent="50" name="approval">
       <Position>4</Position>
-      <DataType>boolean|0s</DataType>
+      <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>4759</StateNumber>
-      <TypeId>16</TypeId>
+      <StateNumber>5373</StateNumber>
+      <TypeId>23</TypeId>
     </column>
-    <index id="94" parent="55" name="final_approval_pkey">
+    <index id="66" parent="50" name="final_approval_pkey">
       <ObjectId>24951</ObjectId>
-      <StateNumber>4759</StateNumber>
+      <StateNumber>5373</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
@@ -1422,14 +1200,14 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="95" parent="55" name="final_approval_pkey">
+    <key id="67" parent="50" name="final_approval_pkey">
       <ObjectId>24952</ObjectId>
       <StateNumber>4759</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>final_approval_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="96" parent="55" name="final_approval_story_fkey">
+    <foreign-key id="68" parent="50" name="final_approval_story_fkey">
       <ObjectId>24953</ObjectId>
       <StateNumber>4759</StateNumber>
       <ColNames>story</ColNames>
@@ -1439,7 +1217,7 @@ UC/16394
       <RefKeyName>story_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="97" parent="55" name="final_approval_editor_fkey">
+    <foreign-key id="69" parent="50" name="final_approval_editor_fkey">
       <ObjectId>24958</ObjectId>
       <StateNumber>4759</StateNumber>
       <ColNames>editor</ColNames>
@@ -1449,7 +1227,236 @@ UC/16394
       <RefKeyName>editor_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="98" parent="56" name="id">
+    <column id="70" parent="51" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4727</StateNumber>
+      <DefaultExpression>nextval(&apos;online_publisher.author_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="71" parent="51" name="user_id">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>4727</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="72" parent="51" name="first_name">
+      <Position>3</Position>
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4727</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="73" parent="51" name="last_name">
+      <Position>4</Position>
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4727</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="74" parent="51" name="points">
+      <Position>5</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4727</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="75" parent="51" name="author_pkey">
+      <ObjectId>24768</ObjectId>
+      <StateNumber>4727</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>0</CollationIds>
+      <ClassIds>1978</ClassIds>
+    </index>
+    <key id="76" parent="51" name="author_pkey">
+      <ObjectId>24769</ObjectId>
+      <StateNumber>4727</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>author_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="77" parent="51" name="author_user_id_fkey">
+      <ObjectId>24770</ObjectId>
+      <StateNumber>4727</StateNumber>
+      <ColNames>user_id</ColNames>
+      <RefTableId>24750</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>user_login</RefTableName>
+      <RefKeyName>user_login_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="78" parent="52" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4732</StateNumber>
+      <DefaultExpression>nextval(&apos;online_publisher.committee_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="79" parent="52" name="genre">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>4732</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="80" parent="52" name="committee_pkey">
+      <ObjectId>24825</ObjectId>
+      <StateNumber>4732</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>0</CollationIds>
+      <ClassIds>1978</ClassIds>
+    </index>
+    <key id="81" parent="52" name="committee_pkey">
+      <ObjectId>24826</ObjectId>
+      <StateNumber>4732</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>committee_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="82" parent="52" name="committee_genre_fkey">
+      <ObjectId>24827</ObjectId>
+      <StateNumber>4732</StateNumber>
+      <ColNames>genre</ColNames>
+      <RefTableId>24799</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>genre</RefTableName>
+      <RefKeyName>genre_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="83" parent="53" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4733</StateNumber>
+      <DefaultExpression>nextval(&apos;editor_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="84" parent="53" name="first_name">
+      <Position>2</Position>
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4733</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="85" parent="53" name="last_name">
+      <Position>3</Position>
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4733</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="86" parent="53" name="editor_role">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>4733</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="87" parent="53" name="user_id">
+      <Position>6</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>5340</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="88" parent="53" name="editor_pkey">
+      <ObjectId>24841</ObjectId>
+      <StateNumber>4733</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>0</CollationIds>
+      <ClassIds>1978</ClassIds>
+    </index>
+    <key id="89" parent="53" name="editor_pkey">
+      <ObjectId>24842</ObjectId>
+      <StateNumber>4733</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>editor_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="90" parent="53" name="editor_editor_role_fkey">
+      <ObjectId>24843</ObjectId>
+      <StateNumber>4733</StateNumber>
+      <ColNames>editor_role</ColNames>
+      <RefTableId>24810</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>editor_role</RefTableName>
+      <RefKeyName>editor_role_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="91" parent="54" name="editor">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>4743</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="92" parent="54" name="committee">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>4743</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="93" parent="54" name="editor_committee_editor_fkey">
+      <ObjectId>24935</ObjectId>
+      <StateNumber>4743</StateNumber>
+      <ColNames>editor</ColNames>
+      <RefTableId>24834</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>editor</RefTableName>
+      <RefKeyName>editor_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="94" parent="54" name="editor_committee_committee_fkey">
+      <ObjectId>24940</ObjectId>
+      <StateNumber>4743</StateNumber>
+      <ColNames>committee</ColNames>
+      <RefTableId>24821</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>committee</RefTableName>
+      <RefKeyName>committee_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="95" parent="55" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4731</StateNumber>
+      <DefaultExpression>nextval(&apos;online_publisher.editor_role_id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="96" parent="55" name="editor_role">
+      <Position>2</Position>
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>4731</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="97" parent="55" name="editor_role_pkey">
+      <ObjectId>24817</ObjectId>
+      <StateNumber>4731</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationIds>0</CollationIds>
+      <ClassIds>1978</ClassIds>
+    </index>
+    <key id="98" parent="55" name="editor_role_pkey">
+      <ObjectId>24818</ObjectId>
+      <StateNumber>4731</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>editor_role_pkey</UnderlyingIndexName>
+    </key>
+    <column id="99" parent="56" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1457,14 +1464,14 @@ UC/16394
       <DefaultExpression>nextval(&apos;online_publisher.genre_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="99" parent="56" name="genre">
+    <column id="100" parent="56" name="genre">
       <Position>2</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4730</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="100" parent="56" name="genre_pkey">
+    <index id="101" parent="56" name="genre_pkey">
       <ObjectId>24806</ObjectId>
       <StateNumber>4730</StateNumber>
       <ColNames>id</ColNames>
@@ -1474,14 +1481,14 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="101" parent="56" name="genre_pkey">
+    <key id="102" parent="56" name="genre_pkey">
       <ObjectId>24807</ObjectId>
       <StateNumber>4730</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>genre_pkey</UnderlyingIndexName>
     </key>
-    <column id="102" parent="57" name="id">
+    <column id="103" parent="57" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1489,38 +1496,38 @@ UC/16394
       <DefaultExpression>nextval(&apos;online_publisher.request_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="103" parent="57" name="story">
+    <column id="104" parent="57" name="story">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4739</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="104" parent="57" name="sender">
+    <column id="105" parent="57" name="sender">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4739</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="105" parent="57" name="to_author">
+    <column id="106" parent="57" name="to_author">
       <Position>4</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4739</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="106" parent="57" name="to_editor">
+    <column id="107" parent="57" name="to_editor">
       <Position>5</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4739</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="107" parent="57" name="message">
+    <column id="108" parent="57" name="message">
       <Position>6</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4739</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="108" parent="57" name="request_pkey">
+    <index id="109" parent="57" name="request_pkey">
       <ObjectId>24910</ObjectId>
       <StateNumber>4739</StateNumber>
       <ColNames>id</ColNames>
@@ -1530,14 +1537,14 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="109" parent="57" name="request_pkey">
+    <key id="110" parent="57" name="request_pkey">
       <ObjectId>24911</ObjectId>
       <StateNumber>4739</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>request_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="110" parent="57" name="request_story_fkey">
+    <foreign-key id="111" parent="57" name="request_story_fkey">
       <ObjectId>24912</ObjectId>
       <StateNumber>4739</StateNumber>
       <ColNames>story</ColNames>
@@ -1547,7 +1554,7 @@ UC/16394
       <RefKeyName>story_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="111" parent="57" name="request_sender_fkey">
+    <foreign-key id="112" parent="57" name="request_sender_fkey">
       <ObjectId>24917</ObjectId>
       <StateNumber>4739</StateNumber>
       <ColNames>sender</ColNames>
@@ -1557,7 +1564,7 @@ UC/16394
       <RefKeyName>editor_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="112" parent="57" name="request_to_author_fkey">
+    <foreign-key id="113" parent="57" name="request_to_author_fkey">
       <ObjectId>24922</ObjectId>
       <StateNumber>4739</StateNumber>
       <ColNames>to_author</ColNames>
@@ -1567,7 +1574,7 @@ UC/16394
       <RefKeyName>author_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="113" parent="57" name="request_to_editor_fkey">
+    <foreign-key id="114" parent="57" name="request_to_editor_fkey">
       <ObjectId>24927</ObjectId>
       <StateNumber>4739</StateNumber>
       <ColNames>to_editor</ColNames>
@@ -1577,7 +1584,7 @@ UC/16394
       <RefKeyName>editor_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="114" parent="58" name="id">
+    <column id="115" parent="58" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1585,14 +1592,14 @@ UC/16394
       <DefaultExpression>nextval(&apos;online_publisher.status_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="115" parent="58" name="status">
+    <column id="116" parent="58" name="status">
       <Position>2</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4728</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="116" parent="58" name="status_pkey">
+    <index id="117" parent="58" name="status_pkey">
       <ObjectId>24784</ObjectId>
       <StateNumber>4728</StateNumber>
       <ColNames>id</ColNames>
@@ -1602,14 +1609,14 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="117" parent="58" name="status_pkey">
+    <key id="118" parent="58" name="status_pkey">
       <ObjectId>24785</ObjectId>
       <StateNumber>4728</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>status_pkey</UnderlyingIndexName>
     </key>
-    <column id="118" parent="59" name="id">
+    <column id="119" parent="59" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1617,71 +1624,71 @@ UC/16394
       <DefaultExpression>nextval(&apos;online_publisher.story_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="119" parent="59" name="author">
+    <column id="120" parent="59" name="author">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4738</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="120" parent="59" name="title">
+    <column id="121" parent="59" name="title">
       <Position>3</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4738</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="121" parent="59" name="completion_date">
+    <column id="122" parent="59" name="completion_date">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4738</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <column id="122" parent="59" name="story_type">
+    <column id="123" parent="59" name="story_type">
       <Position>5</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4738</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="123" parent="59" name="genre">
+    <column id="124" parent="59" name="genre">
       <Position>6</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4738</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="124" parent="59" name="tagline">
+    <column id="125" parent="59" name="tagline">
       <Position>7</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4738</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="125" parent="59" name="description">
+    <column id="126" parent="59" name="description">
       <Position>8</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4738</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="126" parent="59" name="story_text">
+    <column id="127" parent="59" name="story_text">
       <Position>9</Position>
       <DataType>varchar|0s</DataType>
       <StateNumber>4756</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="127" parent="59" name="status">
+    <column id="128" parent="59" name="status">
       <Position>10</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4738</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="128" parent="59" name="committee">
+    <column id="129" parent="59" name="committee">
       <Position>11</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>4738</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <index id="129" parent="59" name="story_pkey">
+    <index id="130" parent="59" name="story_pkey">
       <ObjectId>24874</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>id</ColNames>
@@ -1691,14 +1698,14 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="130" parent="59" name="story_pkey">
+    <key id="131" parent="59" name="story_pkey">
       <ObjectId>24875</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>story_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="131" parent="59" name="story_author_fkey">
+    <foreign-key id="132" parent="59" name="story_author_fkey">
       <ObjectId>24876</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>author</ColNames>
@@ -1708,7 +1715,7 @@ UC/16394
       <RefKeyName>author_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="132" parent="59" name="story_story_type_fkey">
+    <foreign-key id="133" parent="59" name="story_story_type_fkey">
       <ObjectId>24881</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>story_type</ColNames>
@@ -1718,7 +1725,7 @@ UC/16394
       <RefKeyName>story_type_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="133" parent="59" name="story_genre_fkey">
+    <foreign-key id="134" parent="59" name="story_genre_fkey">
       <ObjectId>24886</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>genre</ColNames>
@@ -1728,7 +1735,7 @@ UC/16394
       <RefKeyName>genre_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="134" parent="59" name="story_status_fkey">
+    <foreign-key id="135" parent="59" name="story_status_fkey">
       <ObjectId>24891</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>status</ColNames>
@@ -1738,7 +1745,7 @@ UC/16394
       <RefKeyName>status_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="135" parent="59" name="story_committee_fkey">
+    <foreign-key id="136" parent="59" name="story_committee_fkey">
       <ObjectId>24896</ObjectId>
       <StateNumber>4738</StateNumber>
       <ColNames>committee</ColNames>
@@ -1748,7 +1755,7 @@ UC/16394
       <RefKeyName>committee_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="136" parent="60" name="id">
+    <column id="137" parent="60" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1756,21 +1763,21 @@ UC/16394
       <DefaultExpression>nextval(&apos;online_publisher.story_type_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="137" parent="60" name="story_type">
+    <column id="138" parent="60" name="story_type">
       <Position>2</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4729</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="138" parent="60" name="point_value">
+    <column id="139" parent="60" name="point_value">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4769</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <index id="139" parent="60" name="story_type_pkey">
+    <index id="140" parent="60" name="story_type_pkey">
       <ObjectId>24795</ObjectId>
       <StateNumber>4729</StateNumber>
       <ColNames>id</ColNames>
@@ -1780,14 +1787,14 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="140" parent="60" name="story_type_pkey">
+    <key id="141" parent="60" name="story_type_pkey">
       <ObjectId>24796</ObjectId>
       <StateNumber>4729</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>story_type_pkey</UnderlyingIndexName>
     </key>
-    <column id="141" parent="61" name="id">
+    <column id="142" parent="61" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
@@ -1795,21 +1802,21 @@ UC/16394
       <DefaultExpression>nextval(&apos;online_publisher.user_login_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="142" parent="61" name="username">
+    <column id="143" parent="61" name="username">
       <Position>2</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4726</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="143" parent="61" name="password">
+    <column id="144" parent="61" name="password">
       <Position>3</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>4726</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="144" parent="61" name="user_login_pkey">
+    <index id="145" parent="61" name="user_login_pkey">
       <ObjectId>24757</ObjectId>
       <StateNumber>4726</StateNumber>
       <ColNames>id</ColNames>
@@ -1819,7 +1826,7 @@ UC/16394
       <CollationIds>0</CollationIds>
       <ClassIds>1978</ClassIds>
     </index>
-    <key id="145" parent="61" name="user_login_pkey">
+    <key id="146" parent="61" name="user_login_pkey">
       <ObjectId>24758</ObjectId>
       <StateNumber>4726</StateNumber>
       <ColNames>id</ColNames>

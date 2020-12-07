@@ -12,6 +12,5 @@ public interface StoryService {
 
     public Set<Story> getStories();
 
-    
 
 }

@@ -1,12 +1,24 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Request {
+    @Id
     private Integer id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "story")
     private Story story;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sender")
     private Editor sender;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "to_author")
     private Author toAuthor;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "to_editor")
     private Editor toEditor;
     private String message;
 

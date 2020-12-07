@@ -1,19 +1,33 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Story {
+    @Id
     private Integer id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author")
     private Author author;
     private String title;
     private Date completionDate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "story_type")
     private StoryType type;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre")
     private Genre genre;
     private String tagline;
     private String description;
     private String text;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status")
     private Status status;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "committee")
     private Committee committee;
 
     public Story() {

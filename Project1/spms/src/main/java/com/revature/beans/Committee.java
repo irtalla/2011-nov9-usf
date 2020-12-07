@@ -1,9 +1,15 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Committee {
+    @Id
     private Integer id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre")
     private Genre genre;
 
     public Committee() {

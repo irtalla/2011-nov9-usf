@@ -1,12 +1,20 @@
 package com.revature.beans;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Editor {
+    @Id
     private Integer id;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
     private String firstName;
     private String lastName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "editor_role")
     private EditorRole role;
 
     public Editor() {

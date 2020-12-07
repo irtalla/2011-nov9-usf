@@ -1,8 +1,14 @@
 package com.revature.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table
 public class StoryType {
+    @Id
     private Integer id;
     private String type;
     private Integer pointValue;

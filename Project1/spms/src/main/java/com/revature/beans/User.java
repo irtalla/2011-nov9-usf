@@ -1,8 +1,14 @@
 package com.revature.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table
 public class User {
+    @Id
     private Integer id;
     private String username;
     private String password;
@@ -19,9 +25,8 @@ public class User {
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
-    }
+
+    public Integer getId() {  return id;}
 
     public void setId(Integer id) {
         this.id = id;
