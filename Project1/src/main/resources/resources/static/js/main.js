@@ -33,7 +33,7 @@ function setNav() {
 }
 
 async function login() {
-    // http://localhost:8080/users?user=sierra&pass=pass
+
     let url = baseUrl + '/users?';
     url += 'user=' + document.getElementById('user').value + '&';
     url += 'pass=' + document.getElementById('pass').value;

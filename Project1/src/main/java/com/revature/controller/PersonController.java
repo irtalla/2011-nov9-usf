@@ -37,12 +37,14 @@ public class PersonController {
 			}
 			else
 			{
+				System.out.println("Wrong credenitals");
 				// password mismatch
 				ctx.status(400);
 			}
 		}
 		else
 		{
+			System.out.println("wrong credenitals part 2");
 			// username not found
 			ctx.status(404);
 		}

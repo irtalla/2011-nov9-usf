@@ -5,8 +5,7 @@ checkLogin();
 setNav();
 function setNav() {
     nav.innerHTML = `
-            <a href="index.html"><strong>Cat App</strong></a>
-            <a href="viewCats.html">View Cats</a>`;
+            <a href="index.html"><strong>Story Pitch System</strong></a>`;
     if (!loggedUser) {
         nav.innerHTML += `
             <form>
@@ -19,7 +18,7 @@ function setNav() {
         `;
     } else {
         nav.innerHTML += `
-            <a href="myCats.html">My Cats</a>
+            <a href="myCats.html">My Pitches</a>
             <span>
                 <a href="profile.html">${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
@@ -33,7 +32,6 @@ function setNav() {
 }
 
 async function login() {
-
     let url = baseUrl + '/users?';
     url += 'user=' + document.getElementById('user').value + '&';
     url += 'pass=' + document.getElementById('pass').value;
