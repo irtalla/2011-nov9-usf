@@ -1,6 +1,13 @@
 package com.revature.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class SpecialNeed {
+	@Id
 	private Integer id;
 	private String name;
 	
