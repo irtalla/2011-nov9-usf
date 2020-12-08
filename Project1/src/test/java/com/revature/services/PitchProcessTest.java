@@ -21,13 +21,25 @@ import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.exceptions.OutsideGenreSpecialtyException;
 
 
-public class PersonPitchDraftServicesTest {
-	public static PersonService personService;
-	public static GenreService genreService;
-	public static PitchService pitchService;
-	public static PitchFeedbackService pitchFeedbackService;
-	public static DraftService draftService;
-	public static EnumService enumService;
+public class PitchProcessTest {
+	public PersonService personService;
+	public GenreService genreService;
+	public PitchService pitchService;
+	public PitchFeedbackService pitchFeedbackService;
+	public DraftService draftService;
+	public EnumService enumService;
+	
+	private Role authorRole;
+	private Role asstEditorRole;
+	private Role generalEditorRole;
+	private Role seniorEditorRole;
+	
+	private Person testAuthor;
+	private Person testAsstEditor;
+	private Person testSeniorEditor;
+	private Person testGeneralEditor;
+	private Genre testGenre;
+	private Pitch testPitch;
 	
 	@BeforeAll
 	public void initializeServices() {
@@ -41,14 +53,20 @@ public class PersonPitchDraftServicesTest {
 	
 	@BeforeEach
 	public void initializeTestSubjects() {
-		Person testAuthor = new Person();
+		authorRole = new Role();
+		asstEditorRole = new Role();
+		generalEditorRole = new Role();
+		seniorEditorRole  = new Role();
+		
+		testAuthor = new Person();
+		testAuthor.setRole(authorRole);
 		testAuthor.setUsername("test author");
 		testAuthor.setPassword("pass");
 		testAuthor = personService.add(testAuthor);
 		
-		Genre testGenre = genreService.getByName("YA");
+		testGenre = genreService.getByName("YA");
 		
-		Pitch testPitch = new Pitch();
+		testPitch = new Pitch();
 		testPitch.setAuthor(testAuthor);
 		testPitch.setGenre(testGenre);
 		testPitch.setTentativeTitle("test title");
@@ -57,31 +75,25 @@ public class PersonPitchDraftServicesTest {
 		//not specifying a storyType just yet, so
 		//not adding testPitch to db just yet
 		
-		Person testAsstEditor= new Person();
+		testAsstEditor= new Person();
+		testAsstEditor.setRole(asstEditorRole);
 		testAsstEditor.setUsername("test asst editor");
 		testAsstEditor.setPassword("pass");
 		testAsstEditor.setGenreSpecialty(testGenre);
 		testAsstEditor = personService.add(testAsstEditor);
 		
-		Person testGeneralEditor= new Person();
+		testGeneralEditor = new Person();
+		testGeneralEditor.setRole(generalEditorRole);
 		testGeneralEditor.setUsername("test general editor");
 		testGeneralEditor.setPassword("pass");
 		testGeneralEditor = personService.add(testGeneralEditor);
 		
-		Person testSeniorEditor= new Person();
+		testSeniorEditor= new Person();
+		testSeniorEditor.setRole(seniorEditorRole);
 		testSeniorEditor.setUsername("test senior editor");
 		testSeniorEditor.setPassword("pass");
 		testSeniorEditor.setGenreSpecialty(testGenre);
 		testSeniorEditor = personService.add(testSeniorEditor);
-	}
-	
-	@Test
-	public void testUniqueUsernames() throws NonUniqueUsernameException {
-		//assert that adding a user with a duplicate username throws exception
-		Person duplicate = new Person();
-		duplicate.setUsername("test author");
-		duplicate.setPassword("pass");
-		assertThrows(NonUniqueUsernameException.class, () -> personService.addPerson(duplicate));
 	}
 	
 	@Test
@@ -171,7 +183,7 @@ public class PersonPitchDraftServicesTest {
 		asstSciFiEditor.setGenreSpecialty(sciFi);
 		asstSciFiEditor = personService.add(asstSciFiEditor);
 		
-		assertThrows(OutsideGenreSpecialtyException.class, () -> personService.approvePitch(testPitch));
+		assertThrows(OutsideGenreSpecialtyException.class, () -> personService.approvePitchBy(testPitch, asstSciFiEditor));
 		
 		//assert that denying a pitch without an explanation throws an error
 		Status denied = enumService.getByNameFromTable("denied", "status");
@@ -215,7 +227,7 @@ public class PersonPitchDraftServicesTest {
 		
 		//assert that approval by an assistant editor for this genre
 		//does not change the overall status of the pitch
-		testPitch = personService.approvePitchAsEditor(testPitch, testAsstEditor);
+		testPitch = personService.approvePitchBy(testPitch, testAsstEditor);
 		
 		Status pending = enumService.getByNameFromTable("pending", "status");
 		
@@ -228,7 +240,7 @@ public class PersonPitchDraftServicesTest {
 		
 		//assert that approval by a general editor
 		//does not change the overall status of the pitch
-		testPitch = personService.approvePitchAsEditor(testPitch, testGeneralEditor);
+		testPitch = personService.approvePitchBy(testPitch, testGeneralEditor);
 		assertTrue(testPitch.getStatus().equals(pending));
 		
 		//assert that creating a draft from this pitch is disallowed prior to full-approval:
@@ -242,7 +254,7 @@ public class PersonPitchDraftServicesTest {
 		
 		//assert that approval by a senior editor for this genre
 		//changes the status of the pitch to "approved"
-		testPitch = personService.approvePitchAsEditor(testPitch, testSeniorEditor);
+		testPitch = personService.approvePitchBy(testPitch, testSeniorEditor);
 		
 		Status approved = enumService.getByNameFromTable("approved", "status");
 		assertTrue(testPitch.getStatus().equals(approved));

@@ -1,0 +1,23 @@
+{
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "First attempt at making a json package file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/revature_batches/2011-nov9-usf.git"
+  },
+  "author": "com.revature",
+  "license": "ISC",
+  "dependencies": {
+    "jasmine": "^3.6.3",
+    "protractor": "^7.0.0"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/revature_batches/2011-nov9-usf/issues"
+  },
+  "homepage": "https://gitlab.com/revature_batches/2011-nov9-usf#readme"
+}
