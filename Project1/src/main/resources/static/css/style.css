@@ -78,3 +78,15 @@ h1 {
 .statusCol {
     text-align: left;
 }
+
+.price {
+    text-align: right;
+}
+
+.testDiv {
+    background-color: blueviolet;
+}
+
+#description {
+    text-align: center;
+}
