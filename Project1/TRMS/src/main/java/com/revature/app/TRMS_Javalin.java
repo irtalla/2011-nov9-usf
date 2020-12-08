@@ -21,7 +21,8 @@ public class TRMS_Javalin {
 		
 		app.routes(() -> {
 			// all requests to /events go to this handler
-			path("events", () -> {
+			path("events", () ->{
+				//get (ctx -> ctx.result("Hello World"));
 				get(EvtReqController::getAvailableEvtReqs); // get available events is the default
 				post(EvtReqController::addEvtReq); // add a event
 				// note: you want your specific paths to be before path variables

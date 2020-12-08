@@ -6,30 +6,31 @@ setNav();
 function setNav() {
     nav.innerHTML = `
             <a href="index.html"><strong>Tuition Reimbursement Management System (TRMS)</strong></a>
-            <a href="viewCats.html">View Event Requests</a>`;
+            <a href="viewEvtReqs.html">View Event Requests</a>`;
     if (!loggedUser) {
-        nav.innerHTML += `
+        nav.innerHTML += ` 
             <form>
                 <label for="user">Username: </label>
                 <input id="user" name="user" type="text" />
                 <label for="pass"> Password: </label>
                 <input id="pass" name="pass" type="password" />
                 <button type="button" id="loginBtn">Log In</button>
-            </form>
+            </form>          
         `;
     } else {
         nav.innerHTML += `
-            <a href="myCats.html">My Event Requests</a>
+            <a href="myEvtReqs.html">My Event Requests</a>
             <span>
                 ${loggedUser.username}&nbsp;
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
     }
-
+    
     let loginBtn = document.getElementById('loginBtn');
     if (loggedUser) loginBtn.onclick = logout;
     else loginBtn.onclick = login;
+   
 }
 
 async function login() {

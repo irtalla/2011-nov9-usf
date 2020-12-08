@@ -38,8 +38,7 @@ public class EvtReqServiceImpl implements EvtReqService {
 
 	@Override
 	public Set<EvtReq> getAvailableEvtReqs() {
-		// TODO Auto-generated method stub
-		return null;
+		 return evtReqDao.getAvailableEvents();
 	}
 
 	@Override

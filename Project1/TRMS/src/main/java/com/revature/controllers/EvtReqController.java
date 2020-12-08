@@ -28,6 +28,7 @@ public class EvtReqController {
 	public static void getAllEvtReqs(Context ctx) {
 		Set<EvtReq> evtReqs = evtReqServ.getEvtReqs();
 		if (evtReqs != null) {
+		//if (evtReqs.size() > 0) {
 			ctx.status(200);
 			ctx.json(evtReqs);
 		} else {
@@ -36,13 +37,15 @@ public class EvtReqController {
 	}
 	
 	public static void getAvailableEvtReqs(Context ctx) {
-		System.out.println("Getting available cats");
+		System.out.println("Getting available events");
 		Set<EvtReq> evtReqSet = evtReqServ.getAvailableEvtReqs();
 		if (evtReqSet != null) {
+			System.out.println("got some event");
 			ctx.status(200);
 			ctx.json(evtReqSet);
 		} else {
-			ctx.status(404);
+			System.out.println("no event found");
+			ctx.status(404); 
 		}
 	}
 	
