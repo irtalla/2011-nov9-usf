@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 import javax.persistence.Entity;
+<<<<<<< HEAD
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -8,12 +9,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+=======
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+>>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 import javax.persistence.Table;
 
 @Entity
 @Table
 public class Role {
 	@Id
+<<<<<<< HEAD
+=======
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+>>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 	private Integer id;
 	private String name;
 
