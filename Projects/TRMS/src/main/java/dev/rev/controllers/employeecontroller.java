@@ -1,0 +1,62 @@
+package dev.rev.controllers;
+
+
+import dev.rev.beans.employee;
+import dev.rev.exception.NonUniqueUsernameException;
+import dev.rev.services.employeeService;
+import dev.rev.services.employeeServiceImp;
+import io.javalin.http.Context;
+
+public class employeecontroller {
+
+	private static employeeService eservice =new employeeServiceImp();
+	
+	public static void checklogin() {
+		
+	}
+	
+	public static void register(Context ctx) {
+		
+		employee newem=ctx.bodyAsClass(employee.class);
+		try {
+			
+			eservice.addPerson(newem);
+		}catch(NonUniqueUsernameException e) {
+			System.out.println(e);
+			ctx.status(409);
+		}
+		ctx.status(200);
+		
+	}
+	
+
+	public static void logIn(Context ctx) {
+		System.out.println("Logging in");
+		String username = ctx.queryParam("user");
+		String password = ctx.queryParam("pass");
+		
+		employee p = eservice.getPersonByUsername(username);
+		System.out.println("username: "+username +"  password: "+ password+" person"+ p);
+		
+		if (p != null) {
+			if (p.getPassword().equals(password))
+			{
+				System.out.println("Logged in as " + p.getEmp_name());
+				ctx.status(200);
+				ctx.json(p);
+				ctx.sessionAttribute("user", p);
+			}
+			else
+			{
+				System.out.println(username+"::user" + password+"::pass");
+				// password mismatch
+				ctx.status(400);
+			}
+		}
+		else
+		{
+			// username not found
+			ctx.status(404);
+		}
+	}
+}

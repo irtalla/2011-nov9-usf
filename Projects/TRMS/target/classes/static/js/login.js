@@ -39,4 +39,12 @@ function login(){
     form.innerHTML='';
     regi.innerHTML=''
     regi.outerHTML=''
+
+    logout();
+
+}
+function logout(){
+
+    var logbtn=document.createElement('button');
+
 }
