@@ -1,0 +1,17 @@
+
+#main
+{
+    background-image: url("https://mirrorlesscomparison.com/wp-content/uploads/2020/06/EM1-III-Starry-Sky-AF-sample-1-crop.jpg");
+}
+
+#login
+{
+    padding: 150px 0;
+    text-align: center;
+}
+
+#text
+{
+    display: inline-block;
+    background-color: white;
+}
