@@ -108,4 +108,10 @@ public class CatHibernate implements CatDAO {
 		s.close();
 	}
 
+	@Override
+	public void addNeed(String need) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
