@@ -36,18 +36,15 @@ function populatePitches() {
             `;
             let td = document.createElement('td');
             let ul = document.createElement('ul');
-            for (let sn of cat.specialNeeds) {
-                let li = document.createElement('li');
-                li.innerHTML = sn.name;
-                ul.appendChild(li);
-            }
+
+            
             td.appendChild(ul);
             tr.appendChild(td);
             table.appendChild(tr);
         }
 
-        catSection.appendChild(table);
+        pitchSection.appendChild(table);
     } else {
-        catSection.innerHTML = 'You don\'t have any cats. :(';
+        pitchSection.innerHTML = 'Currently zero pitches';
     }
 }
