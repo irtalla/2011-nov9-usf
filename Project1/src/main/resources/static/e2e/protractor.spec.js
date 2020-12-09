@@ -14,3 +14,6 @@ describe ('protractor example', () => {
         expect(header.getText()).toEqual('Available Cats');
     });
 });
+//jasmine syntax
+
+//selenium automates browser interactions
