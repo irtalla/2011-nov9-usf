@@ -18,6 +18,8 @@ function setNav() {
                 ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
                 <button type="button" id="loginBtn">logout</button>
              </span>
+             <br>
+             <a href="pitch.html"><strong>Pitches</strong></a>
             `;
     } else {
         nav.innerHTML += `
