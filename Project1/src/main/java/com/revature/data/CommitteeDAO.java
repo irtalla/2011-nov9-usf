@@ -11,8 +11,7 @@ import com.revature.models.User;
 public interface CommitteeDAO extends GenericDAO<Committee> {
 	public Integer add(Committee t) throws NonUniqueCommitteeException;
 	public Committee getByGenre(Genre genre);
-	public Set<User> getCommitteeEditorsByRole(Role role);
-	public Set<User> getCommitteeEditors();
-	public Integer addEditor(Committee c, User u);
+	public Set<User> getCommitteeEditorsByRole(Committee t, Role role);
+	public Set<User> getCommitteeEditors(Committee t);
 	public void update(Committee t) throws NonUniqueCommitteeException;
 }

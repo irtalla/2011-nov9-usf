@@ -34,13 +34,13 @@ public class CommitteeServiceImpl implements CommitteeService {
 	}
 
 	@Override
-	public Set<User> getCommitteeEditorsByRole(Role role) {
-		return committeeDao.getCommitteeEditorsByRole(role);
+	public Set<User> getCommitteeEditorsByRole(Committee t, Role role) {
+		return committeeDao.getCommitteeEditorsByRole(t, role);
 	}
 
 	@Override
-	public Set<User> getCommitteeEditors() {
-		return committeeDao.getCommitteeEditors();
+	public Set<User> getCommitteeEditors(Committee t) {
+		return committeeDao.getCommitteeEditors(t);
 
 	}
 

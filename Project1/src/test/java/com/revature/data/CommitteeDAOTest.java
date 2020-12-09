@@ -2,6 +2,9 @@ package com.revature.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.revature.exceptions.NonUniqueCommitteeException;
 import com.revature.models.Committee;
 import com.revature.models.Genre;
+import com.revature.models.User;
 
 @TestMethodOrder(OrderAnnotation.class)
 class CommitteeDAOTest {
@@ -28,8 +32,8 @@ class CommitteeDAOTest {
 		sampleCommittee = new Committee();
 		sampleCommittee.setId(1);
 		Genre g = new Genre();
-		g.setId(4);
-		g.setName("SciFi");
+		g.setId(11);
+		g.setName("Romance");
 		sampleCommittee.setGenre(g);
 		sampleCommittee.setName(g.getName() + " Committee");
 		
@@ -48,11 +52,6 @@ class CommitteeDAOTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		
-//		Committee a = sampleCommittee;
-//		assertThrows(NonUniqueCommitteeException.class, () -> {
-//			committeeDao.add(a);
-//		});
 		
 	}
 	
@@ -110,10 +109,28 @@ class CommitteeDAOTest {
 		assertFalse(committeeDao.getAll().contains(sampleCommittee));
 	}
 	
-	@Order(7)
-	@Test
-	void testAddEditor() {
-		System.out.println("Adding new editor");
-	}
+//	@Order(7)
+//	@Test
+//	void testPopulateCommittees() throws NonUniqueCommitteeException {
+//		UserDAO userDao = new UserDAOFactory().getUserDao();
+//		Random random = new Random();
+//		for (int i = 1; i < 14; i++) {
+//			Committee c = committeeDao.getById(i);
+//			if (c != null) {
+//				int count = 0;
+//				while (count < 3) {
+//					int rand = random.nextInt(30) + 16;
+//					User u = userDao.getById(rand);
+//					if (!c.getEditors().contains(u)) {
+//						c.getEditors().add(u);
+//						committeeDao.update(c);
+//						count++;
+//					}
+//				}
+//				count = 0;
+//			}
+//		}
+//
+//	}
 	
 }
