@@ -1,15 +1,15 @@
 package com.revature.beans;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "editor_role")
 public class EditorRole {
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
+    @Column( name = "editor_role")
     private String editorRole;
 
     public EditorRole() {

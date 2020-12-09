@@ -22,6 +22,7 @@
     </build>
 
     <dependencies>
+        <!-- Javalin Dependencies-->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
@@ -37,6 +38,7 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.8.0-beta4</version>
         </dependency>
+        <!-- JUnit Repositories -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -49,7 +51,7 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.14</version>
         </dependency>
-        <!-- our jackson libraries: allow us to map JSON -->
+        <!-- Jackson Dependencies -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>

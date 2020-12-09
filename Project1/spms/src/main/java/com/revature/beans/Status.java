@@ -1,14 +1,13 @@
 package com.revature.beans;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table
 public class Status {
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private String status;
 
@@ -37,8 +36,6 @@ public class Status {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    // TODO: Make tester files for these methods below
 
     public void changeToPitchApprovalAE(){
         id = 1;

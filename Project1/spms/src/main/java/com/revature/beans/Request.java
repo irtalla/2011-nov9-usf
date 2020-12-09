@@ -7,36 +7,32 @@ import java.util.Objects;
 @Table
 public class Request {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "story")
     private Story story;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sender")
-    private Editor sender;
+    private User sender;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "to_author")
-    private Author toAuthor;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "to_editor")
-    private Editor toEditor;
+    @JoinColumn(name = "receiver")
+    private User receiver;
     private String message;
 
     public Request() {
         id = 0;
         story = null;
         sender = null;
-        toAuthor = null;
-        toEditor = null;
+        receiver = null;
         message = "";
     }
 
-    public Request(Integer id, Story story, Editor sender, Author toAuthor, Editor toEditor, String message) {
+    public Request(Integer id, Story story, User sender, User receiver, String message) {
         this.id = id;
         this.story = story;
         this.sender = sender;
-        this.toAuthor = toAuthor;
-        this.toEditor = toEditor;
+        this.receiver = receiver;
         this.message = message;
     }
 
@@ -56,28 +52,20 @@ public class Request {
         this.story = story;
     }
 
-    public Editor getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(Editor sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
-    public Author getToAuthor() {
-        return toAuthor;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setToAuthor(Author toAuthor) {
-        this.toAuthor = toAuthor;
-    }
-
-    public Editor getToEditor() {
-        return toEditor;
-    }
-
-    public void setToEditor(Editor toEditor) {
-        this.toEditor = toEditor;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public String getMessage() {
@@ -93,12 +81,12 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return Objects.equals(id, request.id) && Objects.equals(story, request.story) && Objects.equals(sender, request.sender) && Objects.equals(toAuthor, request.toAuthor) && Objects.equals(toEditor, request.toEditor) && Objects.equals(message, request.message);
+        return Objects.equals(id, request.id) && Objects.equals(story, request.story) && Objects.equals(sender, request.sender) && Objects.equals(receiver, request.receiver) && Objects.equals(message, request.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, story, sender, toAuthor, toEditor, message);
+        return Objects.hash(id, story, sender, receiver, message);
     }
 
     @Override
@@ -107,8 +95,7 @@ public class Request {
                 "id=" + id +
                 ", story=" + story +
                 ", sender=" + sender +
-                ", toAuthor=" + toAuthor +
-                ", toEditor=" + toEditor +
+                ", receiver=" + receiver +
                 ", message='" + message + '\'' +
                 '}';
     }

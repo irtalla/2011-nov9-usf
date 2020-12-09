@@ -7,11 +7,14 @@ import java.util.Objects;
 @Table
 public class Editor {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "editor_role")
@@ -41,9 +44,13 @@ public class Editor {
         this.id = id;
     }
 
-    public User getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
-    public void setUser(User user) { this.user = user;}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -61,7 +68,9 @@ public class Editor {
         this.lastName = lastName;
     }
 
-    public EditorRole getRole() { return role; }
+    public EditorRole getRole() {
+        return role;
+    }
 
     public void setRole(EditorRole role) {
         this.role = role;

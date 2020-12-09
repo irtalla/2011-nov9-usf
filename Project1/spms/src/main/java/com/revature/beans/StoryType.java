@@ -1,16 +1,17 @@
 package com.revature.beans;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "story_type")
 public class StoryType {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "story_type")
     private String type;
+    @Column(name = "point_value")
     private Integer pointValue;
 
     public StoryType() {

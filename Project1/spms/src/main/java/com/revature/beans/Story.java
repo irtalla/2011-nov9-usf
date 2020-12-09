@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,12 +9,14 @@ import java.util.Objects;
 @Table
 public class Story {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author")
     private Author author;
     private String title;
-    private Date completionDate;
+    @Column(name = "completion_date")
+    private Timestamp completionDate;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "story_type")
     private StoryType type;
@@ -22,6 +25,7 @@ public class Story {
     private Genre genre;
     private String tagline;
     private String description;
+    @Column(name = "story_text")
     private String text;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status")
@@ -44,7 +48,7 @@ public class Story {
         committee = null;
     }
 
-    public Story(Integer id, Author author, String title, Date completionDate, StoryType type, Genre genre, String tagline, String description, String text, Status status, Committee committee) {
+    public Story(Integer id, Author author, String title, Timestamp completionDate, StoryType type, Genre genre, String tagline, String description, String text, Status status, Committee committee) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -86,7 +90,7 @@ public class Story {
         return completionDate;
     }
 
-    public void setCompletionDate(Date completionDate) {
+    public void setCompletionDate(Timestamp completionDate) {
         this.completionDate = completionDate;
     }
 
