@@ -1,12 +1,15 @@
 checkLogin().then(populatePitches);
 
+
+
 function populatePitches() {
+    let url = baseUrl + loggedUser.id
+
     let pitches = loggedUser.pitches;
     let pitchSection = document.getElementById('pitchSection');
 
     if (pitches.length > 0) {
         let table = document.createElement('table');
-
         table.innerHTML = `
             <tr>
                 <th>ID</th>

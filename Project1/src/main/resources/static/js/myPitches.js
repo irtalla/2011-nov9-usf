@@ -1,6 +1,10 @@
 checkLogin().then(populatePitches);
 
+
+
 function populatePitches() {
+    let url = baseUrl + loggedUser.id
+
     let pitches = loggedUser.pitches;
     let pitchSection = document.getElementById('pitchSection');
 

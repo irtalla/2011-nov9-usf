@@ -24,9 +24,10 @@ public class SPMSJavalinApp {
 				post(PersonController::registerUser); // register new user
 				delete(PersonController::logOut); // log out user
 				path (":id", () -> {
-					//getuserbyId may not be needed here
-					//get(PersonController::getUserById); // get user by id
-					get(PersonController::getPitchesByUserId); //gets pitches for user
+					
+					get(PersonController::getUserById); // get user by id
+					//can only have one get request - try getting as part of person object?
+					//get(PersonController::getPitchesByUserId); //gets pitches for user
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
 					
