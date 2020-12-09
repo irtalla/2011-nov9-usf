@@ -7,6 +7,7 @@ import com.revature.beans.Person;
 import com.revature.data.EvtReqDAO;
 import com.revature.data.EvtReqDAOFactory;
 import com.revature.data.PersonDAO;
+import com.revature.data.PersonDAOFactory;
 
 public class EvtReqServiceImpl implements EvtReqService {
 	private EvtReqDAO evtReqDao;
@@ -16,9 +17,12 @@ public class EvtReqServiceImpl implements EvtReqService {
 	public EvtReqServiceImpl() {
 		EvtReqDAOFactory evtReqDaoFactory = new EvtReqDAOFactory();
 		evtReqDao = evtReqDaoFactory.getEvtReqDAO();	
+		PersonDAOFactory pdf = new PersonDAOFactory();
+		personDao = pdf.getPersonDAO();
 	}
 	
 	@Override
+			
 	public Integer addEvtReq(EvtReq e) {
 		// TODO Auto-generated method stub
 		return null;
@@ -26,14 +30,12 @@ public class EvtReqServiceImpl implements EvtReqService {
 
 	@Override
 	public EvtReq getEvtReqById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return evtReqDao.getById(id);
 	}
 
 	@Override
 	public Set<EvtReq> getEvtReqs() {
-		// TODO Auto-generated method stub
-		return null;
+		return evtReqDao.getAll();		
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class EvtReqServiceImpl implements EvtReqService {
 
 	@Override
 	public void updateEvtReq(EvtReq e) {
-		// TODO Auto-generated method stub
+		evtReqDao.update(e);  
 		
 	}
 	
@@ -55,7 +57,7 @@ public class EvtReqServiceImpl implements EvtReqService {
 
 	@Override
 	public void removeEvtReq(EvtReq e) {
-		// TODO Auto-generated method stub
+		evtReqDao.delete(e);
 		
 	}
 	

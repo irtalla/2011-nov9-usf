@@ -52,29 +52,14 @@ function populateEvtReqs(evtReqs) {
             `;
             
              let td = document.createElement('td');
-             tr.appendChild(td);
+             // tr.appendChild(td);
              table.appendChild(tr);
                      
         }
-           
-
-		/* for (index = 0; index < evtReqs.length; index ++){
-			var row = table.insertRow(0);
-			
-			var cell1 = row.insertCell(0);
-			var cell2 = row.insertCell(1);
-			
-			cell1.innerHTML = evtReqs[index].id;
-			cell2.innerHTML = evtReqs[index].name;
-		} */
-		 
-
-        evtReqSection.appendChild(table);
+             evtReqSection.appendChild(table);
     } else {
         evtReqSection.innerHTML = 'No events are available.';
     }
 }
 
-function addEvent() {
-   
-}
+

@@ -3,6 +3,7 @@ let nav = document.getElementById('navBar');
 let loggedUser = null;
 checkLogin();
 setNav();
+
 function setNav() {
     nav.innerHTML = `
             <a href="index.html"><strong>Tuition Reimbursement Management System (TRMS)</strong></a>
@@ -20,6 +21,7 @@ function setNav() {
     } else {
         nav.innerHTML += `
             <a href="myEvtReqs.html">My Event Requests</a>
+			<a href="addEvtReqs.html">Add Event Requests</a>
             <span>
                 ${loggedUser.username}&nbsp;
                 <button type="button" id="loginBtn">Log Out</button>
@@ -34,6 +36,7 @@ function setNav() {
 }
 
 async function login() {
+	
     // http://localhost:8080/users?user=sierra&pass=pass
     let url = baseUrl + '/users?';
     url += 'user=' + document.getElementById('user').value + '&';
@@ -42,7 +45,7 @@ async function login() {
     
     switch (response.status) {
         case 200: // successful
-            loggedUser = await response.json();
+            loggedUser = await response.json(); 
             setNav();
             break;
         case 400: // incorrect password

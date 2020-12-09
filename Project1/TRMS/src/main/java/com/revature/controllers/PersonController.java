@@ -33,7 +33,7 @@ public class PersonController {
 				System.out.println("Logged in as " + p.getUsername());
 				ctx.status(200);
 				ctx.json(p);
-				ctx.sessionAttribute("user", p);
+				ctx.sessionAttribute("user", p);//
 			}
 			else
 			{

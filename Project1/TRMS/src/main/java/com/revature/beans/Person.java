@@ -11,6 +11,7 @@ public class Person {
 	private Set<Title> titles;
 	private Set<EvtReq> evtReqs;
 	private Role role;
+	private ReqFrCmnt reqFrCmnt; 
 
 	
 	public Person() {
@@ -20,6 +21,7 @@ public class Person {
 		titles = new HashSet<Title>();
 		evtReqs = new HashSet<EvtReq>();
 		role = new Role();
+		reqFrCmnt = new ReqFrCmnt();
 	}
 
 
@@ -83,6 +85,16 @@ public class Person {
 	}
 
 
+	public ReqFrCmnt getReqFrCmnt() {
+		return reqFrCmnt;
+	}
+
+
+	public void setReqFrCmnt(ReqFrCmnt reqFrCmnt) {
+		this.reqFrCmnt = reqFrCmnt;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -90,6 +102,7 @@ public class Person {
 		result = prime * result + ((evtReqs == null) ? 0 : evtReqs.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((reqFrCmnt == null) ? 0 : reqFrCmnt.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((titles == null) ? 0 : titles.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -121,6 +134,11 @@ public class Person {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (reqFrCmnt == null) {
+			if (other.reqFrCmnt != null)
+				return false;
+		} else if (!reqFrCmnt.equals(other.reqFrCmnt))
+			return false;
 		if (role == null) {
 			if (other.role != null)
 				return false;
@@ -143,8 +161,7 @@ public class Person {
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", username=" + username + ", password=" + password + ", titles=" + titles
-				+ ", evtReqs=" + evtReqs + ", role=" + role + "]";
-	}
-
+				+ ", evtReqs=" + evtReqs + ", role=" + role + ", reqFrCmnt=" + reqFrCmnt + "]";
+	}	
 
 }

@@ -194,11 +194,14 @@ public class PersonPostgres implements PersonDAO {
 		}
 	}
 	
+	//this method got wrong, let me fix it
 	private Set<EvtReq> getEventsByPersonId(Integer id, Connection conn) throws SQLException {
+		
 		Set<EvtReq> evtReqs = new HashSet<>();
 		EvtReqDAO evtReqDao = new EvtReqPostgres();
+		return evtReqDao.getEventsByPersonId(id);
 		
-		String sql = "select * from evt_req where person_id = ?";
+		/*String sql = "select * from evt_req where person_id = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, id);
 		ResultSet rs = pstmt.executeQuery();
@@ -210,7 +213,7 @@ public class PersonPostgres implements PersonDAO {
 			evtReqs.add(request);
 		}
 		
-		return evtReqs;
+		return evtReqs;*/
 	}
 
 

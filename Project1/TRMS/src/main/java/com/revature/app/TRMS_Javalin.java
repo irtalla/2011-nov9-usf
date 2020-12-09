@@ -42,6 +42,10 @@ public class TRMS_Javalin {
 					delete(EvtReqController::deleteEvtReq); // delete a event
 				});
 			});
+			path ("all", () -> {
+				get(EvtReqController::getAllEvtReqs); // get all events
+			});
+			
 			// all requests to /users go to this handler
 			path("users", () -> {
 				get(PersonController::checkLogin); // get logged in user

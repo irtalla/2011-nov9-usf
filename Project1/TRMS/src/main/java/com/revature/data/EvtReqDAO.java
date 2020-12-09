@@ -9,5 +9,5 @@ public interface EvtReqDAO extends GenericDAO<EvtReq> {
 	public EvtReq add(EvtReq e);
 	public Set<EvtReq> getAvailableEvents();
 	public void addEvent(Person p, EvtReq e);
-
+	public Set<EvtReq> getEventsByPersonId(Integer person_id);
 }

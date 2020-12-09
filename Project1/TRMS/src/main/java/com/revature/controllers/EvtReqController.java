@@ -26,6 +26,7 @@ public class EvtReqController {
 	}
 	
 	public static void getAllEvtReqs(Context ctx) {
+		System.out.println("Getting available events");
 		Set<EvtReq> evtReqs = evtReqServ.getEvtReqs();
 		if (evtReqs != null) {
 		//if (evtReqs.size() > 0) {
@@ -81,6 +82,7 @@ public class EvtReqController {
 	public static void initEvtReq(Context ctx) {
 		Person loggedPerson = ctx.sessionAttribute("user");
 		EvtReq evtReq = evtReqServ.getEvtReqById(Integer.valueOf(ctx.pathParam("id")));
+		System.out.println("A");
 		if (loggedPerson != null) {
 			if (evtReq != null) {
 				evtReqServ.initEvtReq(loggedPerson, evtReq);
