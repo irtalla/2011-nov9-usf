@@ -69,8 +69,10 @@ public class UserHibernatePostgres implements UserDAO {
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM User WHERE username = '" + username + "'";
-			List<User> resultList = s.createQuery(hql, User.class).list();
+			String hql = "FROM User WHERE username = :username";
+			Query<User> q = s.createQuery(hql, User.class);
+			q.setParameter("username", username);
+			List<User> resultList = q.getResultList();
 			System.out.println(resultList.size());
 			if (resultList.size() > 0) u = resultList.get(0);
 		} catch (Exception e) {
@@ -86,8 +88,10 @@ public class UserHibernatePostgres implements UserDAO {
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM User WHERE email = '" + email + "'";
-			List<User> resultList = s.createQuery(hql, User.class).list();
+			String hql = "FROM User WHERE email = :email";
+			Query<User> q = s.createQuery(hql, User.class);
+			q.setParameter("email", email);
+			List<User> resultList = q.getResultList();
 			if (resultList.size() > 0) u = resultList.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,8 +106,10 @@ public class UserHibernatePostgres implements UserDAO {
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM User WHERE role_id = " + role.getId();
-			List<User> resultList = s.createQuery(hql, User.class).list();
+			String hql = "FROM User WHERE role_id = :role_id";
+			Query<User> q = s.createQuery(hql, User.class);
+			q.setParameter("role_id", role.getId());
+			List<User> resultList = q.getResultList();			
 			users = new HashSet<User>(resultList);
 			
 		} catch (Exception e) {

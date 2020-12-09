@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -56,8 +57,10 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM Committee where genre_id = " + genre.getId();
-			List<Committee> resultList = s.createQuery(hql, Committee.class).list();
+			String hql = "FROM Committee where genre_id = :genre_id";
+			Query<Committee> q = s.createQuery(hql, Committee.class);
+			q.setParameter("genre_id", genre.getId());
+			List<Committee> resultList = q.getResultList();
 			if (resultList.size() > 0) {
 				c = resultList.get(0);
 				c.setName(assembleName(c));

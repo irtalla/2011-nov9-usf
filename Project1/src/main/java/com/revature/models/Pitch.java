@@ -22,7 +22,7 @@ public class Pitch {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinTable(name="author_pitch",
 			joinColumns=@JoinColumn(name="pitch_id"),
 			inverseJoinColumns=@JoinColumn(name="user_id"))

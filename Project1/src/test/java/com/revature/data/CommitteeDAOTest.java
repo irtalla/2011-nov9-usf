@@ -32,7 +32,7 @@ class CommitteeDAOTest {
 		sampleCommittee = new Committee();
 		sampleCommittee.setId(1);
 		Genre g = new Genre();
-		g.setId(11);
+		g.setId(1);
 		g.setName("Romance");
 		sampleCommittee.setGenre(g);
 		sampleCommittee.setName(g.getName() + " Committee");
@@ -108,7 +108,7 @@ class CommitteeDAOTest {
 		committeeDao.delete(sampleCommittee);
 		assertFalse(committeeDao.getAll().contains(sampleCommittee));
 	}
-	
+//	
 //	@Order(7)
 //	@Test
 //	void testPopulateCommittees() throws NonUniqueCommitteeException {
@@ -118,8 +118,8 @@ class CommitteeDAOTest {
 //			Committee c = committeeDao.getById(i);
 //			if (c != null) {
 //				int count = 0;
-//				while (count < 3) {
-//					int rand = random.nextInt(30) + 16;
+//				while (count < 5) {
+//					int rand = random.nextInt(45) + 46;
 //					User u = userDao.getById(rand);
 //					if (!c.getEditors().contains(u)) {
 //						c.getEditors().add(u);
@@ -128,6 +128,7 @@ class CommitteeDAOTest {
 //					}
 //				}
 //				count = 0;
+//			
 //			}
 //		}
 //
