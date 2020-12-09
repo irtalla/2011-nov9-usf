@@ -41,43 +41,60 @@ function populatePitches(pitches) {
         </tr>
         `;
 
-        for (let cat of cats) {
+        for (let pitch of pitches) {
             let tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${cat.id}</td>
-                <td>${cat.name}</td>
-                <td>${cat.age}</td>
-                <td>${cat.breed.name}</td>
+            <td>${pitch.id}</td>
+            <td>${pitch.story_title}</td>
+            <td>${pitch.finish_date}</td>
+            <td>${pitch.storytype.storytype_name}</td>
+            <td>${pitch.genre.genre_name}</td>
+            <td>${pitch.description}</td>
+            <td>${pitch.status.status_name}</td>
+            <td>${pitch.pitch_priority.priority_name}</td>
+            <td>${pitch.pitch_stage.stage_name}</td>
             `;
             let td = document.createElement('td');
             let ul = document.createElement('ul');
-            for (let sn of cat.specialNeeds) {
-                let li = document.createElement('li');
-                li.innerHTML = sn.name;
-                ul.appendChild(li);
-            }
+
             td.appendChild(ul);
             tr.appendChild(td);
 
-            let adoptBtn = document.createElement('button');
-            adoptBtn.type = 'button';
-            adoptBtn.id = cat.name + '_' + cat.id;
-            adoptBtn.textContent = 'Adopt';
-            adoptBtn.disabled = !loggedUser;
-            // <button type="button" id="Howard_6"
-            //  disabled="false">Adopt</button>
-            
-            let btnTd = document.createElement('td');
-            btnTd.appendChild(adoptBtn);
+            let acceptBtn = document.createElement('button');
+            acceptBtn.type = 'button';
+            acceptBtn.id = pitch.story_title + " _ " + pitch.id;
+            acceptBtn.textContent = 'Accept';
+            acceptBtn.disabled = !loggedUser;
+
+            let rejectBtn = document.createElement('button');
+            rejectBtn.type = 'button';
+            rejectBtn.id = pitch.story_title + " _ " + pitch.id;
+            rejectBtn.textContent = 'reject';
+            rejectBtn.disabled = !loggedUser;
+
+            let requestBtn = document.createElement('button');
+            requestBtn.type = 'button';
+            requestBtn.id = pitch.story_title + " _ " + pitch.id;
+            requestBtn.textContent = 'request more information';
+            requestBtn.disabled = !loggedUser;
+           
+            let btnTda = document.createElement('td');
+            btnTda.appendChild(acceptBtn);
+            let btnTdr = document.createElement('td');
+            btnTdr.appendChild(rejectBtn);
+            let btnTdrq = document.createElement('td');
+            btnTdrq.appendChild(requestBtn);
             tr.appendChild(btnTd);
             table.appendChild(tr);
             
-            adoptBtn.addEventListener('click', adoptCat);
+            acceptBtn.addEventListener('click', acceptPitch);
+            rejectBtn.addEventListener('click', rejectPitch);
+            requestBtn.addEventListener('click', requestInfo);
         }
 
-        catSection.appendChild(table);
+        pitchSection.appendChild(table);
     } else {
-        catSection.innerHTML = 'No cats are available.';
+        pitchSection.innerHTML = 'This area is empty on purpose';
     }
 }
 

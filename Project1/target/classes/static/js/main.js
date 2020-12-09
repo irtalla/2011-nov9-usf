@@ -20,7 +20,7 @@ function setNav() {
         nav.innerHTML += `
             <a href="currPitches.html">My Pitches</a>
             <span>
-                <a href="profile.html">${loggedUser.username}&nbsp;</a>
+                <a href="profile.html">${loggedUser.username}&nbsp;${loggedUser.title.title_name}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;

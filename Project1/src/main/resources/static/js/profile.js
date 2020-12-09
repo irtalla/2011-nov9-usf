@@ -26,7 +26,8 @@ function showInfo() {
         <button id="submitChanges" onclick="submitChanges" type="button">
             Submit Changes
         </button>
-        You have ${loggedUser.cats.length} cats.
+        You have ${loggedUser.pitches.length} pitches.
+        You belong to ${loggedUser.committees.length} committees.
     `;
 }
 

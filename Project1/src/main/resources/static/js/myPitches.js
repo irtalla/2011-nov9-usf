@@ -1,6 +1,16 @@
 checkLogin().then(populatePitches);
+populateTitles();
 
-
+function populateTitles() {
+    let titles = loggedUser.titles;
+    let titleBar = document.createElement('ul')
+    for(let title in titles){
+        let li = document.createElement('li');
+        li.innerHTML = title.title_name;
+    }
+    titleBar.appendChild(li);
+    pitchSection.appendChild(titleBar);
+}
 
 function populatePitches() {
 
@@ -37,10 +47,7 @@ function populatePitches() {
                 <td>${pitch.pitch_stage.stage_name}</td>
             `;
             let td = document.createElement('td');
-            let ul = document.createElement('ul');
 
-            
-            td.appendChild(ul);
             tr.appendChild(td);
             table.appendChild(tr);
         }
