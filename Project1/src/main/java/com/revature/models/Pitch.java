@@ -2,6 +2,8 @@ package com.revature.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,13 +46,14 @@ public class Pitch {
 	@Column(name="pitch_made_at")
 	private LocalDateTime pitchMadeAt;
 	@Transient
-	private String priority;
+	private Priority priority;
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="stage_id")
 	private PitchStage pitchStage;
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="status_id")
 	private ReviewStatus reviewStatus;
+	private Set<AdditionalFile> additionalFiles;
 
 	public Pitch() {
 		id = 0;
@@ -62,9 +65,10 @@ public class Pitch {
 		description = "";
 		completionDate = LocalDate.now();
 		pitchMadeAt = LocalDateTime.now();
-		priority = "Normal";
+		priority = Priority.NOMRAL;
 		pitchStage = new PitchStage();
 		reviewStatus = new ReviewStatus();
+		additionalFiles = new HashSet<>();
 	}
 
 	public Integer getId() {
@@ -139,11 +143,11 @@ public class Pitch {
 		this.pitchMadeAt = pitchMadeAt;
 	}
 
-	public String getPriority() {
+	public Priority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(String priority) {
+	public void setPriority(Priority priority) {
 		this.priority = priority;
 	}
 
@@ -163,10 +167,19 @@ public class Pitch {
 		this.reviewStatus = reviewStatus;
 	}
 
+	public Set<AdditionalFile> getAdditionalFiles() {
+		return additionalFiles;
+	}
+
+	public void setAdditionalFiles(Set<AdditionalFile> additionalFiles) {
+		this.additionalFiles = additionalFiles;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((additionalFiles == null) ? 0 : additionalFiles.hashCode());
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((completionDate == null) ? 0 : completionDate.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -191,6 +204,11 @@ public class Pitch {
 		if (getClass() != obj.getClass())
 			return false;
 		Pitch other = (Pitch) obj;
+		if (additionalFiles == null) {
+			if (other.additionalFiles != null)
+				return false;
+		} else if (!additionalFiles.equals(other.additionalFiles))
+			return false;
 		if (author == null) {
 			if (other.author != null)
 				return false;
@@ -226,10 +244,7 @@ public class Pitch {
 				return false;
 		} else if (!pitchStage.equals(other.pitchStage))
 			return false;
-		if (priority == null) {
-			if (other.priority != null)
-				return false;
-		} else if (!priority.equals(other.priority))
+		if (priority != other.priority)
 			return false;
 		if (reviewStatus == null) {
 			if (other.reviewStatus != null)
@@ -259,7 +274,7 @@ public class Pitch {
 		return "Pitch [id=" + id + ", author=" + author + ", title=" + title + ", tagline=" + tagline + ", storyType="
 				+ storyType + ", genre=" + genre + ", description=" + description + ", completionDate=" + completionDate
 				+ ", pitchMadeAt=" + pitchMadeAt + ", priority=" + priority + ", pitchStage=" + pitchStage
-				+ ", reviewStatus=" + reviewStatus + "]";
+				+ ", reviewStatus=" + reviewStatus + ", additionalFiles=" + additionalFiles + "]";
 	}
 
 }
