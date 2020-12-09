@@ -38,10 +38,20 @@ async function getClaimsList() {
         
         //fetch all claims that have not been approved by the direct supervisor
         let url = baseUrl + '/claims/ds'
+        let response = await fetch(url);
+
+        //update the html
+        if (response.status === 200) {
+            claims = await response.json();
+            updateClaims();
+        } else if (response.status === 400){
+            console.log("failed");
+        }
     }
 }
 
 async function updateClaims() {
+    currentClaimID = null;
     claimsDiv = document.getElementById('claimsDiv');
     claimsDiv.innerHTML = '';
 
@@ -51,7 +61,7 @@ async function updateClaims() {
 
         let claim = claims[i];
         let date = claim.eventDate;
-        let claimHTML = `<div id="claim${claim.id}" class="container justify-content-center claim" onclick="viewClaimDetails(${claim.id})">
+        let claimHTML = `<div id="claim${claim.id}" class="container justify-content-center claim" onclick="viewClaimDetails(${i})">
             <div class="row claimTitleDate">
                 <div class="col" >
                     <h2>${claim.title}</h2>
@@ -76,9 +86,9 @@ async function updateClaims() {
 
 }
 
-async function viewClaimDetails(id) {
+async function viewClaimDetails(index) {
     //console.log(id);
-    let claim = claims[id];
+    let claim = claims[index];
     let date = claim.eventDate;
 
     let claimHTML = `<div id="claim${claim.id}" class="container justify-content-center claim">
@@ -172,7 +182,44 @@ async function viewClaimDetails(id) {
                             </div>
                         </div>
 
+                    `;//</div>
+
+    if(user.role.id == 4){
+        claimHTML += `</div>`;
+    } else if(user.role.id >= 3){
+        claimHTML += `<div class="row">
+                            <div class="col justify-content-left">
+                                <button type="button" onclick="acceptClaim(${index})">Accept</button>
+                            </div>
+
+                            <div class="col justify-content-left">
+                                <button type="button" onclick="denyClaim(${index})">Deny</button>
+                            </div>
+
+                            <div class="col justify-content-left">
+                                <input type="text" placeholder="Denial reason"/>
+                            </div>
+                        </div>
                     </div>`;
+    }
 
     claimsDiv.innerHTML = claimHTML;
+}
+
+async function acceptClaim(index){
+    console.log(claims[index]);
+    let url = baseUrl + '/claims/accept/' +  claims[index].id;
+    console.log(url);
+    let response = await fetch(url, {method: 'POST', body: JSON.stringify(claims[index])});
+
+    if(response.status === 200){
+        getClaimsList();
+    } else {
+        getClaimsList();
+        alert('something went wrong');
+    }
+}
+
+async function denyClaim(index){
+
 }

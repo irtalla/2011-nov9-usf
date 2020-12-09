@@ -10,9 +10,11 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import dev.elliman.beans.Claim;
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Stage;
 import dev.elliman.utils.HibernateUtil;
 
 public class ClaimHibernatePostgres implements ClaimDAO{
@@ -32,6 +34,7 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 		
 		List<Claim> claims = null;
 		claims = s.createQuery(criteria).getResultList();
+		s.close();
 		
 		return claims;
 	}
@@ -57,4 +60,62 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 		return claim;
 	}
 
+	@Override
+	public List<Claim> getDSUnapprovedClaims() {
+		Session s = hu.getSession();
+		
+		String query = "from Claim where dsa = null";
+		Query<Claim> q = s.createQuery(query);
+		
+		List<Claim> claims = null;
+		claims = q.getResultList();
+		s.close();
+		return claims;
+	}
+
+	@Override
+	public List<Claim> getApprovedClaims(Person person) {
+		Session s = hu.getSession();
+		
+		String query = "from Claim where stage.id > 1";
+		Query<Claim> q = s.createQuery(query);
+		
+		
+		List<Claim> claims = null;
+		claims = q.getResultList();
+		s.close();
+		return claims;
+	}
+
+	@Override
+	public Boolean update(Claim claim) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		
+		
+		try {
+			tx = s.beginTransaction();
+			s.update(claim);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			if(tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+			return false;
+		} finally {
+			s.close();
+		}
+		
+		
+	}
+
+	@Override
+	public Claim getClaimByID(Integer id) {
+		Session s = hu.getSession();
+		Claim claim = s.get(Claim.class, id);
+		s.close();
+		return claim;
+	}
 }

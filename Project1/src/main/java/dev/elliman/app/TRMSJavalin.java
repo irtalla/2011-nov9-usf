@@ -27,6 +27,18 @@ public class TRMSJavalin {
 				path("person/:id", () -> {
 					get(ClaimController::getClaimsByPerson);//show a person all of their claims
 				});
+				path("ds", () -> {
+					get(ClaimController::getDSUnapprovedClaims);
+				});
+//				path("dh", () -> {
+//					get(ClaimController::getDSUnapprovedClaims);
+//				});
+//				path("bc", () -> {
+//					get(ClaimController::getDSUnapprovedClaims);
+//				});
+				path("accept/:id", () -> {
+					post(ClaimController::accept);
+				});
 			});
 		});
 	}

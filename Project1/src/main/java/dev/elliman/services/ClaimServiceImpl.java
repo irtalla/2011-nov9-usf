@@ -25,4 +25,19 @@ public class ClaimServiceImpl implements ClaimService {
 		return claimDAO.makeClaim(claim);
 	}
 
+	@Override
+	public List<Claim> getDSUnapprovedClaims() {
+		return claimDAO.getDSUnapprovedClaims();
+	}
+
+	@Override
+	public boolean accept(Claim claim) {
+		return claimDAO.update(claim);
+	}
+
+	@Override
+	public Claim getClaimByID(Integer id) {
+		return claimDAO.getClaimByID(id);
+	}
+
 }

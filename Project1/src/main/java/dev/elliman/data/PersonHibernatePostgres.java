@@ -24,7 +24,13 @@ public class PersonHibernatePostgres implements PersonDAO {
 		
 		criteria.select(root).where(predicateForUsername);
 		
-		Person p = s.createQuery(criteria).getSingleResult();
+		Person p;
+		try {
+			p = s.createQuery(criteria).getSingleResult();
+		} catch (Exception e) {
+			p = null;
+		}
+		s.close();
 		return p;
 	}
 
