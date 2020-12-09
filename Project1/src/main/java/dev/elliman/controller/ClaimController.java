@@ -36,6 +36,30 @@ public class ClaimController {
 		}
 	}
 	
+	public static void getDHUnapprovedClaims(Context ctx) {
+		//Person p = ctx.sessionAttribute("user");
+		List<Claim> claims = cs.getDHUnapprovedClaims();
+		
+		if(claims != null) {
+			ctx.status(200);
+			ctx.json(claims);
+		} else {
+			ctx.status(500);
+		}
+	}
+	
+	public static void getBCUnapprovedClaims(Context ctx) {
+		//Person p = ctx.sessionAttribute("user");
+		List<Claim> claims = cs.getBCUnapprovedClaims();
+		
+		if(claims != null) {
+			ctx.status(200);
+			ctx.json(claims);
+		} else {
+			ctx.status(500);
+		}
+	}
+	
 	public static void accept(Context ctx) {
 		Claim claim = cs.getClaimByID(Integer.valueOf(ctx.pathParam("id")));
 		Person person = ctx.sessionAttribute("user");

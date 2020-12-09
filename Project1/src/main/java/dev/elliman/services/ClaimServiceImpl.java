@@ -40,4 +40,14 @@ public class ClaimServiceImpl implements ClaimService {
 		return claimDAO.getClaimByID(id);
 	}
 
+	@Override
+	public List<Claim> getDHUnapprovedClaims() {
+		return claimDAO.getDHUnapprovedClaims();
+	}
+
+	@Override
+	public List<Claim> getBCUnapprovedClaims() {
+		return claimDAO.getBCUnapprovedClaims();
+	}
+
 }

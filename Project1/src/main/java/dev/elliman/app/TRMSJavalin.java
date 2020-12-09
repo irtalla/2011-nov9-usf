@@ -30,12 +30,12 @@ public class TRMSJavalin {
 				path("ds", () -> {
 					get(ClaimController::getDSUnapprovedClaims);
 				});
-//				path("dh", () -> {
-//					get(ClaimController::getDSUnapprovedClaims);
-//				});
-//				path("bc", () -> {
-//					get(ClaimController::getDSUnapprovedClaims);
-//				});
+				path("dh", () -> {
+					get(ClaimController::getDHUnapprovedClaims);
+				});
+				path("bc", () -> {
+					get(ClaimController::getBCUnapprovedClaims);
+				});
 				path("accept/:id", () -> {
 					post(ClaimController::accept);
 				});

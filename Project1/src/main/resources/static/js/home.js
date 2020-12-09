@@ -32,12 +32,21 @@ async function getClaimsList() {
         } else if (response.status === 400){
             console.log("failed");
         }
-    } else if (user.role.id == 3) {
+    } else if (user.role.id <= 3) {
         //Direct Supervisor
         //show all claims made that have been approved by no one
         
         //fetch all claims that have not been approved by the direct supervisor
-        let url = baseUrl + '/claims/ds'
+        let url = baseUrl + '/claims/';
+
+        if(user.role.id == 3){
+            url += 'ds';
+        } else if(user.role.id == 2){
+            url += 'dh';
+        } else if(user.role.id == 1){
+            url += 'bc';
+        }
+
         let response = await fetch(url);
 
         //update the html
@@ -54,6 +63,10 @@ async function updateClaims() {
     currentClaimID = null;
     claimsDiv = document.getElementById('claimsDiv');
     claimsDiv.innerHTML = '';
+
+    
+
+    
 
     for (let i in claims) {
         //console.log(claims[i]);
@@ -186,8 +199,32 @@ async function viewClaimDetails(index) {
 
     if(user.role.id == 4){
         claimHTML += `</div>`;
-    } else if(user.role.id >= 3){
-        claimHTML += `<div class="row">
+    } else if(user.role.id <= 3){
+        //console.log(claim.dsa);
+        //console.log(user);
+        if(user.role.id <= 2 && claim.dsa != null){
+            console.log('add dsa');
+            claimHTML += `<div class="row">
+                                <div class="col">
+                                    <h6>Direct Supervisor approval:</h6>
+                                </div>
+                                <div class="col">
+                                    <h6>${claim.dsa.firstName} ${claim.dsa.lastName}</h6>
+                                </div>
+                            </div>`
+        }
+        if(user.role.id <= 1 && claim.dsa != null && claim.dha != null){
+            claimHTML += `<div class="row">
+                                <div class="col">
+                                    <h6>Direct Head approval:</h6>
+                                </div>
+                                <div class="col">
+                                    <h6>${claim.dha.firstName} ${claim.dha.lastName}</h6>
+                                </div>
+                            </div>`
+        }
+        claimHTML += `
+                        <div class="row">
                             <div class="col justify-content-left">
                                 <button type="button" onclick="acceptClaim(${index})">Accept</button>
                             </div>
@@ -209,7 +246,7 @@ async function viewClaimDetails(index) {
 async function acceptClaim(index){
     console.log(claims[index]);
     let url = baseUrl + '/claims/accept/' +  claims[index].id;
-    console.log(url);
+    //console.log(url);
     let response = await fetch(url, {method: 'POST', body: JSON.stringify(claims[index])});
 
     if(response.status === 200){

@@ -118,4 +118,30 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 		s.close();
 		return claim;
 	}
+
+	@Override
+	public List<Claim> getDHUnapprovedClaims() {
+		Session s = hu.getSession();
+		
+		String query = "from Claim where dha = null";
+		Query<Claim> q = s.createQuery(query);
+		
+		List<Claim> claims = null;
+		claims = q.getResultList();
+		s.close();
+		return claims;
+	}
+
+	@Override
+	public List<Claim> getBCUnapprovedClaims() {
+		Session s = hu.getSession();
+		
+		String query = "from Claim where bca = null and dha is not null";
+		Query<Claim> q = s.createQuery(query);
+		
+		List<Claim> claims = null;
+		claims = q.getResultList();
+		s.close();
+		return claims;
+	}
 }

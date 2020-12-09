@@ -11,6 +11,8 @@ public interface ClaimDAO {
 	//read 
 	public List<Claim> getClaimsByPerson(Person person);
 	public List<Claim> getDSUnapprovedClaims();
+	public List<Claim> getDHUnapprovedClaims();
+	public List<Claim> getBCUnapprovedClaims();
 	public List<Claim> getApprovedClaims(Person person);
 	public Claim getClaimByID(Integer id);
 	

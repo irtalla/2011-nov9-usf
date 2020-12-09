@@ -11,6 +11,8 @@ public interface ClaimService {
 	//read
 	public List<Claim> getClaimsByPerson(Person person);
 	public List<Claim> getDSUnapprovedClaims();
+	public List<Claim> getDHUnapprovedClaims();
+	public List<Claim> getBCUnapprovedClaims();
 	public Claim getClaimByID(Integer id);
 	
 	//write
