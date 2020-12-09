@@ -88,6 +88,7 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		} catch (Exception e) {
 			if (tx != null) {
 				tx.rollback();
+				e.printStackTrace();
 				// Give indication of failure with null return value
 				c = null; 
 			}

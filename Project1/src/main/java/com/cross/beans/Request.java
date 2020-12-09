@@ -1,10 +1,13 @@
 package com.cross.beans;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +17,7 @@ import javax.persistence.Table;
 @Table
 public class Request {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id; 
 	@Column(name="sender_id")
 	private Integer senderId; 
@@ -26,7 +30,7 @@ public class Request {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="status_id")
 	private Status status;
-	private Timestamp creationTime; 
+	private LocalDateTime creationTime; 
 	@Column(name="target_draft_id")
 	private Integer targetDraftId;
 	@Column(name="target_pitch_id")
@@ -92,11 +96,11 @@ public class Request {
 		this.status = status;
 	}
 
-	public Timestamp getCreationTime() {
+	public LocalDateTime getCreationTime() {
 		return creationTime;
 	}
 
-	public void setCreationTime(Timestamp creationTime) {
+	public void setCreationTime(LocalDateTime creationTime) {
 		this.creationTime = creationTime;
 	}
 

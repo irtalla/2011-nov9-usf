@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.cross.beans.Comment;
+import com.cross.beans.Decision;
 import com.cross.beans.Decision;
 import com.cross.utils.HibernateUtil;
 
@@ -99,31 +99,31 @@ public class DecisionHibernate implements DecisionDAO {
 	}
 	
 	@Override
-	public Set<Comment> getByEditorId(Integer editorId) {
+	public Set<Decision> getByEditorId(Integer editorId) {
 
 		Session s = hu.getSession();
-		String query = "FROM Comment where editor_id = :id";
-		Query<Comment> q = s.createQuery(query, Comment.class);
+		String query = "FROM Decision where editor_id = :id";
+		Query<Decision> q = s.createQuery(query, Decision.class);
 		q.setParameter("id", editorId);
-		List<Comment> commentsList = q.getResultList();
-		Set<Comment> commentsSet = new HashSet<>();
-		commentsSet.addAll(commentsList);
+		List<Decision> decisionsList = q.getResultList();
+		Set<Decision> decisionsSet = new HashSet<>();
+		decisionsSet.addAll(decisionsList);
 		s.close();
-		return commentsSet;
+		return decisionsSet;
 	}
 	
 	@Override
-	public Set<Comment> getByPitchId(Integer pitchId) {
+	public Set<Decision> getByPitchId(Integer pitchId) {
 
 		Session s = hu.getSession();
-		String query = "FROM Comment where pitch_id = :id";
-		Query<Comment> q = s.createQuery(query, Comment.class);
+		String query = "FROM Decision where pitch_id = :id";
+		Query<Decision> q = s.createQuery(query, Decision.class);
 		q.setParameter("id", pitchId);
-		List<Comment> commentsList = q.getResultList();
-		Set<Comment> commentsSet = new HashSet<>();
-		commentsSet.addAll(commentsList);
+		List<Decision> decisionsList = q.getResultList();
+		Set<Decision> decisionsSet = new HashSet<>();
+		decisionsSet.addAll(decisionsList);
 		s.close();
-		return commentsSet;
+		return decisionsSet;
 	}
 	
 	

@@ -17,8 +17,8 @@ public interface DecisionDAO {
 
 	Decision add(Decision c);
 
-	Set<Comment> getByEditorId(Integer editorId);
+	Set<Decision> getByEditorId(Integer editorId);
 
-	Set<Comment> getByPitchId(Integer pitchId);
+	Set<Decision> getByPitchId(Integer pitchId);
 
 }

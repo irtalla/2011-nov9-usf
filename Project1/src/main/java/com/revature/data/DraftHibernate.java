@@ -130,7 +130,7 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	public Set<Draft> getByAuthorId(Integer pitchId) {
 
 		Session s = hu.getSession();
-		String query = "FROM Draft where target_pitch_id = :id";
+		String query = "FROM Draft where pitch_id = :id";
 		Query<Draft> q = s.createQuery(query, Draft.class);
 		q.setParameter("id", pitchId);
 		List<Draft> draftsList = q.getResultList();

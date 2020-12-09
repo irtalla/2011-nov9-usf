@@ -6,6 +6,13 @@ single person table. So the schema will contain:
 	
 	1) person relation 
 	
+	* This turns out the be a tricky compromise. On
+	on hand, we reduce the number of relations. On the
+	other, person objects that implement editors have
+	an unused points field, and person objects that 
+	implement authors have an unused genre set field.
+	 
+	
 Persons can be authors or editors. Editors can be 
 senior editors or assistant editors. or general 
 editors. Therefore, the schema will contain:

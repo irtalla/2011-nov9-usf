@@ -18,12 +18,13 @@ import com.cross.beans.Status;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.revature.services.PitchService;
+import com.revature.services.PitchServiceImpl;
 
 import io.javalin.http.Context;
 
 public class PitchController {
 	
-	private static PitchService pitchServ = new PitchService(); 
+	private static PitchService pitchServ = new PitchServiceImpl(); 
 	private static Gson gson; 
 	
 	public static void initGsonBuilder() {
@@ -54,8 +55,8 @@ public class PitchController {
 	    try {
 		    Pitch deserializedPitch;	    
 		    deserializedPitch = gson.fromJson( ctx.body(), Pitch.class);
-		    deserializedPitch.setId(3);
-		    ctx.json( gson.toJson(deserializedPitch) );
+		    Pitch outPitch = pitchServ.addPitch(deserializedPitch);
+		    ctx.json( gson.toJson(outPitch) );
 			ctx.status(200);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
@@ -66,46 +67,46 @@ public class PitchController {
 	
 	public static void getPitchByAuthorId(Context ctx) { 
 		
-	    Person deserializedPerson, queriedPerson; 
+//		Pitch dummyPitchA = new Pitch(); 
+//		dummyPitchA.setId(1);
+//		dummyPitchA.setTitle("On the Joys of Academic Philosophy");
+//		dummyPitchA.setTagline("A tale of one nigga's harrowing escape from cognitive fiefdom"); 
+//		
+//		Genre dummyGenre = new Genre(); 
+//		dummyGenre.setId(-1);
+//		dummyGenre.setName("Nonfiction");
+//		dummyPitchA.setGenre(dummyGenre);
+//		Form dummyForm = new Form(); 
+//		dummyForm.setId(-1);
+//		dummyForm.setName("Article");
+//		dummyPitchA.setForm(dummyForm);
+//		Status dummyStatus = new Status();
+//		dummyStatus.setId(-1);
+//		dummyStatus.setName("pending");
+//		dummyPitchA.setStatus(dummyStatus);
+//		
+//		
+//		Pitch dummyPitchB = new Pitch(); 
+//		dummyPitchB.setId(2);
+//		dummyPitchB.setTitle("Building a Dream");
+//		dummyPitchB.setTagline("One nigga's journey from philosophy to software engineering"); 
+//		
+//		Genre dummyGenreB = new Genre(); 
+//		dummyGenreB.setId(-1);
+//		dummyGenreB.setName("Nonfiction");
+//		dummyPitchB.setGenre(dummyGenreB);
+//		Form dummyFormB = new Form(); 
+//		dummyFormB.setId(-1);
+//		dummyFormB.setName("Article");
+//		dummyPitchB.setForm(dummyFormB);
+//		Status dummyStatusB = new Status();
+//		dummyStatusB.setId(-1);
+//		dummyStatusB.setName("pending");
+//		dummyPitchB.setStatus(dummyStatusB);
 		
-		Pitch dummyPitchA = new Pitch(); 
-		dummyPitchA.setId(1);
-		dummyPitchA.setTitle("On the Joys of Academic Philosophy");
-		dummyPitchA.setTagline("A tale of one nigga's harrowing escape from cognitive fiefdom"); 
-		
-		Genre dummyGenre = new Genre(); 
-		dummyGenre.setId(-1);
-		dummyGenre.setName("Nonfiction");
-		dummyPitchA.setGenre(dummyGenre);
-		Form dummyForm = new Form(); 
-		dummyForm.setId(-1);
-		dummyForm.setName("Article");
-		dummyPitchA.setForm(dummyForm);
-		Status dummyStatus = new Status();
-		dummyStatus.setId(-1);
-		dummyStatus.setName("pending");
-		dummyPitchA.setStatus(dummyStatus);
-		
-		
-		Pitch dummyPitchB = new Pitch(); 
-		dummyPitchB.setId(2);
-		dummyPitchB.setTitle("Building a Dream");
-		dummyPitchB.setTagline("One nigga's journey from philosophy to software engineering"); 
-		
-		Genre dummyGenreB = new Genre(); 
-		dummyGenreB.setId(-1);
-		dummyGenreB.setName("Nonfiction");
-		dummyPitchB.setGenre(dummyGenreB);
-		Form dummyFormB = new Form(); 
-		dummyFormB.setId(-1);
-		dummyFormB.setName("Article");
-		dummyPitchB.setForm(dummyFormB);
-		Status dummyStatusB = new Status();
-		dummyStatusB.setId(-1);
-		dummyStatusB.setName("pending");
-		dummyPitchB.setStatus(dummyStatusB);
-		
-		Pitch pitches[] = { dummyPitchA, dummyPitchB}; 
+		Integer id = Integer.parseInt( ctx.pathParam("id") ); 
+		System.out.println(id);
+		Object[] pitches = pitchServ.getPitchesByAuthorId(id).toArray();
 		
 	    try {
 		    ctx.json( gson.toJson(pitches) );

@@ -4,14 +4,13 @@ import java.util.Set;
 
 import com.cross.beans.Person;
 import com.revature.data.PersonDAO;
-import com.revature.data.PersonDAOFactory;
+import com.revature.data.PersonHibernate;
 
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;
 	
 	public PersonServiceImpl() {
-		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
-		personDao = personDaoFactory.getPersonDAO();
+		personDao = new PersonHibernate();
 	}
 
 	@Override

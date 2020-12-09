@@ -1,9 +1,12 @@
 package com.cross.beans;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,6 +14,7 @@ import javax.persistence.Table;
 @Table
 public class Comment {
 	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id; 
 	@Column(name="request_id")
 	private Integer requestId;
@@ -18,7 +22,7 @@ public class Comment {
 	private Integer commenterId;
 	@Column(name="column_content")
 	private String content; 
-	private Timestamp creationTime; 
+	private LocalDateTime creationTime; 
 	
 	public Comment() {}
 
@@ -54,11 +58,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public Timestamp getCreationTime() {
+	public LocalDateTime getCreationTime() {
 		return creationTime;
 	}
 
-	public void setCreationTime(Timestamp creationTime) {
+	public void setCreationTime(LocalDateTime creationTime) {
 		this.creationTime = creationTime;
 	}
 	

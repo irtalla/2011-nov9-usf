@@ -2,10 +2,13 @@ package com.cross.beans;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,6 +18,7 @@ import javax.persistence.Table;
 @Table
 public class Pitch {
 	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name="author_id")
 	private Integer authorId; 
@@ -37,9 +41,9 @@ public class Pitch {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="priority_lvl_id")
 	private Priority priorityLevel; 
-	private Timestamp deadline; 
-	private Timestamp createdTime;
-	private Timestamp lastModifiedTime; 
+	private LocalDateTime deadline; 
+	private LocalDateTime createdTime;
+	private LocalDateTime lastModifiedTime; 
 		
 	public Pitch() {}; 
 	
@@ -124,44 +128,42 @@ public class Pitch {
 	}
 	
 	
-	public Timestamp getDeadline() {
+	public LocalDateTime getDeadline() {
 		return deadline;
 	}
 
-	public void setDeadline(Timestamp deadline) {
+	public void setDeadline(LocalDateTime deadline) {
 		this.deadline = deadline;
 	}
 
-	public Timestamp getCreatedTime() {
+	public LocalDateTime getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(Timestamp createdTime) {
+	public void setCreatedTime(LocalDateTime createdTime) {
 		this.createdTime = createdTime;
 	}
 
-	public Timestamp getLastModifiedTime() {
+	public LocalDateTime getLastModifiedTime() {
 		return lastModifiedTime;
 	}
 
-	public void setLastModifiedTime(Timestamp lastModifiedTime) {
+	public void setLastModifiedTime(LocalDateTime lastModifiedTime) {
 		this.lastModifiedTime = lastModifiedTime;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("deadline: %s\n, createdTime: %s\n, lastModifiedTime: %s\n", 
+				deadline.toString(), createdTime.toString(),lastModifiedTime.toString() );
+	}
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 */
+	
 
-	
-	
-	
-	
-	
-//	@Override
-//	public String toString() {
-//		return String.format(
-//				  "id: %d\n"
-//				+ "name: %s\n"
-//				+ "price: %f\n"
-//				+ "status: %s\n"
-//				+ "category: %s\n",
-//				id, name, price, status.getName(), genre.getName()
-//				);
-//	}
 }

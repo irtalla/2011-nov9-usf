@@ -1,10 +1,14 @@
 package com.cross.beans;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -13,14 +17,18 @@ import javax.persistence.Table;
 public class Person {
 	@Id
 	private Integer id; 
-	@Column(name="passwd")
 	private String username; 
+	@Column(name="passwd")
 	private String password; 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="role_id")
 	private Role role;
 	private Integer points; 
-
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="editor_genre",
+			joinColumns=@JoinColumn(name="editor_id"),
+			inverseJoinColumns=@JoinColumn(name="genre_id"))
+	private Set<Genre> genres; 
 	
 	public Person() {}
 
@@ -72,9 +80,14 @@ public class Person {
 	public void setPoints(Integer points) {
 		this.points = points;
 	}
+	
+	public Set<Genre> getGenres() {
+		return genres;
+	}
 
-
-
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
 
 	@Override
 	public String toString() {

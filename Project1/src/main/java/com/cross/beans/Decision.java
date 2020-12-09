@@ -1,10 +1,13 @@
 package com.cross.beans;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,6 +18,7 @@ import javax.persistence.Table;
 public class Decision {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id; 
 	@Column(name="editor_id")
 	private Integer editorId; 
@@ -24,7 +28,7 @@ public class Decision {
 	@JoinColumn(name="decision_type_id")
 	private DecisionType decisionType; 
 	private String explanation;
-	private Timestamp creationTime; 
+	private LocalDateTime creationTime; 
 	
 	public Decision() {}
 	
@@ -59,11 +63,11 @@ public class Decision {
 		this.explanation = explanation;
 	}
 
-	public Timestamp getCreationTime() {
+	public LocalDateTime getCreationTime() {
 		return creationTime;
 	}
 
-	public void setCreationTime(Timestamp creationTime) {
+	public void setCreationTime(LocalDateTime creationTime) {
 		this.creationTime = creationTime;
 	} 
 	

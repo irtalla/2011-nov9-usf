@@ -11,7 +11,7 @@ import io.javalin.http.Context;
 
 public class AuthController {
 	
-//	private static PersonService personServ = new PersonServiceImpl();
+	private static PersonService personServ = new PersonServiceImpl();
 	private static Gson gson; 
 	
 	public static void initGsonBuilder() {
@@ -27,27 +27,24 @@ public class AuthController {
 	    Person deserializedPerson, queriedPerson;  
 	    
 	    deserializedPerson = gson.fromJson( ctx.body(), Person.class);
-//	    queriedPerson = personServ.getPersonByUsername(deserializedPerson.getUsername());
-//	    
-//	    if ( queriedPerson == null ) {
-//	    	ctx.result("No user with that password found"); 
-//	    	ctx.status(404);
-//	    }
-//	    
-//	    if ( queriedPerson.getPassword().equals(deserializedPerson.getPassword() )) {
-//	    	ctx.result("No combination of that username and password found");
-//	    	ctx.status(404);
-//	    }
+	    queriedPerson = personServ.getPersonByUsername(deserializedPerson.getUsername());
+	    
+	    if ( queriedPerson == null ) {
+	    	ctx.result("No user with that password found"); 
+	    	ctx.status(404);
+	    }
+	    
+	    if ( queriedPerson.getPassword().equals(deserializedPerson.getPassword() )) {
+	    	ctx.result("No combination of that username and password found");
+	    	ctx.status(404);
+	    }
 	    
 	    // TODO : be sure to scrub the password before sending the Person object back to the client
 	    
-	    deserializedPerson.setPassword("******");
-	    Role role = new Role(); 
-	    role.setName("Editor");
-	    deserializedPerson.setRole(role);
+	    queriedPerson.setPassword("******");
 	    
 	    try {
-		    ctx.json( gson.toJson(deserializedPerson) );
+		    ctx.json( gson.toJson(queriedPerson) );
 			ctx.status(200);
 	    } catch (Exception e) {
 	    	e.printStackTrace();

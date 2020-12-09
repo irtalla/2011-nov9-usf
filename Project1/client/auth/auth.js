@@ -26,6 +26,7 @@ const auth = async (event) => {
         let currentUser = await response.json();
         sessionStorage.setItem("currentUser", currentUser);
         currentUser = JSON.parse(currentUser);
+        console.log(currentUser);
         switch ( currentUser.role.name.toUpperCase() ) {
             case "AUTHOR":
                 window.location.href = authorRedirectURL;

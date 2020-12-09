@@ -37,7 +37,14 @@ maintain dummy tuples in decision, pitch, and draft, and give each request a ref
 
 A little inelegant, but straightforward enough. Two values will be -1, and one value will be a positive integer. This can be designated client-side. And we don't need more join tables or request types!
 
-One interesting observation is that almost every attribute of a pitch is a target for a query. This makes sense, as pitches are the main product. But it is an interesting observation. 
+One interesting observation is that almost every attribute of a pitch is a target for a query. This makes sense, as pitches are the main product. But it is an interesting observation.
+
+
+Testing is another issue. In the previous project, tests depended on a database administrator (me) initializing tables from a separate UI (DBeaver). This time around, I used the @order annotation to
+specify the execution of DAO unit tests. Generally, the strategy is: add -> query | update -> delete. This should make test suites self-contained.
+
+
+
 
 ### Authentication and User Session 
 I chose a multi-page front-end. After sign-in, I needed a way to save the user information, so

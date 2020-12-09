@@ -100,26 +100,26 @@ const createPitchModalTemplate =
 <div class="form-group">
   <label for="exampleFormControlSelect1">Select Genre</label>
   <select class="form-control" id="input-genre-form">
-    <option>1</option>
-    <option>2</option>
-    <option>3</option>
-    <option>4</option>
-    <option>5</option>
+    <option>poetry</option>
+    <option>drama</option>
+    <option>literature</option>
+    <option>non-fiction</option>
+    <option>crime</option>
   </select>
 </div>
 <div class="form-group">
   <label for="exampleFormControlSelect1">Select From</label>
   <select class="form-control" id="input-form-form">
-    <option>Article (10 points)</option>
-    <option>Short Story (15 points)</option>
-    <option>Novella (25 points)</option>
-    <option>Novel (50 points)</option>
+    <option>Article</option>
+    <option>Short Story</option>
+    <option>Novella</option>
+    <option>Novel</option>
   </select>
 </div>
 
 <div class="form-group">
   <label for="exampleFormControlTextarea1">Tag Line</label>
-  <textarea class="form-control" id="input-tagLine-form" rows="4"></textarea>
+  <textarea class="form-control" id="input-tagline-form" rows="4"></textarea>
 </div>
 </form>
 `;
@@ -137,7 +137,7 @@ const populateModalWithData = (id = null) => {
         const pitch = pitchMap.get(id);
         document.getElementById("pitch-modal-body").innerHTML = `
       <h3>Title: ${pitch.title} </h3>
-      <h5>Tagline: ${pitch.tagLine} </h5>
+      <h5>tagline: ${pitch.tagline} </h5>
       <h5>Genre: ${pitch.genre.name} </h5>
       <h5>Form: ${pitch.form.name} </h5>`;
 
@@ -162,10 +162,10 @@ const savePitch = async () => {
     let pitch = {
         id: 0,
         authorId: currentUser.id,
-        tagLine: document.getElementById('input-tagLine-form').value,
+        tagline: document.getElementById('input-tagline-form').value,
         title: document.getElementById('input-title-form').value,
-        genre: { id: -1, name: document.getElementById('input-genre-form').value },
-        form: { id: -1, name: document.getElementById('input-form-form').value }
+        genre: { id: 1, name: document.getElementById('input-genre-form').value },
+        form: { id: 1, name: document.getElementById('input-form-form').value }
     }
     console.log(pitch);
 
@@ -238,7 +238,7 @@ const loadArticleCard = (pitch) => {
     <div class="card-body">
       <h5 class="card-title"> ${pitch.title || 'no title found'} </h5>
       <p class="card-text">
-        ${pitch.tagLine.length > 100 ? `${pitch.tagLine.slice(0, 100)}...` : pitch.tagLine}
+        ${pitch.tagline.length > 100 ? `${pitch.tagline.slice(0, 100)}...` : pitch.tagline}
       </p>
     </div>
     <div class="progress">
