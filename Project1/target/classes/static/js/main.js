@@ -18,7 +18,7 @@ function setNav() {
         `;
     } else {
         nav.innerHTML += `
-            <a href="myCats.html">My Pitches</a>
+            <a href="currPitches.html">My Pitches</a>
             <span>
                 <a href="profile.html">${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>

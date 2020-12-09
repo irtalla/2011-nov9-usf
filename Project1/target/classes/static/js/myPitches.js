@@ -6,6 +6,7 @@ function populatePitches() {
 
     if (pitches.length > 0) {
         let table = document.createElement('table');
+
         table.innerHTML = `
             <tr>
                 <th>ID</th>
