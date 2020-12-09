@@ -1,6 +1,10 @@
 package com.revature.controller;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.revature.beans.Person;
+import com.revature.beans.Pitch;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.service.PersonService;
 import com.revature.service.PersonServiceImpl;
@@ -90,5 +94,12 @@ public class PersonController {
 		Person person = personServ.getPersonById(id);
 		personServ.deletePerson(person);
 		ctx.status(204);
+	}
+	
+	public static Set<Pitch> getPitchesByUserId(Context ctx) {
+		Set<Pitch> pitches = new HashSet<>();
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		pitches = personServ.getAllPitchesByPersonId(id);
+		return pitches;
 	}
 }

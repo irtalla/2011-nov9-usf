@@ -24,8 +24,10 @@ public class SPMSJavalinApp {
 				delete(PersonController::logOut); // log out user
 				path (":id", () -> {
 					get(PersonController::getUserById); // get user by id
+					get(PersonController::getPitchesByUserId); //gets pitches for user
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
+					
 				});
 			});
 			
