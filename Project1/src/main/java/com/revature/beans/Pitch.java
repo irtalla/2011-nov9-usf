@@ -3,16 +3,40 @@ package com.revature.beans;
 //import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="pitch")
 public class Pitch {
+	
+	@Id
+	@Column(name="pitch_id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String title;
 	private String description;
 	private String tagline;
+	@ManyToOne
+	@JoinColumn(name="genre_id")
 	private Genre genre;
+	@ManyToOne
+	@JoinColumn(name="story_type_id")
 	private StoryType storytype;
 	private Date date;
+	@ManyToOne
+	@JoinColumn(name="priority_id")
 	private Priority priority;
+	@ManyToOne
+	@JoinColumn(name="review_status_id")
 	private ReviewStatus reviewstatus;
 	private ReviewStage reviewstage;
 	
