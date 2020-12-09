@@ -53,6 +53,10 @@ public class Pitch {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="status_id")
 	private ReviewStatus reviewStatus;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="pitch_add_file",
+			joinColumns=@JoinColumn(name="pitch_id"),
+			inverseJoinColumns=@JoinColumn(name="add_file_id"))
 	private Set<AdditionalFile> additionalFiles;
 
 	public Pitch() {
@@ -65,7 +69,7 @@ public class Pitch {
 		description = "";
 		completionDate = LocalDate.now();
 		pitchMadeAt = LocalDateTime.now();
-		priority = Priority.NOMRAL;
+		priority = Priority.NORMAL;
 		pitchStage = new PitchStage();
 		reviewStatus = new ReviewStatus();
 		additionalFiles = new HashSet<>();
