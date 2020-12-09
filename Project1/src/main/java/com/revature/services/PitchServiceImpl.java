@@ -41,8 +41,10 @@ public class PitchServiceImpl implements PitchService {
 		p.setLastModifiedTime(now);
 		p.setDeadline( now.plusDays(30));
 		
-		String formName = p.getForm().getName();
-		String genreName = p.getGenre().getName();
+		String formName = p.getForm().getName().toLowerCase();
+		String genreName = p.getGenre().getName().toLowerCase();
+		p.getForm().setId( UtilityDAO.getByName( new Form(), formName ).getId() );
+		p.getGenre().setId( UtilityDAO.getByName( new Genre(), genreName ).getId() );
 		
 		// Newly-created pitches have pending-editor-review status and
 		// low priority
