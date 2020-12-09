@@ -2,6 +2,7 @@ package com.revature.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import com.revature.controller.PersonController;
+import com.revature.controller.PitchController;
 
 import io.javalin.Javalin;
 
@@ -31,19 +32,17 @@ public class SPMSJavalinApp {
 				});
 			});
 			
-//		
-//			path("pitch", () -> { 
-//				post(PitchController::addCat); 
-//				path ("all", () -> {
-//					get(PitchController::getAllPitches); 
-//				});
-//				path(":id", () -> {
-//					get(PitchController::getPitchById); 
-//					put(PitchController::updatePitch); 
-//					delete(PitchController::deletePitch);
-//				});
-//			});
-//
+		
+			path("pitch", () -> { 
+				post(PitchController::addPitch); 
+				
+				path(":id", () -> {
+					get(PitchController::getPitchById); 
+					put(PitchController::updatePitch); 
+					delete(PitchController::deletePitch);
+				});
+			});
+
 //
 //			path("Committee", () -> {
 //				get(CommitteeController::getCommittee); 

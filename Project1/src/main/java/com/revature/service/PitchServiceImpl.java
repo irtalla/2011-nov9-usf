@@ -1,7 +1,5 @@
 package com.revature.service;
 
-import java.util.Set;
-
 import com.revature.beans.Pitch;
 import com.revature.data.PitchDAO;
 import com.revature.data.PitchHibernate;
