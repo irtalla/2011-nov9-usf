@@ -3,18 +3,53 @@ package com.revature.models;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="pitch")
 public class Pitch {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="author_pitch",
+			joinColumns=@JoinColumn(name="pitch_id"),
+			inverseJoinColumns=@JoinColumn(name="user_id"))
 	private User author;
+	@Column(name="title")
 	private String title;
+	@Column(name="tagline")
 	private String tagline;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="type_id")
 	private StoryType storyType;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="genre_id")
 	private Genre genre;
+	@Column(name="description")
 	private String description;
+	@Column(name="completion_date")
 	private LocalDate completionDate;
+	@Column(name="pitch_made_at")
 	private LocalDateTime pitchMadeAt;
+	@Transient
 	private String priority;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="stage_id")
 	private PitchStage pitchStage;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="status_id")
 	private ReviewStatus reviewStatus;
 
 	public Pitch() {

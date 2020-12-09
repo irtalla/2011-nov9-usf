@@ -13,8 +13,9 @@ function setNav() {
         `;
     if (loggedUser) {
         nav.innerHTML += `
+            <br>
             <span>
-                ${loggedUser.username}&nbsp;
+                ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
                 <button type="button" id="loginBtn">logout</button>
              </span>
             `;
