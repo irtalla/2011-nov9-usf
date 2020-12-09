@@ -52,7 +52,8 @@ public class EvtReqController {
 	
 	public static void addEvtReq(Context ctx) {
 		EvtReq evtReq = ctx.bodyAsClass(EvtReq.class);
-		evtReqServ.addEvtReq(evtReq);
+		Person p = ctx.bodyAsClass(Person.class);
+		evtReqServ.addEvtReq(evtReq, p);
 		ctx.status(201);
 	}
 	

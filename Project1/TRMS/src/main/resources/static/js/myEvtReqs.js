@@ -6,6 +6,14 @@ function populateEvtReqs() {
 	// alert(loggedUser.evtReqs);
 	
     let evtReqs = loggedUser.evtReqs;
+	let reimbusementSection = document.getElementById('reimbusementSection');
+	let p = document.createElement('p');
+	let ura = 1000.00;
+	p.innerHTML = `
+		<h3 class="reimbursement-header">2020 Unused Reimbursement Amount: </h3><span class="amount">$${ura.toFixed(2)}</span>
+	`
+	reimbusementSection.appendChild(p);
+	
     let evtReqSection = document.getElementById('evtReqSection');
 
     if (evtReqs.length > 0) {
@@ -24,6 +32,7 @@ function populateEvtReqs() {
                 <th>Request for Comment ID</th>
                 <th>Priority ID</th>
                 <th>Start Date</th>
+   				<th>Amount</th>
             </tr>
         `;
 
@@ -39,7 +48,8 @@ function populateEvtReqs() {
                 <td>${evtReq.type_id}</td>
                 <td>${evtReq.req_fr_cmnt_id}</td>
                 <td>${evtReq.priority_id}</td>
-			    <td>${evtReq.start_date}</td>     
+			    <td>${evtReq.start_date}</td>  
+				<td>${evtReq.amount}</td>     
             `;
             
             table.appendChild(tr);

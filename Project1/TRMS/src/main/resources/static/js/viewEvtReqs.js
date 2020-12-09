@@ -31,6 +31,7 @@ function populateEvtReqs(evtReqs) {
                 <th>Request for Comment ID</th>
                 <th>Priority ID</th>
                 <th>Start Date</th>
+                <th>Amount</th>
             </tr>
         `;
 		
@@ -48,7 +49,8 @@ function populateEvtReqs(evtReqs) {
                 <td>${evtReq.type_id}</td>
                 <td>${evtReq.req_fr_cmnt_id}</td>
                 <td>${evtReq.priority_id}</td>
-			    <td>${evtReq.start_date}</td>             
+			    <td>${evtReq.start_date}</td>  
+			    <td>${evtReq.amount}</td>             
             `;
             
              let td = document.createElement('td');

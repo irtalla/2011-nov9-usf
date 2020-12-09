@@ -15,6 +15,7 @@ public class EvtReq {
 	private Integer req_fr_cmnt_id;
 	private Integer priority_id;
 	private Date start_date;
+	private double amount; 
 	
 	
 	public EvtReq() {
@@ -29,6 +30,7 @@ public class EvtReq {
 		req_fr_cmnt_id = 0;
 		priority_id = 0;
 		start_date = new Date();
+		amount = 0.00;
 	}
 
 
@@ -142,10 +144,23 @@ public class EvtReq {
 	}
 
 
+	public double getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(amount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result
 				+ ((benefits_coordinator_approval_id == null) ? 0 : benefits_coordinator_approval_id.hashCode());
 		result = prime * result + ((department_head_approval_id == null) ? 0 : department_head_approval_id.hashCode());
@@ -172,6 +187,8 @@ public class EvtReq {
 		if (getClass() != obj.getClass())
 			return false;
 		EvtReq other = (EvtReq) obj;
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+			return false;
 		if (benefits_coordinator_approval_id == null) {
 			if (other.benefits_coordinator_approval_id != null)
 				return false;
@@ -237,10 +254,8 @@ public class EvtReq {
 				+ ", direct_supervisor_approval_id=" + direct_supervisor_approval_id + ", department_head_approval_id="
 				+ department_head_approval_id + ", benefits_coordinator_approval_id=" + benefits_coordinator_approval_id
 				+ ", person_id=" + person_id + ", type_id=" + type_id + ", req_fr_cmnt_id=" + req_fr_cmnt_id
-				+ ", priority_id=" + priority_id + ", start_date=" + start_date + "]";
+				+ ", priority_id=" + priority_id + ", start_date=" + start_date + ", amount=" + amount + "]";
 	}
-	
-	
 	
 
 }

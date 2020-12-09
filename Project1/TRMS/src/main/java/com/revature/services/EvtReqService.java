@@ -6,7 +6,7 @@ import com.revature.beans.EvtReq;
 import com.revature.beans.Person;
 
 public interface EvtReqService {
-	public Integer addEvtReq(EvtReq e);
+	public Integer addEvtReq(EvtReq e, Person p);
 	// "read" methods
 	public EvtReq getEvtReqById(Integer id);
 	public Set<EvtReq> getEvtReqs();
