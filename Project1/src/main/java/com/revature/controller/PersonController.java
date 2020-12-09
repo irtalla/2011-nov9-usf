@@ -18,6 +18,10 @@ public class PersonController {
 		Person p = ctx.sessionAttribute("user");
 		if (p != null) {
 			System.out.println("Logged in as " + p.getUsername());
+			System.out.println("Pitch set: " + p.getPitches());
+			System.out.println("committees set: " + p.getCommittees());
+			System.out.println("titles set " + p.getTitle());
+			System.out.println("other persons info" + p.getPasswd() + p.getId());
 			ctx.json(p);
 			ctx.status(200);
 		} else {
@@ -35,6 +39,8 @@ public class PersonController {
 			if (p.getPasswd().equals(password))
 			{
 				System.out.println("Logged in as " + p.getUsername());
+				System.out.println("ptiches: "+p.getPitches());
+				System.out.println("committees"+ p.getCommittees());
 				ctx.status(200);
 				ctx.json(p);
 				ctx.sessionAttribute("user", p);
@@ -96,10 +102,16 @@ public class PersonController {
 		ctx.status(204);
 	}
 	
-	public static Set<Pitch> getPitchesByUserId(Context ctx) {
+	public static void getPitchesByUserId(Context ctx) {
 		Set<Pitch> pitches = new HashSet<>();
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
+
 		pitches = personServ.getAllPitchesByPersonId(id);
-		return pitches;
+		if (pitches != null ) {
+		ctx.status(200);
+		ctx.json(pitches);
+		}else {
+			ctx.status(404);
+		}
 	}
 }

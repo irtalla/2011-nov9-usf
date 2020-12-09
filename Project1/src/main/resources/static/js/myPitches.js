@@ -3,7 +3,6 @@ checkLogin().then(populatePitches);
 
 
 function populatePitches() {
-    let url = baseUrl + loggedUser.id
 
     let pitches = loggedUser.pitches;
     let pitchSection = document.getElementById('pitchSection');
@@ -49,5 +48,6 @@ function populatePitches() {
         pitchSection.appendChild(table);
     } else {
         pitchSection.innerHTML = 'Currently zero pitches';
+        
     }
 }
