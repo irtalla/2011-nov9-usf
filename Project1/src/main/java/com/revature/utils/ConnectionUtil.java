@@ -44,7 +44,7 @@ public class ConnectionUtil {
 			//that is needed for DBeaver
 		Class.forName(properties.getProperty("drv"));
 		conn = DriverManager.getConnection(
-				properties.getProperty("url"),
+				properties.getProperty("aws"),
 				properties.getProperty("usr"),
 				properties.getProperty("psw")
 				);
