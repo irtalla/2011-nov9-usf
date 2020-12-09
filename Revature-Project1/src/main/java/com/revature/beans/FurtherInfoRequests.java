@@ -1,16 +1,14 @@
 package com.revature.beans;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
 
 public class FurtherInfoRequests {
 	
@@ -19,11 +17,11 @@ public class FurtherInfoRequests {
 	@Column(name="request_id")
 	private int id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="approval_id")
 	private StoryPitch originalPitch;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinTable(name="approval_stage",
 			joinColumns=@JoinColumn(name="stage"),
 			inverseJoinColumns=@JoinColumn(name="approval_stage_id"))
@@ -60,11 +58,11 @@ public class FurtherInfoRequests {
 	}
 
 	public Stage getStage() {
-		return stage;
+		return stageWhenRequested;
 	}
 
 	public void setStage(Stage stage) {
-		this.stage = stage;
+		stageWhenRequested = stage;
 	}
 
 	public String getRequestDescription() {
@@ -85,7 +83,7 @@ public class FurtherInfoRequests {
 	
 	@Override
 	public String toString() {
-		return "Request for info " + id + " is about story pitch for " + originalPitch.getProposedWork().getTitle() + " on " + stage.getStageName() + " stage asking for " + requestDescription;
+		return "Request for info " + id + " is about story pitch for " + originalPitch.getProposedWork().getTitle() + " on " + stageWhenRequested.getStageName() + " stage asking for " + requestDescription;
 	}
 
 	@Override
@@ -96,7 +94,7 @@ public class FurtherInfoRequests {
 		result = prime * result + ((originalPitch == null) ? 0 : originalPitch.hashCode());
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + ((requestDescription == null) ? 0 : requestDescription.hashCode());
-		result = prime * result + ((stage == null) ? 0 : stage.hashCode());
+		result = prime * result + ((stageWhenRequested== null) ? 0 : stageWhenRequested.hashCode());
 		return result;
 	}
 
@@ -126,10 +124,10 @@ public class FurtherInfoRequests {
 				return false;
 		} else if (!requestDescription.equals(other.requestDescription))
 			return false;
-		if (stage == null) {
-			if (other.stage != null)
+		if (stageWhenRequested == null) {
+			if (other.stageWhenRequested != null)
 				return false;
-		} else if (!stage.equals(other.stage))
+		} else if (!stageWhenRequested.equals(other.stageWhenRequested))
 			return false;
 		return true;
 	}

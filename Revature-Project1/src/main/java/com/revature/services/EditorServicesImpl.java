@@ -1,5 +1,5 @@
 package com.revature.services;
 
-public class EditorServicesImpl {
+public class EditorServicesImpl extends EditorFunctions {
 
 }

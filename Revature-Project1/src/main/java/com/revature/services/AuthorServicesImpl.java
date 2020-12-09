@@ -1,5 +1,5 @@
 package com.revature.services;
 
-public class AuthorServicesImpl {
+public class AuthorServicesImpl implements AuthorFunctions {
 
 }

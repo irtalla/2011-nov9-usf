@@ -5,13 +5,11 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,7 +23,7 @@ public class GenreCommittee {
 	@Column(name="genre_committee_id")
 	private int id;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="genre_id")
 	private Genre genre;
 	
@@ -38,7 +36,7 @@ public class GenreCommittee {
 	public GenreCommittee() {
 		genre = new Genre();
 		name = "";
-		editorsInTheCommittee = new HashSet<Editor>();
+		editorsInTheCommittee = new HashSet<GenreCommitteeMember>();
 	}
 
 	/**
@@ -69,7 +67,7 @@ public class GenreCommittee {
 		this.genre = genre;
 	}
 	
-	public void addAnEditor(Editor editor) {
+	public void addAnEditor(GenreCommitteeMember editor) {
 		editorsInTheCommittee.add(editor);
 	}
 	
@@ -85,7 +83,7 @@ public class GenreCommittee {
 	
 	public boolean removeAnEditor(int id) {
 		for (GenreCommitteeMember gcm: editorsInTheCommittee) {
-			if (gcm.getId() == id) {
+			if (gcm.getEditor().getId() == id) {
 				return editorsInTheCommittee.remove(gcm);
 			}
 		}
@@ -103,15 +101,15 @@ public class GenreCommittee {
 	/**
 	 * @param editorsInTheCommittee the editorsInTheCommittee to set
 	 */
-	public void setEditorsInTheCommittee(Set<Editor> editorsInTheCommittee) {
+	public void setEditorsInTheCommittee(Set<GenreCommitteeMember> editorsInTheCommittee) {
 		this.editorsInTheCommittee = editorsInTheCommittee;
 	}
 	
 	@Override
 	public String toString() {
 		String allEditors = "";
-		for (Editor e: editorsInTheCommittee) {
-			allEditors += e.getName() + "\n";
+		for (GenreCommitteeMember gcm: editorsInTheCommittee) {
+			allEditors += gcm.getEditor().getName() + "\n";
 		}
 		return "The genre committee " + name + " has these editors: \n" + allEditors;
 	}

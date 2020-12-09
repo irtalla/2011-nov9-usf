@@ -8,11 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
 
 @Entity
 @Table(name="authors")
@@ -21,7 +19,7 @@ public class Author extends User{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="author_id")
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinTable(name="all_users", 
 			joinColumns=@JoinColumn(name="author_id"),
 			inverseJoinColumns=@JoinColumn(name="user_id"))
@@ -33,6 +31,14 @@ public class Author extends User{
 	@Column(name="points_remaining")
 	private int pointsRemaining;
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Author() {
 		super("author");
 
@@ -77,6 +83,7 @@ public class Author extends User{
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + pointsRemaining;
 		return result;
@@ -91,6 +98,8 @@ public class Author extends User{
 		if (getClass() != obj.getClass())
 			return false;
 		Author other = (Author) obj;
+		if (id != other.id)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;

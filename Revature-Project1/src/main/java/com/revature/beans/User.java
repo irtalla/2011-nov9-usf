@@ -32,18 +32,6 @@ public class User {
 	
 	
 	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	/**
 	 * @return the username
 	 */
 	public String getUsername() {
@@ -84,14 +72,13 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "The user " + username + " with ID " + id + " is really a(n) " + role;
+		return "The user " + username + " is really a(n) " + role;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -107,8 +94,6 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (id != other.id)
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,13 +25,13 @@ public class Work {
 	private int id;
 	
 	@Column(name="creator_id")
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinTable(name="author_id", 
 		joinColumns=@JoinColumn(name="author_id"),
 		inverseJoinColumns=@JoinColumn(name="user_id"))
 	private Author author;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinTable(name="genres",
 			joinColumns=@JoinColumn(name="genre"),
 			inverseJoinColumns=@JoinColumn(name="genre_id"))
