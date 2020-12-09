@@ -23,20 +23,21 @@ public class Pitch {
 	private Person author;
 	private String story_title;
 	private LocalDateTimeType finish_date;  //Date from java Util.  Might need to be Sql
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "storytype_id")
 	private StoryType story_type;
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "genre_id")
 	private Genre genre;
+	
 	private String description; //consider file type and adding files
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "pitch_priority_id")
 	private PitchPriority priority;
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "pitch_stage_id")
 	private PitchStage stage;
 
