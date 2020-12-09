@@ -27,6 +27,7 @@ public class EmployeePost implements EmployeeDAO {
 				emp.setId(rs.getInt("emp_id"));
 				emp.setUser(rs.getString("uname"));
 				emp.setPass(rs.getString("pass"));
+				emp.setFullName(rs.getString("fname"));
 				emp.setAvailFunds(rs.getDouble("af"));
 				Role role = new Role();
 				role.setId(rs.getInt("rid"));

@@ -85,6 +85,7 @@ public class SubmitFormPost implements SubmitFormDAO {
 				et.setPor(rs.getDouble("por"));
 				et.setCost(rs.getInt("ecost"));
 				at.setName(rs.getString("aname"));
+				et.setAppr(at);
 				stat.setName(rs.getString("sname"));
 				sf.setGrade(rs.getString("lgrade"));
 				sf.setDescription(rs.getString("descript"));
