@@ -11,7 +11,18 @@ public class employeecontroller {
 
 	private static employeeService eservice =new employeeServiceImp();
 	
-	public static void checklogin() {
+	public static void checklogin(Context ctx) {
+		
+		System.out.println("Checking login");
+		employee p = ctx.sessionAttribute("user");
+		if (p != null) {
+			System.out.println("Logged in as " + p.getEmp_name());
+			ctx.json(p);
+			ctx.status(200);
+		} else {
+			System.out.println("Not logged in");
+			ctx.status(400);
+		}
 		
 	}
 	
@@ -29,6 +40,23 @@ public class employeecontroller {
 		
 	}
 	
+	public static void logout(Context ctx) {
+		System.out.println("Logging out herer");
+		ctx.req.getSession().invalidate();
+		ctx.status(200);
+	}
+	
+	public static void getuserbyid(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		employee p = eservice.getPersonById(id);
+		if (p != null) {
+			ctx.status(200);
+			ctx.json(p);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
 
 	public static void logIn(Context ctx) {
 		System.out.println("Logging in");
@@ -36,7 +64,7 @@ public class employeecontroller {
 		String password = ctx.queryParam("pass");
 		
 		employee p = eservice.getPersonByUsername(username);
-		System.out.println("username: "+username +"  password: "+ password+" person"+ p);
+		//System.out.println("username: "+username +"  password: "+ password+" person"+ p);
 		
 		if (p != null) {
 			if (p.getPassword().equals(password))
@@ -45,6 +73,7 @@ public class employeecontroller {
 				ctx.status(200);
 				ctx.json(p);
 				ctx.sessionAttribute("user", p);
+				System.out.println("user "+p);
 			}
 			else
 			{
@@ -59,4 +88,6 @@ public class employeecontroller {
 			ctx.status(404);
 		}
 	}
+	
+
 }

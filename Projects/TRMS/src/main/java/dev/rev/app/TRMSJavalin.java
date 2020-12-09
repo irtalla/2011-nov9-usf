@@ -7,6 +7,7 @@ import static io.javalin.apibuilder.ApiBuilder.post;
 import static io.javalin.apibuilder.ApiBuilder.put;
 
 import dev.rev.controllers.employeecontroller;
+import dev.rev.controllers.eventcontroller;
 import io.javalin.Javalin;
 
 public abstract class TRMSJavalin {
@@ -34,31 +35,39 @@ public abstract class TRMSJavalin {
 				path ("all", () -> {
 		//			get(CatController::getAllCats); // get all cats
 				});
-				path ("adopt/:id", () -> {
-		//			put(CatController::adoptCat); // adopt a cat by its id
-				});
+			//	path ("event", () -> {
+				//	get(eventcontroller::getallevents);
+			//	});
 				path(":id", () -> {
 //					get(CatController::getCatById); // get a cat by id
 //					put(CatController::updateCat); // update a cat
 //					delete(CatController::deleteCat); // delete a cat
 				});
 			});
+			path("events",() ->{
+				
+				get(eventcontroller::getallevents);
+				
+			});
+			
+			
 			// all requests to /users go to this handler
 			path("users", () -> {
-//				get(PersonController::checkLogin); // get logged in user
+				get(employeecontroller::checklogin); // get logged in user
 				put(employeecontroller::logIn); // log in user
 				post(employeecontroller::register); // register new user
-//				delete(PersonController::logOut); // log out user
-//				path (":id", () -> {
-//					get(PersonController::getUserById); // get user by id
+				delete(employeecontroller::logout); // log out user
+				path (":id", () -> {
+					get(employeecontroller::getuserbyid); // get user by id
 //					put(PersonController::updateUser); // update user
 //					delete(PersonController::deleteUser); // delete user
 			
 			});
 		});
-	}
+	});
 
 
 
 
+}
 }

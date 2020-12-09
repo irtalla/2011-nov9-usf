@@ -1,15 +1,24 @@
 package dev.rev.beans;
 
-public class event {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="event2")
+public class event {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int event_id;
-	private int form_id;
 	private int event_coverage;
 	private String event_name;
 	private String passing_grade;
 	
 	public event() {
-		event_id=form_id=event_coverage=0;
+		event_id=event_coverage=0;
 		event_name=passing_grade="";
 	}
 	
@@ -19,12 +28,7 @@ public class event {
 	public void setEvent_id(int event_id) {
 		this.event_id = event_id;
 	}
-	public int getForm_id() {
-		return form_id;
-	}
-	public void setForm_id(int form_id) {
-		this.form_id = form_id;
-	}
+	
 	public int getEvent_coverage() {
 		return event_coverage;
 	}
@@ -45,7 +49,7 @@ public class event {
 		result = prime * result + event_coverage;
 		result = prime * result + event_id;
 		result = prime * result + ((event_name == null) ? 0 : event_name.hashCode());
-		result = prime * result + form_id;
+		
 		result = prime * result + ((passing_grade == null) ? 0 : passing_grade.hashCode());
 		return result;
 	}
@@ -68,8 +72,6 @@ public class event {
 				return false;
 		} else if (!event_name.equals(other.event_name))
 			return false;
-		if (form_id != other.form_id)
-			return false;
 		if (passing_grade == null) {
 			if (other.passing_grade != null)
 				return false;
@@ -88,7 +90,7 @@ public class event {
 
 	@Override
 	public String toString() {
-		return "event [event_id=" + event_id + ", form_id=" + form_id + ", event_coverage=" + event_coverage
+		return "event [event_id=" + event_id +", event_coverage=" + event_coverage
 				+ ", event_name=" + event_name + ", passing_grade=" + passing_grade + "]";
 	}	
 	
