@@ -14,7 +14,7 @@ public interface PitchService {
 	public Integer addPitch(Pitch t) throws Exception;
 	public Pitch getPitchById(Integer id);
 	public Set<Pitch> getPitchesByAuthor(User author);
-	public Set<Pitch> getPitchesByGenre(Genre genre, Boolean withinGenre);
+	public Set<Pitch> getPitchesByGenre(Integer genreId, Boolean withinGenre);
 	public Set<Pitch> getPitchesByStoryType(StoryType type);
 	public Set<Pitch> getPitchesByPitchStage(PitchStage stage);
 	public Set<Pitch> getPitchesByReviewStatus(ReviewStatus status);

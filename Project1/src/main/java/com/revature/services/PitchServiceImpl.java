@@ -2,8 +2,12 @@ package com.revature.services;
 
 import java.util.Set;
 
+import com.revature.data.GenreDAO;
+import com.revature.data.GenreDAOFactory;
 import com.revature.data.PitchDAO;
 import com.revature.data.PitchDAOFactory;
+import com.revature.data.StoryTypeDAO;
+import com.revature.data.StoryTypeDAOFactory;
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
@@ -14,12 +18,17 @@ import com.revature.models.User;
 
 public class PitchServiceImpl implements PitchService {
 	private PitchDAO pitchDao;
+	private GenreDAO genreDao;
+	private StoryTypeDAO stDao;
 	
 	public PitchServiceImpl() {
 		PitchDAOFactory pitchFactory = new PitchDAOFactory();
 		pitchDao = pitchFactory.getPitchDao();
+		GenreDAOFactory genreFactory = new GenreDAOFactory();
+		genreDao = genreFactory.getGenreDao();
+		StoryTypeDAOFactory stFactory = new StoryTypeDAOFactory();
+		stDao = stFactory.getStoryTypeDao();
 	}
-	
 	
 	@Override
 	public Integer addPitch(Pitch t) throws Exception {
@@ -37,7 +46,9 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByGenre(Genre genre, Boolean withinGenre) {
+	public Set<Pitch> getPitchesByGenre(Integer genre_id, Boolean withinGenre) {
+		Genre genre = genreDao.getById(genre_id);
+		
 		return pitchDao.getByGenre(genre, withinGenre);
 	}
 
@@ -74,6 +85,16 @@ public class PitchServiceImpl implements PitchService {
 	@Override
 	public void deletePitch(Pitch t) {
 		pitchDao.delete(t);
+	}
+	
+	// Genre-related
+	public Set<Genre> getAllGenre() {
+		return genreDao.getAll();
+	}
+	
+	// StoryType-related
+	public Set<StoryType> getAllStoryType() {
+		return stDao.getAll();
 	}
 
 }
