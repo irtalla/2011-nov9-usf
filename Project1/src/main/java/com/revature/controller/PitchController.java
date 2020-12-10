@@ -101,8 +101,8 @@ public class PitchController {
 	}
 	
 	public static void getPitchesByPriority(Context ctx) {
-		Integer priority = Integer.valueOf(ctx.pathParam("priority"));
-		Set<Pitch> p = pitchServ.getPitchesByPriority(Priority.values()[priority]);
+		String priority = String.valueOf(ctx.pathParam("priority"));
+		Set<Pitch> p = pitchServ.getPitchesByPriority(priority);
 		if (p != null) {
 			ctx.status(200);
 			ctx.json(p);
