@@ -106,26 +106,31 @@ public class PitchServiceImpl implements PitchService {
 	}
 	
 	// Genre-related
+	@Override
 	public Set<Genre> getAllGenre() {
 		return genreDao.getAll();
 	}
 	
 	// StoryType-related
+	@Override
 	public Set<StoryType> getAllStoryType() {
 		return stDao.getAll();
 	}
 	
 	// PitchStage-related
+	@Override
 	public Set<PitchStage> getAllPitchStage() {
 		return psDao.getAll();
 	}
 	
 	// ReviewStatus-related
+	@Override
 	public Set<ReviewStatus> getAllReviewStatus() {
 		return rsDao.getAll();
 	}
 	
 	// Priority-related
+	@Override
 	public Set<String> getPriorities() {
 		Set<String> priorities = new HashSet<>();
 		for (Priority p : Priority.values()) {

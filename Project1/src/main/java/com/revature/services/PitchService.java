@@ -22,4 +22,9 @@ public interface PitchService {
 	public Set<Pitch> getAllPitches();
 	public void updatePitch(Pitch t) throws Exception;
 	public void deletePitch(Pitch t);
+	public Set<Genre> getAllGenre();
+	public Set<StoryType> getAllStoryType();
+	public Set<PitchStage> getAllPitchStage();
+	public Set<ReviewStatus> getAllReviewStatus();
+	public Set<String> getPriorities();
 }

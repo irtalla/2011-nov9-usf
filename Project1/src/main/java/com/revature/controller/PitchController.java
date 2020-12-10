@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import java.util.Set;
 
+import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
 import com.revature.models.Priority;
@@ -27,10 +28,6 @@ public class PitchController {
 			return;
 		}
 		ctx.status(200);
-	}
-	
-	public static void getRelevantClasses(Context ctx) {
-		System.out.println("Getting relevant classes");
 	}
 	
 	public static void getPitchById(Context ctx) {
@@ -140,4 +137,54 @@ public class PitchController {
 		ctx.status(204);
 	}
 	
+	// Fetching additional classes for front-end
+	public static void getGenres(Context ctx) {
+		Set<Genre> genres = pitchServ.getAllGenre();
+		if (genres != null) {
+			ctx.status(200);
+			ctx.json(genres);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void getStoryTypes(Context ctx) {
+		Set<StoryType> types = pitchServ.getAllStoryType();
+		if (types != null) {
+			ctx.status(200);
+			ctx.json(types);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void getPitchStages(Context ctx) {
+		Set<PitchStage> stages = pitchServ.getAllPitchStage();
+		if (stages != null) {
+			ctx.status(200);
+			ctx.json(stages);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void getReviewStatus(Context ctx) {
+		Set<ReviewStatus> status = pitchServ.getAllReviewStatus();
+		if (status != null) {
+			ctx.status(200);
+			ctx.json(status);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void getPriorities(Context ctx) {
+		Set<String> priorities = pitchServ.getPriorities();
+		if (priorities != null) {
+			ctx.status(200);
+			ctx.json(priorities);
+		} else {
+			ctx.status(404);
+		}
+	}
 }
