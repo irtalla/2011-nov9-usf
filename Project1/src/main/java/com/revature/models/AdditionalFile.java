@@ -2,6 +2,7 @@ package com.revature.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,6 @@ public class AdditionalFile {
 	private Integer id;
 	@Column(name="file_name")
 	private String path;
-
 	
 	public AdditionalFile() {
 		id = 0;
