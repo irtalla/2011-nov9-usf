@@ -5,6 +5,11 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>SpmsApp</name>
   <description>Project1 of Revature training</description>
+  	  <!-- Forces Maven to build w/ JavaSE-1.8 -->
+	  <properties>
+	 	<maven.compiler.source>1.8</maven.compiler.source>
+	 	<maven.compiler.target>1.8</maven.compiler.target>
+	 </properties>
 	<dependencies>
 	  	<!-- JUnit dependency -->
 		<dependency>
