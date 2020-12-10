@@ -18,7 +18,7 @@ public interface PitchService {
 	public Set<Pitch> getPitchesByStoryType(StoryType type);
 	public Set<Pitch> getPitchesByPitchStage(PitchStage stage);
 	public Set<Pitch> getPitchesByReviewStatus(ReviewStatus status);
-	public Set<Pitch> getPitchesByPriority(Priority priority);
+	public Set<Pitch> getPitchesByPriority(String label);
 	public Set<Pitch> getAllPitches();
 	public void updatePitch(Pitch t) throws Exception;
 	public void deletePitch(Pitch t);

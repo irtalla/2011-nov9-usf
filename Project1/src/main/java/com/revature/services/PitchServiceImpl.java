@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.data.GenreDAO;
@@ -68,7 +69,13 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByPriority(Priority priority) {
+	public Set<Pitch> getPitchesByPriority(String label) {
+		Priority priority = Priority.NORMAL;
+		for (Priority p : Priority.values() ) {
+			if (p.label == label) {
+				priority = p;
+			}
+		}
 		return pitchDao.getByPriority(priority);
 	}
 
@@ -95,6 +102,15 @@ public class PitchServiceImpl implements PitchService {
 	// StoryType-related
 	public Set<StoryType> getAllStoryType() {
 		return stDao.getAll();
+	}
+	
+	// Priority-related
+	public Set<String> getPriorities() {
+		Set<String> priorities = new HashSet<>();
+		for (Priority p : Priority.values()) {
+			priorities.add(p.label);
+		}
+		return priorities;
 	}
 
 }

@@ -1,6 +1,13 @@
 package com.revature.models;
 
 public enum Priority {
-	NORMAL,
-	HIGH
+	NORMAL("NORMAL"),
+	HIGH("HIGH");
+	
+	public final String label;
+	
+	private Priority(String label) {
+		this.label = label;
+	}
+	
 }
