@@ -49,7 +49,7 @@ public class ReviewStatusHibernatePostgres implements ReviewStatusDAO {
 
 	@Override
 	public Set<ReviewStatus> getAll() {
-		Set<ReviewStatus> status = null;
+		Set<ReviewStatus> status = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

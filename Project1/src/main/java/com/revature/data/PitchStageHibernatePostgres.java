@@ -49,7 +49,7 @@ public class PitchStageHibernatePostgres implements PitchStageDAO {
 
 	@Override
 	public Set<PitchStage> getAll() {
-		Set<PitchStage> stages = null;
+		Set<PitchStage> stages = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

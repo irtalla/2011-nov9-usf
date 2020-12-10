@@ -48,7 +48,7 @@ public class AdditionalFileHibernatePostgres implements AdditionalFileDAO {
 
 	@Override
 	public Set<AdditionalFile> getAll() {
-		Set<AdditionalFile> files = null;
+		Set<AdditionalFile> files = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

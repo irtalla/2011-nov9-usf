@@ -106,7 +106,7 @@ public class UserHibernatePostgres implements UserDAO {
 	
 	@Override
 	public Set<User> getByRole(Role role) {
-		Set<User> users = null;
+		Set<User> users = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
@@ -125,7 +125,7 @@ public class UserHibernatePostgres implements UserDAO {
 
 	@Override
 	public Set<User> getAll() {
-		Set<User> users = null;
+		Set<User> users = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

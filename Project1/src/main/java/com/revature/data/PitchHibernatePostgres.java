@@ -58,7 +58,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 
 	@Override
 	public Set<Pitch> getByAuthor(User author) {
-		Set<Pitch> pitches = null;
+		Set<Pitch> pitches = new HashSet<>();
 		
 		if (author == null)  return null;
 		
@@ -83,7 +83,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 
 	@Override
 	public Set<Pitch> getByGenre(Genre genre, Boolean withinGenre) {
-		Set<Pitch> pitches = null;
+		Set<Pitch> pitches = new HashSet<>();
 		
 		if (genre == null)  return null;
 		
@@ -113,7 +113,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 
 	@Override
 	public Set<Pitch> getByStoryType(StoryType type) {
-		Set<Pitch> pitches = null;
+		Set<Pitch> pitches = new HashSet<>();
 		
 		if (type == null)  return null;
 		
@@ -138,7 +138,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 
 	@Override
 	public Set<Pitch> getByPitchStage(PitchStage stage) {
-		Set<Pitch> pitches = null;
+		Set<Pitch> pitches = new HashSet<>();
 		
 		if (stage == null)  return null;
 		
@@ -163,7 +163,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 
 	@Override
 	public Set<Pitch> getByReviewStatus(ReviewStatus status) {
-		Set<Pitch> pitches = null;
+		Set<Pitch> pitches = new HashSet<>();
 		
 		if (status == null)  return null;
 		
@@ -194,7 +194,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 	}
 	@Override
 	public Set<Pitch> getAll() {
-		Set<Pitch> pitches = null;
+		Set<Pitch> pitches = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

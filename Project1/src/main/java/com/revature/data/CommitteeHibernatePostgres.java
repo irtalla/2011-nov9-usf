@@ -77,9 +77,8 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 
 	@Override
 	public Set<User> getCommitteeEditorsByRole(Committee t, Role role) {
-		Set<User> editors = null;
+		Set<User> editors = new HashSet<>();
 		if (t != null && role != null) {
-			editors = new HashSet<>();
 			for (User u : getById(t.getId()).getEditors()) {
 				if (u.getRole().equals(role)) {
 					editors.add(u);
@@ -91,7 +90,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 
 	@Override
 	public Set<User> getCommitteeEditors(Committee t) {
-		Set<User> editors = null;
+		Set<User> editors = new HashSet<>();
 		if (t != null) {
 			editors = getById(t.getId()).getEditors();
 		}
@@ -100,7 +99,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 
 	@Override
 	public Set<Committee> getAll() {
-		Set<Committee> committees = null;
+		Set<Committee> committees = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

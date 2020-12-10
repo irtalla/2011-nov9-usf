@@ -49,7 +49,7 @@ public class GenreHibernatePostgres implements GenreDAO {
 
 	@Override
 	public Set<Genre> getAll() {
-		Set<Genre> genres = null;
+		Set<Genre> genres = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();

@@ -48,7 +48,7 @@ public class StoryTypeHibernatePostgres implements StoryTypeDAO {
 
 	@Override
 	public Set<StoryType> getAll() {
-		Set<StoryType> types = null;
+		Set<StoryType> types = new HashSet<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
