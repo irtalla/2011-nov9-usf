@@ -53,10 +53,11 @@ public class GenreHibernatePostgres implements GenreDAO {
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM Genre";
+			String hql = "FROM Genre ORDER BY id";
 			Query<Genre> q = s.createQuery(hql, Genre.class);
 			List<Genre> resultList = q.getResultList();
 			genres = new HashSet<>(resultList);
+			System.out.println(genres);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
