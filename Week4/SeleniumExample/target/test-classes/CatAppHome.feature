@@ -11,8 +11,8 @@ Scenario Outline: Logging in works
 	
 	Examples:
 		|		username		|		password		|
-		|		sierra			| 	pass				|
-		|		revature		|		pass				|
+		|		sierra			| 		pass			|
+		|		revature		|		pass			|
 		
 Scenario: View Cats page shows up
 	Given I am on the CatApp home page
