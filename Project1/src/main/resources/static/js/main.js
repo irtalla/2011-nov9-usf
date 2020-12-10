@@ -79,7 +79,11 @@ async function logout() {
         alert('Failed to logout');
     }
     setLoggedUser(null);
-    setNav();
+    if (window.location != baseUrl) {
+        window.location.replace(baseUrl);
+    } else {
+        setNav();
+    }
 }
 
 async function checkLogin() {
