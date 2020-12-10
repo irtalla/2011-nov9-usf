@@ -26,3 +26,13 @@ table, tr, td {
     border-spacing: 10px;
     border-collapse: separate;
 }
+
+.card{
+    background-color:	#DCDCDC;
+}
+.topcorner{
+    position:absolute;
+    top:0;
+    right:0;
+    padding-right: 25px;
+   }

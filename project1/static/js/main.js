@@ -4,37 +4,42 @@ loggedUser = null;
 checkLogin();
 setNav();
 function setNav() {
-    nav.innerHTML = `
-            <a href="index.html"><strong>Cat App</strong></a>
-            <a href="viewCats.html">View Cats</a>`;
+    nav.innerHTML = ``;
     if (!loggedUser) {
         nav.innerHTML += `
-            <form>
-                <label for="user">Username: </label>
-                <input id="user" name="user" type="text" />
-                <label for="pass"> Password: </label>
-                <input id="pass" name="pass" type="password" />
-                <button type="button" id="loginBtn" class="btn btn-primary">Log In</button>
-            </form>
+            <div class="topcorner">
+                <form >
+                    <label for="user">Username: </label>
+                    <input id="user" name="user" type="text" />
+                    <label for="pass"> Password: </label>
+                    <input id="pass" name="pass" type="password" />
+                    <button type="button" id="loginBtn" class="btn btn-primary">Log In</button>
+                </form>
+            </div>
         `;
     } else {
-
-        switch(loggedUser.role.name){
+        nav.innerHTML += `
+        <div class = "topcorner">
+            <span>
+                <button type="button" id="profileBtn" class = ".btn-default" onClick = "showProfile('form')">${loggedUser.name}(${loggedUser.role.name})</button>
+                <button type="button" id="loginBtn" class="btn btn-primary">Log Out</button>
+            </span>
+        </div>
+    `;
+        switch (loggedUser.role.name) {
             case "employee":
-                nav.innerHTML += `
-                <a href="myCats.html">My Cats</a>
+                nav.innerHTML += `employee
                 <button type="button" onclick="showForm('form' ) "class="btn btn-info">Request Reimbursement</button>
-                <span>
-                    <a href="profile.html">${loggedUser.name}(${loggedUser.role.name})&nbsp;</a>
-                    <button type="button" id="loginBtn" class="btn btn-primary">Log Out</button>
-                </span>
-
             `;
 
                 break;
             case "supervisor":
+                nav.innerHTML += `supervisor
+            `;
                 break;
             case "benco":
+                nav.innerHTML += `BENCO
+            `;
                 break;
         }
 
@@ -50,8 +55,8 @@ async function login() {
     let url = baseUrl + '/users?';
     url += 'user=' + document.getElementById('user').value + '&';
     url += 'pass=' + document.getElementById('pass').value;
-    let response = await fetch(url, {method: 'PUT'});
-    
+    let response = await fetch(url, { method: 'PUT' });
+
     switch (response.status) {
         case 200: // successful
             loggedUser = await response.json();
@@ -74,7 +79,7 @@ async function login() {
 
 async function logout() {
     let url = baseUrl + '/users';
-    let response = await fetch(url, {method:'DELETE'});
+    let response = await fetch(url, { method: 'DELETE' });
 
     if (response.status != 200) alert('Something went wrong.');
     loggedUser = null;

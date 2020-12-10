@@ -116,9 +116,7 @@ document.getElementById("date").value = d;
 
 function submitForm(parentDivId){
         const formDiv = document.getElementById(parentDivId);
-        $('#modalbod').html("Estimated reimbursement for proposed event: ");
-        // $('.modal-body').innerHTML = "Estimated reimbursement for proposed event: "
-        $("#myModal").modal('show');
+
 
         var dat = new Date(document.getElementById("date").value);
         var date = new Date();
@@ -128,6 +126,14 @@ function submitForm(parentDivId){
         alert("Please enter a valid begin date for event");
         }
         else{
+                $('#modalbod').html("Estimated reimbursement for proposed event: ");
+                //todos: 
+                // 1. determine estimated reimbursement
+                //      a)first calculate based on event type and value of cost field what would be paid
+                //      b)subtract that from whatever is left in the employee's 1000 dollars per year
+                 
+                // $('.modal-body').innerHTML = "Estimated reimbursement for proposed event: "
+                $("#myModal").modal('show');
                 formDiv.innerHTML = ``;
         }
 }
