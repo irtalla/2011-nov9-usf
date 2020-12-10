@@ -104,7 +104,7 @@ public class PersonController {
 	public static void getPitchesByUserId(Context ctx) {
 		Set<Pitch> pitches = new HashSet<>();
 		Person loggedPerson = ctx.sessionAttribute("user");
-
+		System.out.println("pass to all pitches number: "+loggedPerson.getId());
 		pitches = personServ.getAllPitchesByPersonId(loggedPerson.getId());
 		if (pitches != null ) {
 		ctx.status(200);

@@ -1,16 +1,16 @@
-checkLogin().then(getPitches);
+checkLogin().then(populatePitches);
 
-async function getPitches(){
-    let url = baseUrl + '/users/pitches/' + loggedUser.id;
-    let response = await fetch(url);
-    if(response.status === 200) {
-        let requests = await response.json();
-        populatePitches(requests);
-    }
-}
+// async function getPitches(){
+//     let url = baseUrl + '/users/pitches/';
+//     let response = await fetch(url);
+//     if(response.status === 200) {
+//         let requests = await response.json();
+//         populatePitches(requests);
+//     }
+// }
 
-function populatePitches(pitches) {
-
+function populatePitches() {
+    let pitches = loggedUser.pitches;
     let pitchSection = document.getElementById('pitchSection');
 
     if (pitches.length > 0) {
@@ -19,13 +19,13 @@ function populatePitches(pitches) {
             <tr>
                 <th>ID</th>
                 <th>Story Title</th>
-                <th>Finish Date</th>
                 <th>Story Type</th>
                 <th>Genre</th>
                 <th>Description</th>
                 <th>Status</th>
                 <th>Priority</th>
                 <th>Stage</th>
+                <th>Finish Date</th>
             </tr>
         `;
 
@@ -34,13 +34,13 @@ function populatePitches(pitches) {
             tr.innerHTML = `
                 <td>${pitch.id}</td>
                 <td>${pitch.story_title}</td>
-                <td>${pitch.storytype.storytype_name}</td>
-                <td>${pitch.genre.genre_name}</td>
+                <td>${pitch.story_type.name}</td>
+                <td>${pitch.genre.name}</td>
                 <td>${pitch.description}</td>
-                <td>${pitch.status.status_name}</td>
-                <td>${pitch.pitch_priority.priority_name}</td>
-                <td>${pitch.pitch_stage.stage_name}</td>
-                <td>${pitch.finish_date}</td>
+                <td>${pitch.status.name}</td>
+                <td>${pitch.priority.name}</td>
+                <td>${pitch.stage.name}</td>
+                <td>${pitch.finish_date.month}/${pitch.finish_date.dayOfMonth}/${pitch.finish_date.year}</td>
             `;
           
             table.appendChild(tr);

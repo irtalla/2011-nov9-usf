@@ -17,9 +17,11 @@ function setNav() {
                 <button type="button" id="loginBtn">Log In</button>
             </form>
         `;
-    } else {
+    } else if (loggedUser.title.name == 'author'){
         nav.innerHTML += `
             <a href="currPitches.html">My Pitches</a>
+            `;
+    }else{ nav.innerHTML =`
             <span>
                 <a href="profile.html">${loggedUser.username}&nbsp;&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
