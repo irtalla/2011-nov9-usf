@@ -1,6 +1,7 @@
 package com.revature.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.revature.controller.CommitteeController;
 import com.revature.controller.PersonController;
 import com.revature.controller.PitchController;
 
@@ -27,10 +28,12 @@ public class SPMSJavalinApp {
 					
 					get(PersonController::getUserById); // get user by id
 					//can only have one get request - try getting as part of person object?
-					//get(PersonController::getPitchesByUserId); //gets pitches for user
+					// //gets pitches for user
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
-					
+					path("pitches/:id", () -> {
+						get(PersonController::getPitchesByUserId);
+					});
 				});
 			});
 			
@@ -45,10 +48,11 @@ public class SPMSJavalinApp {
 				});
 			});
 
-//
-//			path("Committee", () -> {
-//				get(CommitteeController::getCommittee); 
-//			});
+
+			path("committees", () -> {
+				System.out.println("hello from committees");
+				get(CommitteeController::getAllCommittees); 
+			});
 		});
 	}
 }

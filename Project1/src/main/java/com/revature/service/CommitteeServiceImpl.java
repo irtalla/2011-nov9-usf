@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.util.Set;
+
 import com.revature.beans.Committee;
 import com.revature.beans.Genre;
 import com.revature.data.CommitteeDAO;
@@ -31,6 +33,11 @@ public class CommitteeServiceImpl implements CommitteeService {
 	@Override
 	public void deleteCommittee(Committee c) {
 		comDao.delete(c);
+	}
+
+	@Override
+	public Set<Committee> getCommittees() {
+		return comDao.getAll();
 	}
 
 }

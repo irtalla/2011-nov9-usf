@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +18,7 @@ public class Committee {
 	private Integer id;
 	@Column(name = "committee_name")
 	private String committee_name;
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="genre_id")
 	private Genre genre;
 	

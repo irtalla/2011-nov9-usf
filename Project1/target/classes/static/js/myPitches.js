@@ -1,20 +1,17 @@
-checkLogin().then(populatePitches);
-populateTitles();
+checkLogin().then(getPitches);
 
-function populateTitles() {
-    let titles = loggedUser.titles;
-    let titleBar = document.createElement('ul')
-    for(let title in titles){
-        let li = document.createElement('li');
-        li.innerHTML = title.title_name;
+async function getPitches(){
+    let url = baseUrl + '/users/pitches/' + loggedUser.id;
+    let response = await fetch(url);
+    if(response.status === 200) {
+        let requests = await response.json();
+        populatePitches(requests);
     }
-    titleBar.appendChild(li);
-    pitchSection.appendChild(titleBar);
 }
 
-function populatePitches() {
 
-    let pitches = loggedUser.pitches;
+function populatePitches(pitches) {
+
     let pitchSection = document.getElementById('pitchSection');
 
     if (pitches.length > 0) {

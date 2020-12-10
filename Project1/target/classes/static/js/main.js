@@ -3,6 +3,7 @@ let nav = document.getElementById('navBar');
 let loggedUser = null;
 checkLogin();
 setNav();
+getCommittees();
 function setNav() {
     nav.innerHTML = `
             <a href="index.html"><strong>Story Pitch System</strong></a>`;
@@ -71,4 +72,23 @@ async function checkLogin() {
     let response = await fetch(url);
     if (response.status === 200) loggedUser = await response.json();
     setNav();
+}
+
+async function getCommittees() {
+    let mainNav = document.getElementById('mainNav');
+    let url = baseUrl + '/committees';
+    let response = await fetch(url);
+    if(response.status === 200){
+        let committees = await response.json();
+        
+        let committeelst = document.createElement('ol');
+        for(let committee in committees){
+            let li = document.createElement('li');
+            li.innerHTML = committee.committee_name;
+            committeelst.appendChild(li);
+        }
+        mainNav.appendChild(committeelst);
+    }else{
+        mainNav.innerHTML = 'HI!';
+    }
 }

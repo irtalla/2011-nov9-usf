@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.util.Set;
+
 import com.revature.beans.Committee;
 import com.revature.beans.Genre;
 
@@ -13,4 +15,6 @@ public interface CommitteeService {
 	public void updateCommittee(Committee c);
 	
 	public void deleteCommittee(Committee c);
+
+	public Set<Committee> getCommittees();
 }

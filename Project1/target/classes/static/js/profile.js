@@ -6,6 +6,19 @@ function showInfo() {
     let heading = document.getElementById('heading');
     heading.innerHTML = loggedUser.username;
 
+    let titles = loggedUser.titles;
+    let titleBar = document.createElement('ul')
+    for(let title in titles){
+        let li = document.createElement('li');
+        li.innerHTML = title.title_name;
+        titleBar.appendChild(li);
+    }
+
+    
+    heading.appendChild(titleBar);
+
+
+
     let info = document.getElementById('info');
     info.innerHTML = `
         <a onclick = "changeUsername">Change Username</a>
@@ -68,4 +81,6 @@ async function submitChanges() {
         }
         checkLogin().then(showInfo);
     }
+
+    
 }
