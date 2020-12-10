@@ -21,7 +21,11 @@ public class PitchStageHibernatePostgres implements PitchStageDAO {
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			newInt = (Integer) s.save(t);
-			s.getTransaction().commit();
+			if (newInt != 0) {
+				s.getTransaction().commit();
+			} else {
+				s.getTransaction().rollback();
+			}
 		} catch (Exception e) {
 			e.getCause().printStackTrace();
 		}

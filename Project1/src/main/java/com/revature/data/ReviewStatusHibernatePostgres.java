@@ -16,12 +16,12 @@ public class ReviewStatusHibernatePostgres implements ReviewStatusDAO {
 
 	@Override
 	public Integer add(ReviewStatus t) throws Exception {
-		Integer newInt = 0;
+		Integer newId = 0;
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			newInt = (Integer) s.save(t);
-			if (newInt != 0) {
+			newId = (Integer) s.save(t);
+			if (newId != 0) {
 				s.getTransaction().commit();
 			} else {
 				s.getTransaction().rollback();
@@ -30,7 +30,7 @@ public class ReviewStatusHibernatePostgres implements ReviewStatusDAO {
 			e.getCause().printStackTrace();
 		}
 		
-		return newInt;
+		return newId;
 	}
 
 	@Override

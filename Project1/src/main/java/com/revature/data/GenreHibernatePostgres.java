@@ -16,17 +16,21 @@ public class GenreHibernatePostgres implements GenreDAO {
 
 	@Override
 	public Integer add(Genre t) throws Exception {
-		Integer newInt = 0;
+		Integer newId = 0;
 		
 		try (Session s = sessionFactory.getCurrentSession()){
 			s.beginTransaction();
-			newInt = (Integer) s.save(t);
-			if (newInt != 0) s.getTransaction().commit();
+			newId = (Integer) s.save(t);
+			if (newId != 0) {
+				s.getTransaction().commit();
+			} else {
+				s.getTransaction().rollback();
+			}
 		} catch (Exception e) {
 			e.getCause().printStackTrace();
 		}
 		
-		return newInt;
+		return newId;
 	}
 
 	@Override

@@ -24,8 +24,11 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			newId = (Integer) s.save(t);
-			s.getTransaction().commit();
-			
+			if (newId != 0) {
+				s.getTransaction().commit();
+			} else {
+				s.getTransaction().rollback();
+			}
 		} catch (Exception e) {
 			if (e.getCause().getMessage().contains("violates unique constraint")) {
 				System.out.println("non-unique");

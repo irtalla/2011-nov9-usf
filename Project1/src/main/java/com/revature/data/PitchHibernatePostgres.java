@@ -30,8 +30,11 @@ public class PitchHibernatePostgres implements PitchDAO {
 		try (Session s = sessionFactory.getCurrentSession()){
 			s.beginTransaction();
 			newId = (Integer) s.save(t);
-			s.getTransaction().commit();
-			
+			if (newId != 0) {
+				s.getTransaction().commit();
+			} else {
+				s.getTransaction().rollback();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
