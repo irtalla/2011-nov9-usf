@@ -1,7 +1,12 @@
 let baseUrl = 'http://localhost:8080';
 //console.log("hrloss");
 var chk=document.getElementById("loo");
+var reform=document.getElementById('rf');
+reform.style.display="none";
 
+
+
+    
 document.getElementById('loo').style.display="none";
 var loadingani=document.getElementById("loadert");
 
@@ -42,7 +47,21 @@ var locationinput=document.createElement("input");
 var divdes=document.createElement("div");
 var inputdesc=document.createElement("input");
 
+var divcost=document.createElement("div");
+var inputcost=document.createElement("input");
 
+var divgrading=document.createElement("div");
+var inputgrading=document.createElement("input");
+
+var divtoe=document.createElement("div");
+var inputtoe=document.createElement("select");
+
+
+
+var divtmissed=document.createElement("div");
+var inputtm=document.createElement("input");
+inputtm.setAttribute("type","time");
+inputtm.setAttribute("id","time");
 
 
 var regisbuton=document.createElement('button');    
@@ -53,6 +72,7 @@ console.log(loggedUser);
 
 function setNav() {
     if (!loggedUser) {
+       
         nav.innerHTML='';
       //  console.log("navs");
         nav.innerHTML += `
@@ -99,7 +119,122 @@ function profile(){
 }
 function newform(){
 
+    reform.innerHTML='Reimbursment Form:<br><br>'
+    reform.style.display="inline-flex";
 
+    var fromdiv= document.createElement('div');
+   
+    divevent_id.innerHTML='<br>Event Id<br>';
+    divevent_id.appendChild(eventidinput);
+    fromdiv.appendChild(divevent_id);
+    divdes.innerHTML='Description<br>';
+    divdes.appendChild(inputdesc);
+    fromdiv.appendChild(divdes);
+
+   
+
+    divlocation.innerHTML='Location<br>';
+    divlocation.appendChild(locationinput);
+    fromdiv.appendChild(divlocation);
+
+    divtime.innerHTML='<br>Start Time';
+    divtime.appendChild(timeinput);
+    fromdiv.appendChild(divtime);
+
+    divdates.innerHTML='Date<br>';
+    divdates.appendChild(datesinput);
+    fromdiv.appendChild(divdates);
+
+    divcost.innerHTML=`Cost<br>`;
+    divcost.appendChild(inputcost);
+    fromdiv.appendChild(divcost);
+
+    divgrading.innerHTML=`Grading format<br>`;
+    divgrading.appendChild(inputgrading);
+    fromdiv.appendChild(divgrading);
+
+    divtmissed.innerHTML=`End Time :    `;
+    divtmissed.appendChild(inputtm);
+    fromdiv.appendChild(divtmissed);
+
+
+    var label=document.createElement("label");
+    label.innerHTML=`Type of event:`;
+    
+    inputtoe.innerHTML+=` <select name="cars" id="cars"
+                        <option value="volvo">Volvo</option>
+    <option value="Courses">Courses</option>
+    <option value="Seminars">Seminars</option>
+    <option value="Certification Classes">Certification Classes</option>
+    <option value="Certification">Certification</option>
+    <option value="Technical Training">Technical Training</option>
+    <option value="Others">Others</option>
+  </select>`;
+    divtoe.appendChild(label);
+    divtoe.appendChild(inputtoe);
+
+    fromdiv.appendChild(divtoe);
+    
+    var subbtn=document.createElement("button");
+    subbtn.innerHTML=`Submit Request`;
+
+    fromdiv.appendChild(subbtn);
+    reform.appendChild(fromdiv);
+
+    subbtn.onclick=submitform;
+    
+
+}
+async function submitform()
+{
+    let form={};
+    console.log(loggedUser.emp_name+"submit");
+    //form.from_id=0;
+    form.emp_id=loggedUser;
+    var value=eventidinput.value;
+    console.log("vakue+"+value);
+    form.event_id={};
+    let event={};
+    
+    
+    if(value == 1){
+        event.event_id=1;
+
+    }else if(value == 2){
+        event.event_id=2;
+    }else if(value ==3){
+        event.event_id=3;
+    }else if(value==4){
+        event.event_id=4;
+    }else if(value ==5){
+        event.event_id=5;
+    }else if(value==6){
+        event.event_id=6;
+    }
+
+    event.event_name='';
+    event.event_coverage=0;
+    //event=eventidinput.value;
+    form.event_id=event;
+    form.dates=datesinput.value+'';
+    form.timet=timeinput.value+'';
+    form.location=locationinput.value;
+    form.description=inputdesc.value;
+    form.cost=inputcost.value;
+    form.grading_format=inputgrading.value;
+    form.type_of_event=inputtoe.value;
+    form.form_status="Pending";
+    form.type_of_approval="Pend";
+    form.work_time_missed=String(inputtm.value);
+    let url=baseUrl+'/form';
+    let response = await fetch(url,{method:'POST',body:JSON.stringify(form)});
+    if(response.status===201){
+        alert('Form submitted');
+        reform.innerHTML=``;
+        reform.outerHTML=``;
+    }else{
+        alert('Form was not submitted');
+    }
 }
 
 async function login() {

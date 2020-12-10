@@ -1,24 +1,29 @@
 package dev.rev.beans;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "reimbformtable")
+@Table(name="reimbformtable")
 public class reimbForm {
 		
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+		@Column(name="form_id")
 		private int from_id;
 		@ManyToOne(fetch=FetchType.EAGER)
-		private int emp_id;
+		@JoinColumn(name="emp_id")
+		private employee emp_id;
 		@ManyToOne
-		private int event_id;
+		@JoinColumn(name="event_id")
+		private event event_id;
 		private String dates;
 		private String timet;
 		private String location;
@@ -31,9 +36,10 @@ public class reimbForm {
 		private String work_time_missed;
 		
 		public reimbForm() {
-			from_id=emp_id=event_id=cost=0;
+			from_id=cost=0;
 			dates=timet=location=description=grading_format=type_of_event=form_status=type_of_approval=work_time_missed="";
-			
+			emp_id=null;
+			event_id=null;
 			
 		}
 		
@@ -44,16 +50,16 @@ public class reimbForm {
 		public void setFrom_id(int from_id) {
 			this.from_id = from_id;
 		}
-		public int getEmp_id() {
+		public employee getEmp_id() {
 			return emp_id;
 		}
-		public void setEmp_id(int emp_id) {
+		public void setEmp_id(employee emp_id) {
 			this.emp_id = emp_id;
 		}
-		public int getEvent_id() {
+		public event getEvent_id() {
 			return event_id;
 		}
-		public void setEvent_id(int event_id) {
+		public void setEvent_id(event event_id) {
 			this.event_id = event_id;
 		}
 		public String getDates() {
@@ -123,8 +129,8 @@ public class reimbForm {
 			result = prime * result + cost;
 			result = prime * result + ((dates == null) ? 0 : dates.hashCode());
 			result = prime * result + ((description == null) ? 0 : description.hashCode());
-			result = prime * result + emp_id;
-			result = prime * result + event_id;
+			result = prime * result + ((emp_id == null) ? 0 : emp_id.hashCode());
+			result = prime * result + ((event_id == null) ? 0 : event_id.hashCode());
 			result = prime * result + ((form_status == null) ? 0 : form_status.hashCode());
 			result = prime * result + from_id;
 			result = prime * result + ((grading_format == null) ? 0 : grading_format.hashCode());
@@ -156,9 +162,15 @@ public class reimbForm {
 					return false;
 			} else if (!description.equals(other.description))
 				return false;
-			if (emp_id != other.emp_id)
+			if (emp_id == null) {
+				if (other.emp_id != null)
+					return false;
+			} else if (!emp_id.equals(other.emp_id))
 				return false;
-			if (event_id != other.event_id)
+			if (event_id == null) {
+				if (other.event_id != null)
+					return false;
+			} else if (!event_id.equals(other.event_id))
 				return false;
 			if (form_status == null) {
 				if (other.form_status != null)
@@ -208,5 +220,5 @@ public class reimbForm {
 					+ work_time_missed + "]";
 		}
 		
-		
+	
 }

@@ -8,6 +8,7 @@ import static io.javalin.apibuilder.ApiBuilder.put;
 
 import dev.rev.controllers.employeecontroller;
 import dev.rev.controllers.eventcontroller;
+import dev.rev.controllers.formcontroller;
 import io.javalin.Javalin;
 
 public abstract class TRMSJavalin {
@@ -25,8 +26,8 @@ public abstract class TRMSJavalin {
 		app.routes(() -> {
 			// all requests to /cats go to this handler
 			path("form", () -> {
-			//	get(CatController::getAvailableCats); // get available cats is the default
-			//	post(CatController::addCat); // add a cat
+				get(formcontroller::getallforms); // get available cats is the default
+				post(formcontroller::addform); // add a cat
 				// note: you want your specific paths to be before path variables
 				// so that javalin tries those before mapping it to a path variable
 				// basically, if the :id path was first, the "all" path would also

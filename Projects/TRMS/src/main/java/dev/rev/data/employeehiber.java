@@ -1,5 +1,6 @@
 package dev.rev.data;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -41,7 +42,7 @@ public class employeehiber implements employeeDAO {
 	}
 
 	@Override
-	public Set<employee> getAll() {
+	public List<employee> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

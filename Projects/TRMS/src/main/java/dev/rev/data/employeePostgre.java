@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Set;
 
 
@@ -59,7 +60,7 @@ public class employeePostgre implements employeeDAO {
 	}
 
 	@Override
-	public Set<employee> getAll() {
+	public List<employee> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}

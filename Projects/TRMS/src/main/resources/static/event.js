@@ -37,13 +37,12 @@ function settable(eventtable) {
     if (eventtable.length > 0) {
         let table = document.createElement('table');
         table.id = 'eventtable';
-
-        table.innerHTML = `
+        table.innerHTML='Events <br>';
+        table.innerHTML += `
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Coverage</th>
-                <th>Paasing Grade</th>
                
                
             </tr>
@@ -55,7 +54,6 @@ function settable(eventtable) {
                 <td>${events.event_id}</td>
                 <td>${events.event_name}</td>
                 <td>${events.event_coverage}</td>
-                <td>${events.passing_grade}</td>
             `;
          
            // td.appendChild(ul);

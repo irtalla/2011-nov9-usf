@@ -7,10 +7,24 @@
   font-family: 'Poppins', sans-serif;
 }
 #events{
-  margin-left: 80%;
+  margin-top: 5%;
+  margin-left: 75%;
+  position: relative;
   border: 4px solid black;
-  border-color:#3498db ;
+  border-color:rgb(50, 80, 105) ;
 }
+
+#rf{
+  width: 50%;
+  position: absolute;
+  
+  border: 4px solid black;
+  border-color:rgb(50, 80, 105) ;
+  margin-left: 15%;
+  margin-top: 5%;
+
+}
+
 
 
 
