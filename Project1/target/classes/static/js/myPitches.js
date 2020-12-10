@@ -34,13 +34,13 @@ function populatePitches(pitches) {
             tr.innerHTML = `
                 <td>${pitch.id}</td>
                 <td>${pitch.story_title}</td>
-                <td>${pitch.finish_date}</td>
                 <td>${pitch.storytype.storytype_name}</td>
                 <td>${pitch.genre.genre_name}</td>
                 <td>${pitch.description}</td>
                 <td>${pitch.status.status_name}</td>
                 <td>${pitch.pitch_priority.priority_name}</td>
                 <td>${pitch.pitch_stage.stage_name}</td>
+                <td>${pitch.finish_date}</td>
             `;
           
             table.appendChild(tr);

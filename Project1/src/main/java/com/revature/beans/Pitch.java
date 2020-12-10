@@ -2,29 +2,26 @@ package com.revature.beans;
 
 
 
+import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.type.LocalDateTimeType;
 @Entity
 @Table
 public class Pitch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "person_id")
-	private Person author;
+//	private Person author;
 	private String story_title;
-	private LocalDateTimeType finish_date;  //Date from java Util.  Might need to be Sql
+  
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "storytype_id")
 	private StoryType story_type;
@@ -43,26 +40,27 @@ public class Pitch {
 	@JoinColumn(name = "pitch_stage_id")
 	private PitchStage stage;
 
+	private LocalDateTime finish_date;
 	
 	
 	public Pitch() {
 		id = 0;
-		author = new Person();
+//		author = new Person();
 		story_title ="";
-		finish_date = new LocalDateTimeType();
 		story_type = new StoryType();
 		genre = new Genre();
 		description = "";
 		status = new Status();
 		priority = new PitchPriority();
 		stage = new PitchStage();
+		finish_date = null;
 	}
-	public Person getAuthor() {
-		return author;
-	}
-	public void setAuthor(Person author) {
-		this.author = author;
-	}
+//	public Person getAuthor() {
+//		return author;
+//	}
+//	public void setAuthor(Person author) {
+//		this.author = author;
+//	}
 	public Integer getId() {
 		return id;
 	}
@@ -76,10 +74,10 @@ public class Pitch {
 		this.story_title = story_title;
 	}
 
-	public LocalDateTimeType getFinish_date() {
+	public LocalDateTime getFinish_date() {
 		return finish_date;
 	}
-	public void setFinish_date(LocalDateTimeType finish_date) {
+	public void setFinish_date(LocalDateTime finish_date) {
 		this.finish_date = finish_date;
 	}
 	public StoryType getStory_type() {
@@ -123,7 +121,7 @@ public class Pitch {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
+//		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((finish_date == null) ? 0 : finish_date.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
@@ -144,11 +142,11 @@ public class Pitch {
 		if (getClass() != obj.getClass())
 			return false;
 		Pitch other = (Pitch) obj;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
+//		if (author == null) {
+//			if (other.author != null)
+//				return false;
+//		} else if (!author.equals(other.author))
+//			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -198,7 +196,7 @@ public class Pitch {
 	}
 	@Override
 	public String toString() {
-		return "Pitch id:" + id + " by " + author +
+		return "Pitch id:" + id + " by " + //author +
 				"\n story_title: " + story_title + ", projected finish date: " + finish_date + 
 				"\n In the genre of " + genre.getName()
 				+ "\n description=" + description;

@@ -132,7 +132,6 @@ public class PersonHibernate implements PersonDAO {
 
 	@Override
 	public Set<Pitch> getPitchesByPersonId(Integer id) {
-		System.out.println("Please pring when in getpitchesbyuserid\n\n\n\n");
 		Session s = hu.getSession();
 		String query = "FROM Pitch WHERE person_id = :id";
 		Query<Pitch> q = s.createQuery(query, Pitch.class);

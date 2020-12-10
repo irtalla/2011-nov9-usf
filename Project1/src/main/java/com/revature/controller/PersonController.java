@@ -103,9 +103,9 @@ public class PersonController {
 	
 	public static void getPitchesByUserId(Context ctx) {
 		Set<Pitch> pitches = new HashSet<>();
-		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Person loggedPerson = ctx.sessionAttribute("user");
 
-		pitches = personServ.getAllPitchesByPersonId(id);
+		pitches = personServ.getAllPitchesByPersonId(loggedPerson.getId());
 		if (pitches != null ) {
 		ctx.status(200);
 		ctx.json(pitches);

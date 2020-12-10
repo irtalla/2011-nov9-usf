@@ -29,20 +29,20 @@ public class SPMSJavalinApp {
 					get(PersonController::getPitchesByUserId);
 				});
 				path (":id", () -> {
-					
 					get(PersonController::getUserById); // get user by id
 					//can only have one get request - try getting as part of person object?
 					// //gets pitches for user
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
-
 				});
+
 			});
 			
 		
 			path("pitch", () -> { 
-				post(PitchController::addPitch); 
 				get(PitchController::getPitches);
+				post(PitchController::addPitch); 
+	
 				path(":id", () -> {
 					get(PitchController::getPitchById); 
 					put(PitchController::updatePitch); 

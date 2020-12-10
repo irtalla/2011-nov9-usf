@@ -44,7 +44,7 @@ public class Person {
 		passwd = "";
 		title = new HashSet<Title>();
 		committees = new HashSet<Committee>();
-		pitches = new HashSet<Pitch>();
+//		pitches = new HashSet<Pitch>();
 	}
 
 	public Integer getId() {
