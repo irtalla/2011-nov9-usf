@@ -21,7 +21,7 @@ function setNav() {
         nav.innerHTML += `
             <a href="currPitches.html">My Pitches</a>
             <span>
-                <a href="profile.html">${loggedUser.username}&nbsp;${loggedUser.title.title_name}&nbsp;</a>
+                <a href="profile.html">${loggedUser.username}&nbsp;&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
@@ -82,7 +82,7 @@ async function getCommittees() {
         let committees = await response.json();
         
         let committeelst = document.createElement('ol');
-        for(let committee in committees){
+        for(let committee of committees){
             let li = document.createElement('li');
             li.innerHTML = committee.committee_name;
             committeelst.appendChild(li);

@@ -6,17 +6,22 @@ function showInfo() {
     let heading = document.getElementById('heading');
     heading.innerHTML = loggedUser.username;
 
-    let titles = loggedUser.titles;
-    let titleBar = document.createElement('ul')
-    for(let title in titles){
-        let li = document.createElement('li');
-        li.innerHTML = title.title_name;
-        titleBar.appendChild(li);
-    }
+    //This section populates the users titles
+    //function populateTitles(){
+        let titles = loggedUser.title;
 
-    
-    heading.appendChild(titleBar);
+        if(titles.length > 0) {
+            let titleLst = document.createElement('ul');
+            for(let title of titles ){
+                let titleItem = document.createElement('li');
+                titleItem.innerHTML = title.name
+                titleLst.appendChild(titleItem);
+            } //end for
 
+            heading.appendChild(titleLst);
+        }//end if
+
+    //}//end poptitles
 
 
     let info = document.getElementById('info');

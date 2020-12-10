@@ -10,6 +10,7 @@ import io.javalin.Javalin;
 public class SPMSJavalinApp {
 	
 	public static void main(String[] args) {
+
 		Javalin app = Javalin.create((config) -> {
 			config.addStaticFiles("/static"); // pulling from src/main/resources
 			config.enableCorsForAllOrigins();
@@ -31,7 +32,7 @@ public class SPMSJavalinApp {
 					// //gets pitches for user
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
-					path("pitches/:id", () -> {
+					path("pitches/id", () -> {
 						get(PersonController::getPitchesByUserId);
 					});
 				});

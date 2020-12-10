@@ -9,7 +9,6 @@ async function getPitches(){
     }
 }
 
-
 function populatePitches(pitches) {
 
     let pitchSection = document.getElementById('pitchSection');
@@ -43,15 +42,13 @@ function populatePitches(pitches) {
                 <td>${pitch.pitch_priority.priority_name}</td>
                 <td>${pitch.pitch_stage.stage_name}</td>
             `;
-            let td = document.createElement('td');
-
-            tr.appendChild(td);
+          
             table.appendChild(tr);
-        }
+        } //end for
 
         pitchSection.appendChild(table);
     } else {
         pitchSection.innerHTML = 'Currently zero pitches';
         
-    }
-}
+    }//else of if
+} //end poppitch 
