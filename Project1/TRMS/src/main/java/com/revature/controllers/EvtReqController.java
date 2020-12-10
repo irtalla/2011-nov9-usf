@@ -51,10 +51,26 @@ public class EvtReqController {
 	}
 	
 	public static void addEvtReq(Context ctx) {
+		
 		EvtReq evtReq = ctx.bodyAsClass(EvtReq.class);
-		Person p = ctx.bodyAsClass(Person.class);
-		evtReqServ.addEvtReq(evtReq, p);
-		ctx.status(201);
+		
+		//for the person we have to get it from the session
+		System.out.println("get the person from the session");
+		Person p = ctx.sessionAttribute("user");
+		if (p != null) {
+			System.out.println("Logged in as " + p.getUsername());
+			
+			evtReq.setPerson_id(p.getId()); //set the id of logged in user from session to the new evtReq
+			evtReqServ.addEvtReq(evtReq, p); 
+			
+			ctx.status(201);
+			
+		} else {
+			System.out.println("the user is not logged in");
+			ctx.status(400);
+		}
+		
+		
 	}
 	
 	public static void updateEvtReq(Context ctx) {

@@ -24,7 +24,7 @@ public class TRMS_Javalin {
 			path("events", () ->{
 				//get (ctx -> ctx.result("Hello World"));
 				get(EvtReqController::getAvailableEvtReqs); // get available events is the default
-				post(EvtReqController::addEvtReq); // add a event
+				post(EvtReqController::addEvtReq); // add a event //it will call this method
 				// note: you want your specific paths to be before path variables
 				// so that javalin tries those before mapping it to a path variable
 				// basically, if the :id path was first, the "all" path would also

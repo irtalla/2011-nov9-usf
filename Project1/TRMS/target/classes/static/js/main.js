@@ -16,7 +16,8 @@ function setNav() {
                 <label for="pass"> Password: </label>
                 <input id="pass" name="pass" type="password" />
                 <button type="button" id="loginBtn">Log In</button>
-            </form>          
+            </form>    
+             <a href="register.html">Register User</a>      
         `;
     } else {
         nav.innerHTML += `

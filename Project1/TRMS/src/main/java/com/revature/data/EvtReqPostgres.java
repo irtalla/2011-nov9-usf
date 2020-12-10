@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
-
+import java.text.DateFormat;
 import com.revature.utils.ConnectionUtil;
 
 import com.revature.beans.EvtReq;
@@ -20,24 +20,12 @@ public class EvtReqPostgres implements EvtReqDAO {
 
 	@Override
 	public EvtReq getById(Integer id) {
-		// TODO Auto-generated method stub
 		EvtReq evtReq = null;
 
 		try (Connection conn = cu.getConnection()) {
-			// Get the cat object
-			/*
-			 * String sql =
-			 * "select cat_status.id, cat_status.name, age, status_id, status_name, breed_id, "
-			 * + "breed.name as breed_name from " +
-			 * "(select cat.id, cat.name, age, status_id, breed_id, status.name as status_name from "
-			 * + "cat join status on status_id = status.id) as cat_status " +
-			 * "join breed on breed_id = breed.id where cat_status.id = ?";
-			 */
-
-			String sql = "select * from evt_req where id = ?;"; // do you think it's person_id or event_id? Let me show
-																// you the ERD
-			// just to be sure
-
+	
+			String sql = "select * from evt_req where id = ?;"; 
+															
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
@@ -65,10 +53,42 @@ public class EvtReqPostgres implements EvtReqDAO {
 
 	@Override
 	public void update(EvtReq t) {
-		// TODO Auto-generated method stub
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			String sql = "UPDATE evt_req SET name= ?, posting_date= ?, direct_supervisor_approval_status_id= ? , department_head_approval_status_id= ? ,benefits_coordinator_approval_status_id=?, person_id= ?, type_id= ?, req_fr_cmnt_id= ?, priority_id= ?, start_date= ?, amount= ? WHERE id= ?";
+							
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, t.getName());
+			pstmt.setDate(2, convertUtilToSql(t.getPosting_date()));
+			pstmt.setInt(6, t.getPerson_id());
+			pstmt.setInt(7, t.getType_id());
+			pstmt.setDate(10, convertUtilToSql(t.getStart_date()));
+			pstmt.setDouble(11, t.getAmount()); 
+			pstmt.setInt(12, t.getId());
+					
+			int rowsAffected = pstmt.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				conn.commit();
+			
+			} else {
+				conn.rollback();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 
 	}
 
+	private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+	
 	@Override
 	public void delete(EvtReq t) {
 		// TODO Auto-generated method stub
@@ -76,24 +96,50 @@ public class EvtReqPostgres implements EvtReqDAO {
 	}
 
 	@Override
-	public EvtReq add(EvtReq e) {
-		// TODO Auto-generated method stub
-		return null;
+	public EvtReq add(EvtReq t) {
+		
+      EvtReq evtReq = null;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount) values (?, ?, ?, ?, ?, ?)";
+			String[] keys = {"id"};
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			
+			pstmt.setString(1, t.getName());
+			pstmt.setDate(2, convertUtilToSql(t.getPosting_date()));
+			pstmt.setInt(3, t.getPerson_id());
+			pstmt.setInt(4, t.getType_id());
+			pstmt.setDate(5, convertUtilToSql(t.getStart_date()));
+			pstmt.setDouble(6, t.getAmount()); 
+			
+			int row = pstmt.executeUpdate();
+			
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+					evtReq = t;
+					evtReq.setId(rs.getInt(1));
+					conn.commit();
+			
+			} else {
+				conn.rollback();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return evtReq;
+
 	}
 
 	@Override
 	public Set<EvtReq> getAvailableEvents() {
 		Set<EvtReq> evtReqs = new HashSet<>();
 		try (Connection conn = cu.getConnection()) {
-//			String sql = "select * from (select cat_status.id, cat_status.name, age, "
-//					+ "status_id, status_name, breed_id, " 
-//					+ "breed.name as breed_name from "
-//					+ "(select cat.id, cat.name, age, status_id, breed_id, status.name as "
-//					+ "status_name from " 
-//					+ "cat join status on status_id = status.id) as cat_status "
-//					+ "join breed on breed_id = breed.id) as available where"
-//					+ " available.status_name = 'Available'";
-
 			String sql = "select * from evt_req;";
 
 			Statement stmt = conn.createStatement();
