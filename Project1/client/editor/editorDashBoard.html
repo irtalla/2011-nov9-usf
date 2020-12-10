@@ -202,70 +202,26 @@
         </div>
         <br />
 
-        <h4>Incoming Communications</h4>
+        <h4>Incoming Requests</h4>
         <hr />
         <!-- Example row of columns -->
         <div id="incoming-requests-display-selection" class="row">
-          <div class="col-md-3">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Request ID</h5>
-                <p>From: requesteeId</p>
-                <p> To: Me (requesteeId) </p>
-                <p>Status : (Open | Closed)</p>
-                <hr />
-                <div>
-                  <p class="card-text">Request Content</p>
-                </div>
-                <div>
-                  <p class="card-text">Response Content</p>
-                </div>
-                <button onclick='alert("clicked Expand: Should open modal")'>
-                  Expand
-                </button>
-              </div>
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
             </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">...</div>
           </div>
         </div>
         <br />
 
-        <h4>Outgoing Communications</h4>
+        <h4>Outgoing Requests</h4>
         <hr />
         <!-- Example row of columns -->
         <div id="outgoing-requests-display-selection" class="row">
-          <div class="col-md-3">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Request ID</h5>
-                <p>From: Me (requestorId)</p>
-                <p> To: requesteeId </p>
-                <p>Status : (Open | Closed)</p>
-                <hr />
-                <div>
-                  <h6 class="card-text">Request Content<h6>
-                </div>
-                <div>
-                  <h6 class="card-text">Response Content</h6>
-                </div>
-                <button onclick='alert("clicked Expand: Should open modal")'>
-                  Expand
-                </button>
-              </div>
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
             </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">...</div>
           </div>
         </div>
         <br />
@@ -346,7 +302,9 @@
     <footer class="container">
       <p>&copy; Company 2017-2020</p>
     </footer>
-    <script src="../services.js"></script>
+    <script src="../templates/requestCardTemplate.js"></script>
+    <script src="../requestService.js"></script>
+    <script src="../pitchService.js"></script>
     <script src="editor.js"></script>
   </body>
 </html>

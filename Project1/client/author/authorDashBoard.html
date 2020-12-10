@@ -179,7 +179,25 @@
       </div>
 
       <div id="gallery" class="container" onclick="logCurrentUser()">
+        <h4>Respond to Requests</h4>
+        <hr />
+        <div id="general-pitch-data-display-row" class="row">
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+        </div>
+        <br />
+
         <!-- Example row of columns -->
+        <h4>Your Pitches</h4>
+        <hr />
         <div id="main-data-display-row" class="row">
           <div class="col-md-4">
             <div class="card">
@@ -304,6 +322,22 @@
             </div>
           </div>
         </div>
+        <h4>Your Drafts</h4>
+        <hr />
+        <div id="general-pitch-data-display-row" class="row">
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+          <div class="col-md-3">
+            <div class="card">...</div>
+          </div>
+        </div>
+        <br />
+
 
         <hr />
       </div>
@@ -342,7 +376,9 @@
     <footer class="container">
       <p>&copy; Company 2017-2020</p>
     </footer>
-    <script src="../services.js"></script>
+    <script src="../templates//requestCardTemplate.js"></script>
+    <script src="../requestService.js"></script>
+    <script src="../pitchService.js"></script>
     <script src="author.js"></script>
   </body>
 </html>

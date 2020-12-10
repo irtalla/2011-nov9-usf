@@ -6,7 +6,8 @@ import com.cross.beans.Pitch;
 
 public interface PitchService {
 	
-	
+	Set<Pitch> getPitchesByGenre(String genre);
+	Set<Pitch> getPitchesByGeneralEditorId(Integer id);
 	Set<Pitch> getPitchesByAuthorId(Integer id); 
 	public Pitch addPitch(Pitch p);
 	public Set<Pitch> getAll(); 

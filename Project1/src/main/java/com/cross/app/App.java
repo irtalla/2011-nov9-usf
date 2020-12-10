@@ -44,6 +44,14 @@ public class App {
 					get(PitchController::getPitchByAuthorId); // get a cat by id
 
 				});
+				path ("generaleditor/:id", () -> {
+					get(PitchController::getPitchByGeneralEditorId); // get a cat by id
+
+				});
+				path ("genre/:genre", () -> {
+					get(PitchController::getPitchByGenre); // get a cat by id
+
+				});
 				path ("all", () -> {
 					get(PitchController::getAllPitches); // get all cats
 				});

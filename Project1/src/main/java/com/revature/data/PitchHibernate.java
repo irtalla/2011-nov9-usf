@@ -155,12 +155,12 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	}
 	
 	@Override
-	public Set<Pitch> getByGeneralEditorId(String generalEditorId) {
-
+	public Set<Pitch> getByGeneralEditorId(Integer generalEditorId) {
+		System.out.println("here");
 		Session s = hu.getSession();
-		String query = "FROM Pitch where general_editor_id = :id";
+		String query = "FROM Pitch where general_editor_id = :ge_id";
 		Query<Pitch> q = s.createQuery(query, Pitch.class);
-		q.setParameter("id", generalEditorId);
+		q.setParameter("ge_id", generalEditorId);
 		List<Pitch> pitchsList = q.getResultList();
 		Set<Pitch> pitchsSet = new HashSet<>();
 		pitchsSet.addAll(pitchsList);

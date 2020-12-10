@@ -6,7 +6,7 @@ import com.cross.beans.Pitch;
 
 public interface PitchDAO {
 
-	Set<Pitch> getByGeneralEditorId(String generalEditorId);
+	Set<Pitch> getByGeneralEditorId(Integer generalEditorId);
 
 	Set<Pitch> getByStage(String stageName);
 

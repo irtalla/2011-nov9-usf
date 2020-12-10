@@ -31,7 +31,8 @@ const auth = async (event) => {
             case "AUTHOR":
                 window.location.href = authorRedirectURL;
                 break;
-            case "EDITOR":
+            case "ASSISTANT EDITOR":
+            case "SENIOR EDITOR":
                 window.location.href = editorRedirectURL; 
                 break; 
             default:

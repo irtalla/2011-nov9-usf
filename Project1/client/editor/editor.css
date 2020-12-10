@@ -1,3 +1,13 @@
+
+.card {
+    margin-bottom: 24px;
+  }
+
+.card:hover {
+  transform: scale(1.05);
+  background-color: whitesmoke; 
+}
+
 hr {
     height: 0px;
     border: none;

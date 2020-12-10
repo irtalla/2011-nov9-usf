@@ -33,7 +33,7 @@ public class RequestHibernateTest {
 	 * Since we are using JavaBeans, we have to manually set 
 	 * at least once. 
 	 */
-	private static void generateTestPitches() {
+	private static void generateTestRequests() {
 		Random rand = new Random(); 
 		for (int i = 0; i < 20; ++i) {
 			Request rq = new Request(); 
@@ -47,7 +47,11 @@ public class RequestHibernateTest {
 			s.setId(4 + rand.nextInt(2) );
 			s.setName( UtilityDAO.getById(s, s.getId()).getName());
 			rq.setStatus(s);
-			rq.set
+			rq.setCreationTime( LocalDateTime.now() );
+			rq.setTargetPitchId(-1);
+			rq.setTargetDraftId(-1);
+			rq.setTargetDecisionId(-1);
+			testRequests.add(rq);
 		}
 	}
 	
@@ -56,7 +60,7 @@ public class RequestHibernateTest {
 	@Test
 	@Order(1) 
 	public void addTest() {
-		generateTestPitches(); 
+		generateTestRequests(); 
 		testRequests.forEach( request -> {
 			Request q = null; 
 			q = requestDAO.add(request);

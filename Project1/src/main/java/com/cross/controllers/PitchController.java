@@ -41,6 +41,34 @@ public class PitchController {
 	public static void acceptPitch(Context ctx) { /* TODO : implement */ }
 	
 	
+	public static void getPitchByGenre(Context ctx) {  
+		
+		try {
+			String genre = ctx.pathParam("genre");
+			Object[] pitches = pitchServ.getPitchesByGenre(genre).toArray();
+		    ctx.json( gson.toJson(pitches) );
+			ctx.status(200);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.status(500);
+		}
+	}
+	
+	public static void getPitchByGeneralEditorId(Context ctx) {  
+		
+		try {
+			Integer id = Integer.parseInt( ctx.pathParam("id") ); 
+			Object[] pitches = pitchServ.getPitchesByGeneralEditorId(id).toArray();
+		    ctx.json( gson.toJson(pitches) );
+			ctx.status(200);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.status(500);
+		}
+	}
+	
 	public static void deletePitch(Context ctx) { 
 		
 		Integer id = Integer.parseInt( ctx.pathParam("id") ); 
@@ -65,94 +93,16 @@ public class PitchController {
 	
 	}
 	
-	public static void getPitchByAuthorId(Context ctx) { 
-		
-//		Pitch dummyPitchA = new Pitch(); 
-//		dummyPitchA.setId(1);
-//		dummyPitchA.setTitle("On the Joys of Academic Philosophy");
-//		dummyPitchA.setTagline("A tale of one nigga's harrowing escape from cognitive fiefdom"); 
-//		
-//		Genre dummyGenre = new Genre(); 
-//		dummyGenre.setId(-1);
-//		dummyGenre.setName("Nonfiction");
-//		dummyPitchA.setGenre(dummyGenre);
-//		Form dummyForm = new Form(); 
-//		dummyForm.setId(-1);
-//		dummyForm.setName("Article");
-//		dummyPitchA.setForm(dummyForm);
-//		Status dummyStatus = new Status();
-//		dummyStatus.setId(-1);
-//		dummyStatus.setName("pending");
-//		dummyPitchA.setStatus(dummyStatus);
-//		
-//		
-//		Pitch dummyPitchB = new Pitch(); 
-//		dummyPitchB.setId(2);
-//		dummyPitchB.setTitle("Building a Dream");
-//		dummyPitchB.setTagline("One nigga's journey from philosophy to software engineering"); 
-//		
-//		Genre dummyGenreB = new Genre(); 
-//		dummyGenreB.setId(-1);
-//		dummyGenreB.setName("Nonfiction");
-//		dummyPitchB.setGenre(dummyGenreB);
-//		Form dummyFormB = new Form(); 
-//		dummyFormB.setId(-1);
-//		dummyFormB.setName("Article");
-//		dummyPitchB.setForm(dummyFormB);
-//		Status dummyStatusB = new Status();
-//		dummyStatusB.setId(-1);
-//		dummyStatusB.setName("pending");
-//		dummyPitchB.setStatus(dummyStatusB);
-		
-		Integer id = Integer.parseInt( ctx.pathParam("id") ); 
-		System.out.println(id);
-		Object[] pitches = pitchServ.getPitchesByAuthorId(id).toArray();
-		
+	public static void getPitchByAuthorId(Context ctx) { 		
 	    try {
+			Integer id = Integer.parseInt( ctx.pathParam("id") ); 
+			System.out.println(id);
+			Object[] pitches = pitchServ.getPitchesByAuthorId(id).toArray();
 		    ctx.json( gson.toJson(pitches) );
 			ctx.status(200);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	ctx.status(500);
 	    }
-		
 	}
-	
-	
-	
 }
-
-
-
-/*
-
-
-			// all requests to /cats go to this handler
-			path ("api/pitches", () -> {
-				get(PitchController::getPendingPitches); // get available cats is the default
-				post(PitchController::addPitch); // add a cat
-				path(":id", () -> {
-					get(PitchController::getPitchById); // get a cat by id
-					put(PitchController::updatePitch); // update a cat
-					delete(PitchController::deletePitch); // delete a cat
-				});
-				path ("authorId/:id", () -> {
-					get(PitchController::getPitchByAuthorId); // get a cat by id
-
-				});
-				path ("all", () -> {
-					get(PitchController::getAllPitches); // get all cats
-				});
-				path ("reject/:id", () -> {
-					put(PitchController::rejectPitch); // adopt a cat by its id
-				});
-				path ("accept/:id", () -> {
-					put(PitchController::acceptPitch); // adopt a cat by its id
-				});
-			});
-
-*/
-
-
-
-

@@ -125,4 +125,14 @@ public class PitchServiceImpl implements PitchService {
 		return false;
 	}
 
+	@Override
+	public Set<Pitch> getPitchesByGenre(String genre) {
+		return pitchDAO.getByGenre(genre);
+	}
+
+	@Override
+	public Set<Pitch> getPitchesByGeneralEditorId(Integer id) {
+		return pitchDAO.getByGeneralEditorId(id);
+	}
+
 }
