@@ -2,6 +2,7 @@ package com.revature.beans;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ public class Committee {
 	private Integer id;
 	@Column(name = "committee_name")
 	private String committee_name;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="genre_id")
 	private Genre genre;
 	

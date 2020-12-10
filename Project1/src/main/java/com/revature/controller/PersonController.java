@@ -17,11 +17,7 @@ public class PersonController {
 		System.out.println("Checking login");
 		Person p = ctx.sessionAttribute("user");
 		if (p != null) {
-			System.out.println("Logged in as " + p.getUsername());
-			System.out.println("Pitch set: " + p.getPitches());
-			System.out.println("committees set: " + p.getCommittees());
-			System.out.println("titles set " + p.getTitle());
-			System.out.println("other persons info" + p.getPasswd() + p.getId());
+
 			ctx.json(p);
 			ctx.status(200);
 		} else {
@@ -39,8 +35,11 @@ public class PersonController {
 			if (p.getPasswd().equals(password))
 			{
 				System.out.println("Logged in as " + p.getUsername());
-				System.out.println("ptiches: "+p.getPitches());
-				System.out.println("committees"+ p.getCommittees());
+				System.out.println("Pitch set: " + p.getPitches());
+				System.out.println("committees set: " + p.getCommittees());
+				System.out.println("titles set " + p.getTitle());
+				System.out.println("other persons info" + p.getPasswd() + p.getId());
+				
 				ctx.status(200);
 				ctx.json(p);
 				ctx.sessionAttribute("user", p);

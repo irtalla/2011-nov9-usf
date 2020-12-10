@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.util.Set;
+
 import com.revature.beans.Pitch;
 
 public interface PitchService {
@@ -10,4 +12,6 @@ public interface PitchService {
 
 	public void updatePitch (Pitch p);
 	public void deletePitch (Pitch p);
+
+	public Set<Pitch> getPitches();
 }

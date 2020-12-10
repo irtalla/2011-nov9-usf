@@ -25,6 +25,9 @@ public class SPMSJavalinApp {
 				put(PersonController::logIn); // log in user
 				post(PersonController::registerUser); // register new user
 				delete(PersonController::logOut); // log out user
+				path("pitches", () -> {
+					get(PersonController::getPitchesByUserId);
+				});
 				path (":id", () -> {
 					
 					get(PersonController::getUserById); // get user by id
@@ -32,16 +35,14 @@ public class SPMSJavalinApp {
 					// //gets pitches for user
 					put(PersonController::updateUser); // update user
 					delete(PersonController::deleteUser); // delete user
-					path("pitches/id", () -> {
-						get(PersonController::getPitchesByUserId);
-					});
+
 				});
 			});
 			
 		
 			path("pitch", () -> { 
 				post(PitchController::addPitch); 
-				
+				get(PitchController::getPitches);
 				path(":id", () -> {
 					get(PitchController::getPitchById); 
 					put(PitchController::updatePitch); 
@@ -51,7 +52,6 @@ public class SPMSJavalinApp {
 
 
 			path("committees", () -> {
-				System.out.println("hello from committees");
 				get(CommitteeController::getAllCommittees); 
 			});
 		});

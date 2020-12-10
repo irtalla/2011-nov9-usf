@@ -1,5 +1,7 @@
 package com.revature.controller;
 
+import java.util.Set;
+
 import com.revature.beans.Pitch;
 import com.revature.service.PitchService;
 import com.revature.service.PitchServiceImpl;
@@ -39,6 +41,16 @@ public class PitchController {
 		Pitch pitch = pServ.getPitchById(id);
 		pServ.deletePitch(pitch);
 		ctx.status(204);
+	}
+	
+	public static void getPitches(Context ctx) {
+		Set<Pitch> pitches = pServ.getPitches();
+		if (pitches != null) {
+			ctx.status(200);
+			ctx.json(pitches);
+		} else {
+			ctx.status(404);
+		}
 	}
 
 }

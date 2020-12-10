@@ -3,6 +3,7 @@ package com.revature.beans;
 
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,26 +20,26 @@ public class Pitch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
 	private Person author;
 	private String story_title;
 	private LocalDateTimeType finish_date;  //Date from java Util.  Might need to be Sql
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "storytype_id")
 	private StoryType story_type;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "genre_id")
 	private Genre genre;
 	
 	private String description; //consider file type and adding files
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status_id")
 	private Status status;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "pitch_priority_id")
 	private PitchPriority priority;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "pitch_stage_id")
 	private PitchStage stage;
 

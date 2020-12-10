@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+//import javax.persistence.criteria.CriteriaBuilder;
+//import javax.persistence.criteria.CriteriaQuery;
+//import javax.persistence.criteria.Predicate;
+//import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -96,26 +96,45 @@ public class PersonHibernate implements PersonDAO {
 
 	@Override
 	public Person getByUsername(String username) {
+			Person p = null;
+			
+			try (Session s = hu.getSession()) {
+				s.beginTransaction();
+				String hql = "FROM Person WHERE username = :username";
+				Query<Person> q = s.createQuery(hql, Person.class);
+				q.setParameter("username", username);
+				List<Person> resultList = q.getResultList();
+				System.out.println(resultList.size());
+				if (resultList.size() > 0) p = resultList.get(0);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return p;
+
+		
+		
 		// Criteria API: a way of making queries in a programmatic syntax
-		Session s = hu.getSession();
-		CriteriaBuilder cb = s.getCriteriaBuilder();
-		CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
-		Root<Person> root = criteria.from(Person.class);
-		
-		Predicate predicateForUsername = cb.equal(root.get("username"), username);
-		// Predicate predicateForPassword = cb.equal(root.get("passwd"), password);
-		// Predicate predicateForBoth = cb.and(predicateForUsername, predicateForPassword);
-		
-		criteria.select(root).where(predicateForUsername);
-		
-		Person p = s.createQuery(criteria).getSingleResult();
-		return p;
+//		Session s = hu.getSession();
+//		CriteriaBuilder cb = s.getCriteriaBuilder();
+//		CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
+//		Root<Person> root = criteria.from(Person.class);
+//		
+//		Predicate predicateForUsername = cb.equal(root.get("username"), username);
+//		// Predicate predicateForPassword = cb.equal(root.get("passwd"), password);
+//		// Predicate predicateForBoth = cb.and(predicateForUsername, predicateForPassword);
+//		
+//		criteria.select(root).where(predicateForUsername);
+//		
+//		Person p = s.createQuery(criteria).getSingleResult();
+//		return p;
 	}
 
 	@Override
 	public Set<Pitch> getPitchesByPersonId(Integer id) {
+		System.out.println("Please pring when in getpitchesbyuserid\n\n\n\n");
 		Session s = hu.getSession();
-		String query = "FROM Pitch where person.id = :id";
+		String query = "FROM Pitch WHERE person_id = :id";
 		Query<Pitch> q = s.createQuery(query, Pitch.class);
 		q.setParameter("person_id", id);
 		List<Pitch> pitchList = q.getResultList();

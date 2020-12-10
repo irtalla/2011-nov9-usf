@@ -41,17 +41,40 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	@Override
 	public Set<Pitch> getAll() {
-		Session s = hu.getSession();
-		String query = "FROM Pitch";
-		//query.Query
-		Query<Pitch> q = s.createQuery(query, Pitch.class);
-		List<Pitch> comList = q.getResultList();
-		Set<Pitch> comSet = new HashSet<>();
-		comSet.addAll(comList);
-		s.close();
+		Set<Pitch> pitches = null;
 		
-		return comSet;
+		try (Session s = hu.getSession()) {
+			s.beginTransaction();
+			String hql = "From Pitch";
+			Query<Pitch> q = s.createQuery(hql, Pitch.class);
+			List<Pitch> resultList = q.getResultList();
+			if (resultList.size() > 0) {
+				pitches = new HashSet<Pitch>(resultList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pitches;
+	//}
+		
+		
+		//		Session s = hu.getSession();
+//		String query = "FROM Pitch";
+//		//query.Query
+//		Query<Pitch> q = s.createQuery(query, Pitch.class);
+//		List<Pitch> comList = q.getResultList();
+//		System.out.println(comList.size());
+//		Set<Pitch> comSet = new HashSet<>();
+//		comSet.addAll(comList);
+//		System.out.println(comSet.size());
+//		s.close();
+//		
+//		return  comSet;
 	}
+	
+
+
 
 	@Override
 	public void update(Pitch t) {

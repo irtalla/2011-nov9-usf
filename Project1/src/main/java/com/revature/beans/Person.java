@@ -4,9 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
@@ -14,20 +18,21 @@ import javax.persistence.JoinColumn;
 @Table
 public class Person {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String username;
 	private String passwd;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="person_title",
 		joinColumns=@JoinColumn(name="person_id"),
 		inverseJoinColumns = @JoinColumn(name = "title_id"))
 	private Set<Title> title;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="person_committee",
 		joinColumns=@JoinColumn(name="person_id"),
 		inverseJoinColumns = @JoinColumn(name = "committee_id"))
 	private Set<Committee> committees;
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="person_pitch",
 		joinColumns=@JoinColumn(name="person_id"),
 		inverseJoinColumns = @JoinColumn(name = "pitch_id"))
