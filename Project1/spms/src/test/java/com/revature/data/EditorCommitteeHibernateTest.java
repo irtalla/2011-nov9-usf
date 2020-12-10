@@ -65,6 +65,7 @@ public class EditorCommitteeHibernateTest {
         userHibernate.delete(user);
         Committee retCommittee = committeeHibernate.getById(committee.getId());
         System.out.println(retCommittee.getEditorSet());
+        committeeHibernate.delete(committee);
     }
 
 }
