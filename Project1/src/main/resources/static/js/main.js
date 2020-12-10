@@ -24,9 +24,9 @@ function setNav() {
     } else {
         nav.innerHTML += `
             <form>
-                <label for="user">username: </lable>
+                <label for="user">username: </label>
                 <input id="user" name="user" type="text" />
-                <label for="pass">password: </lable>
+                <label for="pass">password: </label>
                 <input id="pass" name="pass" type="password" />
                 <button type="button" id="loginBtn">login</button>
                 <button type="button" id="registerBtn">register</button>

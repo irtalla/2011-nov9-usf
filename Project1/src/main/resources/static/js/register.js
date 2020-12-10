@@ -20,7 +20,7 @@ function setRegistration() {
             <label for="username">Username:</label>
             <input id="username" name="username" type="text" />
             <br>
-            <label for="password">Pasword:</password>
+            <label for="password">Pasword:</label>
             <input id="password" name="password" type="password" />
             <br>
             <button type="button" id="submitBtn"">submit</button>

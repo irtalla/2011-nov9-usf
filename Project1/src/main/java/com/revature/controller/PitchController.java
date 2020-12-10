@@ -118,7 +118,7 @@ public class PitchController {
 		}
 	}
 	
-	public static void updateUser(Context ctx) {
+	public static void updatePitch(Context ctx) {
 		Pitch tempPitch = ctx.bodyAsClass(Pitch.class);
 		try {
 			pitchServ.updatePitch(tempPitch);
@@ -130,7 +130,7 @@ public class PitchController {
 		ctx.status(202);
 	}
 	
-	public static void deleteUser(Context ctx) {
+	public static void deletePitch(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		Pitch pitch = pitchServ.getPitchById(id);
 		pitchServ.deletePitch(pitch);
