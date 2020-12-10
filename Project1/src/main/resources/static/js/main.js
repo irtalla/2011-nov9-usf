@@ -19,7 +19,7 @@ function setNav() {
                 <button type="button" id="loginBtn">logout</button>
              </span>
              <br>
-             <a href="pitch.html"><strong>Pitches</strong></a>
+             <a href="viewPitch.html"><strong>Pitches</strong></a>
             `;
     } else {
         nav.innerHTML += `
