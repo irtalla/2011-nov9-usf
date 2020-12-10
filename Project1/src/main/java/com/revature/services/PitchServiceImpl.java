@@ -7,6 +7,8 @@ import com.revature.data.GenreDAO;
 import com.revature.data.GenreDAOFactory;
 import com.revature.data.PitchDAO;
 import com.revature.data.PitchDAOFactory;
+import com.revature.data.PitchStageDAO;
+import com.revature.data.PitchStageDAOFactory;
 import com.revature.data.StoryTypeDAO;
 import com.revature.data.StoryTypeDAOFactory;
 import com.revature.models.Genre;
@@ -21,6 +23,7 @@ public class PitchServiceImpl implements PitchService {
 	private PitchDAO pitchDao;
 	private GenreDAO genreDao;
 	private StoryTypeDAO stDao;
+	private PitchStageDAO psDao;
 	
 	public PitchServiceImpl() {
 		PitchDAOFactory pitchFactory = new PitchDAOFactory();
@@ -29,6 +32,8 @@ public class PitchServiceImpl implements PitchService {
 		genreDao = genreFactory.getGenreDao();
 		StoryTypeDAOFactory stFactory = new StoryTypeDAOFactory();
 		stDao = stFactory.getStoryTypeDao();
+		PitchStageDAOFactory psFactory = new PitchStageDAOFactory();
+		psDao = psFactory.getPitchStageDao();
 	}
 	
 	@Override
@@ -102,6 +107,11 @@ public class PitchServiceImpl implements PitchService {
 	// StoryType-related
 	public Set<StoryType> getAllStoryType() {
 		return stDao.getAll();
+	}
+	
+	// PitchStage-related
+	public Set<PitchStage> getAllPitchStage() {
+		return psDao.getAll();
 	}
 	
 	// Priority-related
