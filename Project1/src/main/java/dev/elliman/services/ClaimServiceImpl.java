@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import dev.elliman.beans.Claim;
+import dev.elliman.beans.Event;
 import dev.elliman.beans.Person;
 import dev.elliman.data.ClaimDAO;
 import dev.elliman.data.ClaimDAOFactory;
@@ -48,6 +49,11 @@ public class ClaimServiceImpl implements ClaimService {
 	@Override
 	public List<Claim> getBCUnapprovedClaims() {
 		return claimDAO.getBCUnapprovedClaims();
+	}
+
+	@Override
+	public List<Event> getEventTypes() {
+		return claimDAO.getEventTypes();
 	}
 
 }

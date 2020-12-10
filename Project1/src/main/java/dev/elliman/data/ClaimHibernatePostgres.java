@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import dev.elliman.beans.Claim;
+import dev.elliman.beans.Event;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.Stage;
 import dev.elliman.utils.HibernateUtil;
@@ -143,5 +144,14 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 		claims = q.getResultList();
 		s.close();
 		return claims;
+	}
+
+	@Override
+	public List<Event> getEventTypes() {
+		Session s = hu.getSession();
+		String query = "from Event";
+		Query<Event> q = s.createQuery(query);
+		List<Event> events = q.getResultList();
+		return events;
 	}
 }

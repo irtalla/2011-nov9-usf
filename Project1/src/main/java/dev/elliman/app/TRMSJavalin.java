@@ -23,6 +23,10 @@ public class TRMSJavalin {
 				get(PersonController::checkLogin);
 			});
 			
+			path("events", () -> {
+				get(ClaimController::getEventTypes);
+			});
+			
 			path("claims", () -> {
 				path("person/:id", () -> {
 					get(ClaimController::getClaimsByPerson);//show a person all of their claims

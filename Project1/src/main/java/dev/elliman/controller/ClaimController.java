@@ -3,6 +3,7 @@ package dev.elliman.controller;
 import java.util.List;
 
 import dev.elliman.beans.Claim;
+import dev.elliman.beans.Event;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.Stage;
 import dev.elliman.services.ClaimService;
@@ -21,6 +22,17 @@ public class ClaimController {
 			ctx.json(claims);
 		} else {
 			ctx.status(400);
+		}
+	}
+	
+	public static void getEventTypes(Context ctx) {
+		List<Event> events = cs.getEventTypes();
+		
+		if(events != null) {
+			ctx.status(200);
+			ctx.json(events);
+		} else {
+			ctx.status(500);
 		}
 	}
 	

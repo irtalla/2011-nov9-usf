@@ -1,26 +1,54 @@
 var baseUrl = 'http://localhost:8080';
 var user = null;
+var mainContentDiv;
 var claimsDiv;
+var newClaimDiv;
 var claims;
 
-checkLogin().then(getClaimsList);
+checkLogin().then(showClaims);
 
 async function checkLogin() {
     let url = baseUrl + '/users';
     let response = await fetch(url);
     if (response.status === 200) {
         user = await response.json();
+        mainContentDiv = document.getElementById('mainContent');
         //console.log(user);
     } else if (response.status === 400) {
         console.log('no logged in user');
     }
 }
 
+//setup the html for showing claims
+async function showClaims(){
+    mainContentDiv.innerHTML = `<div id="newClaimDiv">
+                                </div>
+
+                                <br>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col justify-content-center">
+                                            <h1>Active Claims</h1>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div id="claimsDiv" class="container">
+
+                                </div>`;
+    getClaimsList();
+}
+
 async function getClaimsList() {
     if (user.role.id == 4) {
         //Employee
-        //show all claims made
+        //allow for new claims to be made
+        newClaimDiv = document.getElementById("newClaimDiv");
 
+        //show all claims made
         //fetch all claims by this user
         let url = baseUrl + '/claims/person/' + user.id;
         let response = await fetch(url);
@@ -64,9 +92,17 @@ async function updateClaims() {
     claimsDiv = document.getElementById('claimsDiv');
     claimsDiv.innerHTML = '';
 
-    
-
-    
+    newClaimDiv.innerHTML = '';
+    if(user.role.id == 4){
+        let newClaimHTML = `<div id="makeAClaim" class="container" onclick="makeNewClaim()">
+                                <div class="row">
+                                    <div class="col justify-content-center">
+                                        <h2 class="titleText">Make a claim</h2>
+                                    </div>
+                                </div>
+                            </div>`;
+        newClaimDiv.innerHTML = newClaimHTML;
+    }    
 
     for (let i in claims) {
         //console.log(claims[i]);
@@ -258,5 +294,51 @@ async function acceptClaim(index){
 }
 
 async function denyClaim(index){
+    //TODO
+}
 
+async function makeNewClaim(){
+    
+    mainContentDiv.innerHTML = `<div class="container justify-content-center claim">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h2 class="titleText">New Claim</h2>
+                                        </div>
+                                    </div>
+
+                                    <form>
+                                        <h6>Name of the event: </h6> <input id="eventName" type="text">
+                                        <h6>Event Type:</h6><select id="eventOptions"></select>
+                                        <h6>Event Date:</h6><input id="eventDate type="datetime-local">
+                                        <h6>Event Location:</h6><input id="eventLocation type="text">
+                                        <h6>Passing percentage:<h6><input id="passingPercentage" type="number">
+                                        <h6>Passing letter:</h6>
+                                        <select id="passingLetter">
+                                            <option>N/A</option>
+                                            <option>A</option>
+                                            <option>B</option>
+                                            <option>C</option>
+                                            <option>D</option>
+                                        </select>
+                                        <h6>Does this event require a presentation?<h6><input id="hasPresentation" type="checkbox">
+                                        <h6>Please privide a breif description of the event.</h6><textarea id=description></textarea>
+                                        <h6>Justification:</h6><input id="justification" type="text">
+                                        <h6>Hours missed:</h6><input id="hoursMissed" type="number">
+                                    </form>
+                                </div>`;
+
+    //populate the event types
+    let response = await fetch(baseUrl+'/events');
+    if(response.status === 200){
+        events = await response.json();
+        let eventSelect = document.getElementById("eventOptions");
+        for(let i in events){
+            let option = document.createElement('option');
+            option.innerHTML = events[i].eventType;
+            eventSelect.appendChild(option);
+        }
+    } else {
+        getClaimsList();
+        alert('Something went wrong');
+    }
 }
