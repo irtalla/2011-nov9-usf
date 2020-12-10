@@ -19,8 +19,8 @@ import com.revature.data.UtilityDAO;
 
 public class PitchServiceImpl implements PitchService {
 	
-	PitchDAO pitchDAO; 
-	PersonService personServ;  
+	private PitchDAO pitchDAO; 
+	private PersonService personServ;  
 	
 	public PitchServiceImpl() {
 		pitchDAO = new PitchHibernate(); 

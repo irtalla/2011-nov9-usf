@@ -1,154 +1,84 @@
 package com.revature.data;
 
-import java.sql.Timestamp;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import com.cross.beans.Comment;
+import com.cross.beans.Decision;
+import com.cross.utils.StringGenerator;
 
 
 public class CommentHibernateTest {
 	
 	private static CommentDAO commentDAO = new CommentHibernate(); 
+	private static Set<Comment> testComments = new HashSet<Comment>(); 
+	
+	private static void generateTestComments() {
+		Random rand = new Random(); 
+		for (int i = 0; i < 200; ++i) {
+			Comment c = new Comment(); 
+			c.setCommenterId( 1 + rand.nextInt(3) );
+			c.setRequestId(1 + rand.nextInt(20) );
+			c.setContent( StringGenerator.randomString(5) );
+			c.setCreationTime( LocalDateTime.now() );
+			testComments.add(c); 
+		}
+	}
 	
 	@DisplayName("addTest")
 	@Test
 	@Order(1) 
 	public void addTest() {
+		generateTestComments(); 
+		testComments.forEach( c -> {
+			Comment cmt = null; 
+			cmt = commentDAO.add(c);
+			assertTrue(cmt != null);
+			c.setId( cmt.getId());
+		});	
+	}
+	
+	@DisplayName("getByRequestIdTest")
+	@Test
+	@Order(2)
+	public void getByRequestIdTest() {
+		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>(); 
+		List<Integer> rqIds = IntStream.rangeClosed(1, 20)
+			    .boxed().collect(Collectors.toList());
 		
-		Comment c1 = new Comment(), c2 = new Comment(), c3 = new Comment(); 
+		for (Integer id : rqIds) { idMap.put(id, 0); }
+		testComments.forEach(c -> {
+			Integer rqId = c.getRequestId(); 
+			idMap.put(rqId, idMap.get(rqId) + 1);
+		});
 		
-		c1.setCommenterId(-1);
-		c1.setContent("This is a comment string");
-		c1.setId(1);
-		c1.setRequestId(-1);
-		Timestamp ts = new Timestamp(0);
-		
-		
-		// need comment and request rows, we will also create a pitch
-		
+		for (Integer id : rqIds) {
+			Set<Comment> byRqId = commentDAO.getByRequestId(id);
+			assertTrue( byRqId.size() == idMap.get(id) );
+		}
+	}
+	
+	
+	@DisplayName("deleteTest")
+	@Test
+	@Order(3)
+	public void deleteTest() {
+		testComments.forEach( c -> {
+			assertTrue( commentDAO.delete(c) );
+		});
 	}
 
 }
-
-/*
-
-	@Override
-	public Comment getById(Integer id) {
-		Session s = hu.getSession();
-		Comment c = s.get(Comment.class, id);
-		s.close();
-		return c;
-	}
-
-	@Override
-	public Set<Comment> getAll() {
-		Session s = hu.getSession();
-		String query = "FROM Comment";
-		Query<Comment> q = s.createQuery(query, Comment.class);
-		List<Comment> commentsList = q.getResultList();
-		Set<Comment> CommentsSet = new HashSet<>();
-		CommentsSet.addAll(commentsList);
-		s.close();
-		return CommentsSet;
-	}
-	
-	@Override
-	public boolean update(Comment t) {
-		Boolean didUpdate = false; 
-		Session s = hu.getSession();
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			s.update(t);
-			tx.commit();
-			didUpdate = true; 
-		} catch (Exception e) {
-			if (tx != null) {
-				tx.rollback();
-				didUpdate = false; 
-			}
-		} finally {
-			s.close();
-		}
-		return didUpdate; 
-	}
-	
-	@Override
-	public boolean delete(Comment t) {
-		Boolean didDelete = false; 
-		Session s = hu.getSession();
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			s.delete(t);
-			tx.commit();
-			didDelete = true; 
-		} catch (Exception e) {
-			if (tx != null) {
-				tx.rollback();
-				didDelete = false; 
-			}
-		} finally {
-			s.close();
-		}
-		return didDelete; 
-	}
-	
-	@Override
-	public Comment add(Comment c) {
-		Session s = hu.getSession();
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			s.save(c);
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null) {
-				tx.rollback();
-				// Give indication of failure with null return value
-				c = null; 
-			}
-		} finally {
-			s.close();
-		}
-		return c;
-	}
-	
-	@Override
-	public Set<Comment> getByRequestId(Integer requestId) {
-		
-		Session s = hu.getSession();
-		String query = "FROM Comment where request_id = :id";
-		Query<Comment> q = s.createQuery(query, Comment.class);
-		q.setParameter("id", requestId);
-		List<Comment> commentsList = q.getResultList();
-		Set<Comment> commentsSet = new HashSet<>();
-		commentsSet.addAll(commentsList);
-		s.close();
-		return commentsSet;
-
-	}
-
-	@Override
-	public Set<Comment> getByCommentorId(Integer commentorId) {
-
-		Session s = hu.getSession();
-		String query = "FROM Comment where commenter_id = :id";
-		Query<Comment> q = s.createQuery(query, Comment.class);
-		q.setParameter("id", commentorId);
-		List<Comment> commentsList = q.getResultList();
-		Set<Comment> commentsSet = new HashSet<>();
-		commentsSet.addAll(commentsList);
-		s.close();
-		return commentsSet;
-	}
-
-
-
-*/

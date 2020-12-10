@@ -8,7 +8,7 @@ import com.revature.data.RequestHibernate;
 
 public class RequestServiceImpl implements RequestService {
 
-	RequestDAO requestDAO;
+	private RequestDAO requestDAO;
 	
 	public RequestServiceImpl() {
 		requestDAO = new RequestHibernate(); 

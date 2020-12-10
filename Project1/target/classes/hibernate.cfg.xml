@@ -15,6 +15,7 @@
 		<property name="use_sql_comments">true</property>
 		
 		<!-- tell hibernate where to find our mappings -->
+		<mapping class="com.cross.beans.Comment"></mapping>
 		<mapping class="com.cross.beans.Decision"></mapping>
 		<mapping class="com.cross.beans.DecisionType"></mapping>
 		<mapping class="com.cross.beans.Draft"></mapping>

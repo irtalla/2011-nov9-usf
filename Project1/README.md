@@ -43,6 +43,8 @@ One interesting observation is that almost every attribute of a pitch is a targe
 Testing is another issue. In the previous project, tests depended on a database administrator (me) initializing tables from a separate UI (DBeaver). This time around, I used the @order annotation to
 specify the execution of DAO unit tests. Generally, the strategy is: add -> query | update -> delete. This should make test suites self-contained.
 
+Requests
+My strategy for requests is to have each request have a set of comments associated with it. This way, a user can submit multiple comments in a row, instead of a one-off reply. Then, if the date-time of the latest receiver comment is later than the latest sender comment, we append a red exclamation point to the senders card representation, otherwise, the receiver's card representation. This gives an indication of responses and is more fluid and intuitive. 
 
 
 

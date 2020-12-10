@@ -20,7 +20,7 @@ public class Comment {
 	private Integer requestId;
 	@Column(name="commentor_id")
 	private Integer commenterId;
-	@Column(name="column_content")
+	@Column(name="comment_content")
 	private String content; 
 	private LocalDateTime creationTime; 
 	

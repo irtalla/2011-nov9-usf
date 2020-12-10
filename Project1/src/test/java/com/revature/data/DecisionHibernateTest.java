@@ -26,7 +26,7 @@ public class DecisionHibernateTest {
 	 * Since we are using JavaBeans, we have to manually set 
 	 * at least once. 
 	 */
-	private static void generateTestPitches() {
+	private static void generateTestDecisions() {
 		Random rand = new Random(); 
 		for (int i = 0; i < 5; ++i) {
 			Decision ds = new Decision(); 
@@ -48,7 +48,7 @@ public class DecisionHibernateTest {
 	@Test
 	@Order(1) 
 	public void addTest() {
-		generateTestPitches(); 
+		generateTestDecisions(); 
 		testDecisions.forEach( decision -> {
 			Decision ds = null; 
 			ds = decisionDAO.add(decision);

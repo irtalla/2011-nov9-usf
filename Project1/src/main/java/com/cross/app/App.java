@@ -3,6 +3,7 @@ package com.cross.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import com.cross.controllers.AuthController;
+import com.cross.controllers.CommentController;
 import com.cross.controllers.PitchController;
 import com.cross.controllers.RequestController;
 
@@ -22,6 +23,7 @@ public class App {
 		AuthController.initGsonBuilder();
 		PitchController.initGsonBuilder();
 		RequestController.initGsonBuilder();
+		CommentController.initGsonBuilder();
 		
 		app.start(4000);
 		
@@ -30,6 +32,13 @@ public class App {
 			path ("api/auth/login", () -> {
 				post(AuthController::login);
 			}); 
+			
+			path ("api/comments", () -> {
+				post(CommentController::addComment);
+				path("requestid/:id", () -> {
+					get(CommentController::getByRequestId);
+				});
+			});
 			
 			// all requests to /cats go to this handler
 			path ("api/pitches", () -> {

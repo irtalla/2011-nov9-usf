@@ -25,7 +25,9 @@ const logCurrentUser = () => {
  * request. The key is request id, the value is the request object 
  */
 const requestMap = new Map();
-
+const pitchMap = new Map();
+const commentMap = new Map(); 
+const decisionMap = new Map(); 
 
 const handleCloseRequest = async (id) => {
 
@@ -161,7 +163,16 @@ const getRequests = async (id) => {
         document.getElementById("incoming-requests-display-selection").innerHTML = "";
         for (const request of requests) {
             requestMap.set(request.id, request);
-            console.log(request);
+
+            let response = await fetchCommentsByRequestId(request.id); 
+            if ( response.status == 200 ) {
+                let comments = await response.json(); 
+                console.log(comments); 
+            } else {
+                alert(`unable to load comments for request ${request.id}`);
+            }
+
+            // console.log(request);
             loadRequestCard(request);
         }
         //   loadrequestData(); 

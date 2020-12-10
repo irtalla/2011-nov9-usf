@@ -89,6 +89,7 @@ public class CommentHibernate implements CommentDAO {
 		} catch (Exception e) {
 			if (tx != null) {
 				tx.rollback();
+				e.printStackTrace();
 				// Give indication of failure with null return value
 				c = null; 
 			}
