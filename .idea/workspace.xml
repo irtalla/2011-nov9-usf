@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d2dfd21a-5975-4675-892d-5ed1bd654485" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Project1/spms/spms.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/data/ApprovalDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/data/ApprovalHibernate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/data/UserHibernate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/.idea/dataSources/77860bdf-04fb-48ca-acd3-3251152d6b45.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/.idea/dataSources/77860bdf-04fb-48ca-acd3-3251152d6b45.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/.idea/dataSources/77860bdf-04fb-48ca-acd3-3251152d6b45/storage_v2/_src_/database/postgres.edMnLQ/schema/online_publisher.EMfrkQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/.idea/dataSources/77860bdf-04fb-48ca-acd3-3251152d6b45/storage_v2/_src_/database/postgres.edMnLQ/schema/online_publisher.EMfrkQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Author.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Committee.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Committee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Editor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Editor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/EditorRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/EditorRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/FinalApproval.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Approval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Genre.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Genre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Story.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/Story.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/StoryType.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/StoryType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/beans/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/data/FinalApprovalDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/service/StoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/service/StoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/utils/HibernateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/java/com/revature/utils/HibernateUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/src/main/resources/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Author.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Author.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Committee.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Committee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Editor.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Editor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/EditorRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/EditorRole.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/FinalApproval.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Genre.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Genre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Request.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Request.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Status.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Status.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Story.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/Story.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/StoryType.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/StoryType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/beans/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/com/revature/service/AuthorService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/static/css/home.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/static/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/static/js/home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/static/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/static/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project1/spms/target/classes/static/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Project1/spms/target/classes/static/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Week3/CatApp2/CatApp2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Week3/CatApp2/CatApp2.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1lGgxrVUNmmfD1cO1JBFkjSxZA1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d2dfd21a-5975-4675-892d-5ed1bd654485" name="Default Changelist" comment="" />
+      <created>1607229092733</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607229092733</updated>
+      <workItem from="1607229094462" duration="2000" />
+      <workItem from="1607320167839" duration="4000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

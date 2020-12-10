@@ -11,6 +11,9 @@ import javax.persistence.Table;
 public class SpecialNeed {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+@Table
+public class SpecialNeed {
+	@Id
 	private Integer id;
 	private String name;
 	

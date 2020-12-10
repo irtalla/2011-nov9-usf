@@ -1,0 +1,36 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #000000;
+    background-color: #800616;
+    text-align: center;
+}
+
+section[id="data"] {
+    text-align: left;
+}
+
+main {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+button {
+    color: white;
+    background-color: #700315;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+button:hover {
+    background-color: #75685b;
+}
+
+button:active {
+    border: 2px solid #888888;
+}
+
+main>* {
+    margin: 8px;
+}
