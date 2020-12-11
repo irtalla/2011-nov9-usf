@@ -9,7 +9,7 @@ form.innerHTML = `
 	<div> <label>Name</label> 
 	<input id="name"> </div>
 	<div><label type='date'>Posting Date</label>
-	<input id="posting_date"> </div>
+	<input type="date" id="posting_date"> </div>
 	<div><label for="types">Event Type (Reimbursement Rate)</label>
 		<select name="types" id="types">
 		 	 <option value="1">1. University Courses (80%)</option>
@@ -20,7 +20,7 @@ form.innerHTML = `
 		     <option value="6">6. Other (30%)</option>
 		</select></div>
 	<div><label type='date'>Start Date</label>
-	<input id="start_date"> </div>
+	<input type="date" id="start_date"> </div>
 	<div><label>Amount</label>
 	<input id="amount"> </div>
 	<label>Submit</label>

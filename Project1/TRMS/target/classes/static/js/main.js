@@ -1,7 +1,7 @@
 let baseUrl = 'http://localhost:8080';
 let nav = document.getElementById('navBar');
 let loggedUser = null;
-checkLogin();
+// checkLogin();
 setNav();
 
 function setNav() {

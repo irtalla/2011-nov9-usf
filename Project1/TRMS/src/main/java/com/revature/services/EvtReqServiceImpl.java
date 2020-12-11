@@ -23,16 +23,15 @@ public class EvtReqServiceImpl implements EvtReqService {
 	
 	@Override		
 	public Integer addEvtReq(EvtReq e, Person p) {
-    	/*updateEvtReq(e);
-        Set<EvtReq> set = p.getEvtReqs();
-        set.add(e);
-        p.setEvtReqs(set);
-        personDao.update(p);
-        return evtReqDao.add(e).getId();*/
-		
+    	
 		return evtReqDao.add(e).getId();
 	}
-
+	
+	@Override
+	public EvtReq addEvtReq2(EvtReq e) {
+		return evtReqDao.add(e);
+	} 
+	
 	@Override
 	public EvtReq getEvtReqById(Integer id) {
 		return evtReqDao.getById(id);
