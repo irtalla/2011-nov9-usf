@@ -6,46 +6,75 @@ let form = document.getElementById("submissionForm");
 setSubmission();
 
 function setSubmission() {
-
+    form.innerHTML = `
+        <form>
+            <label for="title">Title:</label>
+            <input id="title" name="title" type="text" maxlength="50"/>
+            <br>
+            <label for="completionDate">Expected Completion Date:</label>
+            <input id="completionDate" name="completionDate" type="date" value="2020-12-11" main="2020-12-11"/>
+            <br>
+            <label for="tagline">Tagline:</label>
+            <input id="tagline" name="tagline" type="text" maxlength="150"/>
+            <br>
+            <label for="description">Description:</label>
+            <input id="description" name="description" type="text"/>
+            <br>
+        `;
     getGenres();
-    // getAdditionalClasses();
+    form.innerHTML += `
+
+        `
 }
 
 async function getGenres() {
     let url = baseUrl + "/pitch/genre";
     let response = await fetch(url);
-    let length = 0;
     let genres = [];
     if (response.status === 200) {
-        for (let etnry of response.json()) {
-            console.log(Object.keys(entry));
-        }
+        genres = await response.json();
+    }
+    form.innerHTML += `
+          <label for="genre">Genre:</label>
+          <select id="genre" name="genre">
+        `;
+    for (let genre of genres) {
+        form.innerHTML += `<option value="${genre.name}">${genre.name}</option>`;
+    }
+    form.innerHTML += `
+            </select>
+            <br>
+        `;
+}
+
+async function getStoryTypes() {
+    let url = baseUrl + "/pitch/story_type";
+    let response = await fetch(url);
+    if (response.status === 200) {
+        return await response.json();
     }
 }
 
-async function getAdditionalClasses() {
-
-    url = baseUrl + "/pitch/story_type";
-    response = await fetch(url);
+async function  getPitchStage() {
+    let url = baseUrl + "/pitch/pitch_stage";
+    let response = await fetch(url);
     if (response.status === 200) {
-        console.log(await response.json());
+        return await response.json();
     }
+}
 
-    url = baseUrl + "/pitch/pitch_stage";
-    response = await fetch(url);
+async function getReviewStatus() {
+    let url = baseUrl + "/pitch/review_status";
+    let response = await fetch(url);
     if (response.status === 200) {
-        console.log(await response.json());
+        return await response.json();
     }
+}
 
-    url = baseUrl + "/pitch/review_status";
-    response = await fetch(url);
+async function getPriority() {
+    let url = baseUrl + "/pitch/priority";
+    let response = await fetch(url);
     if (response.status === 200) {
-        console.log(await response.json());
-    }
-
-    url = baseUrl + "/pitch/priority";
-    response = await fetch(url);
-    if (response.status === 200) {
-        console.log(await response.json());
+        return await response.json();
     }
 }
