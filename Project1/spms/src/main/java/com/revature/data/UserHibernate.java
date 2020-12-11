@@ -98,6 +98,7 @@ public class UserHibernate implements UserDAO{
         Root<User> root = criteria.from(User.class);
 
         Predicate predicateForUsername = cb.equal(root.get("username"), username);
+        criteria.select(root).where(predicateForUsername);
         User user = s.createQuery(criteria).getSingleResult();
         return user;
     }

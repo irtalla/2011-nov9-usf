@@ -7,7 +7,7 @@ public interface UserService {
     //  CRUD Operations
 
     //  CREATE
-    public Integer addUser(User user) throws NonUniqueUsernameException;
+    public User addUser(User user) throws NonUniqueUsernameException;
     //  READ
     public User getUserById(Integer id);
     public User getUserByUsername(String username);

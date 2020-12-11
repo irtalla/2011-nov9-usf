@@ -21,26 +21,21 @@ async function login() {
     
     switch (response.status) {
         case 200: // successful
-            alert('logged in');
-            document.getElementById('usernameHelp').innerHTML = '';
-            document.getElementById('passwordHelp').innerHTML = '';
             loggedUser = await response.json();
+
             break;
         case 400: // incorrect password
             document.getElementById('pwd').value = '';
             document.getElementById('pwd').className = document.getElementById('pwd').className + " error";
             document.getElementById('passwordHelp').innerHTML = 'Incorrect password. Please try again.'
-            document.getElementById('usernameHelp').innerHTML = '';
             break;
         case 404: // user not found
             document.getElementById('username').value = '';
             document.getElementById('pwd').value = '';
             document.getElementById('username').className = document.getElementById('username').className + " error";
             document.getElementById('usernameHelp').innerHTML = 'The user does not exist. Please register an account.'
-            document.getElementById('passwordHelp').innerHTML = '';
             break;
         default: // other error
-            document.getElementById('usernameHelp').innerHTML = '';
             document.getElementById('passwordHelp').innerHTML = 'Something went wrong. Please try again later.'
             break;
     }

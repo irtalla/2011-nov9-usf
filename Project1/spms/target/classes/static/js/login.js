@@ -21,8 +21,8 @@ async function login() {
     
     switch (response.status) {
         case 200: // successful
+            alert('logged in');
             loggedUser = await response.json();
-
             break;
         case 400: // incorrect password
             document.getElementById('pwd').value = '';
