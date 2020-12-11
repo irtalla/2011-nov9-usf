@@ -16,6 +16,7 @@ private PersonDAO personDao;
 
 	@Override
 	public Integer addPerson(Person p) throws NonUniqueUsernameException {
+		
 		return personDao.add(p).getId();
 	}
 

@@ -50,7 +50,7 @@ public class TRMS_Javalin {
 			path("users", () -> {
 				get(PersonController::checkLogin); // get logged in user
 				put(PersonController::logIn); // log in user
-				post(PersonController::registerUser); // register new user
+				post(PersonController::registerUser); // register new user,
 				delete(PersonController::logOut); // log out user
 				path (":id", () -> {
 					get(PersonController::getUserById); // get user by id

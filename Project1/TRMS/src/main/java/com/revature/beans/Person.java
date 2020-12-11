@@ -11,9 +11,30 @@ public class Person {
 	private Set<Title> titles;
 	private Set<EvtReq> evtReqs;
 	private Role role;
-	private ReqFrCmnt reqFrCmnt; 
+	private ReqFrCmnt reqFrCmnt;
 
+	private String title;
+	private Integer role_id; 
 	
+	public String getTitle() {
+		return title;
+	}
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public Integer getRole_id() {
+		return role_id;
+	}
+
+
+	public void setRole_id(Integer role_id) {
+		this.role_id = role_id;
+	}
+
 	public Person() {
 		id = 0;
 		username = "";

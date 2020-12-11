@@ -24,12 +24,14 @@ public class PersonPostgres implements PersonDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			String sql = "insert into person values (default, ?, ?, ?)";
+			String sql = "insert into person (username, passwd, user_role_id, title) values (?, ?, ?, ?)";
+			
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, t.getUsername());
 			pstmt.setString(2, t.getPassword());
 			pstmt.setInt(3, t.getRole().getId());
+			pstmt.setString(4, t.getTitle());
 			
 			pstmt.executeUpdate();
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -38,6 +40,7 @@ public class PersonPostgres implements PersonDAO {
 				p = t;
 				p.setId(rs.getInt(1));
 				conn.commit();
+				
 			} else {
 				conn.rollback();
 			}

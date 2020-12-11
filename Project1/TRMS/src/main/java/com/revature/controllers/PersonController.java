@@ -10,10 +10,10 @@ import io.javalin.http.Context;
 public class PersonController {
 	private static PersonService personServ = new PersonServiceImpl();
 	public static void checkLogin(Context ctx) {
-		System.out.println("Checking login");
+		System.out.println("Checking login"); 
 		Person p = ctx.sessionAttribute("user");
 		if (p != null) {
-			System.out.println("Logged in as " + p.getUsername());
+			System.out.println("Logged in as " + p.getUsername() );
 			ctx.json(p);
 			ctx.status(200);
 		} else {
@@ -21,6 +21,7 @@ public class PersonController {
 			ctx.status(400);
 		}
 	}
+	
 	public static void logIn(Context ctx) {
 		System.out.println("Logging in");
 		String username = ctx.queryParam("user");
@@ -40,7 +41,7 @@ public class PersonController {
 				// password mismatch
 				ctx.status(400);
 			}
-		}
+		} // let me set the docker
 		else
 		{
 			// username not found
@@ -55,7 +56,9 @@ public class PersonController {
 	}
 	
 	public static void registerUser(Context ctx) {
+		
 		Person newPerson = ctx.bodyAsClass(Person.class);
+		
 		try {
 			personServ.addPerson(newPerson);
 		}
