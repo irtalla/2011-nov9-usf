@@ -111,4 +111,23 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		}
 	}
 
+	@Override
+	public Set<Pitch> getPitchesByCommitteeId(Integer id) {
+		Set<Pitch> pitches = null;
+		
+		try (Session s = hu.getSession()) {
+			s.beginTransaction();
+			String hql = "From Pitch where gernre_id = :id";
+			Query<Pitch> q = s.createQuery(hql, Pitch.class);
+			List<Pitch> resultList = q.getResultList();
+			if (resultList.size() > 0) {
+				pitches = new HashSet<Pitch>(resultList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return pitches;
+	}
+
 }

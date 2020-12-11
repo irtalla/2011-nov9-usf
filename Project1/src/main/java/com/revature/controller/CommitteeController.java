@@ -3,8 +3,11 @@ package com.revature.controller;
 import java.util.Set;
 
 import com.revature.beans.Committee;
+import com.revature.beans.Pitch;
 import com.revature.service.CommitteeService;
 import com.revature.service.CommitteeServiceImpl;
+import com.revature.service.PitchService;
+import com.revature.service.PitchServiceImpl;
 
 import io.javalin.http.Context;
 
@@ -26,6 +29,8 @@ public class CommitteeController {
 			ctx.status(404);
 		}
 	}
+	
+
 
 
 }

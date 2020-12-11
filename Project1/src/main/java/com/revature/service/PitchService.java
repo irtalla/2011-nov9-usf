@@ -14,4 +14,6 @@ public interface PitchService {
 	public void deletePitch (Pitch p);
 
 	public Set<Pitch> getPitches();
+
+	public Set<Pitch> getCommitteePitches(Integer id);
 }

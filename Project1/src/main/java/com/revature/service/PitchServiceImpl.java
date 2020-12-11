@@ -32,4 +32,9 @@ public class PitchServiceImpl implements PitchService {
 		pDao.delete(p);
 	}
 
+	@Override
+	public Set<Pitch> getCommitteePitches(Integer id) {
+		return pDao.getPitchesByCommitteeId(id);
+	}
+
 }

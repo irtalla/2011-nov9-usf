@@ -53,7 +53,9 @@ public class SPMSJavalinApp {
 
 			path("committees", () -> {
 				get(CommitteeController::getAllCommittees); 
-				
+			});
+			path("committeepitches", () -> {
+				//get(CommitteeController::)
 			});
 		});
 	}

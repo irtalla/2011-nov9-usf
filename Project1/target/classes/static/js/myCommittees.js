@@ -25,17 +25,16 @@ function populateCommittees() {
         for (let com of comms) {
             let tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${com.committee_name}</td>
-                <td>${com.genre.name}</td>
+                <td><a href="${com.committee_name}Pitches">${com.committee_name}</a><td>
                 
             `;
           
             table.appendChild(tr);
         } //end for
 
-        pitchSection.appendChild(table);
+        committeeSection.appendChild(table);
     } else {
-        pitchSection.innerHTML = 'Currently zero committees';
+        committeeSection.innerHTML = 'Currently zero committees';
         
     }//else of if
 } //end poppitch 
