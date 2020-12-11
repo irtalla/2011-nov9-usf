@@ -182,4 +182,17 @@ public class ClaimController {
 		
 		cs.makeClaim(c);
 	}
+	
+	public static void denyClaim(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Claim c = cs.getClaimByID(id);
+		Stage s = new Stage();
+		s.setId(0);
+		s.setName("Denied");
+		c.setApprovalStage(s);
+		
+		String denialReason = ctx.body();
+		c.setDenialReason(denialReason);
+		cs.deny(c);
+	}
 }

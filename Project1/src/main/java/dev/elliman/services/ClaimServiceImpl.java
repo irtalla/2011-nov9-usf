@@ -73,4 +73,9 @@ public class ClaimServiceImpl implements ClaimService {
 		return claimDAO.getGrading(grading);
 	}
 
+	@Override
+	public boolean deny(Claim claim) {
+		return claimDAO.update(claim);
+	}
+
 }

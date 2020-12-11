@@ -34,4 +34,8 @@ public class PersonController {
 			ctx.status(400);
 		}
 	}
+	
+	public static void logout(Context ctx) {
+		ctx.req.getSession().invalidate();
+	}
 }

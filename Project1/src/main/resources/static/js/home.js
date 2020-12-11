@@ -20,6 +20,14 @@ async function checkLogin() {
     }
 }
 
+async function logout(){
+    user = null;
+    claims = null;
+    events = null;
+    fetch(baseUrl + '/users', {method: 'DELETE'});
+    window.location.replace(baseUrl);
+}
+
 //setup the html for showing claims
 async function showClaims(){
     mainContentDiv.innerHTML = `<div id="newClaimDiv">
@@ -93,6 +101,7 @@ async function updateClaims() {
     claimsDiv = document.getElementById('claimsDiv');
     claimsDiv.innerHTML = '';
 
+    newClaimDiv = document.getElementById('newClaimDiv');
     newClaimDiv.innerHTML = '';
     if(user.role.id == 4){
         let newClaimHTML = `<div id="makeAClaim" class="container" onclick="makeNewClaim()">
@@ -240,7 +249,7 @@ async function viewClaimDetails(index) {
         //console.log(claim.dsa);
         //console.log(user);
         if(user.role.id <= 2 && claim.dsa != null){
-            console.log('add dsa');
+            //console.log('add dsa');
             claimHTML += `<div class="row">
                                 <div class="col">
                                     <h6>Direct Supervisor approval:</h6>
@@ -271,7 +280,18 @@ async function viewClaimDetails(index) {
                             </div>
 
                             <div class="col justify-content-left">
-                                <input type="text" placeholder="Denial reason"/>
+                                <input id="denialReason" type="text" placeholder="Denial reason" class="goodInput"/>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col justify-content-center">
+                                <textarea id="rfcQuestion" class="goodInput"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col justify-content-center">
+                                <button id="submitRFC" type="button" onclick="makeCommentRequest(${index})">Submit comment request</button> 
                             </div>
                         </div>
                     </div>`;
@@ -281,7 +301,7 @@ async function viewClaimDetails(index) {
 }
 
 async function acceptClaim(index){
-    console.log(claims[index]);
+    //console.log(claims[index]);
     let url = baseUrl + '/claims/accept/' +  claims[index].id;
     //console.log(url);
     let response = await fetch(url, {method: 'POST', body: JSON.stringify(claims[index])});
@@ -295,7 +315,17 @@ async function acceptClaim(index){
 }
 
 async function denyClaim(index){
-    //TODO
+    let denialReason = document.getElementById('denialReason');
+    if(denialReason.value == ''){
+        denialReason.classList.add('failInput');
+    } else {
+        let response = await fetch(baseUrl + '/claims/deny/' + claims[index].id, {method: 'DELETE', body: denialReason.value});
+        if(response.status === 200){
+            showClaims();
+        } else {
+            alert('Something went wrong');
+        }
+    }
 }
 
 async function makeNewClaim(){
@@ -307,26 +337,26 @@ async function makeNewClaim(){
                                         </div>
                                     </div>
 
-                                    <form>
-                                        <h6>Name of the event: </h6> <input id="eventName" type="text">
-                                        <h6>Event Type:</h6><select id="eventOptions"></select>
-                                        <h6>Event Date:</h6><input id="eventDate" type="date">
-                                        <h6>Event Time:</h6><input id="eventTime" type="time">
-                                        <h6>Event Location:</h6><input id="eventLocation" type="text">
-                                        <h6>Passing percentage:<h6><input id="passingPercentage" type="number">
+                                    <form id="newClaimForm">
+                                        <h6>Name of the event: </h6> <input id="eventName" type="text" class="goodInput">
+                                        <h6>Event Type:</h6><select id="eventOptions" class="goodInput"></select>
+                                        <h6>Event Date:</h6><input id="eventDate" type="date" class="goodInput">
+                                        <h6>Event Time:</h6><input id="eventTime" type="time" class="goodInput">
+                                        <h6>Event Location:</h6><input id="eventLocation" type="text" class="goodInput">
+                                        <h6>Passing percentage:<h6><input id="passingPercentage" type="number" class="goodInput">
                                         <h6>Passing letter:</h6>
-                                        <select id="passingLetter">
+                                        <select id="passingLetter" class="goodInput">
                                             <option>N/A</option>
                                             <option>A</option>
                                             <option>B</option>
                                             <option>C</option>
                                             <option>D</option>
                                         </select>
-                                        <h6>Does this event require a presentation?<h6><input id="hasPresentation" type="checkbox">
-                                        <h6>Please privide a breif description of the event.</h6><textarea id="description"></textarea>
-                                        <h6>Justification:</h6><input id="justification" type="text">
-                                        <h6>Hours missed:</h6><input id="hoursMissed" type="number">
-                                        <h6>Cost: $</h6><input id="price" type="number">
+                                        <h6>Does this event require a presentation?<h6><input id="hasPresentation" type="checkbox" class="goodInput">
+                                        <h6>Please privide a breif description of the event.</h6><textarea id="description" class="goodInput"></textarea>
+                                        <h6>Justification:</h6><input id="justification" type="text" class="goodInput">
+                                        <h6>Hours missed:</h6><input id="hoursMissed" type="number" class="goodInput">
+                                        <h6>Cost: $</h6><input id="price" type="number" class="goodInput">
                                         <button type="button" onclick="submitNewClaim()">Submit</button>
                                     </form>
                                 </div>`;
@@ -365,11 +395,54 @@ async function submitNewClaim(){
         hoursMissed : document.getElementById('hoursMissed').value,
     };
 
-    let response = await fetch(baseUrl + '/claims', {method : 'POST', body : JSON.stringify(claim)});
-    if(response.status === 200){
-        showClaims();
+    let form = document.getElementById('newClaimForm');
+    let inputs = form.getElementsByTagName('input');
+
+    for(let i = 0; i < inputs.length; i++){
+        let input = inputs[i];
+        input.classList.remove('failInput');
+    }
+    document.getElementById('description').classList.remove('failInput');
+
+    let fail = false;
+    if(claim.title == ''){
+        fail = 'eventName';
+    } else if(claim.eventDate == '') {
+        fail = 'eventDate';
+    } else if(claim.eventTime == '') {
+        fail = 'eventTime';
+    } else if(claim.eventLocation == ''){
+        fail = 'eventLocation';
+    } else if (claim.passingPercentage == '' && claim.passingLetter == 'N/A'){
+        fail = 'passingPercentage';
+    } else if(claim.description == ''){
+        fail = 'description';
+    } else if(claim.justification == ''){
+        fail = 'justification';
+    } else if(claim.hoursMissed == ''){
+        fail = 'hoursMissed';
+    } else if(claim.price == ''){
+        fail = 'price';
+    } 
+
+    if(fail){
+        let failElement = document.getElementById(fail);
+        failElement.classList.add('failInput');
+
+        if(fail == 'passingPercentage'){
+            document.getElementById('passingLetter').classList.add('failInput');
+        }
     } else {
-        alert('Something went wrong')
-        showClaim();
+        let response = await fetch(baseUrl + '/claims', {method : 'POST', body : JSON.stringify(claim)});
+        if(response.status === 200){
+            showClaims();
+        } else {
+            alert('Something went wrong')
+            showClaim();
+        }
+    }
+
+    async function makeCommentRequest(index){
+        let claim = claims[index];
     }
 }

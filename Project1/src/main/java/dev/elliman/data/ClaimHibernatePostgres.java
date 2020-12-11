@@ -67,7 +67,7 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 	public List<Claim> getDSUnapprovedClaims() {
 		Session s = hu.getSession();
 		
-		String query = "from Claim where dsa = null";
+		String query = "from Claim where dsa = null and denialReason = null";
 		Query<Claim> q = s.createQuery(query);
 		
 		List<Claim> claims = null;
@@ -126,7 +126,7 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 	public List<Claim> getDHUnapprovedClaims() {
 		Session s = hu.getSession();
 		
-		String query = "from Claim where dha = null";
+		String query = "from Claim where dha = null and denialReason = null";
 		Query<Claim> q = s.createQuery(query);
 		
 		List<Claim> claims = null;
@@ -139,7 +139,7 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 	public List<Claim> getBCUnapprovedClaims() {
 		Session s = hu.getSession();
 		
-		String query = "from Claim where bca = null and dha is not null";
+		String query = "from Claim where bca = null and dha is not null and denialReason = null";
 		Query<Claim> q = s.createQuery(query);
 		
 		List<Claim> claims = null;

@@ -27,4 +27,5 @@ public interface ClaimService {
 	//write
 	public Claim makeClaim(Claim claim);
 	public boolean accept(Claim claim);
+	public boolean deny(Claim claim);
 }

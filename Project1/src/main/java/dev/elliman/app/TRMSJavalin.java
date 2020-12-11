@@ -19,11 +19,9 @@ public class TRMSJavalin {
 		app.routes(() -> {
 			
 			path("users", () -> {
-				put(PersonController::login);//login
+				put(PersonController::login);
 				get(PersonController::checkLogin);
-				path("logout", ()->{
-					
-				});
+				delete(PersonController::logout);
 			});
 			
 			path("events", () -> {
@@ -46,8 +44,12 @@ public class TRMSJavalin {
 				path("accept/:id", () -> {
 					post(ClaimController::accept);
 				});
+				path("deny/:id", () -> {
+					delete(ClaimController::denyClaim);
+				});
 				
 				post(ClaimController::makeClaim);
+				
 			});
 		});
 	}
