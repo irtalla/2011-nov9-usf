@@ -17,15 +17,17 @@ function setNav() {
                 <button type="button" id="loginBtn">Log In</button>
             </form>
         `;
-    } else {
+    } else{
         nav.innerHTML += `
             <a href="currPitches.html">My Pitches</a>
+            <a href="currCommittees.html">My Committees</a>
             <span>
-                <a href="profile.html">${loggedUser.username}&nbsp;&nbsp;</a>
+                <a href="profile.html">${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
     }
+
 
     let loginBtn = document.getElementById('loginBtn');
     if (loggedUser) loginBtn.onclick = logout;
@@ -87,6 +89,7 @@ async function getCommittees() {
             li.innerHTML = committee.committee_name;
             committeelst.appendChild(li);
         }
+        mainNav.innerHTML ="Genres include:";
         mainNav.appendChild(committeelst);
     }else{
         mainNav.innerHTML = 'HI!';
