@@ -117,7 +117,7 @@ async function submitChanges() {
         statweight =1;
     }
     let data = {
-        person_id: loggedUser.id,
+        //person_id: loggedUser.id,
         story_title: document.getElementById('story_title').value,
         story_type:{
            id: document.getElementById('story_type').value,

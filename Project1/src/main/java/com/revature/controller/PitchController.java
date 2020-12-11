@@ -27,7 +27,6 @@ public class PitchController {
 	}
 	
 	public static void addPitch(Context ctx) {
-		System.out.println("call me");
 		Pitch pitch = ctx.bodyAsClass(Pitch.class);
 		System.out.println(pitch);
 		pServ.addPitch(pitch);

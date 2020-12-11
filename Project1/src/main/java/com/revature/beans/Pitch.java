@@ -2,6 +2,7 @@ package com.revature.beans;
 
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,14 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 @Entity
 @Table
 public class Pitch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer person_id;
+//	@Column(name = "person_id")
+//	private Integer author;
 	private String story_title;
   
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -43,7 +44,7 @@ public class Pitch {
 	
 	public Pitch() {
 		id = 0;
-		person_id =0;
+//		author =0;
 		story_title ="";
 		story_type = new StoryType();
 		genre = new Genre();
@@ -53,12 +54,12 @@ public class Pitch {
 		stage = new PitchStage();
 		finish_date = "";
 	}
-	public Integer getAuthor() {
-		return person_id;
-	}
-	public void setAuthor(Integer person_id) {
-		this.person_id = person_id;
-	}
+//	public Integer getAuthor() {
+//		return author;
+//	}
+//	public void setAuthor(Integer author) {
+//		this.author = author;
+//	}
 	public Integer getId() {
 		return id;
 	}

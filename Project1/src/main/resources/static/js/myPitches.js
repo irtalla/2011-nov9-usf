@@ -117,7 +117,7 @@ async function submitChanges() {
         statweight =1;
     }
     let data = {
-        person_id: loggedUser.id,
+        //person_id: loggedUser.id,
         story_title: document.getElementById('story_title').value,
         story_type:{
            id: document.getElementById('story_type').value,
@@ -144,7 +144,7 @@ async function submitChanges() {
     if (response >=200 && response <300) {
         alert('Pitch sent successfully.');
     } else {
-        alert('Something went wrong.');
+        alert('Something went wrong.' + response);
     }
 
 }
