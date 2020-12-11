@@ -283,18 +283,10 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <div id="modal-dynamic-content-section" class="modal-body">
+              ...
+            </div>
           </div>
-          <div id="pitch-modal-body" class="modal-body">...</div>
-          <div id="modal-btn-section" class="modal-footer">...</div>
         </div>
       </div>
     </div>
@@ -303,7 +295,10 @@
       <p>&copy; Company 2017-2020</p>
     </footer>
     <script src="../commentService.js"></script>
+    <script src="../decisionService.js"></script>
+    <script src="../templates//pitchCardTemplate.js"></script>
     <script src="../templates/requestCardTemplate.js"></script>
+    <script src="../templates/commentTemplate.js"></script>
     <script src="../requestService.js"></script>
     <script src="../pitchService.js"></script>
     <script src="editor.js"></script>

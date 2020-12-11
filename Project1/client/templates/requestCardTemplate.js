@@ -1,10 +1,31 @@
+
+
+const isSenderAndEditor = (request) =>  {
+    return request.senderId === currentUser.id && 
+        currentUser.role.name.toUpperCase().includes('EDITOR'); 
+}
+
 const loadRequestCard = (request) => {
 
     // Only senders should be able to close requets. So we expose the close function
     // on if the current user is the sender. Dynamic rendering is possible using 
-    // template literals and the ternary statement. 
+    // template literals and the ternary statement
+    let controlButtons;
+    if ( isSenderAndEditor(request) ) {
+        controlButtons = 
+        `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <button type="button" class="btn btn-primary" onClick="handleRespond(${request.id})">Add Comment</button>
+            <button type="button" class="btn btn-danger" onClick="handleCloseRequest(${request.id})">Close</button>
+        </div>`
+    } else {
+        controlButtons = 
+        `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <button type="button" class="btn btn-primary" onClick="handleRespond(${request.id})">Add Comment</button>
+        </div>`
+    }
+
     const requestCardTemplate =
-        `          <div id="request-card-${request.id}" class="col-md-3">
+        `<div id="request-card-${request.id}" class="col-md-4">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">${request.id}</h5>
@@ -13,25 +34,14 @@ const loadRequestCard = (request) => {
                 <p>Status: ${request.status.name}</p>
                 <hr />
                 <div>
-                  <p class="card-text">Request Content</p>
-                  <p>${request.requestContent}</p>
+                  <h6>Comments</h6>
                 </div>
-                <div id="request-card-${request.id}-response-section">
-                  <p class="card-text">Response Content</p>
-                  <p id="request-card-${request.id}-response">
-                  ${request.responseContent.length > 0 ? request.responseContent : 'No Resposne'}
-                  </p>
+                ... ... ... 
+                <div id="request-card-${request.id}-comment-section" class="card-comment-section">
                 </div>
-                ${request.senderId === currentUser.id ?
-            ` </div>
-              <button type="button" class="btn btn-danger" onClick="handleCloseRequest(${request.id})">Close</button>
-                 </div>`
-            :
-            ` </div>
-                 <button type="button" class="btn btn-primary" onClick="handleRespond(${request.id})">Respond</button>
-                    </div>`
-        }
-          </div>`;
+                    ${ controlButtons }
+                </div>
+        </div>`;
 
 
     if (request.senderId === currentUser.id) {
@@ -41,4 +51,6 @@ const loadRequestCard = (request) => {
     } else {
         alert('currentUser is neither sender or reciever of request');
     }
+
+    return Promise.resolve;
 }

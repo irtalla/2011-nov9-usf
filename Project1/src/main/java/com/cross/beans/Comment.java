@@ -1,6 +1,5 @@
 package com.cross.beans;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -19,7 +18,7 @@ public class Comment {
 	@Column(name="request_id")
 	private Integer requestId;
 	@Column(name="commentor_id")
-	private Integer commenterId;
+	private Integer commentorId;
 	@Column(name="comment_content")
 	private String content; 
 	private LocalDateTime creationTime; 
@@ -42,12 +41,12 @@ public class Comment {
 		this.requestId = requestId;
 	}
 
-	public Integer getCommenterId() {
-		return commenterId;
+	public Integer getCommentorId() {
+		return commentorId;
 	}
 
-	public void setCommenterId(Integer commenterId) {
-		this.commenterId = commenterId;
+	public void setCommentorId(Integer commenterId) {
+		this.commentorId = commenterId;
 	}
 
 	public String getContent() {

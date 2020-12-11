@@ -26,8 +26,10 @@ const logCurrentUser = () => {
  */
 const requestMap = new Map();
 const pitchMap = new Map();
-const commentMap = new Map(); 
-const decisionMap = new Map(); 
+const commentMap = new Map();
+const personMap = new Map();
+const decisionMap = new Map();
+
 
 const handleCloseRequest = async (id) => {
 
@@ -51,20 +53,6 @@ const handleCloseRequest = async (id) => {
     }
 };
 
-const handleReponseContentChange = (id) => {
-
-    let currentResponseContent = document.getElementById(`input-response-section-${id}`).value;
-
-    requestMap.set(id, {
-        ...requestMap.get(id),
-        responseContent: currentResponseContent
-    });
-
-    console.log(requestMap.get(id).responseContent);
-
-}
-
-
 
 const updateRequest = async (id) => {
 
@@ -81,20 +69,59 @@ const updateRequest = async (id) => {
 }
 
 
-const handleRespond = (id) => {
+// const handleReponseContentChange = (id) => {
 
-    let currentResponse = document.getElementById(`request-card-${id}-response`).innerText;
-    document.getElementById(`request-card-${id}-response-section`).innerHTML =
-        `<textarea 
+//     let currentResponseContent = document.getElementById(`input-response-section-${id}`).value;
+
+//     requestMap.set(id, {
+//         ...requestMap.get(id),
+//         responseContent: currentResponseContent
+//     });
+
+//     console.log(requestMap.get(id).responseContent);
+
+// }
+
+const saveComment = async (id) => {
+
+    const newCommentContent = document.getElementById(`section-${id}-draft-comment`).value; 
+    if (newCommentContent.length === 0) {
+        alert('Cannot save empty comment');
+        return; 
+    }
+    const newComment = {
+        requestId: id, 
+        commentorId: currentUser.id,
+        content: newCommentContent
+    };
+    
+    let response = await postComment(newComment); 
+
+    if (response.status === 200 ) {
+        const comment = JSON.parse( await response.json() );
+        document.getElementById(`request-card-${comment.requestId}-comment-section`)
+        .innerHTML += createCommentCard(comment);
+        document.getElementById(`request-card-${comment.requestId}-comment-section`).
+        removeChild(document.getElementById(`draft-comment-response-section-${comment.requestId}`));
+    } else {
+        alert("Internal System error: Unable to save comment");
+        console.log(resposne); 
+    }
+
+}
+
+
+const handleRespond = (id) => {
+    document.getElementById(`request-card-${id}-comment-section`).innerHTML +=
+        `<div id="draft-comment-response-section-${id}">
+        <textarea 
         class="form-control" 
-        id="input-response-section-${id}"
-        rows="6"
-        value=${requestMap.get(id).responseContent}
-        onkeyup=handleReponseContentChange(${id})
+        id="section-${id}-draft-comment"
+        rows="4"
         ></textarea>
         <button 
         type="button" class="btn btn-primary"
-        onclick='updateRequest(${id})'
+        onclick='saveComment(${id})'
         class 
         >
         Save
@@ -103,54 +130,9 @@ const handleRespond = (id) => {
 }
 
 
-// const loadRequestCard = (request) => {
-
-//     // Only senders should be able to close requets. So we expose the close function
-//     // on if the current user is the sender. Dynamic rendering is possible using 
-//     // template literals and the ternary statement. 
-//     const requestCardTemplate =
-//         `          <div id="request-card-${request.id}" class="col-md-3">
-//             <div class="card">
-//               <div class="card-body">
-//                 <h5 class="card-title">${request.id}</h5>
-//                 <p>From: ${request.senderId === currentUser.id ? 'Me' : request.senderId}</p>
-//                 <p> To: ${request.recieverId === currentUser.id ? 'Me' : request.recieverId} </p>
-//                 <p>Status: ${request.status.name}</p>
-//                 <hr />
-//                 <div>
-//                   <p class="card-text">Request Content</p>
-//                   <p>${request.requestContent}</p>
-//                 </div>
-//                 <div id="request-card-${request.id}-response-section">
-//                   <p class="card-text">Response Content</p>
-//                   <p id="request-card-${request.id}-response">
-//                   ${request.responseContent.length > 0 ? request.responseContent : 'No Resposne'}
-//                   </p>
-//                 </div>
-//                 ${request.senderId === currentUser.id ?
-//             ` </div>
-//               <button type="button" class="btn btn-danger" onClick="handleCloseRequest(${request.id})">Close</button>
-//                  </div>`
-//             :
-//             ` </div>
-//                  <button type="button" class="btn btn-primary" onClick="handleRespond(${request.id})">Respond</button>
-//                     </div>`
-//         }
-//           </div>`;
-
-
-//     if (request.senderId === currentUser.id) {
-//         document.getElementById("outgoing-requests-display-selection").innerHTML += requestCardTemplate;
-//     } else if (request.recieverId === currentUser.id) {
-//         document.getElementById("incoming-requests-display-selection").innerHTML += requestCardTemplate;
-//     } else {
-//         alert('currentUser is neither sender or reciever of request');
-//     }
-// }
-
-
 /**
- * Fetch requestes for current user. 
+ * 
+ * @param {*} id The id of the current user
  */
 const getRequests = async (id) => {
 
@@ -163,19 +145,20 @@ const getRequests = async (id) => {
         document.getElementById("incoming-requests-display-selection").innerHTML = "";
         for (const request of requests) {
             requestMap.set(request.id, request);
-
-            let response = await fetchCommentsByRequestId(request.id); 
-            if ( response.status == 200 ) {
-                let comments = await response.json(); 
-                console.log(comments); 
+            await loadRequestCard(request);
+            let response = await fetchCommentsByRequestId(request.id);
+            if (response.status == 200) {
+                let comments = JSON.parse ( await response.json() ); 
+                for (let comment of comments) {
+                    commentMap.set(comment.id, comment);
+                    document.getElementById(`request-card-${comment.requestId}-comment-section`)
+                        .innerHTML += createCommentCard(comment);
+                }
             } else {
                 alert(`unable to load comments for request ${request.id}`);
             }
 
-            // console.log(request);
-            loadRequestCard(request);
         }
-        //   loadrequestData(); 
 
     } else {
         alert("could not fetch requests");
@@ -186,26 +169,28 @@ getRequests(currentUser.id);
 
 const getPitchesByGenreAndGeneralEditor = async () => {
 
-
     let response = await fetchPitchesByGeneralEditorId(currentUser.id);
-    let pitches = JSON.parse(await response.json());
-
-    console.log(typeof (pitches));
-    console.log(pitches);
+    if (response.status === 200) {
+        let pitches = JSON.parse(await response.json());
+        for (const pitch of pitches) {
+            pitchMap.set(pitch.id, pitch); 
+            document.getElementById("general-pitch-data-display-row").innerHTML += createPitchCard(pitch);
+        }
+    } else {
+        alert("Internal system error: could not load pitches by general id");
+    }
 
     for (const genre of currentUser.genres) {
         let response = await fetchPitchesByGenre(genre.name);
-        let pitches = JSON.parse(await response.json());
-        console.log(typeof (pitches));
-        console.log(pitches);
+        if (response.status === 200) {
+            let pitches = JSON.parse(await response.json());
+            for (const pitch of pitches) {
+                pitchMap.set(pitch.id, pitch); 
+                document.getElementById("genre-pitch-data-display-row").innerHTML += createPitchCard(pitch);
+            }
+        } else {
+            alert("Internal system error: could not load pitches by genre");
+        }
     }
-
-    // for (const pitch of pitches) {
-    //     pitchMap.set(pitch.id, pitch)
-    //     loadArticleCard(pitch)
-    // }
-
-    // loadPitchData();
-
 }
 getPitchesByGenreAndGeneralEditor(); 

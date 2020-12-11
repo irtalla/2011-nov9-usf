@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.cross.beans.Comment;
@@ -16,6 +17,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment add(Comment c) {
+		c.setCreationTime( LocalDateTime.now() );
 		return commentDAO.add(c);
 	}
 

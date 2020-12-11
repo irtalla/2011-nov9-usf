@@ -24,7 +24,11 @@ const logCurrentUser = () => {
  * Dictionary that stores all the current user's
  * pitches. The key is pitch id, the value is the pitch object 
  */
+const requestMap = new Map();
 const pitchMap = new Map();
+const commentMap = new Map(); 
+const personMap = new Map(); 
+const decisionMap = new Map(); 
 
 /**
  * Fetch pitches for current user. 
@@ -38,8 +42,8 @@ const fetchPitches = async () => {
     console.log(pitches);
 
     for (const pitch of pitches) {
-        pitchMap.set(pitch.id, pitch)
-        loadArticleCard(pitch)
+        pitchMap.set(pitch.id, pitch) 
+        document.getElementById('main-data-display-row').innerHTML += createPitchCard(pitch);
     }
 
     loadPitchData();
@@ -166,7 +170,8 @@ const savePitch = async () => {
     if (response.status === 200) {
         let newPitch = JSON.parse(await response.json());
         pitchMap.set(newPitch.id, newPitch);
-        loadArticleCard(newPitch);
+        createPitchCard(newPitch);
+        document.getElementById('main-data-display-row').innerHTML += pitchCard;
         loadPitchData();
         alert("Save successful. Check out your new submission below. Good luck!")
     } else {
@@ -205,56 +210,45 @@ const deletePitch = async (id) => {
  * 
  */
 
-const loadArticleCard = (pitch) => {
+// const createPitchCard = (pitch) => {
 
-    //     const Item = ({ url, img, title }) => `
-    //     <a href="${url}" class="list-group-item">
-    //       <div class="image">
-    //         <img src="${img}" />
-    //       </div>
-    //       <p class="list-group-item-text">${title}</p>
-    //     </a>
-    //   `;
+//     let generic_image_src = `https://thumbs.dreamstime.com/t/white-feather-quill-pen-glass-inkwell-old-glass-ink-pen-feather-well-quill-image-106467206.jpg`;
 
-    let generic_image_src = `https://thumbs.dreamstime.com/t/white-feather-quill-pen-glass-inkwell-old-glass-ink-pen-feather-well-quill-image-106467206.jpg`;
-
-    let progressBarColor;
-    let progressBarWidth;
+//     let progressBarColor;
+//     let progressBarWidth;
 
 
-    const articleCard =
-        `<div id="pitch-card-${pitch.id}" class="col-md-4">
-  <div class="card">
-    <img src="${generic_image_src} class="card-img-top" alt="..." />
-    <div class="card-body">
-      <h5 class="card-title"> ${pitch.title || 'no title found'} </h5>
-      <p class="card-text">
-        ${pitch.tagline.length > 100 ? `${pitch.tagline.slice(0, 100)}...` : pitch.tagline}
-      </p>
-    </div>
-    <div class="progress">
-      <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Genre: ${pitch.genre.name || 'genre unspecified'} </li>
-      <li class="list-group-item">Form: ${pitch.form.name || 'form unspecified'} </li>
-      <li class="list-group-item">Completion Deadline: ${pitch.completionDate || 'completion date unspecified'} </li>
-    </ul>
-    <div class="card-body">
-      <a href="#" class="card-link">Card link</a>
-      <button type="button" 
-        class="btn btn-primary" 
-        data-toggle="modal" 
-        data-target="#exampleModal"
-        onClick="populateModalWithData(${pitch.id})">
-        Expand/Edit
-      </button>
-      <button type="button" class="btn btn-danger" onClick="deletePitch(${pitch.id})">Delete</button>
-    </div>
-  </div>
-</div>`;
+//     const pitchCard =
+//         `<div id="pitch-card-${pitch.id}" class="col-md-4">
+//   <div class="card">
+//     <img src="${generic_image_src} class="card-img-top" alt="..." />
+//     <div class="card-body">
+//       <h5 class="card-title"> ${pitch.title || 'no title found'} </h5>
+//       <p class="card-text">
+//         ${pitch.tagline.length > 100 ? `${pitch.tagline.slice(0, 100)}...` : pitch.tagline}
+//       </p>
+//     </div>
+//     <div class="progress">
+//       <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+//     </div>
+//     <ul class="list-group list-group-flush">
+//       <li class="list-group-item">Genre: ${pitch.genre.name || 'genre unspecified'} </li>
+//       <li class="list-group-item">Form: ${pitch.form.name || 'form unspecified'} </li>
+//       <li class="list-group-item">Completion Deadline: ${pitch.completionDate || 'completion date unspecified'} </li>
+//     </ul>
+//     <div class="card-body">
+//       <a href="#" class="card-link">Card link</a>
+//       <button type="button" 
+//         class="btn btn-primary" 
+//         data-toggle="modal" 
+//         data-target="#exampleModal"
+//         onClick="populateModalWithData(${pitch.id})">
+//         Expand/Edit
+//       </button>
+//       <button type="button" class="btn btn-danger" onClick="deletePitch(${pitch.id})">Delete</button>
+//     </div>
+//   </div>
+// </div>`;
 
-    document.getElementById('main-data-display-row').innerHTML += articleCard;
-
-
-}
+// return pitchCard;
+// }

@@ -37,10 +37,10 @@ public class CommentController {
 	public static void addComment(Context ctx) {
 		System.out.println( ctx.body() );
 	    try {
-		    Comment c;     
-		    c = gson.fromJson( ctx.body(), Comment.class);
-		    c = commentServ.add(c);
-		    ctx.json( gson.toJson(c));
+		    Comment given, returned;     
+		    given = gson.fromJson( ctx.body(), Comment.class);
+		    returned = commentServ.add(given);
+		    ctx.json( gson.toJson(returned));
 			ctx.status(200);
 	    } catch (Exception e) {
 	    	e.printStackTrace();

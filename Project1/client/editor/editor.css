@@ -1,17 +1,32 @@
-
 .card {
-    margin-bottom: 24px;
-  }
+  margin-bottom: 24px;
+}
+.card-comment-section {
+  min-height: auto;
+  max-height: 200px;
+  overflow: scroll;
+  border-style: outset;
+  background-color: wheat;
+}
 
 .card:hover {
   transform: scale(1.05);
-  background-color: whitesmoke; 
+  background-color: whitesmoke;
+}
+
+.comment-card {
+  font-size: x-small;
+}
+
+#explanation-draft-area {
+  width: -webkit-fill-available;
+  resize: vertical;
 }
 
 hr {
-    height: 0px;
-    border: none;
-    border-top: 2px solid black;
-    margin-top: 8px;
-    margin-bottom: 16px;
+  height: 0px;
+  border: none;
+  border-top: 2px solid black;
+  margin-top: 8px;
+  margin-bottom: 16px;
 }
