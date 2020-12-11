@@ -86,15 +86,16 @@ async function logout() {
     }
 }
 
-async function checkLogin() {
+export async function checkLogin() {
     let url = baseUrl + '/users';
     let response = await fetch(url);
     if (response.status === 200) {
         setLoggedUser(await response.json());
-    } 
+        localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    }
     setNav();
 }
 
-async function registerUser() {
+function registerUser() {
     window.location.replace(baseUrl + "/register.html");
 }

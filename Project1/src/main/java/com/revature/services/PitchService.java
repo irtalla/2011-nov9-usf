@@ -28,4 +28,5 @@ public interface PitchService {
 	public List<PitchStage> getAllPitchStage();
 	public List<ReviewStatus> getAllReviewStatus();
 	public List<String> getPriorities();
+	public Pitch parseContext(String ctx);
 }

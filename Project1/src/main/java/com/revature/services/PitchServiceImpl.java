@@ -1,11 +1,17 @@
 package com.revature.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.revature.data.AdditionalFileDAOFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.revature.data.GenreDAO;
 import com.revature.data.GenreDAOFactory;
 import com.revature.data.PitchDAO;
@@ -16,13 +22,17 @@ import com.revature.data.ReviewStatusDAO;
 import com.revature.data.ReviewStatusDAOFactory;
 import com.revature.data.StoryTypeDAO;
 import com.revature.data.StoryTypeDAOFactory;
+import com.revature.data.UserDAO;
+import com.revature.data.UserDAOFactory;
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
 import com.revature.models.Priority;
 import com.revature.models.ReviewStatus;
+import com.revature.models.Role;
 import com.revature.models.StoryType;
 import com.revature.models.User;
+import com.revature.models.AdditionalFile;
 
 public class PitchServiceImpl implements PitchService {
 	private PitchDAO pitchDao;
@@ -30,6 +40,7 @@ public class PitchServiceImpl implements PitchService {
 	private StoryTypeDAO stDao;
 	private PitchStageDAO psDao;
 	private ReviewStatusDAO rsDao;
+	private UserDAO uDao;
 	
 	public PitchServiceImpl() {
 		PitchDAOFactory pitchFactory = new PitchDAOFactory();
@@ -42,6 +53,8 @@ public class PitchServiceImpl implements PitchService {
 		psDao = psFactory.getPitchStageDao();
 		ReviewStatusDAOFactory rsFactory = new ReviewStatusDAOFactory();
 		rsDao = rsFactory.getReviewStatusDao();
+		UserDAOFactory uFactory = new UserDAOFactory();
+		uDao = uFactory.getUserDao();
 	}
 	
 	@Override
@@ -139,6 +152,117 @@ public class PitchServiceImpl implements PitchService {
 			priorities.add(p.label);
 		}
 		return priorities;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Pitch parseContext(String ctx) {
+		System.out.println(ctx);
+		ctx = "[" + ctx + "]";
+		JSONParser parser = new JSONParser();
+		Pitch p = new Pitch();
+
+		try {
+			Object obj = parser.parse(ctx);
+			JSONArray array = (JSONArray)obj;
+			JSONObject jObj = (JSONObject)array.get(0);
+			jObj.keySet().forEach( key -> {
+				switch (key.toString()) {
+					case "additionalFiles":
+						Set<AdditionalFile> afs = new HashSet<>();
+						p.setAdditionalFiles(afs);
+						break;
+					case "author":
+						JSONObject uObj = (JSONObject) jObj.get(key);
+						System.out.println(uObj.toString());
+						uObj.keySet().forEach( uKey -> {
+							if (uKey.toString().equals("id")) {
+								Integer uId = Integer.parseInt(uObj.get(uKey).toString());
+								User u = uDao.getById(uId);
+								p.setAuthor(u);
+							}
+						});
+						User u = new User();
+						break;
+					case "completionDate":
+						LocalDate ld = LocalDate.parse(jObj.get(key).toString());
+						p.setCompletionDate(ld);
+						break;
+					case "description":
+						p.setDescription(jObj.get(key).toString());
+						break;
+					case "genre":
+						JSONObject gObj = (JSONObject) jObj.get(key);
+						System.out.println(gObj.toString());
+						gObj.keySet().forEach( gKey -> {
+							if (gKey.toString().equals("id")) {
+								Integer gId = Integer.parseInt(gObj.get(gKey).toString());
+								Genre g = genreDao.getById(gId);
+								p.setGenre(g);
+							}
+						});
+						break;
+					case "id":
+						p.setId(Integer.parseInt(jObj.get(key).toString()));
+						break;
+					case "pitchMadeAt":
+						LocalDateTime ldt = LocalDateTime.parse(jObj.get(key).toString());
+						p.setPitchMadeAt(ldt);
+						break;
+					case "pitchStage":
+						JSONObject psObj = (JSONObject) jObj.get(key);
+						System.out.println(psObj.toString());
+						psObj.keySet().forEach( psKey -> {
+							if (psKey.toString().equals("id")) {
+								Integer psId = Integer.parseInt(psObj.get(psKey).toString());
+								PitchStage ps = psDao.getById(psId);
+								p.setPitchStage(ps);
+							}
+						});
+						break;
+					case "priority":
+						for (Priority priority : Priority.values()) {
+							if (priority.label.equals(jObj.get(key).toString())) p.setPriority(priority);
+						}
+						break;
+					case "reviewStatus":
+						JSONObject rsObj = (JSONObject) jObj.get(key);
+						System.out.println(rsObj.toString());
+						rsObj.keySet().forEach( rsKey -> {
+							if (rsKey.toString().equals("id")) {
+								Integer rsId = Integer.parseInt(rsObj.get(rsKey).toString());
+								ReviewStatus rs = rsDao.getById(rsId);
+								p.setReviewStatus(rs);
+							}
+						});
+						break;
+					case "storyType":
+						JSONObject stObj = (JSONObject) jObj.get(key);
+						System.out.println(stObj.toString());
+						stObj.keySet().forEach( stKey -> {
+							if (stKey.toString().equals("id")) {
+								Integer stId = Integer.parseInt(stObj.get(stKey).toString());
+								StoryType st = stDao.getById(stId);
+								p.setStoryType(st);
+							}
+						});
+						break;
+					case "tagline":
+						p.setTagline(jObj.get(key).toString());
+						break;
+					case "title":
+						p.setTitle(jObj.get(key).toString());
+						break;
+				}
+			});
+		} catch (ParseException pe) {
+			System.out.println("Position: " + pe.getPosition());
+			pe.printStackTrace();
+		}
+		
+		System.out.println(p);
+		
+		return p;
 	}
 
 }

@@ -20,7 +20,7 @@ public class PitchController {
 	
 	public static void submitPitch(Context ctx) {
 		System.out.println("Submitting a pitch");
-		Pitch newPitch = ctx.bodyAsClass(Pitch.class);
+		Pitch newPitch = pitchServ.parseContext(ctx.body());
 		try {
 			pitchServ.addPitch(newPitch);
 		} catch (Exception e) {

@@ -15,7 +15,7 @@ function setRegistration() {
             <input id="lastname" name="lastname" type="text" />
             <br>
             <label for="email">Email:</label>
-            <input id="email" name="email" type="text" />
+            <input id="email" name="email" type="email" placeholder="username@domain.com" />
             <br>
             <label for="username">Username:</label>
             <input id="username" name="username" type="text" />
@@ -23,10 +23,10 @@ function setRegistration() {
             <label for="password">Pasword:</label>
             <input id="password" name="password" type="password" />
             <br>
-            <button type="button" id="submitBtn"">submit</button>
+            <button type="button" id="registerUser" class="submitBtn">submit</button>
         </form>
     `;
-    let submitBtn = document.getElementById('submitBtn');
+    let submitBtn = document.getElementById('registerUser');
     submitBtn.onclick = registerAuthor;
 }
 
@@ -45,7 +45,6 @@ async function registerAuthor() {
         }
     };
 
-    console.log(data);
     let response = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(data)
