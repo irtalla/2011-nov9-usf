@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,14 +49,19 @@ public class StoryTypeHibernatePostgres implements StoryTypeDAO {
 
 	@Override
 	public Set<StoryType> getAll() {
-		Set<StoryType> types = new HashSet<>();
+		Set<StoryType> types = new HashSet<>(getAllOrdered());
+		return types;
+	}
+	
+	@Override
+	public List<StoryType> getAllOrdered() {
+		List<StoryType> types = new ArrayList<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM StoryType";
+			String hql = "FROM StoryType ORDER BY id";
 			Query<StoryType> q = s.createQuery(hql, StoryType.class);
-			List<StoryType> resultList = q.getResultList();
-			types = new HashSet<>(resultList);
+			types = q.getResultList();
 		} catch (Exception e) {
 			e.getCause().printStackTrace();
 		}

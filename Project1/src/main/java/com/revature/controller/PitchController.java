@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import com.revature.models.Genre;
@@ -139,7 +140,7 @@ public class PitchController {
 	
 	// Fetching additional classes for front-end
 	public static void getGenres(Context ctx) {
-		Set<Genre> genres = pitchServ.getAllGenre();
+		List<Genre> genres = pitchServ.getAllGenre();
 		if (genres != null) {
 			ctx.status(200);
 			ctx.json(genres);
@@ -149,7 +150,7 @@ public class PitchController {
 	}
 	
 	public static void getStoryTypes(Context ctx) {
-		Set<StoryType> types = pitchServ.getAllStoryType();
+		List<StoryType> types = pitchServ.getAllStoryType();
 		if (types != null) {
 			ctx.status(200);
 			ctx.json(types);
@@ -159,7 +160,7 @@ public class PitchController {
 	}
 	
 	public static void getPitchStages(Context ctx) {
-		Set<PitchStage> stages = pitchServ.getAllPitchStage();
+		List<PitchStage> stages = pitchServ.getAllPitchStage();
 		if (stages != null) {
 			ctx.status(200);
 			ctx.json(stages);
@@ -169,7 +170,7 @@ public class PitchController {
 	}
 	
 	public static void getReviewStatus(Context ctx) {
-		Set<ReviewStatus> status = pitchServ.getAllReviewStatus();
+		List<ReviewStatus> status = pitchServ.getAllReviewStatus();
 		if (status != null) {
 			ctx.status(200);
 			ctx.json(status);
@@ -179,7 +180,7 @@ public class PitchController {
 	}
 	
 	public static void getPriorities(Context ctx) {
-		Set<String> priorities = pitchServ.getPriorities();
+		List<String> priorities = pitchServ.getPriorities();
 		if (priorities != null) {
 			ctx.status(200);
 			ctx.json(priorities);

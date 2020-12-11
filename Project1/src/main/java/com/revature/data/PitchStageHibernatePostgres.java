@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,14 +50,19 @@ public class PitchStageHibernatePostgres implements PitchStageDAO {
 
 	@Override
 	public Set<PitchStage> getAll() {
-		Set<PitchStage> stages = new HashSet<>();
+		Set<PitchStage> stages = new HashSet<>(getAllOrdered());
+		return stages;
+	}
+	
+	@Override
+	public List<PitchStage> getAllOrdered() {
+		List<PitchStage> stages = new ArrayList<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM PitchStage";
+			String hql = "FROM PitchStage ORDER BY id";
 			Query<PitchStage> q = s.createQuery(hql, PitchStage.class);
-			List<PitchStage> resultList = q.getResultList();
-			stages = new HashSet<>(resultList);
+			stages = q.getResultList();
 		} catch (Exception e) {
 			e.getCause().printStackTrace();
 		}

@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,22 +50,26 @@ public class GenreHibernatePostgres implements GenreDAO {
 
 	@Override
 	public Set<Genre> getAll() {
-		Set<Genre> genres = new HashSet<>();
+		Set<Genre> genres = new HashSet<>(getAllOrdered());
+		return genres;
+	}
+
+	@Override
+	public List<Genre> getAllOrdered() {
+		List<Genre> genres = new ArrayList<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			String hql = "FROM Genre ORDER BY id";
 			Query<Genre> q = s.createQuery(hql, Genre.class);
-			List<Genre> resultList = q.getResultList();
-			genres = new HashSet<>(resultList);
-			System.out.println(genres);
+			genres = q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return genres;
 	}
-
+	
 	@Override
 	public void update(Genre t) throws Exception {
 		try (Session s = sessionFactory.getCurrentSession()) {

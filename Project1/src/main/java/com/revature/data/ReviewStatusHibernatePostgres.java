@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,14 +50,19 @@ public class ReviewStatusHibernatePostgres implements ReviewStatusDAO {
 
 	@Override
 	public Set<ReviewStatus> getAll() {
-		Set<ReviewStatus> status = new HashSet<>();
+		Set<ReviewStatus> status = new HashSet<>(getAllOrdered());
+		return status;
+	}
+	
+	@Override
+	public List<ReviewStatus> getAllOrdered() {
+		List<ReviewStatus> status = new ArrayList<>();
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "FROM ReviewStatus";
+			String hql = "FROM ReviewStatus ORDER BY id";
 			Query<ReviewStatus> q = s.createQuery(hql, ReviewStatus.class);
-			List<ReviewStatus> resultList = q.getResultList();
-			status = new HashSet<>(resultList);
+			status = q.getResultList();
 		} catch (Exception e) {
 			e.getCause().printStackTrace();
 		}

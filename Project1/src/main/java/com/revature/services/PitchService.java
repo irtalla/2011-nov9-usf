@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.List;
 import java.util.Set;
 
 import com.revature.models.Genre;
@@ -22,9 +23,9 @@ public interface PitchService {
 	public Set<Pitch> getAllPitches();
 	public void updatePitch(Pitch t) throws Exception;
 	public void deletePitch(Pitch t);
-	public Set<Genre> getAllGenre();
-	public Set<StoryType> getAllStoryType();
-	public Set<PitchStage> getAllPitchStage();
-	public Set<ReviewStatus> getAllReviewStatus();
-	public Set<String> getPriorities();
+	public List<Genre> getAllGenre();
+	public List<StoryType> getAllStoryType();
+	public List<PitchStage> getAllPitchStage();
+	public List<ReviewStatus> getAllReviewStatus();
+	public List<String> getPriorities();
 }

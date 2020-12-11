@@ -1,6 +1,8 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.revature.data.AdditionalFileDAOFactory;
@@ -107,32 +109,32 @@ public class PitchServiceImpl implements PitchService {
 	
 	// Genre-related
 	@Override
-	public Set<Genre> getAllGenre() {
-		return genreDao.getAll();
+	public List<Genre> getAllGenre() {
+		return genreDao.getAllOrdered();
 	}
 	
 	// StoryType-related
 	@Override
-	public Set<StoryType> getAllStoryType() {
-		return stDao.getAll();
+	public List<StoryType> getAllStoryType() {
+		return stDao.getAllOrdered();
 	}
 	
 	// PitchStage-related
 	@Override
-	public Set<PitchStage> getAllPitchStage() {
-		return psDao.getAll();
+	public List<PitchStage> getAllPitchStage() {
+		return psDao.getAllOrdered();
 	}
 	
 	// ReviewStatus-related
 	@Override
-	public Set<ReviewStatus> getAllReviewStatus() {
-		return rsDao.getAll();
+	public List<ReviewStatus> getAllReviewStatus() {
+		return rsDao.getAllOrdered();
 	}
 	
 	// Priority-related
 	@Override
-	public Set<String> getPriorities() {
-		Set<String> priorities = new HashSet<>();
+	public List<String> getPriorities() {
+		List<String> priorities = new ArrayList<>();
 		for (Priority p : Priority.values()) {
 			priorities.add(p.label);
 		}
