@@ -21,6 +21,9 @@ public class TRMSJavalin {
 			path("users", () -> {
 				put(PersonController::login);//login
 				get(PersonController::checkLogin);
+				path("logout", ()->{
+					
+				});
 			});
 			
 			path("events", () -> {
@@ -43,6 +46,8 @@ public class TRMSJavalin {
 				path("accept/:id", () -> {
 					post(ClaimController::accept);
 				});
+				
+				post(ClaimController::makeClaim);
 			});
 		});
 	}

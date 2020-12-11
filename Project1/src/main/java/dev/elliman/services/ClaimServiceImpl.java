@@ -5,7 +5,9 @@ import java.util.Set;
 
 import dev.elliman.beans.Claim;
 import dev.elliman.beans.Event;
+import dev.elliman.beans.Grading;
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Stage;
 import dev.elliman.data.ClaimDAO;
 import dev.elliman.data.ClaimDAOFactory;
 
@@ -54,6 +56,21 @@ public class ClaimServiceImpl implements ClaimService {
 	@Override
 	public List<Event> getEventTypes() {
 		return claimDAO.getEventTypes();
+	}
+
+	@Override
+	public Event getEventByID(Integer id) {
+		return claimDAO.getEventByID(id);
+	}
+
+	@Override
+	public Stage getStageByID(Integer id) {
+		return claimDAO.getStageByID(id);
+	}
+
+	@Override
+	public Grading getGrading(Grading grading) {
+		return claimDAO.getGrading(grading);
 	}
 
 }

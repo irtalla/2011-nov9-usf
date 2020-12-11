@@ -3,6 +3,7 @@ package dev.elliman.data;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -14,6 +15,7 @@ import org.hibernate.query.Query;
 
 import dev.elliman.beans.Claim;
 import dev.elliman.beans.Event;
+import dev.elliman.beans.Grading;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.Stage;
 import dev.elliman.utils.HibernateUtil;
@@ -153,5 +155,41 @@ public class ClaimHibernatePostgres implements ClaimDAO{
 		Query<Event> q = s.createQuery(query);
 		List<Event> events = q.getResultList();
 		return events;
+	}
+
+	@Override
+	public Stage getStageByID(Integer id) {
+		Session s = hu.getSession();
+		Stage stage = s.get(Stage.class, id);
+		s.close();
+		return stage;
+	}
+
+	@Override
+	public Event getEventByID(Integer id) {
+		Session s = hu.getSession();
+		Event e = s.get(Event.class, id);
+		s.close();
+		return e;
+	}
+
+	@Override
+	public Grading getGrading(Grading grading) {
+		Session s = hu.getSession();
+		String query = "from Grading where hasPresentation = :hasPresentation and passingPercentage = :passingPercentage and passingLetter = :passingLetter";
+		Query<Grading> q = s.createQuery(query);
+		q.setParameter("hasPresentation", grading.getHasPresentation());
+		q.setParameter("passingPercentage", grading.getPassingPercentage());
+		q.setParameter("passingLetter", grading.getPassingLetter());
+		Grading g;
+		try {
+			g = q.getSingleResult();
+		} catch (NoResultException e) {
+			s.save(grading);
+			g = grading;
+		}
+		
+		s.close();
+		return g;
 	}
 }

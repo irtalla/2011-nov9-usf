@@ -1,9 +1,12 @@
 package dev.elliman.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import dev.elliman.beans.Claim;
 import dev.elliman.beans.Event;
+import dev.elliman.beans.Grading;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.Stage;
 import dev.elliman.services.ClaimService;
@@ -106,5 +109,77 @@ public class ClaimController {
 		} else {
 			ctx.status(500);
 		}
+	}
+	
+	public static void makeClaim(Context ctx) {
+		String stringClaim = ctx.body();
+		stringClaim = stringClaim.substring(1, stringClaim.length()-1);
+		
+		//break down the json into the fields and values
+		Claim c = new Claim();
+		Grading g = new Grading();
+		LocalDateTime ldt = null;
+		String dateString = null;
+		String timeString = null;
+		String[] parts = stringClaim.split(",");
+		for(String part : parts) {
+			String[] sections = part.split(":");
+			String field = sections[0].substring(1, sections[0].length()-1);
+			String valueSection = sections[1];
+			
+			if("title".equals(field)) {
+				c.setTitle(valueSection.substring(1, valueSection.length()-1));
+			} else if("event".equals(field)) {
+				Integer eventID = Integer.valueOf(valueSection);
+				Event e = cs.getEventByID(eventID);
+				c.setEvent(e);
+			} else if("hasPresentation".equals(field)) {
+				if("true".equals(valueSection)) {
+					g.setHasPresentation(true);
+				} else {
+					g.setHasPresentation(false);
+				}
+			} else if("passingPercentage".equals(field)) {
+				if(!"".equals(valueSection)) {
+					if(valueSection.substring(1, valueSection.length()-1).isEmpty()) {
+						g.setPassingPercentage(null);
+					} else  {
+						Double passingPercentage = Double.valueOf(valueSection.substring(1, valueSection.length()-1));
+						g.setPassingPercentage(passingPercentage);
+					}
+				}
+			} else if("passingLetter".equals(field)) {
+				if(!"\"N/A\"".equals(valueSection)) {
+					g.setPassingLetter(valueSection.substring(1, valueSection.length()-1));
+				} else {
+					g.setPassingLetter(null);
+				}
+			} else if("eventDate".equals(field)) {
+				dateString = valueSection.substring(1, valueSection.length()-1);
+			} else if("eventTime".equals(field)) {
+				timeString = sections[1].substring(1) + ":" + sections[2].substring(0, sections[2].length()-1);
+			} else if("eventLocation".equals(field)) {
+				c.setEventLocation(valueSection.substring(1, valueSection.length()-1));
+			} else if("description".equals(field)) {
+				c.setDescription(valueSection.substring(1, valueSection.length()-1));
+			} else if("price".equals(field)) {
+				Double price = Double.valueOf(valueSection.substring(1, valueSection.length()-1));
+				c.setPrice(price);
+			} else if("justification".equals(field)) {
+				c.setJustification(valueSection.substring(1, valueSection.length()-1));
+			} else if("hoursMissed".equals(field)) {
+				Integer hoursMissed = Integer.valueOf(valueSection.substring(1, valueSection.length()-1));
+				c.setHoursMissed(hoursMissed);
+			}
+		}
+		String dateTime = dateString + "T" + timeString + ":00";
+		ldt = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		c.setEventDate(ldt);
+		c.setApprovalStage(cs.getStageByID(1));
+		Person p = ctx.sessionAttribute("user");
+		c.setPersonID(p);
+		c.setGrading(cs.getGrading(g));
+		
+		cs.makeClaim(c);
 	}
 }

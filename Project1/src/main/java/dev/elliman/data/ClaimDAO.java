@@ -5,7 +5,9 @@ import java.util.Set;
 
 import dev.elliman.beans.Claim;
 import dev.elliman.beans.Event;
+import dev.elliman.beans.Grading;
 import dev.elliman.beans.Person;
+import dev.elliman.beans.Stage;
 
 public interface ClaimDAO {
 	
@@ -19,6 +21,9 @@ public interface ClaimDAO {
 	
 	//related read
 	public List<Event> getEventTypes();
+	public Stage getStageByID(Integer id);
+	public Event getEventByID(Integer id);
+	public Grading getGrading(Grading grading);
 	
 	//write
 	public Claim makeClaim(Claim claim);

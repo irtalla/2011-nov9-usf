@@ -18,7 +18,7 @@ public class Grading {
 	@Column(name="passing_percentage")
 	private Double passingPercentage;
 	@Column(name="passing_letter")
-	private Character passingLetter;
+	private String passingLetter;
 	
 	public Grading() {
 		id = null;
@@ -51,11 +51,11 @@ public class Grading {
 		this.passingPercentage = passingPercentage;
 	}
 
-	public Character getPassingLetter() {
+	public String getPassingLetter() {
 		return passingLetter;
 	}
 
-	public void setPassingLetter(Character passingLetter) {
+	public void setPassingLetter(String passingLetter) {
 		this.passingLetter = passingLetter;
 	}
 

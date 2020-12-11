@@ -4,6 +4,7 @@ var mainContentDiv;
 var claimsDiv;
 var newClaimDiv;
 var claims;
+var events;
 
 checkLogin().then(showClaims);
 
@@ -182,7 +183,7 @@ async function viewClaimDetails(index) {
                                 <h6>Location: </h6>
                             </div>
                             <div class="col justify-content-center">
-                                <h6>${claim.event.location}</h6>
+                                <h6>${claim.eventLocation}</h6>
                             </div>
                         </div>
 
@@ -191,7 +192,7 @@ async function viewClaimDetails(index) {
                                 <h6>Passing percentage: </h6>
                             </div>
                             <div class="col justify-content-center">
-                                <h6>${claim.grading.passingPercentage}</h6>
+                                <h6>${claim.grading.passingPercentage}%</h6>
                             </div>
                         </div>
 
@@ -309,8 +310,9 @@ async function makeNewClaim(){
                                     <form>
                                         <h6>Name of the event: </h6> <input id="eventName" type="text">
                                         <h6>Event Type:</h6><select id="eventOptions"></select>
-                                        <h6>Event Date:</h6><input id="eventDate type="datetime-local">
-                                        <h6>Event Location:</h6><input id="eventLocation type="text">
+                                        <h6>Event Date:</h6><input id="eventDate" type="date">
+                                        <h6>Event Time:</h6><input id="eventTime" type="time">
+                                        <h6>Event Location:</h6><input id="eventLocation" type="text">
                                         <h6>Passing percentage:<h6><input id="passingPercentage" type="number">
                                         <h6>Passing letter:</h6>
                                         <select id="passingLetter">
@@ -321,9 +323,11 @@ async function makeNewClaim(){
                                             <option>D</option>
                                         </select>
                                         <h6>Does this event require a presentation?<h6><input id="hasPresentation" type="checkbox">
-                                        <h6>Please privide a breif description of the event.</h6><textarea id=description></textarea>
+                                        <h6>Please privide a breif description of the event.</h6><textarea id="description"></textarea>
                                         <h6>Justification:</h6><input id="justification" type="text">
                                         <h6>Hours missed:</h6><input id="hoursMissed" type="number">
+                                        <h6>Cost: $</h6><input id="price" type="number">
+                                        <button type="button" onclick="submitNewClaim()">Submit</button>
                                     </form>
                                 </div>`;
 
@@ -338,7 +342,34 @@ async function makeNewClaim(){
             eventSelect.appendChild(option);
         }
     } else {
-        getClaimsList();
+        showClaims();
         alert('Something went wrong');
+    }
+}
+
+async function submitNewClaim(){
+    let event = events[document.getElementById('eventOptions').selectedIndex];
+
+    let claim = {
+        title : document.getElementById('eventName').value,
+        event : event.id,
+        hasPresentation : document.getElementById('hasPresentation').checked,
+        passingPercentage : document.getElementById('passingPercentage').value,
+        passingLetter : document.getElementById('passingLetter').value,
+        eventDate : document.getElementById('eventDate').value,
+        eventTime : document.getElementById('eventTime').value,
+        eventLocation : document.getElementById('eventLocation').value,
+        description : document.getElementById('description').value,
+        price : document.getElementById('price').value,
+        justification : document.getElementById('justification').value,
+        hoursMissed : document.getElementById('hoursMissed').value,
+    };
+
+    let response = await fetch(baseUrl + '/claims', {method : 'POST', body : JSON.stringify(claim)});
+    if(response.status === 200){
+        showClaims();
+    } else {
+        alert('Something went wrong')
+        showClaim();
     }
 }
