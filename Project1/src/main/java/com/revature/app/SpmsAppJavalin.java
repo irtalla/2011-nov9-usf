@@ -93,6 +93,10 @@ public class SpmsAppJavalin {
 					});
 				});
 				
+				path("file", () -> {
+					post(PitchController::uploadFile);
+				});
+				
 				path(":id", () -> {
 					get(PitchController::getPitchById);
 					put(PitchController::updatePitch);

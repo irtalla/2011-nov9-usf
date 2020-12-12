@@ -13,6 +13,7 @@ import com.revature.models.User;
 import com.revature.services.PitchService;
 import com.revature.services.PitchServiceImpl;
 
+import io.javalin.core.util.FileUtil;
 import io.javalin.http.Context;
 
 public class PitchController {
@@ -30,6 +31,12 @@ public class PitchController {
 			return;
 		}
 		ctx.status(200);
+	}
+	
+	public static void uploadFile(Context ctx) {
+		ctx.uploadedFiles("files").forEach(file -> {
+			FileUtil.streamToFile(file.getContent(),"upload/" + file.getFilename());
+		});
 	}
 	
 	public static void getPitchById(Context ctx) {

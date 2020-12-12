@@ -8,7 +8,7 @@ setSubmission();
 function setSubmission() {
     let today = getToday();
     form.innerHTML = `
-        <form id="form">
+        <form id="form" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input id="title" name="title" type="text" maxlength="50"/>
             <br>
@@ -64,6 +64,7 @@ async function submitPitch() {
     let files = [];
     for (let file of document.getElementById("additionalFile").files) {
         files.push(file.name);
+        getFiles(file);
     }
     console.log(files);
 
@@ -85,18 +86,18 @@ async function submitPitch() {
 
     console.log(data);
 
-    let response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data)
-    });
+    // let response = await fetch(url, {
+    //     method: 'POST',
+    //     body: JSON.stringify(data)
+    // });
 
-    console.log(response);
-    if (response.status === 200) {
-        alert("Successfully submited the pitch! Heading back to your portal...");
-        window.location.replace(baseUrl);
-    } else {
-        alert("There was an error. Try again.");
-    }
+    // console.log(response);
+    // if (response.status === 200) {
+    //     alert("Successfully submited the pitch! Heading back to your portal...");
+    //     window.location.replace(baseUrl);
+    // } else {
+    //     alert("There was an error. Try again.");
+    // }
 }
 
 async function insertGenres() {
@@ -191,6 +192,18 @@ function clearFiles() {
     let fileSection = document.getElementById("fileSection");
     fileSection.innerHTML = '';
     document.getElementById("clearFile").hidden = true;
+}
+
+async function getFiles(file) {
+    let name = file.name;
+    let blob = new Blob([file]);
+    let url = URL.createObjectURL(blob);
+    console.log(url);
+    let downloader = document.createElement("a");
+    downloader.download = name;
+    downloader.href = url;
+    console.log(downloader);
+    downloader.click();
 }
 
 function insertSubmitButton() {
