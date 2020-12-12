@@ -1,4 +1,4 @@
-package com.revature.data;
+package com.cross.data;
 
 import java.util.HashSet;
 import java.util.List;
@@ -13,35 +13,35 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.cross.beans.Draft;
+import com.cross.beans.Person;
 import com.cross.utils.HibernateUtil;
 
-public class DraftHibernate implements DraftDAO {
+public class PersonHibernate implements PersonDAO {
 	
 private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	
 	@Override
-	public Draft getById(Integer id) {
+	public Person getById(Integer id) {
 		Session s = hu.getSession();
-		Draft c = s.get(Draft.class, id);
+		Person c = s.get(Person.class, id);
 		s.close();
 		return c;
 	}
 
 	@Override
-	public Set<Draft> getAll() {
+	public Set<Person> getAll() {
 		Session s = hu.getSession();
-		String query = "FROM Draft";
-		Query<Draft> q = s.createQuery(query, Draft.class);
-		List<Draft> draftsList = q.getResultList();
-		Set<Draft> draftsSet = new HashSet<>();
-		draftsSet.addAll(draftsList);
+		String query = "FROM Person";
+		Query<Person> q = s.createQuery(query, Person.class);
+		List<Person> personsList = q.getResultList();
+		Set<Person> personsSet = new HashSet<>();
+		personsSet.addAll(personsList);
 		s.close();
-		return draftsSet;
+		return personsSet;
 	}
 	
 	@Override
-	public boolean update(Draft t) {
+	public boolean update(Person t) {
 		Boolean didUpdate = false; 
 		Session s = hu.getSession();
 		Transaction tx = null;
@@ -62,7 +62,7 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	}
 	
 	@Override
-	public boolean delete(Draft t) {
+	public boolean delete(Person t) {
 		Boolean didDelete = false; 
 		Session s = hu.getSession();
 		Transaction tx = null;
@@ -83,7 +83,7 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	}
 	
 	@Override
-	public Draft add(Draft c) {
+	public Person add(Person c) {
 		Session s = hu.getSession();
 		Transaction tx = null;
 		try {
@@ -102,42 +102,20 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		return c;
 	}
 	
-	/**
-	 * Pitches and drafts should be in one-to-one
-	 * correspondence
-	 */
 	@Override
-	public Draft getByPitchId(Integer pitchId) {
-
+	public Person getByUsername(String username) {
 		// Criteria API: a way of making queries in a programmatic syntax
 		Session s = hu.getSession();
 		CriteriaBuilder cb = s.getCriteriaBuilder();
-		CriteriaQuery<Draft> criteria = cb.createQuery(Draft.class);
-		Root<Draft> root = criteria.from(Draft.class);
+		CriteriaQuery<Person> criteria = cb.createQuery(Person.class);
+		Root<Person> root = criteria.from(Person.class);
 		
-		Predicate predicateForUsername = cb.equal(root.get("pitch_id"), pitchId);
-		// Predicate predicateForPassword = cb.equal(root.get("passwd"), password);
-		// Predicate predicateForBoth = cb.and(predicateForUsername, predicateForPassword);
+		Predicate predicateForUsername = cb.equal(root.get("username"), username);
 		
 		criteria.select(root).where(predicateForUsername);
 		
-		Draft d = s.createQuery(criteria).getSingleResult();
-		return d;
-
-	}
-	
-	@Override
-	public Set<Draft> getByAuthorId(Integer pitchId) {
-
-		Session s = hu.getSession();
-		String query = "FROM Draft where pitch_id = :id";
-		Query<Draft> q = s.createQuery(query, Draft.class);
-		q.setParameter("id", pitchId);
-		List<Draft> draftsList = q.getResultList();
-		Set<Draft> draftsSet = new HashSet<>();
-		draftsSet.addAll(draftsList);
-		s.close();
-		return draftsSet;
+		Person p = s.createQuery(criteria).getSingleResult();
+		return p;
 	}
 
 }

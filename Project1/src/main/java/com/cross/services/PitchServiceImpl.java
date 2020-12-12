@@ -13,9 +13,9 @@ import com.cross.beans.Pitch;
 import com.cross.beans.Priority;
 import com.cross.beans.Stage;
 import com.cross.beans.Status;
-import com.revature.data.PitchDAO;
-import com.revature.data.PitchHibernate;
-import com.revature.data.UtilityDAO;
+import com.cross.data.PitchDAO;
+import com.cross.data.PitchHibernate;
+import com.cross.data.UtilityDAO;
 
 public class PitchServiceImpl implements PitchService {
 	

@@ -1,4 +1,4 @@
-package com.revature.data;
+package com.cross.data;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import com.cross.beans.Comment;
 import com.cross.beans.Decision;
+import com.cross.data.CommentDAO;
+import com.cross.data.CommentHibernate;
 import com.cross.utils.StringGenerator;
 
 
@@ -30,7 +32,7 @@ public class CommentHibernateTest {
 		Random rand = new Random(); 
 		for (int i = 0; i < 200; ++i) {
 			Comment c = new Comment(); 
-			c.setCommenterId( 1 + rand.nextInt(3) );
+			c.setCommentorId( 1 + rand.nextInt(3) );
 			c.setRequestId(1 + rand.nextInt(20) );
 			c.setContent( StringGenerator.randomString(5) );
 			c.setCreationTime( LocalDateTime.now() );

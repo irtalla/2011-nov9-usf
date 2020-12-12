@@ -1,4 +1,4 @@
-package com.revature.data;
+package com.cross.data;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +20,9 @@ import com.cross.beans.Pitch;
 import com.cross.beans.Priority;
 import com.cross.beans.Stage;
 import com.cross.beans.Status;
+import com.cross.data.PitchDAO;
+import com.cross.data.PitchHibernate;
+import com.cross.data.UtilityDAO;
 import com.cross.utils.StringGenerator;
 
 public class PitchHibernateTest {

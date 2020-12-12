@@ -3,8 +3,8 @@ package com.cross.services;
 import java.util.Set;
 
 import com.cross.beans.Decision;
-import com.revature.data.DecisionDAO;
-import com.revature.data.DecisionHibernate;
+import com.cross.data.DecisionDAO;
+import com.cross.data.DecisionHibernate;
 
 public class DecisionServiceImpl implements DecisionService {
 	

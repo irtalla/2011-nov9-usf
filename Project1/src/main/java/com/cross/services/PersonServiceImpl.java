@@ -3,8 +3,8 @@ package com.cross.services;
 import java.util.Set;
 
 import com.cross.beans.Person;
-import com.revature.data.PersonDAO;
-import com.revature.data.PersonHibernate;
+import com.cross.data.PersonDAO;
+import com.cross.data.PersonHibernate;
 
 public class PersonServiceImpl implements PersonService {
 	private PersonDAO personDao;

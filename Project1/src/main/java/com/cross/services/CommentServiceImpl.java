@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import com.cross.beans.Comment;
-import com.revature.data.CommentDAO;
-import com.revature.data.CommentHibernate;
+import com.cross.data.CommentDAO;
+import com.cross.data.CommentHibernate;
 
 public class CommentServiceImpl implements CommentService {
 	

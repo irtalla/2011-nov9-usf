@@ -3,8 +3,8 @@ package com.cross.services;
 import java.util.Set;
 
 import com.cross.beans.Request;
-import com.revature.data.RequestDAO;
-import com.revature.data.RequestHibernate;
+import com.cross.data.RequestDAO;
+import com.cross.data.RequestHibernate;
 
 public class RequestServiceImpl implements RequestService {
 

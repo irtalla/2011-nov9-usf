@@ -1,4 +1,4 @@
-package com.revature.data;
+package com.cross.data;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import com.cross.beans.Decision;
 import com.cross.beans.DecisionType;
+import com.cross.data.DecisionDAO;
+import com.cross.data.UtilityDAO;
 import com.cross.utils.StringGenerator;
 
 public class DecisionHibernateTest {

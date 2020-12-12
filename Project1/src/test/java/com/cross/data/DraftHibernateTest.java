@@ -1,4 +1,4 @@
-package com.revature.data;
+package com.cross.data;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 import com.cross.beans.Draft;
 import com.cross.beans.Status;
+import com.cross.data.DraftDAO;
+import com.cross.data.DraftHibernate;
+import com.cross.data.UtilityDAO;
 import com.cross.utils.StringGenerator;
 
 public class DraftHibernateTest {
