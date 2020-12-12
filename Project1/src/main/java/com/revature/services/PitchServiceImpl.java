@@ -179,9 +179,9 @@ public class PitchServiceImpl implements PitchService {
 						System.out.println(fileNames);
 						for (Object f : fileNames) {
 							AdditionalFile af = new AdditionalFile();
-							String path = f.toString();
+							String path = "src/main/resources/files/pitch_0/initial/" + f.toString();
 							af.setId(1);
-							af.setPath(f.toString());
+							af.setPath(path);
 							try {
 								af.setId(afDao.add(af));
 							} catch (Exception e) {
@@ -291,7 +291,9 @@ public class PitchServiceImpl implements PitchService {
 		if (p.getAdditionalFiles() == null || p.getAdditionalFiles().size() == 0) return;
 		
 		for (AdditionalFile af : p.getAdditionalFiles()) {
-			String path = "src/main/resources/files/pitch_" + p.getId() + "/initial/" + af.getPath();
+			String path = af.getPath();
+			int index = path.indexOf('0');
+			path = path.substring(0,index) + p.getId() + path.substring(index + 1);
 			af.setPath(path);
 			try {
 				afDao.update(af);
