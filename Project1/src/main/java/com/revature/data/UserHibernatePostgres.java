@@ -31,7 +31,6 @@ public class UserHibernatePostgres implements UserDAO {
 			}
 		} catch (Exception e) {
 			if (e.getCause().getMessage().contains("violates unique constraint")) {
-				System.out.println(e.getMessage() + "layer 1");
 				if (e.getCause().getMessage().contains("username")) {
 					throw new NonUniqueUsernameException();
 				} else if (e.getCause().getMessage().contains("email")) {

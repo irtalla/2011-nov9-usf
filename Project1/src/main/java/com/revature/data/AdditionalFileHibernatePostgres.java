@@ -45,6 +45,23 @@ public class AdditionalFileHibernatePostgres implements AdditionalFileDAO {
 		
 		return af;
 	}
+	
+	@Override
+	public AdditionalFile getByPath(String path) {
+		AdditionalFile af = null;
+		
+		try (Session s = sessionFactory.getCurrentSession()) {
+			s.beginTransaction();
+			String hql = "FROM AdditionalFile where path = :path";
+			Query<AdditionalFile> q = s.createQuery(hql, AdditionalFile.class);
+			q.setParameter("path", path);
+			af = q.getSingleResult();
+		} catch (Exception e) {
+			e.getCause().printStackTrace();
+		}
+		
+		return af;
+	}
 
 	@Override
 	public Set<AdditionalFile> getAll() {

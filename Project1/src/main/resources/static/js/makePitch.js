@@ -8,7 +8,7 @@ setSubmission();
 function setSubmission() {
     let today = getToday();
     form.innerHTML = `
-        <form id="form" enctype="multipart/form-data">
+        <form id="form" enctype=multipart/form-data">
             <label for="title">Title:</label>
             <input id="title" name="title" type="text" maxlength="50"/>
             <br>
@@ -64,9 +64,9 @@ async function submitPitch() {
     let files = [];
     for (let file of document.getElementById("additionalFile").files) {
         files.push(file.name);
-        getFiles(file);
+        // getFiles(file);
     }
-    console.log(files);
+    // console.log(files);
 
     let data = {
         id: 0,
@@ -84,20 +84,21 @@ async function submitPitch() {
         additionalFiles: files
     };
 
-    console.log(data);
+    // console.log(data);
 
-    // let response = await fetch(url, {
-    //     method: 'POST',
-    //     body: JSON.stringify(data)
-    // });
+    let response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data)
+    });
 
     // console.log(response);
-    // if (response.status === 200) {
-    //     alert("Successfully submited the pitch! Heading back to your portal...");
-    //     window.location.replace(baseUrl);
-    // } else {
-    //     alert("There was an error. Try again.");
-    // }
+    if (response.status === 200) {
+        alert("Successfully submited the pitch! Heading back to your portal...");
+        uploadFiles(files);
+        window.location.replace(baseUrl);
+    } else {
+        alert("There was an error. Try again.");
+    }
 }
 
 async function insertGenres() {
@@ -108,8 +109,6 @@ async function insertGenres() {
     document.getElementById("form").appendChild(label);
     let selection = document.createElement("select");
     selection.id = "genre";
-    console.log()
-
     selection.name = "genre";
     document.getElementById("form").appendChild(selection);
     let genres = await getGenres();
@@ -180,7 +179,6 @@ function handleFiles(e) {
     for (let i = 0; i < files.length; i++) {
         let file = files[i];
         fileSection.innerHTML += file.name + "<br/>";
-        console.log(file);
     }
     document.getElementById("clearFile").hidden = false;
 }
@@ -204,6 +202,27 @@ async function getFiles(file) {
     downloader.href = url;
     console.log(downloader);
     downloader.click();
+}
+
+async function uploadFiles() {
+    let url = baseUrl + "/pitch/file";
+    let data = new FormData();
+    let files = document.getElementById("additionalFile").files;
+    let len = files.length;
+    for (let i = 0; i < len; i++) {
+        data.append("files[]", files[i], files[i].name);
+        console.log(files[i].name);
+    }
+
+    let response = await fetch(url, {
+        method: 'POST',
+        body: data
+    });
+    if (response.status === 200) {
+        alert("Files successfully uploaded!");
+    } else {
+        alert("There was an error. Try again.");
+    }
 }
 
 function insertSubmitButton() {

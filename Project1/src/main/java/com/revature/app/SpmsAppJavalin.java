@@ -2,10 +2,6 @@ package com.revature.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
-import javax.annotation.PostConstruct;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.revature.controller.PitchController;
 import com.revature.controller.UserController;
 
@@ -13,8 +9,6 @@ import io.javalin.Javalin;
 
 public class SpmsAppJavalin {
 
-	private ObjectMapper objectMapper;
-	
 	public static void main(String[] args) {
 		Javalin app = Javalin.create((config) -> {
 			config.addStaticFiles("/static");
@@ -105,11 +99,6 @@ public class SpmsAppJavalin {
 			});
 		});
 		
-	}
-	
-	@PostConstruct
-	public void setUp() {
-		objectMapper.registerModule(new JavaTimeModule());
 	}
 	
 }

@@ -15,7 +15,7 @@ public class AdditionalFile {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name="file_name")
+	@Column(name="path")
 	private String path;
 	
 	public AdditionalFile() {

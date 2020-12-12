@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.revature.models.AdditionalFile;
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
@@ -48,6 +49,24 @@ public class PitchHibernatePostgres implements PitchDAO {
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
 			p = s.get(Pitch.class, id);
+			p.setPriority(checkPriority(p));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return p;
+	}
+	
+	@Override
+	public Pitch getByAdditionalFile(AdditionalFile file) {
+		Pitch p = null;
+		
+		try (Session s = sessionFactory.getCurrentSession()) {
+			s.beginTransaction();
+			String hql = "SELECT p FROM Pitch p JOIN p.pitch_add_file paf WHERE paf.id = :paf__id";
+			Query<Pitch> q = s.createQuery(hql, Pitch.class);
+			q.setParameter("paf_id", file.getId());
+			p = q.getSingleResult();
 			p.setPriority(checkPriority(p));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,6 +211,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 		pitches.removeIf( p -> p.getPriority() != priority);
 		return pitches;
 	}
+	
 	@Override
 	public Set<Pitch> getAll() {
 		Set<Pitch> pitches = new HashSet<>();
@@ -246,4 +266,5 @@ public class PitchHibernatePostgres implements PitchDAO {
 		
 		return p;
 	}
+
 }

@@ -3,6 +3,8 @@ package com.revature.controller;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.Part;
+
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
@@ -24,7 +26,6 @@ public class PitchController {
 		Pitch newPitch = pitchServ.parseContext(ctx.body());
 		try {
 			Integer newId = pitchServ.addPitch(newPitch);
-			pitchServ.updateFilePaths(newId);
 		} catch (Exception e) {
 			System.out.println("An exception occurred");
 			ctx.status(400);
@@ -34,9 +35,12 @@ public class PitchController {
 	}
 	
 	public static void uploadFile(Context ctx) {
-		ctx.uploadedFiles("files").forEach(file -> {
-			FileUtil.streamToFile(file.getContent(),"upload/" + file.getFilename());
+		ctx.uploadedFiles("files[]").forEach(file -> {
+			FileUtil.streamToFile(file.getContent(),"./src/main/resources/files/temp/" + file.getFilename());
+			pitchServ.updateFilePaths(file.getFilename());
+			System.out.println(file.getFilename());
 		});
+
 	}
 	
 	public static void getPitchById(Context ctx) {

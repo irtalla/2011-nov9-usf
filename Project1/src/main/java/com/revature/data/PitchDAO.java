@@ -2,6 +2,7 @@ package com.revature.data;
 
 import java.util.Set;
 
+import com.revature.models.AdditionalFile;
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
@@ -17,5 +18,5 @@ public interface PitchDAO extends GenericDAO<Pitch> {
 	public Set<Pitch> getByPitchStage(PitchStage stage);
 	public Set<Pitch> getByReviewStatus(ReviewStatus status);
 	public Set<Pitch> getByPriority(Priority priority);
-	
+	public Pitch getByAdditionalFile(AdditionalFile file);
 }

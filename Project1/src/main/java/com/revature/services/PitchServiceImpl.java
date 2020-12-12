@@ -179,7 +179,7 @@ public class PitchServiceImpl implements PitchService {
 						System.out.println(fileNames);
 						for (Object f : fileNames) {
 							AdditionalFile af = new AdditionalFile();
-							String path = "src/main/resources/files/pitch_0/initial/" + f.toString();
+							String path = "./src/main/resources/files/temp/" + f.toString();
 							af.setId(1);
 							af.setPath(path);
 							try {
@@ -286,28 +286,15 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	@Override
-	public void updateFilePaths(Integer id) {
-		Pitch p = this.getPitchById(id);
-		if (p.getAdditionalFiles() == null || p.getAdditionalFiles().size() == 0) return;
+	public String updateFilePaths(String file) {
+		String path = "./src/main/resources/files/temp/" + file;
 		
-		for (AdditionalFile af : p.getAdditionalFiles()) {
-			String path = af.getPath();
-			int index = path.indexOf('0');
-			path = path.substring(0,index) + p.getId() + path.substring(index + 1);
-			af.setPath(path);
-			try {
-				afDao.update(af);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		AdditionalFile af = afDao.getByPath(path);
+		System.out.println(af);
+		Pitch p = pitchDao.getByAdditionalFile(af);
+		System.out.println(p);
 		
-		try {
-			this.updatePitch(p);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		return path;
 	}
 
 }
