@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.cross.beans.Comment;
 import com.cross.beans.Decision;
+import com.cross.exceptions.InvalidGeneralEditorException;
 
 public interface DecisionDAO {
 
@@ -15,7 +16,7 @@ public interface DecisionDAO {
 
 	boolean delete(Decision t);
 
-	Decision add(Decision c);
+	Decision add(Decision c) throws InvalidGeneralEditorException;
 
 	Set<Decision> getByEditorId(Integer editorId);
 

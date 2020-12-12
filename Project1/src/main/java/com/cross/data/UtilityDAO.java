@@ -189,7 +189,7 @@ public class UtilityDAO {
 	}
 	public static DecisionType getByName(DecisionType o, String name) {
 		return (DecisionType) hu.getSession()
-				.createQuery( "from decision_type where name = :name")
+				.createQuery( "from DecisionType where name = :name")
 				.setParameter("name", name)
 				.getSingleResult();
 	}

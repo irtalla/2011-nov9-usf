@@ -5,6 +5,7 @@ import java.util.Set;
 import com.cross.beans.Decision;
 import com.cross.data.DecisionDAO;
 import com.cross.data.DecisionHibernate;
+import com.cross.exceptions.InvalidGeneralEditorException;
 
 public class DecisionServiceImpl implements DecisionService {
 	
@@ -15,7 +16,12 @@ public class DecisionServiceImpl implements DecisionService {
 	}
 	@Override
 	public Decision add(Decision d) {
-		return decisionDAO.add(d);
+		try {
+			return decisionDAO.add(d);
+		} catch (InvalidGeneralEditorException e) {
+			e.printStackTrace();
+			return null; 
+		}
 	}
 
 	@Override

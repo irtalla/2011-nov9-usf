@@ -110,7 +110,7 @@ public class DecisionHibernate implements DecisionDAO {
 	
 	
 	@Override
-	public Decision add(Decision d) {
+	public Decision add(Decision d) throws InvalidGeneralEditorException {
 		
 		Session s = hu.getSession(); 
 		Transaction tx = null;
@@ -120,13 +120,8 @@ public class DecisionHibernate implements DecisionDAO {
 			Person editor = personDAO.getById( d.getEditorId() );
 			Set<Decision> prevDecisions = getByPitchId(d.getPitchId());
 			Set<Person> genreCommittee = personDAO.getAll();
-			for (Person p : genreCommittee) {
-				if ( ! p.getGenres().contains(pitch.getGenre()) ||
-						p.getRole().getName().contains("Editor") ) {
-					genreCommittee.remove(p);
-				}
-			}
-			
+			genreCommittee.removeIf( p -> ! p.getGenres().contains( pitch.getGenre() ));
+
 			
 			// Approval cases
 			if ( isApproval(d) ) {
@@ -138,8 +133,8 @@ public class DecisionHibernate implements DecisionDAO {
 					pitchDAO.update(pitch); 
 					break;
 				case "GENERAL REVIEW":
-					if ( editor.getGenres().contains(pitch.getGenre()) ) {
-						throw new InvalidGeneralEditorException(); 
+					if ( editor.getGenres().removeIf(g -> g.getId() == pitch.getGenre().getId() ) ) {
+						 throw new InvalidGeneralEditorException(); 
 					} else {
 						pitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
 						pitch.setStage( UtilityDAO.getByName(new Stage(), "senior review"));
@@ -210,7 +205,7 @@ public class DecisionHibernate implements DecisionDAO {
 					pitchDAO.update(pitch); 
 					break;
 				case "GENERAL REVIEW":
-					if ( editor.getGenres().contains(pitch.getGenre()) ) {
+					if ( editor.getGenres().removeIf(g -> g.getId() == pitch.getGenre().getId() ) ) {
 						throw new InvalidGeneralEditorException(); 
 					} else {
 						pitch.setStatus( UtilityDAO.getByName(new Status(), "rejected"));
