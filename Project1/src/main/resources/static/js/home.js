@@ -249,19 +249,49 @@ async function viewClaimDetails(index) {
                         </div>
 
                     `;//</div>
+    
+    //list all the uploaded files
+    let response = await fetch(baseUrl + '/attachment/' + claim.id);
+    if(response.status === 200){
+        let fileNameArray = await response.json();
+
+        let fileNamesHeader = `<div class="row">
+                                    <div class="col justify-content-center">
+                                        <h3 class="titleText">Attached Files</h3>
+                                    </div>
+                                </div>`;
+        claimHTML += fileNamesHeader;
+
+        for(let i in fileNameArray){
+            let fileNameHTML = `<div class="row">
+                                    <div class="col">
+                                        <h6 onclick="downloadFile(${claim.id},'${fileNameArray[i]}')">${fileNameArray[i]}</h6>
+                                    </div>
+                                </div>`;
+            claimHTML += fileNameHTML;
+        }
+    } else {
+        alert('Could not load uploaded files');
+    }
 
     if(user.role.id == 4){
         attachmentDiv = `<div id="attachmentDiv" class="row">
-                            <div class="col justify-content-left">
-                                <h6>Attach file:<h6>
+                            <div class="col justify-content-center">
+                                <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+                                <form action="attachment/${claim.id}" method="post" enctype="multipart/form-data" target="dummyframe">
+                                    <div class="col justify-content-left">
+                                        <h6>Attach file:<h6>
+                                    </div>
+                                    <div class="col justify-content-left">
+                                        <input id="fileInput" name="files" type="file" multiple>
+                                    </div>
+                                    <div class="col justify-content-left">
+                                        <button id="uploadButton" type="button" onclick="uploadFiles(${index})">Upload</button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="col justify-content-left">
-                                <input id="fileInput" type="file" multiple>
-                            </div>
-                            <div class="col justify-content-left">
-                                <button type="button" onclick="uploadFile(${claim.id})">Upload</button>
-                            </div>
-                        </div>`
+                        </div>`;
         claimHTML += attachmentDiv;
         claimHTML += `</div>`;
     } else if(user.role.id <= 3){
@@ -567,6 +597,36 @@ async function answerRFC(rfcIndex){
     }
 }
 
-async function uploadFile(claimID){
-    let files = documant.getElementById('fileInput').files;
-}
+ async function uploadFiles(claimIndex){
+    //console.log('called file upload');
+    //viewClaimDetails(claimIndex);
+
+    let input = document.getElementById('fileInput');
+    let files = input.files;
+
+    if(files.length == 0){
+        alert('No files selected.');
+        return;
+    }
+
+    let formData = new FormData();
+    
+    for(let i in files){
+        formData.append('files', files[i]);
+    }
+
+    let response = await fetch(baseUrl + '/attachment/' + claims[claimIndex].id, {
+        method : 'POST',
+        body : formData
+    });
+
+    if(response.status === 200){
+        viewClaimDetails(claimIndex);
+    } else {
+        alert('unable to upload files');
+    }
+ }
+
+ async function downloadFile(claimID, fileName){
+     console.log('download');
+ }

@@ -21,12 +21,12 @@ public class Attachment {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="claim")
 	private Claim claimID;
-	private File file;
+	private String fileName;
 	
 	public Attachment() {
 		id = null;
 		claimID = null;
-		file = null;
+		fileName = null;
 	}
 
 	public Integer getId() {
@@ -45,12 +45,12 @@ public class Attachment {
 		this.claimID = claimID;
 	}
 
-	public File getFile() {
-		return file;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setFile(File file) {
-		this.file = file;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class Attachment {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((claimID == null) ? 0 : claimID.hashCode());
-		result = prime * result + ((file == null) ? 0 : file.hashCode());
+		result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -77,10 +77,10 @@ public class Attachment {
 				return false;
 		} else if (!claimID.equals(other.claimID))
 			return false;
-		if (file == null) {
-			if (other.file != null)
+		if (fileName == null) {
+			if (other.fileName != null)
 				return false;
-		} else if (!file.equals(other.file))
+		} else if (!fileName.equals(other.fileName))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -92,8 +92,8 @@ public class Attachment {
 
 	@Override
 	public String toString() {
-		return "Atachment [id=" + id + ", claimID=" + claimID + ", file=" + file + "]";
+		return "Attachment [id=" + id + ", claimID=" + claimID + ", fileName=" + fileName + "]";
 	}
-	
+
 	
 }

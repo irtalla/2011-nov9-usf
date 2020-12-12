@@ -8,6 +8,8 @@ import dev.elliman.controller.PersonController;
 import io.javalin.Javalin;
 
 public class TRMSJavalin {
+	
+	public static final String STORAGE_FOLDER_LOCATION = "C:\\Users\\Will\\Revature\\Project1FileStorage";
 
 	public static void main(String[] args) {
 		Javalin app = Javalin.create((config) -> {
@@ -62,8 +64,9 @@ public class TRMSJavalin {
 				put(CommentController::answerComment);
 			});
 			
-			path("attachment", () -> {
-				
+			path("attachment/:id", () -> {
+				post(CommentController::uploadFile);
+				get(CommentController::getClaimFiles);
 			});
 		});
 	}

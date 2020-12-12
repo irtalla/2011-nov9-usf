@@ -1,7 +1,12 @@
 package dev.elliman.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import dev.elliman.app.TRMSJavalin;
 import dev.elliman.beans.Claim;
 import dev.elliman.beans.Person;
 import dev.elliman.beans.RFC;
@@ -10,8 +15,10 @@ import dev.elliman.services.ClaimServiceImpl;
 import dev.elliman.services.RFCService;
 import dev.elliman.services.RFCServiceImpl;
 import io.javalin.http.Context;
+import io.javalin.http.UploadedFile;
 
 public class CommentController {
+	
 	private static  ClaimService cs = new ClaimServiceImpl();
 	private static RFCService rfcs = new RFCServiceImpl();
 	
@@ -75,6 +82,59 @@ public class CommentController {
 			ctx.status(200);
 		} else {
 			ctx.status(500);
+		}
+	}
+	
+	public static void uploadFile(Context ctx) {
+		System.out.println();
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		final WorkaroundBoolean success = new WorkaroundBoolean();
+		success.setValue(Boolean.TRUE);
+		ctx.uploadedFiles("files").forEach(file -> {
+			File claimFolder = new File(TRMSJavalin.STORAGE_FOLDER_LOCATION + "\\f" + id);
+			if(!claimFolder.exists()) {
+				claimFolder.mkdir();
+			}
+			File dataFile = new File(claimFolder, file.getFilename());
+			try {
+				if(!dataFile.exists()) {
+					dataFile.createNewFile();
+				}
+				Files.copy(file.getContent(), Paths.get(dataFile.getAbsolutePath()), StandardCopyOption.REPLACE_EXISTING);
+			} catch (Exception e) {
+				e.printStackTrace();
+				success.setValue(Boolean.TRUE);
+			}
+		});
+		
+		if(success.getValue()) {
+			ctx.status(200);
+		} else {
+			ctx.status(500);
+		}
+	}
+	
+	public static void getClaimFiles(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		
+		File[] relatedFiles = new File(TRMSJavalin.STORAGE_FOLDER_LOCATION + "\\f" + id).listFiles();
+		String[] fileNames = new String[relatedFiles.length];
+		for(int i = 0; i < relatedFiles.length; i++) {
+			fileNames[i] = relatedFiles[i].getName();
+		}
+		ctx.json(fileNames);
+		ctx.status(200);
+	}
+	
+	private static class WorkaroundBoolean{
+		private Boolean value;
+		
+		public void setValue(Boolean b) {
+			value = b;
+		}
+		
+		public Boolean getValue() {
+			return value;
 		}
 	}
 }
