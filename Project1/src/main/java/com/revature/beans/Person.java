@@ -1,27 +1,81 @@
 package com.revature.beans;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import com.revature.exceptions.FeedbackAsAuthorException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+import com.revature.exceptions.FeedbackAsAuthorException;
+import com.revature.exceptions.NonAuthorHasPitchesException;
+import com.revature.exceptions.RequestAsAuthorException;
+
+@Entity
+@Table(name="person")
 public class Person {
-	private String firstName;
-	private String lastName;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
+	//columns:
+	@Column(name="username")
 	private String username;
+	
+	@Column(name="first_name")
+	private String firstName;
+	
+	@Column(name="last_name")
+	private String lastName;
+	
+	@Column(name="password")
 	private String password;
+	
+	@Column(name="bio")
 	private String bio;
-	private Genre genreSpecialty;
+	
+	@Enumerated(EnumType.STRING)
 	private Role role;
 	
-	private Set<Pitch> pitches;
+	//associations:
+	@OneToMany
+	@JoinColumn(name="author_id")
+	private Set<Pitch> pitches; //must be empty if role is not author
+	
+	@OneToMany
+	@JoinColumn(name="editor_id")
 	private Set<PitchFeedback> pitchFeedbackGiven; //as editor
-	private Set<PitchFeedback> pitchFeedbackReceived; //as editor
-	//authors receive pitch feedback through their pitches -> Dao
+	
+	//pitch feedback received handled via pitch
+	
+	@OneToMany
+	@JoinColumn(name="requesting_editor_id")
+	private Set<PitchInfoRequest> pitchInfoRequestsMade;
+	
+	@OneToMany
+	@JoinColumn(name="target_person_id")
+	private Set<PitchInfoRequest> pitchInfoRequestsReceived;
 	
 	//authors have drafts through their pitches -> Dao
+	
+	@OneToMany
+	@JoinColumn(name="editor_id")
 	private Set<DraftFeedback> draftFeedbackGiven;
 	//authors will receive draft feedback through their drafts -> Dao
+	
+	@ManyToMany(fetch=FetchType.EAGER, mappedBy = "members")
+	private Set<GenreCommittee> genreCommittees;
 	
 	public String getFirstName() {
 		return firstName;
@@ -53,12 +107,6 @@ public class Person {
 	public void setBio(String bio) {
 		this.bio = bio;
 	}
-	public Genre getGenreSpecialty() {
-		return genreSpecialty;
-	}
-	public void setGenreSpecialty(Genre genreSpecialty) {
-		this.genreSpecialty = genreSpecialty;
-	}
 	public Role getRole() {
 		return role;
 	}
@@ -68,31 +116,49 @@ public class Person {
 	public Set<Pitch> getPitches() {
 		return pitches;
 	}
-	public void setPitches(Set<Pitch> pitches) {
+	public void setPitches(Set<Pitch> pitches) throws NonAuthorHasPitchesException {
+		if(!this.role.equals(Role.AUTHOR)) {
+			throw new NonAuthorHasPitchesException();
+		}
 		this.pitches = pitches;
 	}
 	public Set<PitchFeedback> getPitchFeedbackGiven() {
 		return pitchFeedbackGiven;
 	}
-	public void setPitchFeedbackGiven(Set<PitchFeedback> pitchFeedbackGiven) {
-		this.pitchFeedbackGiven = pitchFeedbackGiven;
-	}
-	public Set<PitchFeedback> getPitchFeedbackReceived() {
-		return pitchFeedbackReceived;
-	}
-	public void setPitchFeedbackReceived(Set<PitchFeedback> pitchFeedbackReceived) {
-		if(this.role.getName().equals("author")) {
+	public void setPitchFeedbackGiven(Set<PitchFeedback> pitchFeedbackGiven) throws FeedbackAsAuthorException {
+		if(this.role.equals(Role.AUTHOR)) {
 			throw new FeedbackAsAuthorException();
 		}
-		this.pitchFeedbackReceived = pitchFeedbackReceived;
+		this.pitchFeedbackGiven = pitchFeedbackGiven;
 	}
 	public Set<DraftFeedback> getDraftFeedbackGiven() {
 		return draftFeedbackGiven;
 	}
-	public void setDraftFeedbackGiven(Set<DraftFeedback> draftFeedbackGiven) {
-		if(this.role.getName().equals("author")) {
+	public void setDraftFeedbackGiven(Set<DraftFeedback> draftFeedbackGiven) throws FeedbackAsAuthorException {
+		if(this.role.equals(Role.AUTHOR)) {
 			throw new FeedbackAsAuthorException();
 		}
 		this.draftFeedbackGiven = draftFeedbackGiven;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Set<PitchInfoRequest> getPitchInfoRequestsMade() throws RequestAsAuthorException {
+		if(this.role.equals(Role.AUTHOR)) {
+			throw new RequestAsAuthorException();
+		}
+		return pitchInfoRequestsMade;
+	}
+	public void setPitchInfoRequestsMade(Set<PitchInfoRequest> pitchInfoRequestsMade) {
+		this.pitchInfoRequestsMade = pitchInfoRequestsMade;
+	}
+	public Set<PitchInfoRequest> getPitchInfoRequestsReceived() {
+		return pitchInfoRequestsReceived;
+	}
+	public void setPitchInfoRequestsReceived(Set<PitchInfoRequest> pitchInfoRequestsReceived) {
+		this.pitchInfoRequestsReceived = pitchInfoRequestsReceived;
 	}
 }

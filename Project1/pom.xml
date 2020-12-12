@@ -6,17 +6,17 @@
   <name>StoryPitchManagementDB</name>
   
   <dependencies>
-  	<dependency>
+  	<!-- JUnit dependency -->
+	<dependency>
   		<groupId>org.junit.jupiter</groupId>
   		<artifactId>junit-jupiter-engine</artifactId>
   		<version>5.7.0-M1</version>
   		<scope>test</scope>
   	</dependency>
   	<dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
-      <version>4.0.3</version>
-      <scope>test</scope>
+	    <groupId>org.postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>42.2.14</version>
 	</dependency>
   	<dependency>
 		<groupId>io.javalin</groupId>
@@ -44,10 +44,12 @@
 		<artifactId>jackson-databind</artifactId>
 		<version>2.9.3</version>
 	</dependency>
-	<dependency>
-	    <groupId>org.postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-	    <version>42.2.14</version>
-	</dependency>
+	<!-- hibernate dependency -->
+ 	<dependency>
+ 	 	<artifactId>hibernate-core</artifactId>
+  		<groupId>org.hibernate</groupId>
+  		<version>5.2.12.Final</version>
+  	</dependency>
   </dependencies>
+
 </project>

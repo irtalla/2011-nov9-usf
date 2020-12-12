@@ -16,24 +16,30 @@ public class StoryPitchApp {
 		
 		app.routes(() -> {
 			// all requests to /cats go to this handler
-			path("cats", () -> {
-				get(CatController::getAvailableCats); // get available cats is the default
-				post(CatController::addCat); // add a cat
+			path("pitches", () -> {
+				get(PitchController::getViewablePitches); // get available cats is the default
+				post(PitchController::addPitch); // add a cat
 				// note: you want your specific paths to be before path variables
 				// so that javalin tries those before mapping it to a path variable
 				// basically, if the :id path was first, the "all" path would also
 				// get mapped to it and it would treat the string "all" as the id
 				// instead of as its own path
 				path ("all", () -> {
-					get(CatController::getAllCats); // get all cats
+					get(PitchController::getAllPitches); // get all cats
 				});
-				path ("adopt/:id", () -> {
-					put(CatController::adoptCat); // adopt a cat by its id
+				path ("approve/:id", () -> {
+					put(PitchController::approvePitch); // adopt a cat by its id
+				});
+				path ("reject/:id", () -> {
+					put(PitchController::rejectPitch); // adopt a cat by its id
+				});
+				path ("give_feedback/:id", () -> {
+					put(PitchController::giveFeedbackForPitch); // adopt a cat by its id
 				});
 				path(":id", () -> {
-					get(CatController::getCatById); // get a cat by id
-					put(CatController::updateCat); // update a cat
-					delete(CatController::deleteCat); // delete a cat
+					get(PitchController::getPitchById); // get a cat by id
+					put(PitchController::updatePitch); // update a cat
+					delete(PitchController::deletePitch); // delete a cat
 				});
 			});
 			// all requests to /users go to this handler
