@@ -11,28 +11,7 @@ function setNav() {
     nav.innerHTML = `
         <a href="index.html"><strong>STMS</strong></a>
         `;
-    if (loggedUser) {
-        nav.innerHTML += `
-            <br>
-            <span>
-                ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
-                <button type="button" id="loginBtn">logout</button>
-             </span>
-             <br>
-             <a href="viewPitch.html"><strong>Pitches</strong></a>
-            `;
-    } else {
-        nav.innerHTML += `
-            <form>
-                <label for="user">username: </label>
-                <input id="user" name="user" type="text" />
-                <label for="pass">password: </label>
-                <input id="pass" name="pass" type="password" />
-                <button type="button" id="loginBtn">login</button>
-                <button type="button" id="registerBtn">register</button>
-            </form>
-        `;
-    }
+    authorSetNav();
 
     let loginBtn = document.getElementById('loginBtn');
     if (loggedUser) {
@@ -42,6 +21,7 @@ function setNav() {
         let registerBtn = document.getElementById('registerBtn');
         registerBtn.onclick = registerUser;
     }
+    console.log(loggedUser);
 
 }
 
@@ -98,4 +78,29 @@ export async function checkLogin() {
 
 function registerUser() {
     window.location.replace(baseUrl + "/register.html");
+}
+
+function authorSetNav() {
+    if (loggedUser) {
+        nav.innerHTML += `
+            <br>
+            <span>
+                ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
+                <button type="button" id="loginBtn">logout</button>
+             </span>
+             <br>
+             <a href="viewPitch.html"><strong>Pitches</strong></a>
+            `;
+    } else {
+        nav.innerHTML += `
+            <form>
+                <label for="user">username: </label>
+                <input id="user" name="user" type="text" />
+                <label for="pass">password: </label>
+                <input id="pass" name="pass" type="password" />
+                <button type="button" id="loginBtn">login</button>
+                <button type="button" id="registerBtn">register</button>
+            </form>
+        `;
+    }
 }

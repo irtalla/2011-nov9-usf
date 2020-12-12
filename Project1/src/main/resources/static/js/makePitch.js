@@ -30,6 +30,7 @@ function setSubmission() {
     insertFileUpload();
     document.getElementById("form").appendChild(document.createElement("br"));
     insertSubmitButton();
+    insertBackToPitchButton();
 }
 
 async function submitPitch() {
@@ -192,18 +193,6 @@ function clearFiles() {
     document.getElementById("clearFile").hidden = true;
 }
 
-async function getFiles(file) {
-    let name = file.name;
-    let blob = new Blob([file]);
-    let url = URL.createObjectURL(blob);
-    console.log(url);
-    let downloader = document.createElement("a");
-    downloader.download = name;
-    downloader.href = url;
-    console.log(downloader);
-    downloader.click();
-}
-
 async function uploadFiles() {
     let url = baseUrl + "/pitch/file";
     let data = new FormData();
@@ -234,6 +223,21 @@ function insertSubmitButton() {
     button.appendChild(text);
     button.onclick = submitPitch;
     document.getElementById("form").appendChild(button);
+}
+
+function insertBackToPitchButton() {
+    let button = document.createElement("button");
+    button.type="button";
+    button.id = "backToPitch";
+    button.className = "backToPitch";
+    let text = document.createTextNode("return to pitch portal");
+    button.appendChild(text);
+    button.onclick = returnToPitch;
+    document.getElementById("form").appendChild(button);
+}
+
+function returnToPitch() {
+    window.location.replace("./viewPitch.html");
 }
 
 function getToday() {
