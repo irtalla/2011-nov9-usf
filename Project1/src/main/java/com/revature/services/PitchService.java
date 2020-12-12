@@ -29,4 +29,5 @@ public interface PitchService {
 	public List<ReviewStatus> getAllReviewStatus();
 	public List<String> getPriorities();
 	public Pitch parseContext(String ctx);
+	public void updateFilePaths(Integer id);
 }

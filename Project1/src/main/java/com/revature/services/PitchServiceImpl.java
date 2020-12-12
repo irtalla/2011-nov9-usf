@@ -285,4 +285,27 @@ public class PitchServiceImpl implements PitchService {
 		return p;
 	}
 
+	@Override
+	public void updateFilePaths(Integer id) {
+		Pitch p = this.getPitchById(id);
+		if (p.getAdditionalFiles() == null || p.getAdditionalFiles().size() == 0) return;
+		
+		for (AdditionalFile af : p.getAdditionalFiles()) {
+			String path = "src/main/resources/files/pitch_" + p.getId() + "/initial/" + af.getPath();
+			af.setPath(path);
+			try {
+				afDao.update(af);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			this.updatePitch(p);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

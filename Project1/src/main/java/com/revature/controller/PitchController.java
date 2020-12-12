@@ -22,7 +22,8 @@ public class PitchController {
 		System.out.println("Submitting a pitch");
 		Pitch newPitch = pitchServ.parseContext(ctx.body());
 		try {
-			pitchServ.addPitch(newPitch);
+			Integer newId = pitchServ.addPitch(newPitch);
+			pitchServ.updateFilePaths(newId);
 		} catch (Exception e) {
 			System.out.println("An exception occurred");
 			ctx.status(400);
