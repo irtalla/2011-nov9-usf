@@ -59,6 +59,7 @@ async function logout() {
         alert('Failed to logout');
     }
     setLoggedUser(null);
+    localStorage.removeItem("loggedUser");
     if (window.location != baseUrl) {
         window.location.replace(baseUrl);
     } else {
