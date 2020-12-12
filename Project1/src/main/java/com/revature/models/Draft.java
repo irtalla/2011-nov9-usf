@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 
 public class Draft {
 	private Integer id;
-	private String contents; // TODO: find a better data type/structure to store large file
+	private String path; // TODO: find a better data type/structure to store large file
 	private LocalDateTime timeSubmitted;
 	private Pitch pitch;
 	private ReviewStatus draftStatus;
 	
 	public Draft() {
 		id = 0;
-		contents = "";
+		path = "";
 		timeSubmitted = LocalDateTime.now();
 		pitch = new Pitch();
 		draftStatus = new ReviewStatus();
@@ -26,11 +26,11 @@ public class Draft {
 	}
 
 	public String getContents() {
-		return contents;
+		return path;
 	}
 
 	public void setContents(String contents) {
-		this.contents = contents;
+		this.path = contents;
 	}
 
 	public LocalDateTime getTimeSubmitted() {
@@ -61,7 +61,7 @@ public class Draft {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contents == null) ? 0 : contents.hashCode());
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + ((draftStatus == null) ? 0 : draftStatus.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((pitch == null) ? 0 : pitch.hashCode());
@@ -78,10 +78,10 @@ public class Draft {
 		if (getClass() != obj.getClass())
 			return false;
 		Draft other = (Draft) obj;
-		if (contents == null) {
-			if (other.contents != null)
+		if (path == null) {
+			if (other.path != null)
 				return false;
-		} else if (!contents.equals(other.contents))
+		} else if (!path.equals(other.path))
 			return false;
 		if (draftStatus == null) {
 			if (other.draftStatus != null)
@@ -108,7 +108,7 @@ public class Draft {
 
 	@Override
 	public String toString() {
-		return "Draft [id=" + id + ", contents=" + contents + ", timeSubmitted=" + timeSubmitted + ", pitch=" + pitch
+		return "Draft [id=" + id + ", contents=" + path + ", timeSubmitted=" + timeSubmitted + ", pitch=" + pitch
 				+ ", draftStatus=" + draftStatus + "]";
 	}
 
