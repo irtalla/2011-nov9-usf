@@ -55,6 +55,8 @@ function populateCommittees() {
         sportsPitch.addEventListener("click", sportsPitches);
         kidsPitch.addEventListener("click", kidsPitches);
 
+
+
     } else {
         committeeSection.innerHTML = 'Editors\' committees';
     }//else of if
@@ -127,6 +129,12 @@ function populateCommittees() {
                         <td>${pitch.priority.name}</td>
                         <td>${pitch.stage.name}</td>
                         <td>${pitch.finish_date}</td>
+                        <td><button id="accept" onclick="acceptPitch" type="button">accept 
+                        </button></td>
+                        <td><button id="reject" onclick="rejectPitch" type="button">reject 
+                        </button></td>
+                        <td><button id="request" onclick="requestPitch" type="button">request 
+                        </button></td>
                     `;
                   
                     table.appendChild(tr);
@@ -139,6 +147,7 @@ function populateCommittees() {
             }//else of if
             
         }else{
-            alert ('no 200 status code')
+            poppitch.innerHTML = 'No Pitches found for this Committee';
+                
         }
     }

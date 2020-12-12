@@ -86,8 +86,6 @@ public class PitchController {
 	public static void getCommitteePitches(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		Set<Pitch> commPitches = pServ.getCommitteePitches(id);
-		System.out.println("after the service call\n"
-				+ "number of pitches: "+commPitches.size());
 		if(commPitches !=null) {
 			ctx.status(200);
 			ctx.json(commPitches);
@@ -97,9 +95,5 @@ public class PitchController {
 		}
 	}
 
-	private static Pitch getPitchByCommitteeId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
