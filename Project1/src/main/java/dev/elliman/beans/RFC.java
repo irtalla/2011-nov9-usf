@@ -24,12 +24,14 @@ public class RFC {
 	@JoinColumn(name="commenter")
 	private Person commenter;
 	private String description;
+	private String answer;
 	
 	public RFC() {
 		id = null;
 		claim = null;
 		commenter = null;
 		description = null;
+		answer = null;
 	}
 
 	public Integer getId() {
@@ -44,7 +46,7 @@ public class RFC {
 		return claim;
 	}
 
-	public void setClaimID(Claim claim) {
+	public void setClaim(Claim claim) {
 		this.claim = claim;
 	}
 
@@ -64,10 +66,19 @@ public class RFC {
 		this.description = description;
 	}
 
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
 		result = prime * result + ((claim == null) ? 0 : claim.hashCode());
 		result = prime * result + ((commenter == null) ? 0 : commenter.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -84,6 +95,11 @@ public class RFC {
 		if (getClass() != obj.getClass())
 			return false;
 		RFC other = (RFC) obj;
+		if (answer == null) {
+			if (other.answer != null)
+				return false;
+		} else if (!answer.equals(other.answer))
+			return false;
 		if (claim == null) {
 			if (other.claim != null)
 				return false;
@@ -109,8 +125,9 @@ public class RFC {
 
 	@Override
 	public String toString() {
-		return "RFC [id=" + id + ", claim=" + claim + ", commenter=" + commenter + ", description=" + description + "]";
+		return "RFC [id=" + id + ", claim=" + claim + ", commenter=" + commenter + ", description=" + description
+				+ ", answer=" + answer + "]";
 	}
-
+	
 	
 }

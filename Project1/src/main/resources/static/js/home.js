@@ -6,6 +6,8 @@ var newClaimDiv;
 var claims;
 var events;
 
+var rfcList;
+
 checkLogin().then(showClaims);
 
 async function checkLogin() {
@@ -47,6 +49,9 @@ async function showClaims(){
 
                                 <div id="claimsDiv" class="container">
 
+                                </div>
+                                
+                                <div id="commentsDiv">
                                 </div>`;
     getClaimsList();
 }
@@ -100,6 +105,8 @@ async function updateClaims() {
     currentClaimID = null;
     claimsDiv = document.getElementById('claimsDiv');
     claimsDiv.innerHTML = '';
+    //clear comments div
+    document.getElementById('commentsDiv').innerHTML = '';
 
     newClaimDiv = document.getElementById('newClaimDiv');
     newClaimDiv.innerHTML = '';
@@ -244,6 +251,18 @@ async function viewClaimDetails(index) {
                     `;//</div>
 
     if(user.role.id == 4){
+        attachmentDiv = `<div id="attachmentDiv" class="row">
+                            <div class="col justify-content-left">
+                                <h6>Attach file:<h6>
+                            </div>
+                            <div class="col justify-content-left">
+                                <input id="fileInput" type="file" multiple>
+                            </div>
+                            <div class="col justify-content-left">
+                                <button type="button" onclick="uploadFile(${claim.id})">Upload</button>
+                            </div>
+                        </div>`
+        claimHTML += attachmentDiv;
         claimHTML += `</div>`;
     } else if(user.role.id <= 3){
         //console.log(claim.dsa);
@@ -298,6 +317,56 @@ async function viewClaimDetails(index) {
     }
 
     claimsDiv.innerHTML = claimHTML;
+
+    //add comments
+    let commentsDiv = document.getElementById('commentsDiv');
+    commentsDiv += `<div class="container">
+                        <div class="row">
+                            <div class="col justify-content-center">
+                                <h1>Comments</h1>
+                            </div>
+                        </div>
+                    </div>`;
+    let rfcs = await getRFCs(claim.id);
+    rfcList = rfcs;
+    for(let i in rfcs){
+        let comment;
+        rfcToAnswer = rfcs[i];
+        if(rfcs[i].answer != null){
+            comment = `<div class="container justify-contents-center claim">
+                            <div class="row">
+                                <div class="col">
+                                    <h6>${rfcs[i].description}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="answer${rfcs[i].id}" class="col">
+                                    <h6>${rfcs[i].answer}</h6>
+                                </div>
+                            </div>
+                        </div>`;
+        } else if(user.id == 4) {
+            comment = `<div class="container justify-contents-center claim">
+                            <div class="row">
+                                <div class="col">
+                                    <h6>${rfcs[i].description}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="answer${rfcs[i].id}" class="col">
+                                    <textarea id="rfc${rfcs[i].id}"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button button="button" onclick="answerRFC(${i})">Submit answer</button>
+                                </div>
+                            </div>
+                        </div>`;
+        }
+
+        commentsDiv.innerHTML += comment;
+    }
 }
 
 async function acceptClaim(index){
@@ -441,8 +510,63 @@ async function submitNewClaim(){
             showClaim();
         }
     }
+}
 
-    async function makeCommentRequest(index){
-        let claim = claims[index];
+async function makeCommentRequest(index){
+    let claim = claims[index];
+    let description = document.getElementById('rfcQuestion');
+
+    if(description.value == ''){
+        description.classList.add('failInput');
+    } else {
+        let rfc = {
+            claim : '' + claim.id,
+            description : description.value
+        };
+
+        let response = await fetch(baseUrl + '/rfc', {method : 'POST', body : JSON.stringify(rfc)});
+        if(response.status === 200){
+            showClaims();
+        } else {
+            alert('Something went wrong');
+            showClaims();
+        }
     }
+}
+
+async function getRFCs(claimID){
+    let response = await fetch(baseUrl + '/rfc/claims/' + claimID);
+    if(response.status === 200){
+        let rfcs = response.json();
+        return rfcs;
+    } else {
+        alert('Unable to retrive comment requests');
+    }
+}
+
+async function answerRFC(rfcIndex){
+    let rfc = rfcList[rfcIndex];
+    let textArea = document.getElementById('rfc' + rfc.id);
+    
+    let answerText = textArea.value;
+    if(answerText == ''){
+        textArea.classList.add('failInput');
+        return;
+    }
+    
+    let updateAnswer = {
+        id:''+rfc.id,
+        answer:answerText
+    }
+
+    let response = await fetch(baseUrl + '/rfc', {method : 'PUT', body : JSON.stringify(updateAnswer)});
+    if(response.status === 200){
+        showClaims();
+    } else {
+        alert("Something went wrong");
+    }
+}
+
+async function uploadFile(claimID){
+    let files = documant.getElementById('fileInput').files;
 }

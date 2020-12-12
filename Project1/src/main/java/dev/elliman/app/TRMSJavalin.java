@@ -3,6 +3,7 @@ package dev.elliman.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import dev.elliman.controller.ClaimController;
+import dev.elliman.controller.CommentController;
 import dev.elliman.controller.PersonController;
 import io.javalin.Javalin;
 
@@ -49,6 +50,19 @@ public class TRMSJavalin {
 				});
 				
 				post(ClaimController::makeClaim);
+				
+			});
+			
+			path("rfc", () -> {
+				path("claims/:id", () -> {
+					get(CommentController::getCommentsForClaim);
+				});
+				
+				post(CommentController::makeRFC);
+				put(CommentController::answerComment);
+			});
+			
+			path("attachment", () -> {
 				
 			});
 		});
