@@ -1,6 +1,9 @@
 package dev.elliman.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -118,12 +121,43 @@ public class CommentController {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		
 		File[] relatedFiles = new File(TRMSJavalin.STORAGE_FOLDER_LOCATION + "\\f" + id).listFiles();
-		String[] fileNames = new String[relatedFiles.length];
-		for(int i = 0; i < relatedFiles.length; i++) {
-			fileNames[i] = relatedFiles[i].getName();
+		String[] fileNames = null;
+		if(relatedFiles != null) {
+			fileNames = new String[relatedFiles.length];
+			for(int i = 0; i < relatedFiles.length; i++) {
+				fileNames[i] = relatedFiles[i].getName();
+			}
 		}
-		ctx.json(fileNames);
-		ctx.status(200);
+		
+		if(fileNames != null) {
+			ctx.json(fileNames);
+			ctx.status(200);
+		} else {
+			ctx.status(204);
+		}
+		
+	}
+	
+	public static void downloadFile(Context ctx) {
+		String id = ctx.pathParam("id");
+		String fileName = ctx.pathParam("fileName");
+		File f = new File(TRMSJavalin.STORAGE_FOLDER_LOCATION + "\\f" + id + "\\" + fileName);
+		String mimeType = "application/octet-stream";
+		
+		ctx.contentType(mimeType);
+		
+		String headerKey = "Content-Disposition";
+		String headerValue = String.format("attachment; filename=\"%s\"", f.getName());
+		ctx.header(headerKey, headerValue);
+		
+		try {
+			ctx.result(new FileInputStream(f));
+			ctx.status(200);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ctx.status(500);
+		}
 	}
 	
 	private static class WorkaroundBoolean{

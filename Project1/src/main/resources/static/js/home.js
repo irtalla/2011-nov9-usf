@@ -263,13 +263,16 @@ async function viewClaimDetails(index) {
         claimHTML += fileNamesHeader;
 
         for(let i in fileNameArray){
+            let fileURL = baseUrl + '/attachment/' + claim.id + '/download/' + fileNameArray[i];
             let fileNameHTML = `<div class="row">
                                     <div class="col">
-                                        <h6 onclick="downloadFile(${claim.id},'${fileNameArray[i]}')">${fileNameArray[i]}</h6>
+                                        <a download="${fileNameArray[i]}" href="${fileURL}">${fileNameArray[i]}</a>
                                     </div>
                                 </div>`;
             claimHTML += fileNameHTML;
         }
+    } else if(response.status === 204){
+        //do nothing
     } else {
         alert('Could not load uploaded files');
     }
@@ -625,8 +628,4 @@ async function answerRFC(rfcIndex){
     } else {
         alert('unable to upload files');
     }
- }
-
- async function downloadFile(claimID, fileName){
-     console.log('download');
  }

@@ -67,6 +67,9 @@ public class TRMSJavalin {
 			path("attachment/:id", () -> {
 				post(CommentController::uploadFile);
 				get(CommentController::getClaimFiles);
+				path("download/:fileName", () -> {
+					get(CommentController::downloadFile);
+				});
 			});
 		});
 	}
