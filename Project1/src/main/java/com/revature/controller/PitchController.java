@@ -38,7 +38,6 @@ public class PitchController {
 		ctx.uploadedFiles("files[]").forEach(file -> {
 			FileUtil.streamToFile(file.getContent(),"./src/main/resources/files/temp/" + file.getFilename());
 			pitchServ.updateFilePaths(file.getFilename());
-			System.out.println(file.getFilename());
 		});
 
 	}

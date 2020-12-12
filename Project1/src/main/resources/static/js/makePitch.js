@@ -96,7 +96,7 @@ async function submitPitch() {
     if (response.status === 200) {
         alert("Successfully submited the pitch! Heading back to your portal...");
         uploadFiles(files);
-        window.location.replace(baseUrl);
+        window.location.replace(baseUrl + "/viewPitch.html");
     } else {
         alert("There was an error. Try again.");
     }
@@ -237,7 +237,7 @@ function insertBackToPitchButton() {
 }
 
 function returnToPitch() {
-    window.location.replace("./viewPitch.html");
+    window.location.replace(baseUrl + "/viewPitch.html");
 }
 
 function getToday() {

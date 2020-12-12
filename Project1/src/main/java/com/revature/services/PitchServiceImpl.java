@@ -1,5 +1,8 @@
 package com.revature.services;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -202,7 +205,6 @@ public class PitchServiceImpl implements PitchService {
 								p.setAuthor(u);
 							}
 						});
-						User u = new User();
 						break;
 					case "completionDate":
 						LocalDate ld = LocalDate.parse(jObj.get(key).toString());
@@ -287,14 +289,44 @@ public class PitchServiceImpl implements PitchService {
 
 	@Override
 	public String updateFilePaths(String file) {
+
 		String path = "./src/main/resources/files/temp/" + file;
 		
 		AdditionalFile af = afDao.getByPath(path);
-		System.out.println(af);
+//		System.out.println(af);
 		Pitch p = pitchDao.getByAdditionalFile(af);
-		System.out.println(p);
+//		System.out.println(p);
 		
-		return path;
+		String updatedPath = "./src/main/resources/files/pitch_" + p.getId() + "/pitch/";
+		File newPath = new File(updatedPath);
+		if (!newPath.exists()) {
+			Boolean success = newPath.mkdirs();
+			if (success) {
+				System.out.println("Successfully created new file system");
+			} else {
+				System.out.println("Failed to create new file system");
+			}
+		}
+		updatedPath += file;
+		
+		System.out.println(path);
+		System.out.println(updatedPath);
+		af.setPath(updatedPath);
+		try {
+			afDao.update(af);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		File original = Paths.get(path).toFile();
+		if (original.renameTo(Paths.get(updatedPath).toFile())) {
+			original.delete();
+			System.out.println("Successfully moved from " + path + " to " + updatedPath);
+		} else {
+			System.out.println("Failed to move file");
+		}
+		
+		return updatedPath;
 	}
 
 }

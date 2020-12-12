@@ -63,9 +63,9 @@ public class PitchHibernatePostgres implements PitchDAO {
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql = "SELECT p FROM Pitch p JOIN p.pitch_add_file paf WHERE paf.id = :paf__id";
+			String hql = "SELECT p FROM Pitch p JOIN p.additionalFiles a WHERE a.id = :add_file_id";
 			Query<Pitch> q = s.createQuery(hql, Pitch.class);
-			q.setParameter("paf_id", file.getId());
+			q.setParameter("add_file_id", file.getId());
 			p = q.getSingleResult();
 			p.setPriority(checkPriority(p));
 		} catch (Exception e) {
