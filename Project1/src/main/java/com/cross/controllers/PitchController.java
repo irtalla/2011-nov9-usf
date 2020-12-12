@@ -15,10 +15,10 @@ import com.cross.beans.Genre;
 import com.cross.beans.Person;
 import com.cross.beans.Pitch;
 import com.cross.beans.Status;
+import com.cross.services.PitchService;
+import com.cross.services.PitchServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.revature.services.PitchService;
-import com.revature.services.PitchServiceImpl;
 
 import io.javalin.http.Context;
 

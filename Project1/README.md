@@ -48,6 +48,14 @@ My strategy for requests is to have each request have a set of comments associat
 
 
 
+Mystery
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.gson.internal.reflect.UnsafeReflectionAccessor (file:/Users/majestikmind/.m2/repository/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar) to field java.time.LocalDateTime.date
+WARNING: Please consider reporting this to the maintainers of com.google.gson.internal.reflect.UnsafeReflectionAccessor
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+
+
 ### Authentication and User Session 
 I chose a multi-page front-end. After sign-in, I needed a way to save the user information, so
 I used the widely-supported Web Storage API along with JSON.stringify() and JSON.parse(). This was

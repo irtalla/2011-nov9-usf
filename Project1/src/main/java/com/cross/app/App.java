@@ -4,6 +4,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 import com.cross.controllers.AuthController;
 import com.cross.controllers.CommentController;
+import com.cross.controllers.DecisionController;
 import com.cross.controllers.PitchController;
 import com.cross.controllers.RequestController;
 
@@ -93,7 +94,15 @@ public class App {
 				path ("close/:id", () -> {
 					put(RequestController::closeRequest); // close a request 
 				});
-		});
+			});
+			
+			path ("api/decision", () -> {
+				post(DecisionController::addDecision); 
+				path("requestid/:id", () -> {
+					get(DecisionController::getDecisionsByPitchId);
+				});
+				
+			});
 			
 			
 		});

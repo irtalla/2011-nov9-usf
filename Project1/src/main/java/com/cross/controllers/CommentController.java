@@ -2,10 +2,10 @@ package com.cross.controllers;
 
 import com.cross.beans.Comment;
 import com.cross.beans.Pitch;
+import com.cross.services.CommentService;
+import com.cross.services.CommentServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.revature.services.CommentService;
-import com.revature.services.CommentServiceImpl;
 
 import io.javalin.http.Context;
 

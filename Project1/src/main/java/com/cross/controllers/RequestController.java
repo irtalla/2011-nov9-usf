@@ -9,10 +9,10 @@ import static io.javalin.apibuilder.ApiBuilder.put;
 import com.cross.beans.Person;
 import com.cross.beans.Pitch;
 import com.cross.beans.Request;
+import com.cross.services.RequestService;
+import com.cross.services.RequestServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.revature.services.RequestService;
-import com.revature.services.RequestServiceImpl;
 
 import io.javalin.http.Context;
 

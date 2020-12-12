@@ -20,5 +20,6 @@ public interface DecisionDAO {
 	Set<Decision> getByEditorId(Integer editorId);
 
 	Set<Decision> getByPitchId(Integer pitchId);
+	
 
 }
