@@ -19,10 +19,10 @@ function setNav() {
         `;
     } else{
         nav.innerHTML += `
-            <a href="currPitches.html">My Pitches</a>
-            <a href="currCommittees.html">My Committees</a>
+            <a href="currPitches.html">Author Pitches</a>
+            <a href="currCommittees.html">Editor Committees</a>
             <span>
-                <a href="profile.html">${loggedUser.username}&nbsp;</a>
+                <a href="profile.html">Welcome ${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;

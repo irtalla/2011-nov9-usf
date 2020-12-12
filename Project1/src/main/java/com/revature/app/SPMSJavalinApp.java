@@ -48,11 +48,11 @@ public class SPMSJavalinApp {
 					put(PitchController::updatePitch); 
 					delete(PitchController::deletePitch);
 				});
-			});
-			path("committeepitches", () -> {
+			
+				path("committees/:id", () -> {
 				get(PitchController::getCommitteePitches);
+				});
 			});
-
 
 			path("committees", () -> {
 				get(CommitteeController::getAllCommittees); 

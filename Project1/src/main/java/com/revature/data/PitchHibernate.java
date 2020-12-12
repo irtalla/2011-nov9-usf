@@ -113,12 +113,14 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	@Override
 	public Set<Pitch> getPitchesByCommitteeId(Integer id) {
+		
 		Set<Pitch> pitches = null;
 		
 		try (Session s = hu.getSession()) {
 			s.beginTransaction();
-			String hql = "From Pitch where gernre_id = :id";
+			String hql = "From Pitch where genre_id = :id";
 			Query<Pitch> q = s.createQuery(hql, Pitch.class);
+			q.setParameter("id", id);
 			List<Pitch> resultList = q.getResultList();
 			if (resultList.size() > 0) {
 				pitches = new HashSet<Pitch>(resultList);

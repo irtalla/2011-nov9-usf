@@ -16,4 +16,5 @@ public interface PitchService {
 	public Set<Pitch> getPitches();
 
 	public Set<Pitch> getCommitteePitches(Integer id);
+
 }

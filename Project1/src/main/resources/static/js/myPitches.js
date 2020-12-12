@@ -50,7 +50,7 @@ function populatePitches() {
 
         pitchSection.appendChild(table);
     } else {
-        pitchSection.innerHTML = 'Currently zero pitches';
+        pitchSection.innerHTML = 'Authors may make pitches';
         
     }//else of if
 } //end poppitch 
@@ -102,6 +102,8 @@ function makePitch(){
     makeSection.appendChild(pitchform);
     let pitchButton = document.getElementById('submitChanges');
     pitchButton.addEventListener("click", submitChanges);
+    pitchButton.disabled = !loggedUser;
+    
 }
 async function submitChanges() {
 
@@ -141,10 +143,14 @@ async function submitChanges() {
     let url = baseUrl + '/pitch';
    
     let response = await fetch(url, {method: 'POST', body:JSON.stringify(data)});
-    if (response >=200 && response <300) {
+    if (response.status >=200 && response.status <300) {
         alert('Pitch sent successfully.');
-    } else {
-        alert('Something went wrong.' + response);
+    } else if(response.status >=400 && response.status < 500){
+        alert('400 response oh no')
+    }else if(response.status === null){
+        alert('there was no response')
+    }else{
+        alert('Something went wrong.');
     }
 
 }
