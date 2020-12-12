@@ -1,16 +1,25 @@
 package com.revature.controller;
 
+import com.revature.beans.Author;
+import com.revature.beans.Editor;
 import com.revature.beans.User;
-import com.revature.service.UserService;
-import com.revature.service.UserServiceImpl;
+import com.revature.data.AuthorHibernate;
+import com.revature.data.EditorHibernate;
+import com.revature.data.UserHibernate;
+import com.revature.exception.NonUniqueUsernameException;
 import io.javalin.http.Context;
 
+import java.util.Set;
+
 public class UserController {
-    private static UserServiceImpl userService = new UserServiceImpl();
+    private static UserHibernate userHibernate = new UserHibernate();
+    private static AuthorHibernate authorHibernate = new AuthorHibernate();
+    private static EditorHibernate editorHibernate = new EditorHibernate();
 
     public static void checkLogin(Context ctx){
         System.out.println("Checking login");
         User user = ctx.sessionAttribute("user");
+        System.out.println(user);
         if (user != null) {
             System.out.println("Logged in as " + user.getUsername());
             ctx.json(user);
@@ -26,25 +35,54 @@ public class UserController {
         String username = ctx.queryParam("user");
         String password = ctx.queryParam("pass");
 
-        Integer result = userService.authenticate(username, password);
-        System.out.println("Authenticate Result: " + result);
-        switch (result){
-            case (1):   ctx.status(404);
-                        break;
-            case (2):   ctx.status(400);
-                        break;
-            case (3):   User user = userService.getUserByUsername(username);
-                        ctx.status(200);
-                        ctx.json(user);
-                        ctx.sessionAttribute("user", user);
-                        break;
-            default:    ctx.status(404);
-                        break;
+        User user = new User();
+        try{
+            user = userHibernate.getByUsername(username);
+            if (!user.getPassword().equals(password)){
+                ctx.status(400);
+            }else{
+                System.out.println(user.getUsername());
+                ctx.status(200);
+                ctx.json(user);
+                ctx.sessionAttribute("user", user);
+                User retUser = ctx.sessionAttribute("user");
+                System.out.println(retUser);
+            }
+        } catch (Exception e) {
+            if (e.getMessage().contains("No entity found for query")) {
+                ctx.status(404);
+            }
+            e.printStackTrace();
         }
     }
 
     public static void registerUser(Context ctx){
-        
+        System.out.println("Registering User");
+        String username = ctx.queryParam("user");
+        String password = ctx.queryParam("pass");
+        String firstname = ctx.queryParam("firstname");
+        String lastname = ctx.queryParam("lastname");
+        try{
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            Author author = new Author();
+            author.setUser(userHibernate.add(user));
+            author.setFirstName(firstname);
+            author.setLastName(lastname);
+            Author retAuthor = authorHibernate.add(author);
+            if (retAuthor == null){
+                throw new Exception("Null Author Object Returned.");
+            }
+            ctx.status(200);
+        }catch (NonUniqueUsernameException e) {
+            System.out.println("Username is not available.");
+            ctx.status(409);
+        } catch (Exception e2){
+            System.out.println("Something went wrong.");
+            e2.printStackTrace();
+            ctx.status(400);
+        }
     }
 
     public static void logout(Context ctx){
@@ -52,4 +90,42 @@ public class UserController {
         ctx.req.getSession().invalidate();
         ctx.status(200);
     }
+
+    public static void getAuthorEditor(Context ctx){
+        Integer id = Integer.valueOf(ctx.pathParam("id"));
+        System.out.println("Get Author/Editor with ID: " + id);
+        User user = userHibernate.getById(id);
+        Set<Author> authorSet = authorHibernate.getAll();
+        Set<Editor> editorSet = editorHibernate.getAll();
+
+        System.out.println(editorSet);
+        Author retAuthor = null;
+        Editor retEditor = null;
+        for (Author author : authorSet){
+            if (author.getUser().getId() == id){
+                retAuthor = author;
+            }
+        }
+        for (Editor editor : editorSet){
+            if (editor.getUser().getId() == id){
+                retEditor = editor;
+            }
+        }
+        if (retAuthor == null && retEditor == null){
+            System.out.println("No author or editor with that ID.");
+            ctx.status(400);
+        }else if (retAuthor == null){
+            System.out.println("Found an editor with that ID");
+            ctx.status(200);
+            ctx.json(retEditor);
+        }else if (retEditor == null){
+            System.out.println("Found an author with that ID");
+            ctx.status(200);
+            ctx.json(retAuthor);
+        } else{
+            System.out.println("Function Error.");
+            ctx.status(404);
+        }
+    }
+
 }

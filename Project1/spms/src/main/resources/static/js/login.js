@@ -17,14 +17,14 @@ async function login() {
     url += 'user=' + document.getElementById('username').value + '&';
     url += 'pass=' + document.getElementById('pwd').value;
     console.log(url);
-    let response = await fetch(url, {method: 'PUT'});
+    let response = await fetch(url, {credentials: 'include', method: 'PUT'});
     
     switch (response.status) {
         case 200: // successful
-            alert('logged in');
             document.getElementById('usernameHelp').innerHTML = '';
             document.getElementById('passwordHelp').innerHTML = '';
             loggedUser = await response.json();
+            checkLogin();
             break;
         case 400: // incorrect password
             document.getElementById('pwd').value = '';
@@ -48,7 +48,11 @@ async function login() {
 
 async function checkLogin() {
     let url = baseUrl + '/users';
-    let response = await fetch(url);
-    if (response.status === 200) loggedUser = await response.json();
-    awaiting();
+    let response = await fetch(url, {credentials: 'include'});
+    if (response.status === 200){
+        loggedUser = await response.json();
+        window.location.href = "D:/2011-nov9-usf/Project1/spms/src/main/resources/static/dashboard.html"
+    }else{
+        awaiting();
+    }
 }

@@ -2878,11 +2878,12 @@ fieldset:disabled a.btn {
 
 .btn-link {
   font-weight: 400;
-  color: #f4623a;
+  color: #cacaca;
   text-decoration: none;
+  word-spacing: 3px;
 }
 .btn-link:hover {
-  color: #d6370c;
+  color: #ffffff;
   text-decoration: underline;
 }
 .btn-link:focus, .btn-link.focus {
@@ -3974,7 +3975,7 @@ input[type=button].btn-block {
   margin-right: 1rem;
   font-size: 1.25rem;
   line-height: inherit;
-  white-space: nowrap;
+  white-space: normal;
 }
 .navbar-brand:hover, .navbar-brand:focus {
   text-decoration: none;
@@ -10018,7 +10019,7 @@ hr.light {
 #mainNav .navbar-brand {
   font-family: Didot,Didot LT STD;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 5px;
   color: #212529;
 }
 #mainNav .navbar-nav .nav-item .nav-link {
@@ -10027,6 +10028,7 @@ hr.light {
   font-weight: 700;
   font-size: 0.9rem;
   padding: 0.75rem 0;
+  word-spacing: 3px;
 }
 #mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
   color: #f4623a;
@@ -10246,3 +10248,24 @@ header.login_masthead h1 {
   }
 }
 
+/* Dashboard */
+
+.dashboard {
+  background: linear-gradient(rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../assets/fantasy_world_dashboard.jpg") no-repeat center center fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+header.dashboard_masthead {
+  padding-top: 10rem;
+  padding-bottom: 1rem;
+}
+
+#welcome_text {
+  word-spacing: 5px;
+}

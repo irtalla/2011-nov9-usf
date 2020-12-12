@@ -49,6 +49,18 @@ public class ApprovalHibernate implements ApprovalDAO{
         return approvalSet;
     }
 
+    public Set<Approval> getApprovalByEditor(Integer id){
+        Session s = hu.getSession();
+        String query = "FROM Approval where editor.id = :editor";
+        Query<Approval> q = s.createQuery(query, Approval.class);
+        q.setParameter("editor", id);
+        List<Approval> approvalList = q.getResultList();
+        Set<Approval> approvalSet = new HashSet<>();
+        approvalSet.addAll(approvalList);
+        s.close();
+        return approvalSet;
+    }
+
     @Override
     public void update(Approval approval) {
         Session s = hu.getSession();

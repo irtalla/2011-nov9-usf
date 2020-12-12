@@ -1,5 +1,6 @@
 package com.revature.app;
 
+import com.revature.controller.EditorController;
 import com.revature.controller.UserController;
 import io.javalin.Javalin;
 
@@ -22,6 +23,17 @@ public class OnlinePublisherJavalin {
                 put(UserController::login);
                 post(UserController::registerUser);
                 delete(UserController::logout);
+                path(":id", () -> {
+                    get(UserController::getAuthorEditor);
+                });
+            });
+            path("author",() ->{
+
+            });
+            path("editor",() ->{
+                path(":id", ()-> {
+                    get(EditorController::generateApprovalList);
+                });
             });
 
         });

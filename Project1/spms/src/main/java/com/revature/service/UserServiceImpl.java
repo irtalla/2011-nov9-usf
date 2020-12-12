@@ -50,22 +50,4 @@ public class UserServiceImpl implements UserService{
         author.setPoints(100);
         return authorHibernate.add(author).getId();
     }
-
-    // Returns 3 if login credentials are correct. If username doesnt exist, return 1. If password is incorrect, return 2.
-    public Integer authenticate(String username, String password){
-        User user = new User();
-        System.out.println("User Password: " + user.getPassword() + "\nEntered Password: " + password);
-        try{
-            user = userHibernate.getByUsername(username);
-        } catch (Exception e) {
-            if (e.getMessage().contains("No entity found for query")) {
-                return 1;
-            }
-            e.printStackTrace();
-        }
-         if (!user.getPassword().equals(password)){
-            return 2;
-        }
-        return 3;
-    }
 }
