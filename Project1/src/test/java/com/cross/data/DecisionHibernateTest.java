@@ -1,5 +1,6 @@
 package com.cross.data;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -15,112 +16,87 @@ import org.junit.jupiter.api.Test;
 
 import com.cross.beans.Decision;
 import com.cross.beans.DecisionType;
+import com.cross.beans.Pitch;
+import com.cross.beans.Stage;
 import com.cross.data.DecisionDAO;
 import com.cross.data.UtilityDAO;
+import com.cross.exceptions.InvalidGeneralEditorException;
 import com.cross.utils.StringGenerator;
+
+/*
+ * 
+ * Testing the decisionHibernateDAO is tricky because we cannot
+ * simply generate and hash a large volume of random data. Since
+ * each decision requires a transaction that could effect the
+ * status of a pitch and/or draft, we should try to move a 
+ * pitch through the pipeline, checking that is has the correct
+ * status value after each decision. To facilitate testing, the 
+ * database contains a dummy pitch with id = 0; 
+ * 
+ */
 
 public class DecisionHibernateTest {
 	
 	private static DecisionDAO decisionDAO = new DecisionHibernate(); 
-	private static Set<Decision> testDecisions = new HashSet<Decision>(); 
-	
-	/*
-	 * Since we are using JavaBeans, we have to manually set 
-	 * at least once. 
-	 */
-	private static void generateTestDecisions() {
-		Random rand = new Random(); 
-		for (int i = 0; i < 5; ++i) {
-			Decision ds = new Decision(); 
-			// Dummy pitch IDs are negative 
-			ds.setPitchId( (-1 * rand.nextInt(3)) - 1 );
-			ds.setEditorId( 1 + rand.nextInt(2) );
-			ds.setExplanation( StringGenerator.randomString(5) );
-			DecisionType dst = new DecisionType(); 
-			dst.setId( 1 + rand.nextInt(2) );
-			dst.setName( UtilityDAO.getById(dst, dst.getId()).getName());
-			ds.setDecisionType(dst);
-			ds.setCreationTime( LocalDateTime.now() );
-			testDecisions.add(ds);
-		}
-	}
-	
+	private static Pitch dummyPitch = new PitchHibernate().getById(0);
+	private static Set<Decision> dSet = new HashSet<Decision>(); 
 	
 	@DisplayName("addTest")
 	@Test
 	@Order(1) 
 	public void addTest() {
-		generateTestDecisions(); 
-		testDecisions.forEach( decision -> {
-			Decision ds = null; 
-			ds = decisionDAO.add(decision);
-			assertTrue(ds != null);
-			decision.setId( ds.getId());
-		});
+		assertTrue( dummyPitch != null); 
 	}
 	
-	@DisplayName("getByIdTest")
+	@DisplayName("approvePitchInGenreStageTest")
 	@Test
 	@Order(2) 
-	public void getByIdTest() {
-		testDecisions.forEach( decision -> {
-			Decision q = null; 
-			q = decisionDAO.getById( decision.getId() );
-			assertTrue(q != null && q.getId() == decision.getId() );
-		});
+	public void approvePitchInGenreStageTest() {
 		
-		assertTrue( null == decisionDAO.getById(-1) );
+		System.out.println( dummyPitch.getStage().getName() );
+		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENRE REVIEW") );		
+		Decision d = new Decision(); 
+		d.setPitchId(0);
+		d.setEditorId(2);
+		d.setDecisionType(UtilityDAO.getByName(new DecisionType(), "pitch-approval") );
+		d.setCreationTime( LocalDateTime.now() );
+		d.setExplanation("dfjiapf sadfjpds");
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		Pitch p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("GENERAL REVIEW") );
 	}
 	
-	@DisplayName("getByEditorIdTest")
+	@DisplayName("approvePitchInGeneralStageTest")
 	@Test
-	@Order(3)
-	public void getByEditorIdTest() {
+	@Order(2) 
+	public void approvePitchInGeneralStageTest() {
 		
-		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>(); 
-		Integer editorIds[] = {1,2,3};
-		for (Integer id : editorIds) { idMap.put(id, 0); }
-		testDecisions.forEach(ds -> {
-			Integer editorId = ds.getEditorId(); 
-			idMap.put(editorId, idMap.get(editorId) + 1);
+		System.out.println( dummyPitch.getStage().getName() );
+		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENERAL REVIEW") );		
+		final Decision d = new Decision(); 
+		d.setPitchId(0);
+		d.setEditorId(2);
+		d.setDecisionType(UtilityDAO.getByName(new DecisionType(), "pitch-approval") );
+		d.setCreationTime( LocalDateTime.now() );
+		d.setExplanation("dfjiapf sadfjpds");
+		
+		assertThrows(InvalidGeneralEditorException.class, () -> {
+			decisionDAO.add(d);
 		});
+
 		
-		for (Integer id : editorIds) {
-			Set<Decision> byEditorId = decisionDAO.getByEditorId(id);
-			System.out.println("Query size: " + idMap.get(id));
-			System.out.println("Map size: " + byEditorId.size());
-			assertTrue( byEditorId.size() == idMap.get(id) );
-		}
-	}
-	
-	@DisplayName("getByPitchIdTest")
-	@Test
-	@Order(4)
-	public void getByPitchIdTest() {
-		
-		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>(); 
-		Integer pitchIds[] = {-1,-2,-3};
-		for (Integer id : pitchIds) { idMap.put(id, 0); }
-		testDecisions.forEach(ds -> {
-			Integer pitchId = ds.getPitchId(); 
-			idMap.put(pitchId, idMap.get(pitchId) + 1);
-		});
-		
-		for (Integer id : pitchIds) {
-			Set<Decision> byPitchId = decisionDAO.getByPitchId(id);
-			assertTrue( byPitchId.size() == idMap.get(id) );
-		}
-	}
-	
-	@DisplayName("deleteTest")
-	@Test
-	@Order(5)
-	public void deleteTest() {
-		testDecisions.forEach( decision -> {
-			assertTrue( decisionDAO.delete(decision) );
-		});
+//		d.setEditorId(3);
+//		Decision returned = decisionDAO.add(d);
+//		assertTrue(returned != null);
+//		Pitch p = new PitchHibernate().getById(0);
+//		assertTrue( p.getStage().getName().equalsIgnoreCase("SENIOR REVIEW") );
 	}
 	
 	
 	
+	
+		
 }
