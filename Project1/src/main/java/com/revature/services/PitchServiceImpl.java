@@ -12,6 +12,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.revature.data.AdditionalFileDAO;
+import com.revature.data.AdditionalFileDAOFactory;
 import com.revature.data.GenreDAO;
 import com.revature.data.GenreDAOFactory;
 import com.revature.data.PitchDAO;
@@ -41,6 +43,7 @@ public class PitchServiceImpl implements PitchService {
 	private PitchStageDAO psDao;
 	private ReviewStatusDAO rsDao;
 	private UserDAO uDao;
+	private AdditionalFileDAO afDao;
 	
 	public PitchServiceImpl() {
 		PitchDAOFactory pitchFactory = new PitchDAOFactory();
@@ -55,6 +58,8 @@ public class PitchServiceImpl implements PitchService {
 		rsDao = rsFactory.getReviewStatusDao();
 		UserDAOFactory uFactory = new UserDAOFactory();
 		uDao = uFactory.getUserDao();
+		AdditionalFileDAOFactory afFactory = new AdditionalFileDAOFactory();
+		afDao = afFactory.getAdditionalFileDao();
 	}
 	
 	@Override
@@ -170,6 +175,21 @@ public class PitchServiceImpl implements PitchService {
 				switch (key.toString()) {
 					case "additionalFiles":
 						Set<AdditionalFile> afs = new HashSet<>();
+						JSONArray fileNames = (JSONArray)jObj.get(key);
+						System.out.println(fileNames);
+						for (Object f : fileNames) {
+							AdditionalFile af = new AdditionalFile();
+							String path = f.toString();
+							af.setId(1);
+							af.setPath(f.toString());
+							try {
+								af.setId(afDao.add(af));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							afs.add(af);
+						}
 						p.setAdditionalFiles(afs);
 						break;
 					case "author":

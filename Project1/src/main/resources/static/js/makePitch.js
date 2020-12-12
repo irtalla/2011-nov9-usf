@@ -27,6 +27,8 @@ function setSubmission() {
     document.getElementById("form").appendChild(document.createElement("br"));
     insertStoryTypes();
     document.getElementById("form").appendChild(document.createElement("br"));
+    insertFileUpload();
+    document.getElementById("form").appendChild(document.createElement("br"));
     insertSubmitButton();
 }
 
@@ -59,6 +61,12 @@ async function submitPitch() {
     let reviewStatus = await getReviewStatus();
     let status = reviewStatus[0];
 
+    let files = [];
+    for (let file of document.getElementById("additionalFile").files) {
+        files.push(file.name);
+    }
+    console.log(files);
+
     let data = {
         id: 0,
         author: currentUser,
@@ -72,7 +80,7 @@ async function submitPitch() {
         priority: priority,
         pitchStage: stage,
         reviewStatus: status,
-        additionalFiles: null
+        additionalFiles: files
     };
 
     console.log(data);
@@ -99,6 +107,8 @@ async function insertGenres() {
     document.getElementById("form").appendChild(label);
     let selection = document.createElement("select");
     selection.id = "genre";
+    console.log()
+
     selection.name = "genre";
     document.getElementById("form").appendChild(selection);
     let genres = await getGenres();
@@ -129,6 +139,58 @@ async function insertStoryTypes() {
         selection.appendChild(option);
     }
     return types;
+}
+
+function insertFileUpload() {
+    let label = document.createElement("label");
+    label.setAttribute("for", "additionalFile");
+    let labelText = document.createTextNode("Select files to upload: ");
+    label.appendChild(labelText);
+    document.getElementById("form").appendChild(label);
+    let file = document.createElement("input");
+    file.type = "file";
+    file.id = "additionalFile";
+    file.name = "additionalFile";
+    file.multiple = true;
+    file.ondrop = "drop(event)";
+    file.ondragover = "allowDrop(event)";
+    document.getElementById("form").appendChild(file);
+    let clearFile = document.createElement("button");
+    clearFile.type = "button";
+    clearFile.id = "clearFile";
+    clearFile.name = "clearFile";
+    clearFile.hidden = true;
+    let clearText = document.createTextNode("Clear Files");
+    clearFile.appendChild(clearText);
+    clearFile.onclick = clearFiles;
+    document.getElementById("form").appendChild(clearFile);
+    file.addEventListener("change", handleFiles, false);
+    let fileSection = document.createElement("section");
+    fileSection.id = "fileSection";
+    document.getElementById("form").appendChild(fileSection);
+}
+
+function handleFiles(e) {
+    if (!e.target.files) return;
+    
+    let files = e.target.files;
+    let fileSection = document.getElementById("fileSection");
+    fileSection.innerHTML = '';
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        fileSection.innerHTML += file.name + "<br/>";
+        console.log(file);
+    }
+    document.getElementById("clearFile").hidden = false;
+}
+
+function clearFiles() {
+
+    document.getElementById("additionalFile").value = null;
+    document.getElementById("additionalFile").files = null;
+    let fileSection = document.getElementById("fileSection");
+    fileSection.innerHTML = '';
+    document.getElementById("clearFile").hidden = true;
 }
 
 function insertSubmitButton() {
