@@ -18,11 +18,11 @@ public class Person {
 		this.id = id;
 	}
 
-	public Role getRoleId() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRoleId(Role role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

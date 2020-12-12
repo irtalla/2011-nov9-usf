@@ -9,11 +9,22 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import dev.warrington.beans.Person;
+
+import dev.warrington.services.PersonService;
+import dev.warrington.services.PersonServiceImpl;
+import io.javalin.http.Context;
+
 public class PersonController {
 	
-	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	private static PersonService personServ = new PersonServiceImpl();
+	private static String algorithm = "PBKDF2WithHmacSHA1";
+	private static int derivedKeyLength = 160; // for SHA1
+    private static int iterations = 20000; // NIST specifies 10000
+	
+	/*public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
-		String password = "test";
+		String password = "password";
 		
 		//Generate a random salt
 		SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
@@ -35,5 +46,55 @@ public class PersonController {
         String passHash = Base64.getEncoder().encodeToString(encBytes);
         System.out.println(passHash);
         System.out.println(passHash.length());
+	}
+	*/
+	
+	public static void CheckLogin(Context ctx) {
+		
+	}
+	
+	public static void LogIn(Context ctx) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		
+		System.out.println("Logging in");
+		String username = ctx.queryParam("user");
+		Person p = personServ.getPersonByUsername(username);
+		
+		if (p != null) {
+			
+			String password = getHash(ctx.queryParam("pass"), p.getSalt());
+			
+			if (p.getPassHash().equals(password))
+			{
+				System.out.println("Logged in as " + p.getUsername());
+				ctx.status(200);
+				ctx.json(p);
+				ctx.sessionAttribute("user", p);
+			}
+			else
+			{
+				// password mismatch
+				ctx.status(400);
+			}
+		}
+		else
+		{
+			// username not found
+			ctx.status(404);
+		}
+		
+	}
+	
+	public static void RegisterUser(Context ctx) {
+		
+	}
+	
+	public static String getHash(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		
+		byte[] saltBytes = Base64.getDecoder().decode(salt);
+		KeySpec spec = new PBEKeySpec(password.toCharArray(), saltBytes, iterations, derivedKeyLength);
+		SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
+		byte[] encBytes = f.generateSecret(spec).getEncoded();
+		return Base64.getEncoder().encodeToString(encBytes);
+		
 	}
 }
