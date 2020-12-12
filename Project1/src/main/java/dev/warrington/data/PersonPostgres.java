@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import dev.warrington.beans.Role;
-
+import dev.warrington.exceptions.NonUniqueUsernameException;
 import dev.warrington.beans.Person;
 
 public class PersonPostgres implements PersonDAO {
@@ -21,9 +21,7 @@ public class PersonPostgres implements PersonDAO {
 		
 		try (Connection conn = cu.getConnection())
 		{
-			String sql = "select person.id as person_id, user_role.id as role_id, username, passwd, "
-					+ "user_role.name as role_name from person "
-					+ "join user_role on user_role_id = user_role.id where username = ?";
+			String sql = "select * from person join role on role.role_id = person.role_id where username = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
 			ResultSet rs = pstmt.executeQuery();
@@ -38,7 +36,7 @@ public class PersonPostgres implements PersonDAO {
 				person.setPassHash(rs.getString("pass_hash"));
 				person.setSalt(rs.getString("salt"));
 				Role job = new Role();
-				job.setId(rs.getInt("person.role_id"));
+				job.setId(rs.getInt("role_id"));
 				job.setName(rs.getString("role_name"));
 				person.setRole(job);
 			}
@@ -50,6 +48,44 @@ public class PersonPostgres implements PersonDAO {
 		}
 		
 		return person;
+	}
+
+	@Override
+	public Person add(Person p) throws NonUniqueUsernameException {
+
+		Person person = null;
+		
+		try (Connection conn = cu.getConnection()) {
+			conn.setAutoCommit(false);
+			String sql = "insert into person values (default, 1, ?, ?, ?, ?, ?)";
+			String[] keys = {"id"};
+			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
+			pstmt.setString(1, p.getUsername());
+			pstmt.setString(2, p.getPassHash());
+			pstmt.setString(3, p.getFirstName());
+			pstmt.setString(4, p.getLastName());
+			pstmt.setString(5, p.getSalt());
+			
+			pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys();
+			
+			if (rs.next()) {
+				person = p;
+				person.setId(rs.getInt(1));
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+			
+		} catch (Exception e) {
+			if (e.getMessage().contains("violates unique constraint")) {
+				throw new NonUniqueUsernameException();
+			}
+			e.printStackTrace();
+		}
+		
+		return p;
+		
 	}
 
 }

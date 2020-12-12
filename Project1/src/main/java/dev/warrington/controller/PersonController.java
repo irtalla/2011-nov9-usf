@@ -9,6 +9,8 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import dev.warrington.exceptions.NonUniqueUsernameException;
+
 import dev.warrington.beans.Person;
 
 import dev.warrington.services.PersonService;
@@ -51,6 +53,17 @@ public class PersonController {
 	
 	public static void CheckLogin(Context ctx) {
 		
+		System.out.println("Checking login");
+		Person p = ctx.sessionAttribute("user");
+		if (p != null) {
+			System.out.println("Logged in as " + p.getUsername());
+			ctx.json(p);
+			ctx.status(200);
+		} else {
+			System.out.println("Not logged in");
+			ctx.status(400);
+		}
+		
 	}
 	
 	public static void LogIn(Context ctx) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -85,6 +98,16 @@ public class PersonController {
 	}
 	
 	public static void RegisterUser(Context ctx) {
+		
+		Person newPerson = ctx.bodyAsClass(Person.class);
+		try {
+			personServ.addPerson(newPerson);
+		}
+		catch (NonUniqueUsernameException e) {
+			System.out.println("Username already taken :(");
+			ctx.status(409); // 409 = conflict
+		}
+		ctx.status(200);
 		
 	}
 	
