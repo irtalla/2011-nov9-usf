@@ -35,7 +35,11 @@ div.innerHTML = `
 							</select>
 						</div>
 						<br />
+<<<<<<< HEAD
 						<input class="btn btn-primary" type='submit' onClick="register()" > 	
+=======
+						<input type='submit' onClick="register()" > 	
+>>>>>>> df51458cb2f15ea4949e5418db43191105523d0a
 					</div>
 				</form>
 
