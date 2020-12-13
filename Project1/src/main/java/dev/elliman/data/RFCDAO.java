@@ -2,6 +2,7 @@ package dev.elliman.data;
 
 import java.util.List;
 
+import dev.elliman.beans.Claim;
 import dev.elliman.beans.RFC;
 
 public interface RFCDAO {

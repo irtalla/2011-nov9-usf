@@ -2,7 +2,11 @@ package dev.elliman.services;
 
 import java.util.List;
 
+import dev.elliman.beans.Claim;
 import dev.elliman.beans.RFC;
+import dev.elliman.beans.Stage;
+import dev.elliman.data.ClaimDAO;
+import dev.elliman.data.ClaimDAOFactory;
 import dev.elliman.data.RFCDAO;
 import dev.elliman.data.RFCDAOFactory;
 

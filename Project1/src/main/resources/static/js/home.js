@@ -106,7 +106,7 @@ async function updateClaims() {
     claimsDiv = document.getElementById('claimsDiv');
     claimsDiv.innerHTML = '';
     //clear comments div
-    document.getElementById('commentsDiv').innerHTML = '';
+    //document.getElementById('commentsDiv').innerHTML = '';
 
     newClaimDiv = document.getElementById('newClaimDiv');
     newClaimDiv.innerHTML = '';
@@ -353,7 +353,7 @@ async function viewClaimDetails(index) {
 
     //add comments
     let commentsDiv = document.getElementById('commentsDiv');
-    commentsDiv += `<div class="container">
+    commentsDiv.innerHTML += `<div class="container">
                         <div class="row">
                             <div class="col justify-content-center">
                                 <h1>Comments</h1>
@@ -369,18 +369,61 @@ async function viewClaimDetails(index) {
             comment = `<div class="container justify-contents-center claim">
                             <div class="row">
                                 <div class="col">
+                                    <h6>Commenter: ${rfcs[i].commenter.firstName} ${rfcs[i].commenter.lastName}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Comment:</h6>
+                                </div>
+                                <div class="col">
                                     <h6>${rfcs[i].description}</h6>
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col">
+                                    <h6>Answer:</h6>
+                                </div>
                                 <div id="answer${rfcs[i].id}" class="col">
                                     <h6>${rfcs[i].answer}</h6>
                                 </div>
                             </div>
                         </div>`;
-        } else if(user.id == 4) {
+        } else if(user.role.id < 4){
             comment = `<div class="container justify-contents-center claim">
                             <div class="row">
+                                <div class="col">
+                                    <h6>Commenter: ${rfcs[i].commenter.firstName} ${rfcs[i].commenter.lastName}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Comment:</h6>
+                                </div>
+                                <div class="col">
+                                    <h6>${rfcs[i].description}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Answer:</h6>
+                                </div>
+                                <div id="answer${rfcs[i].id}" class="col">
+                                    <h6>       </h6>
+                                </div>
+                            </div>
+                        </div>`;
+        } else if(user.role.id == 4) {
+            comment = `<div class="container justify-contents-center claim">
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Commenter: ${rfcs[i].commenter.firstName} ${rfcs[i].commenter.lastName}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Comment:</h6>
+                                </div>
                                 <div class="col">
                                     <h6>${rfcs[i].description}</h6>
                                 </div>
@@ -397,7 +440,6 @@ async function viewClaimDetails(index) {
                             </div>
                         </div>`;
         }
-
         commentsDiv.innerHTML += comment;
     }
 }

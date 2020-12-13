@@ -6,7 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import dev.elliman.beans.Claim;
 import dev.elliman.beans.RFC;
+import dev.elliman.beans.Stage;
 import dev.elliman.utils.HibernateUtil;
 
 public class RFCHibernatePostgres implements RFCDAO {
@@ -20,6 +22,7 @@ public class RFCHibernatePostgres implements RFCDAO {
 		try {
 			tx = s.beginTransaction();
 			s.save(rfc);
+			updateClaimStage(s, rfc.getClaim(), false);
 			tx.commit();
 		} catch (Exception e) {
 			if(tx != null) {
@@ -29,6 +32,7 @@ public class RFCHibernatePostgres implements RFCDAO {
 		} finally {
 			s.close();
 		}
+		
 		
 		return rfc;
 	}
@@ -58,6 +62,7 @@ public class RFCHibernatePostgres implements RFCDAO {
 		try {
 			tx = s.beginTransaction();
 			s.update(rfc);
+			updateClaimStage(s, rfc.getClaim(), true);
 			tx.commit();
 			success = true;
 		} catch (Exception e) {
@@ -73,4 +78,30 @@ public class RFCHibernatePostgres implements RFCDAO {
 		return success;
 	}
 
+	public void updateClaimStage(Session s, Claim claim, Boolean answered) throws Exception{
+		Stage stage = null;
+		if(!answered) {
+			stage = s.get(Stage.class, 5);
+		} else {
+			List<RFC> remainingUnansweredComments = null;
+			String query = "from RFC where claim.id = :claimID and answer = null";
+			Query<RFC> q = s.createQuery(query, RFC.class);
+			q.setParameter("claimID", claim.getId());
+			remainingUnansweredComments = q.getResultList();
+			if(remainingUnansweredComments.size() > 0) {
+				//do nothing
+			} else if(claim.getDsa() == null) {
+				stage = s.get(Stage.class, 1);
+			} else if(claim.getDha() == null) {
+				stage = s.get(Stage.class, 2);
+			} else if(claim.getBca() == null) {
+				stage = s.get(Stage.class, 3);
+			}
+		}
+		
+		if(stage != null) {
+			claim.setApprovalStage(stage);
+			s.update(claim);
+		}
+	}
 }
