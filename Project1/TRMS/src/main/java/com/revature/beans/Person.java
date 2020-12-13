@@ -4,6 +4,10 @@ package com.revature.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.*;
+
 public class Person {
 	private Integer id;
 	private String username;
@@ -15,7 +19,19 @@ public class Person {
 
 	private String title;
 	private Integer role_id; 
+	private LocalTime event_time;
 	
+	@JsonFormat(pattern = "hh:mm")
+	public LocalTime getEvent_time() {
+		return event_time;
+	}
+
+
+	public void setEvent_time(LocalTime event_time) {
+		this.event_time = event_time;
+	}
+
+
 	public String getTitle() {
 		return title;
 	}

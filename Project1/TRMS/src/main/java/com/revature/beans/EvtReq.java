@@ -1,5 +1,6 @@
 package com.revature.beans;
 
+import java.sql.Time;
 import java.util.Date;
 
 
@@ -16,6 +17,11 @@ public class EvtReq {
 	private Integer priority_id;
 	private Date start_date;
 	private double amount; 
+	private Time event_time;
+	private Integer location_id;
+	private Integer grading_format_id;
+	private String work_related_justification;
+	private Integer passing_cutoff_grade_id;
 	
 	
 	public EvtReq() {
@@ -31,6 +37,11 @@ public class EvtReq {
 		priority_id = 0;
 		start_date = new Date();
 		amount = 0.00;
+		event_time = null; 
+		location_id = 0;
+		grading_format_id = 0;
+		work_related_justification = "";
+		passing_cutoff_grade_id = 0;
 	}
 
 
@@ -154,6 +165,56 @@ public class EvtReq {
 	}
 
 
+	public Time getEvent_time() {
+		return event_time;
+	}
+
+
+	public void setEvent_time(Time event_time) {
+		this.event_time = event_time;
+	}
+
+
+	public Integer getLocation_id() {
+		return location_id;
+	}
+
+
+	public void setLocation_id(Integer location_id) {
+		this.location_id = location_id;
+	}
+
+
+	public Integer getGrading_format_id() {
+		return grading_format_id;
+	}
+
+
+	public void setGrading_format_id(Integer grading_format_id) {
+		this.grading_format_id = grading_format_id;
+	}
+
+
+	public String getWork_related_justification() {
+		return work_related_justification;
+	}
+
+
+	public void setWork_related_justification(String work_related_justification) {
+		this.work_related_justification = work_related_justification;
+	}
+
+
+	public Integer getPassing_cutoff_grade_id() {
+		return passing_cutoff_grade_id;
+	}
+
+
+	public void setPassing_cutoff_grade_id(Integer passing_cutoff_grade_id) {
+		this.passing_cutoff_grade_id = passing_cutoff_grade_id;
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -166,14 +227,19 @@ public class EvtReq {
 		result = prime * result + ((department_head_approval_id == null) ? 0 : department_head_approval_id.hashCode());
 		result = prime * result
 				+ ((direct_supervisor_approval_id == null) ? 0 : direct_supervisor_approval_id.hashCode());
+		result = prime * result + ((event_time == null) ? 0 : event_time.hashCode());
+		result = prime * result + ((grading_format_id == null) ? 0 : grading_format_id.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((location_id == null) ? 0 : location_id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((passing_cutoff_grade_id == null) ? 0 : passing_cutoff_grade_id.hashCode());
 		result = prime * result + ((person_id == null) ? 0 : person_id.hashCode());
 		result = prime * result + ((posting_date == null) ? 0 : posting_date.hashCode());
 		result = prime * result + ((priority_id == null) ? 0 : priority_id.hashCode());
 		result = prime * result + ((req_fr_cmnt_id == null) ? 0 : req_fr_cmnt_id.hashCode());
 		result = prime * result + ((start_date == null) ? 0 : start_date.hashCode());
 		result = prime * result + ((type_id == null) ? 0 : type_id.hashCode());
+		result = prime * result + ((work_related_justification == null) ? 0 : work_related_justification.hashCode());
 		return result;
 	}
 
@@ -204,15 +270,35 @@ public class EvtReq {
 				return false;
 		} else if (!direct_supervisor_approval_id.equals(other.direct_supervisor_approval_id))
 			return false;
+		if (event_time == null) {
+			if (other.event_time != null)
+				return false;
+		} else if (!event_time.equals(other.event_time))
+			return false;
+		if (grading_format_id == null) {
+			if (other.grading_format_id != null)
+				return false;
+		} else if (!grading_format_id.equals(other.grading_format_id))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (location_id == null) {
+			if (other.location_id != null)
+				return false;
+		} else if (!location_id.equals(other.location_id))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (passing_cutoff_grade_id == null) {
+			if (other.passing_cutoff_grade_id != null)
+				return false;
+		} else if (!passing_cutoff_grade_id.equals(other.passing_cutoff_grade_id))
 			return false;
 		if (person_id == null) {
 			if (other.person_id != null)
@@ -244,6 +330,11 @@ public class EvtReq {
 				return false;
 		} else if (!type_id.equals(other.type_id))
 			return false;
+		if (work_related_justification == null) {
+			if (other.work_related_justification != null)
+				return false;
+		} else if (!work_related_justification.equals(other.work_related_justification))
+			return false;
 		return true;
 	}
 
@@ -254,9 +345,12 @@ public class EvtReq {
 				+ ", direct_supervisor_approval_id=" + direct_supervisor_approval_id + ", department_head_approval_id="
 				+ department_head_approval_id + ", benefits_coordinator_approval_id=" + benefits_coordinator_approval_id
 				+ ", person_id=" + person_id + ", type_id=" + type_id + ", req_fr_cmnt_id=" + req_fr_cmnt_id
-				+ ", priority_id=" + priority_id + ", start_date=" + start_date + ", amount=" + amount + "]";
+				+ ", priority_id=" + priority_id + ", start_date=" + start_date + ", amount=" + amount + ", event_time="
+				+ event_time + ", location_id=" + location_id + ", grading_format_id=" + grading_format_id
+				+ ", work_related_justification=" + work_related_justification + ", passing_cutoff_grade_id="
+				+ passing_cutoff_grade_id + "]";
 	}
-	
+
 
 }
 

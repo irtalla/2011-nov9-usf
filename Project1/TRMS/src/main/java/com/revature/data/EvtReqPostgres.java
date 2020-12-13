@@ -57,7 +57,17 @@ public class EvtReqPostgres implements EvtReqDAO {
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			
-			String sql = "UPDATE evt_req SET name= ?, posting_date= ?, direct_supervisor_approval_status_id= ? , department_head_approval_status_id= ? ,benefits_coordinator_approval_status_id=?, person_id= ?, type_id= ?, req_fr_cmnt_id= ?, priority_id= ?, start_date= ?, amount= ? WHERE id= ?";
+			String sql = "UPDATE evt_req SET name= ?, posting_date= ?, direct_supervisor_approval_status_id= ? ,"
+					+ " department_head_approval_status_id= ? ,benefits_coordinator_approval_status_id=?,"
+					+ " person_id= ?, type_id= ?, req_fr_cmnt_id= ?, priority_id= ?, start_date= ?, amount= ? "
+					+ "event_time = ?, location_id = ?, grading_format_id = ?, work_related_justification = ?, passing_cutoff_grade_id = ?,"
+					+ " WHERE id= ?";
+			
+//			String sql = "UPDATE evt_req SET name= ?, posting_date= ?, direct_supervisor_approval_status_id= ? ,"
+//					+ " department_head_approval_status_id= ? ,benefits_coordinator_approval_status_id=?,"
+//					+ " person_id= ?, type_id= ?, req_fr_cmnt_id= ?, priority_id= ?, start_date= ?, amount= ? "
+//					+ "event_time = ?, location_id = ?"
+//					+ " WHERE id= ?";
 							
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			
@@ -67,7 +77,12 @@ public class EvtReqPostgres implements EvtReqDAO {
 			pstmt.setInt(7, t.getType_id());
 			pstmt.setDate(10, convertUtilToSql(t.getStart_date()));
 			pstmt.setDouble(11, t.getAmount()); 
-			pstmt.setInt(12, t.getId());
+			pstmt.setTime(12, t.getEvent_time());
+			pstmt.setInt(13, t.getLocation_id());
+			pstmt.setInt(14, t.getGrading_format_id());
+			pstmt.setString(15, t.getWork_related_justification());
+			pstmt.setInt(16, t.getPassing_cutoff_grade_id());
+			pstmt.setInt(17, t.getId());
 					
 			int rowsAffected = pstmt.executeUpdate();
 			
@@ -103,7 +118,8 @@ public class EvtReqPostgres implements EvtReqDAO {
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			
-			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount) values (?, ?, ?, ?, ?, ?)";
+			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount, event_time, location_id, grading_format_id, work_related_justification, passing_cutoff_grade_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount, event_time, location_id, grading_format_id, work_related_justification, passing_cutoff_grade_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
 			String[] keys = {"id"};
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
@@ -114,6 +130,11 @@ public class EvtReqPostgres implements EvtReqDAO {
 			pstmt.setInt(4, t.getType_id());
 			pstmt.setDate(5, convertUtilToSql(t.getStart_date()));
 			pstmt.setDouble(6, t.getAmount()); 
+			pstmt.setTime(7, t.getEvent_time());
+			pstmt.setInt(8, t.getLocation_id());
+			pstmt.setInt(9, t.getGrading_format_id());
+			pstmt.setString(10,  t.getWork_related_justification());
+			pstmt.setInt(11,  t.getPassing_cutoff_grade_id());
 			
 			int row = pstmt.executeUpdate();
 			

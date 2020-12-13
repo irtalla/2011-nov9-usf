@@ -54,7 +54,6 @@ public class EvtReqController {
 		
 		EvtReq evtReq = ctx.bodyAsClass(EvtReq.class);
 		
-		//for the person we have to get it from the session
 		System.out.println("get the person from the session");
 		Person p = ctx.sessionAttribute("user");
 		

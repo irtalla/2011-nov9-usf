@@ -35,7 +35,7 @@ div.innerHTML = `
 							</select>
 						</div>
 						<br />
-						<input type='submit' onClick="register()" > 	
+						<input class="btn btn-primary" type='submit' onClick="register()" > 	
 					</div>
 				</form>
 

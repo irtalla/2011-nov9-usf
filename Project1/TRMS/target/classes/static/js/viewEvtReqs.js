@@ -1,3 +1,5 @@
+checkLogin();
+
 getEvtReqs();
 
 async function getEvtReqs() {
