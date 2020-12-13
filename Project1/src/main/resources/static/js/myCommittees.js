@@ -24,38 +24,17 @@ function populateCommittees() {
         for (let com of comms) {
             let tr = document.createElement('tr');
             tr.innerHTML = `
-                <button id="${com.committee_name}Pitches" onclick = "${com.committee_name}Pitches" type="button">
+                <button id="${com.committee_name}Pitches" onclick = "${com.committee_name}Pitches()" type="button">
                     ${com.committee_name}
                 </button>
             `
-            //I was using this earlier but I am trying to use less pages
-            //<td><a href="${com.committee_name}Pitches">${com.committee_name}</a><td>
+
             ;
           
             table.appendChild(tr);
         } //end for
 
         committeeSection.appendChild(table);
-        let fantasyPitch = document.getElementById('fantasyPitches');
-        let sci_fiPitch = document.getElementById('sci_fiPitches');
-        let fictionPitch = document.getElementById('fictionPitches');
-        let historyPitch = document.getElementById('historyPitches');
-        let cookingPitch = document.getElementById('cookingPitches');
-        let biographyPitch = document.getElementById('biographyPitches');
-        let sportsPitch = document.getElementById('sportsPitches');
-        let kidsPitch = document.getElementById('kidsPitches');
-
-        fantasyPitch.addEventListener("click", fantasyPitches);
-        sci_fiPitch.addEventListener("click", sci_fiPitches);
-        fictionPitch.addEventListener("click", fictionPitches);
-        historyPitch.addEventListener("click", historyPitches);
-        cookingPitch.addEventListener("click", cookingPitches);
-        biographyPitch.addEventListener("click", biographyPitches);
-        sportsPitch.addEventListener("click", sportsPitches);
-        kidsPitch.addEventListener("click", kidsPitches);
-
-
-
     } else {
         committeeSection.innerHTML = 'Editors\' committees';
     }//else of if
@@ -119,34 +98,35 @@ function populateCommittees() {
                 for (let pitch of genPitches) {
                     let tr = document.createElement('tr');
                     if(pitch.priority.name != 'zero'){
-                    tr.innerHTML = `
-                        <td id= "pitchIdNum${pitch.id}">${pitch.id}</td>
-                        <td >${pitch.story_title}</td>
-                        <td id="pitchStoryTypeNum${pitch.id}">${pitch.story_type.name}</td>
-                        <td>${pitch.genre.name}</td>
-                        <td>${pitch.description}</td>
-                        <td id="pitchStatusNum${pitch.id}">${pitch.status.name}</td>
-                        <td id="pitchPriorityNum${pitch.id}">${pitch.priority.name}</td>
-                        <td id="pitchStageNum${pitch.id}">${pitch.stage.name}</td>
-                        <td>${pitch.finish_date}</td>
-                        <td><button id="accept" type="button" value="${pitch.id}" 
-                        onclick="acceptPitch(${pitch.id})">accept 
-                        </button></td>
+                        if(pitch.stage.id == userAssistant || pitch.stage.id == userGeneral || pitch.stage.id == userSenior) {
+                                    tr.innerHTML = `
+                                        <td id= "pitchIdNum${pitch.id}">${pitch.id}</td>
+                                        <td >${pitch.story_title}</td>
+                                        <td id="pitchStoryTypeNum${pitch.id}">${pitch.story_type.name}</td>
+                                        <td>${pitch.genre.name}</td>
+                                        <td>${pitch.description}</td>
+                                        <td id="pitchStatusNum${pitch.id}">${pitch.status.name}</td>
+                                        <td id="pitchPriorityNum${pitch.id}">${pitch.priority.name}</td>
+                                        <td id="pitchStageNum${pitch.id}">${pitch.stage.name}</td>
+                                        <td>${pitch.finish_date}</td>
+                                        <td><button id="accept" type="button" value="${pitch.id}" 
+                                        onclick="acceptPitch(${pitch.id})">accept 
+                                        </button></td>
 
-                        <td><button id="reject" type="button" value="${pitch.id}" 
-                        onclick="rejectPitch(${pitch.id})">reject 
-                        </button></td>
+                                        <td><button id="reject" type="button" value="${pitch.id}" 
+                                        onclick="rejectPitch(${pitch.id})">reject 
+                                        </button></td>
 
-                        <td><button id="request" type="button" onclick="requestPitch(${pitch.id})">request 
-                        </button></td>
-                    `;
+                                        <td><button id="request" type="button" onclick="requestPitch(${pitch.id})">request 
+                                        </button></td>
+                                    `;
                   
-                    table.appendChild(tr);
-                    }
+                                     table.appendChild(tr);
+                        }//check user titles to pitch stage
+                    }//end priority level zero check
                 } //end for
                 
                 poppitch.appendChild(table);
-                console.log(document.getElementById('table').value);
             } else {
                 poppitch.innerHTML = 'No Pitches found for this Committee';
                 
@@ -210,8 +190,3 @@ async function requestPitch(){
 }
 
 
-//steps for tomorrow, rejectPitch deletes a pitch should be easy enough
-//accept a pitch doesn't actually change the status but instead moves
-//up the chain of stages depending on if editors exist i guess? 
-//request will require a request controller to be built for infoRequest
-//this is the mvp for saturday/

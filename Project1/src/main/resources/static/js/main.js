@@ -80,16 +80,16 @@ async function checkLogin() {
     setNav();
     for(let title of loggedUser.title){
         if(title.name === 'author'){
-            userAuthor = 1;
+            userAuthor = 4;
         }
         if(title.name === 'assistant'){
             userAssistant = 1;
         }
         if(title.name === 'general'){
-            userGeneral = 1;
+            userGeneral = 2;
         }
         if(title.name === 'senior'){
-            userSenior = 1;
+            userSenior = 3;
         }
     }
    

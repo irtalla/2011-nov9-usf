@@ -8,11 +8,14 @@ import com.revature.beans.Pitch;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.service.PersonService;
 import com.revature.service.PersonServiceImpl;
+import com.revature.service.PitchService;
+import com.revature.service.PitchServiceImpl;
 
 import io.javalin.http.Context;
 
 public class PersonController {
 	private static PersonService personServ = new PersonServiceImpl();
+	private static PitchService pitchServ = new PitchServiceImpl();
 	public static void checkLogin(Context ctx) {
 		System.out.println("Checking login");
 		Person p = ctx.sessionAttribute("user");
@@ -106,5 +109,15 @@ public class PersonController {
 		}else {
 			ctx.status(404);
 		}
+	}
+	
+	public static void deletePersonsPitch(Context ctx) {
+		Person loggedPerson = ctx.sessionAttribute("user");
+		Pitch pitch = pitchServ.getPitchById(Integer.valueOf(ctx.pathParam("id")));
+		/**
+		 * delete the pitch from the user first to attempt to get it out of person_pitch
+		 * then delete the pitch to deal with cascading
+		 * To do after requests files and drafts are added
+		 */
 	}
 }

@@ -25,7 +25,7 @@ public class Pitch {
 //	joinColumns=@JoinColumn(name="pitch_id"),
 //	inverseJoinColumns = @JoinColumn(name = "person_id"))
 
-//	private Person author;
+	private Integer author;
 	
 	private String story_title;
   
@@ -52,7 +52,7 @@ public class Pitch {
 	
 	public Pitch() {
 		id = 0;
-//		author = new Person();
+		author = 0;
 		story_title ="";
 		story_type = new StoryType();
 		genre = new Genre();
@@ -62,12 +62,12 @@ public class Pitch {
 		stage = new PitchStage();
 		finish_date = "";
 	}
-//	public Person getAuthor() {
-//		return author;
-//	}
-//	public void setAuthor(Person author) {
-//		this.author = author;
-//	}
+	public Integer getAuthor() {
+		return author;
+	}
+	public void setAuthor(Integer author) {
+		this.author = author;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -128,7 +128,7 @@ public class Pitch {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-//		result = prime * result + ((author == null) ? 0 : author.hashCode());
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((finish_date == null) ? 0 : finish_date.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
@@ -149,11 +149,11 @@ public class Pitch {
 		if (getClass() != obj.getClass())
 			return false;
 		Pitch other = (Pitch) obj;
-//		if (author == null) {
-//			if (other.author != null)
-//				return false;
-//		} else if (!author.equals(other.author))
-//			return false;
+		if (author == null) {
+			if (other.author != null)
+				return false;
+		} else if (!author.equals(other.author))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -201,13 +201,13 @@ public class Pitch {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "Pitch id:" + id + " by " + //author +
-				"\n story_title: " + story_title + ", projected finish date: " + finish_date + 
-				"\n In the genre of " + genre.getName()
-				+ "\n description=" + description;
-	}
+//	@Override
+//	public String toString() {
+//		return "Pitch id:" + id + //" by " + //author +
+//				"\n story_title: " + story_title + ", projected finish date: " + finish_date + 
+//				"\n In the genre of " + genre.getName()
+//				+ "\n description=" + description;
+//	}
 	
 	
 }

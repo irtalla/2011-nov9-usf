@@ -23,6 +23,7 @@ function populatePitches() {
         table.innerHTML = `
             <tr>
                 <th>ID</th>
+                <th>Author ID</th?
                 <th>Story Title</th>
                 <th>Story Type</th>
                 <th>Genre</th>
@@ -31,21 +32,32 @@ function populatePitches() {
                 <th>Priority</th>
                 <th>Stage</th>
                 <th>Finish Date</th>
+                <th> Delete? </th>
+                <th> ReSubmit? </th>
             </tr>
         `;
 
         for (let pitch of pitches) {
             let tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${pitch.id}</td>
-                <td>${pitch.story_title}</td>
-                <td>${pitch.story_type.name}</td>
-                <td>${pitch.genre.name}</td>
-                <td>${pitch.description}</td>
-                <td>${pitch.status.name}</td>
-                <td>${pitch.priority.name}</td>
-                <td>${pitch.stage.name}</td>
-                <td>${pitch.finish_date}</td>
+                <td id ="${pitch.id}pitchId">${pitch.id}</td>
+                <td id ="${pitch.id}pitchAuth">${pitch.author}</td>
+                <td id ="${pitch.id}pitchTitle">${pitch.story_title}</td>
+                <td id ="${pitch.id}pitchType">${pitch.story_type.name}</td>
+                <td id ="${pitch.id}pitchGenre">${pitch.genre.name}</td>
+                <td id ="${pitch.id}pitchDesc">${pitch.description}</td>
+                <td id ="${pitch.id}pitchStatus">${pitch.status.name}</td>
+                <td id ="${pitch.id}pitchPriority">${pitch.priority.name}</td>
+                <td id ="${pitch.id}pitchStage">${pitch.stage.name}</td>
+                <td id ="${pitch.id}pitchFinish">${pitch.finish_date}</td>
+
+                <td><button id="deletePitch" type="button" value="${pitch.id}" 
+                onclick="deletePitch(${pitch.id})">Delete This Pitch? 
+                </button></td>
+
+                <td><button id="reSubPitch" type="button" value="${pitch.id}" 
+                onclick="reSubPitch(${pitch.id})">Resubmit Pitch? 
+                </button></td>
             `;
           
             table.appendChild(tr);
@@ -80,8 +92,8 @@ function makePitch(){
 
         <select name="story_type" id="story_type">
         <option value="1">Novel</option>
-        <option value="2">Novelle</option>
-        <option value="3">Short Stories</option>
+        <option value="2">Novella</option>
+        <option value="3">Short Story</option>
         <option value="4">Article</option>
         </select><br>
 
@@ -115,6 +127,7 @@ function makePitch(){
     makeSection.appendChild(pitchform);
     let pitchButton = document.getElementById('submitChanges');
     pitchButton.addEventListener("click", submitChanges);
+
     }   
 }
 async function submitChanges() {
@@ -122,16 +135,32 @@ async function submitChanges() {
     let pitches = loggedUser.pitches;
     let total = 0;
     let statweight =0;
+    let priorityChecker = 0;
+    let pitchStoryType = document.getElementById('story_type');
+    let pitchweight = 0;
+    if(pitchStoryType.options[pitchStoryType.selectedIndex].text == 'Novel'){
+        pitchweight = 50;
+    }else if(pitchStoryType.options[pitchStoryType.selectedIndex].text == 'Novella'){
+        pitchweight = 25;
+    }else if(pitchStoryType.options[pitchStoryType.selectedIndex].text == 'Short Story'){
+        pitchweight = 20;
+    }else if(pitchStoryType.options[pitchStoryType.selectedIndex].text == 'Article'){
+        pitchweight = 10;
+    }else{
+        alert("Code Monkey get a job!")
+    }
     for (let pitch of pitches){
         total += pitch.story_type.points;
     }
-    if(total >= 100) {
+    if((total + pitchweight) >= 100) {
         statweight = 4;
+        priorityChecker = 3;
     }else{
         statweight =1;
+        priorityChecker = 1;
     }
     let data = {
-        //person_id: loggedUser.id,
+        author: loggedUser.id,
         story_title: document.getElementById('story_title').value,
         story_type:{
            id: document.getElementById('story_type').value,
@@ -144,7 +173,7 @@ async function submitChanges() {
             id: statweight
         },
         priority:{
-            id: 1
+            id: priorityChecker
         },
         stage:{
             id:1
@@ -166,4 +195,18 @@ async function submitChanges() {
         alert('Something went wrong.');
     }
 
+}
+
+async function deletePitch(number){
+    let url = baseUrl + '/users/pitches/'+number;
+    let data = {
+        author: document.getElementById(`${number}pitchId`).value,       
+    };
+
+    
+    let response = await fetch(url, {method: 'DELETE', body: JSON.stringify(data)});
+    if(response.status >= 200 && response.status < 300){
+
+        document.location.reload();
+    }
 }
