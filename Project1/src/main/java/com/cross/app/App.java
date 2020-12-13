@@ -7,6 +7,7 @@ import com.cross.controllers.CommentController;
 import com.cross.controllers.DecisionController;
 import com.cross.controllers.PitchController;
 import com.cross.controllers.RequestController;
+import com.cross.services.PriorityUpdaterService;
 
 import io.javalin.Javalin;
 
@@ -25,6 +26,10 @@ public class App {
 		PitchController.initGsonBuilder();
 		RequestController.initGsonBuilder();
 		CommentController.initGsonBuilder();
+		DecisionController.initGsonBuilder();
+		
+		PriorityUpdaterService priorityUpdateServ = PriorityUpdaterService.getPriorityUpdaterService(); 
+		priorityUpdateServ.run();
 		
 		app.start(4000);
 		
