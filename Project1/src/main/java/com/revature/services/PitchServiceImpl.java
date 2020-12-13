@@ -76,7 +76,8 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByAuthor(User author) {
+	public Set<Pitch> getPitchesByAuthor(Integer id) {
+		User author = uDao.getById(id);
 		return pitchDao.getByAuthor(author);
 	}
 
@@ -327,6 +328,24 @@ public class PitchServiceImpl implements PitchService {
 		}
 		
 		return updatedPath;
+	}
+	
+	@Override
+	public Boolean checkForTotalScore(Integer id) {
+		Pitch p = pitchDao.getById(id);
+		User u = p.getAuthor();
+		Set<Pitch> pitches = pitchDao.getByAuthor(u);
+		Integer total = 0;
+		for (Pitch pitch : pitches) {
+			if (pitch.getId() == id) continue;
+			if (pitch.getPitchStage().getId() == 5 && pitch.getReviewStatus().getId() >= 4) continue;
+			total += pitch.getStoryType().getWeight();
+		}
+		if (total + p.getStoryType().getWeight() <= 100) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

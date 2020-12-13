@@ -36,8 +36,13 @@ function setSubmission() {
 async function submitPitch() {
     let url = baseUrl + "/pitch";
 
-    let currentUser = JSON.parse(localStorage.getItem("loggedUser"));
-
+    let currentUser = null;
+    while (true) {
+        if (localStorage.getItem("loggedUser")) {
+            currentUser = JSON.parse(localStorage.getItem("loggedUser"));
+            break;
+        }
+    }
     let types = await getStoryTypes();
     let storyType = null;
     for (let type of types) {
@@ -84,7 +89,6 @@ async function submitPitch() {
         reviewStatus: status,
         additionalFiles: files
     };
-
     // console.log(data);
 
     let response = await fetch(url, {
@@ -95,8 +99,8 @@ async function submitPitch() {
     // console.log(response);
     if (response.status === 200) {
         alert("Successfully submited the pitch! Heading back to your portal...");
-        uploadFiles(files);
-        window.location.replace(baseUrl + "/viewPitch.html");
+        if (files.length > 0) uploadFiles(files);
+        else checkTotalScore();
     } else {
         alert("There was an error. Try again.");
     }
@@ -209,8 +213,35 @@ async function uploadFiles() {
     });
     if (response.status === 200) {
         alert("Files successfully uploaded!");
+        checkTotalScore();
     } else {
         alert("There was an error. Try again.");
+    }
+}
+
+async function checkTotalScore() {
+    let currentUser = localStorage.getItem("loggedUser");
+    let userId = null;
+    if (currentUser) {
+        let parsedUser = JSON.parse(currentUser);
+        userId = parsedUser.id;
+    }
+
+    let url = baseUrl + '/pitch/author/' + userId;
+    let response = await fetch(url);
+    let pitches = null;
+    if (response.status === 200) {
+        pitches = await response.json();
+        let totalScore = 0;
+        for (let pitch of pitches) {
+            totalScore += pitch.storyType.weight;
+        }
+
+        console.log(totalScore);
+        if (totalScore >= 100) {
+            alert("Please note that this pitch will be on hold while we review your other pitches.\nOnce we clear your older pitches, we will automatically release this pitch from hold.");
+        }
+        returnToPitch();
     }
 }
 

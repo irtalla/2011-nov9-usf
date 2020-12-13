@@ -21,7 +21,7 @@ function setNav() {
         let registerBtn = document.getElementById('registerBtn');
         registerBtn.onclick = registerUser;
     }
-    console.log(loggedUser);
+    // console.log(loggedUser);
 
 }
 
@@ -33,7 +33,9 @@ async function login() {
 
     switch (response.status) {
         case 200:
-            setLoggedUser(await response.json());
+            let currentUser = await response.json();
+            setLoggedUser(currentUser);
+            localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
             setNav();
             break;
         case 400:
@@ -59,7 +61,7 @@ async function logout() {
         alert('Failed to logout');
     }
     setLoggedUser(null);
-    localStorage.removeItem("loggedUser");
+    localStorage.setItem("loggedUser", null);
     if (window.location != baseUrl) {
         window.location.replace(baseUrl);
     } else {

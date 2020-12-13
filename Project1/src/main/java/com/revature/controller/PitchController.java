@@ -26,6 +26,11 @@ public class PitchController {
 		Pitch newPitch = pitchServ.parseContext(ctx.body());
 		try {
 			Integer newId = pitchServ.addPitch(newPitch);
+			if (pitchServ.checkForTotalScore(newId)) {
+				newPitch.getPitchStage().setId(2);
+				newPitch.getReviewStatus().setId(2);
+				pitchServ.updatePitch(newPitch);
+			}
 		} catch (Exception e) {
 			System.out.println("An exception occurred");
 			ctx.status(400);
@@ -54,8 +59,8 @@ public class PitchController {
 	}
 	
 	public static void getPitchesByAuthor(Context ctx) {
-		User u = ctx.bodyAsClass(User.class);
-		Set<Pitch> p = pitchServ.getPitchesByAuthor(u);
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Set<Pitch> p = pitchServ.getPitchesByAuthor(id);
 		if (p != null) {
 			ctx.status(200);
 			ctx.json(p);

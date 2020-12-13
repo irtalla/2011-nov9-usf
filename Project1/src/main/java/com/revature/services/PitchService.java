@@ -14,7 +14,7 @@ import com.revature.models.User;
 public interface PitchService {
 	public Integer addPitch(Pitch t) throws Exception;
 	public Pitch getPitchById(Integer id);
-	public Set<Pitch> getPitchesByAuthor(User author);
+	public Set<Pitch> getPitchesByAuthor(Integer id);
 	public Set<Pitch> getPitchesByGenre(Integer genreId, Boolean withinGenre);
 	public Set<Pitch> getPitchesByStoryType(StoryType type);
 	public Set<Pitch> getPitchesByPitchStage(PitchStage stage);
@@ -30,4 +30,5 @@ public interface PitchService {
 	public List<String> getPriorities();
 	public Pitch parseContext(String ctx);
 	public String updateFilePaths(String file);
+	public Boolean checkForTotalScore(Integer id);
 }

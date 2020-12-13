@@ -52,6 +52,10 @@ public class SpmsAppJavalin {
 					get(PitchController::getAllPitches);
 				});
 				
+				path("author/:id", () -> {
+					get(PitchController::getPitchesByAuthor);
+				});
+				
 				path("genre", () -> {
 					get(PitchController::getGenres);
 					path(":genre_pitch", () -> {
