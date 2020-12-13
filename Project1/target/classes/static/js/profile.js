@@ -5,23 +5,48 @@ let changingPass = false;
 function showInfo() {
     let heading = document.getElementById('heading');
     heading.innerHTML = loggedUser.username;
+    
+    let titleSpan = document.createElement('div');
+    let titleAuthorP = document.createElement('p');
+    let titleAssistP = document.createElement('p');
+    let titleGenP = document.createElement('p');
+    let titleSenP = document.createElement('p');
 
-    //This section populates the users titles
-    //function populateTitles(){
-        let titles = loggedUser.title;
 
-        if(titles.length > 0) {
-            let titleLst = document.createElement('ul');
-            for(let title of titles ){
-                let titleItem = document.createElement('li');
-                titleItem.innerHTML = title.name
-                titleLst.appendChild(titleItem);
-            } //end for
 
-            heading.appendChild(titleLst);
-        }//end if
+    if(userAuthor > 0){
+        titleAuthorP.innerHTML = "Author";
+        titleSpan.appendChild(titleAuthorP);
+    }
+    if(userAssistant > 0){
+        titleAssistP.innerHTML = "Assistant Editor";
+        titleSpan.appendChild(titleAssistP);
+    }
+    if(userGeneral > 0){
+        titleGenP.innerHTML = "General Editor";
+        titleSpan.appendChild(titleGenP);
+    }
+    if(userSenior > 0){
+        titleSenP.innerHTML = "Senior Editor";
+        titleSpan.appendChild(titleSenP);
+    }
 
-    //}//end poptitles
+    let titlesDisplay = document.getElementById("titlesDisplay");
+    titlesDisplay.appendChild(titleSpan);
+        // let titles = loggedUser.title;
+
+        // if(titles.length > 0) {
+        //     let titleLst = document.createElement('ul');
+        //     for(let title of titles ){
+        //         let titleItem = document.createElement('li');
+        //         titleItem.innerHTML = title.name
+        //         titleLst.appendChild(titleItem);
+        //     } //end for
+
+        //     heading.appendChild(titleLst);
+       // }//end if
+
+    
 
 
     let info = document.getElementById('info');

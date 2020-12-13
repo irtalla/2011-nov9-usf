@@ -69,12 +69,30 @@ async function logout() {
     setNav();
     document.location.reload();
 }
-
+var userAuthor = 0;
+var userAssistant = 0;
+var userGeneral = 0;
+var userSenior = 0;
 async function checkLogin() {
     let url = baseUrl + '/users';
     let response = await fetch(url);
     if (response.status === 200) loggedUser = await response.json();
     setNav();
+    for(let title of loggedUser.title){
+        if(title.name === 'author'){
+            userAuthor = 1;
+        }
+        if(title.name === 'assistant'){
+            userAssistant = 1;
+        }
+        if(title.name === 'general'){
+            userGeneral = 1;
+        }
+        if(title.name === 'senior'){
+            userSenior = 1;
+        }
+    }
+   
 }
 
 async function getCommittees() {

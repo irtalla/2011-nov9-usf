@@ -17,6 +17,7 @@ import com.revature.service.StatusServiceImpl;
 import com.revature.service.StoryTypeService;
 import com.revature.service.StoryTypeServiceImpl;
 
+import io.cucumber.plugin.event.TestSourceRead;
 import io.javalin.http.Context;
 
 public class StageController {
@@ -43,25 +44,23 @@ public class StageController {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		Pitch pitch = pServ.getPitchById(id);
 		PitchStage stage = pitch.getStage();
-		if(pitch.getStage().getId() == 1) {
-			stage.setId(stage.getId()+1);
-			pitch.setStage(stage);
+		System.out.println("I have not checked stage yet, but it is " +stage);
+		if(pitch.getStage().getId().equals(1)) {
+			pitch.setStage(psServ.getPitchStageById(2));
+			pServ.updatePitch(pitch);
 		}else if(stage.getName().equals("general approval")) {
-			stage.setId(stage.getId()+1);
-			pitch.setStage(stage);
+			pitch.setStage(psServ.getPitchStageById(3));
+			pServ.updatePitch(pitch);
 		}else if(stage.getName().equals("senior approval")) {
-			stage.setId(stage.getId()+1);
-			pitch.setStage(stage);
+			pitch.setStage(psServ.getPitchStageById(4));
+			pServ.updatePitch(pitch);
 		}else if(stage.getName().equals("final approval")) {
-			Status stat = statServ.getStatusById(2);
-			pitch.setStatus(stat);
+			pitch.setStatus(statServ.getStatusById(2));
 			StoryType st = stServ.getStoryTypeById(pitch.getStory_type().getId());
 			st.setPoints(0);
 			pitch.setStory_type(st);
-			PitchPriority pp = ppServ.getPitchPriorityById(pitch.getPriority().getId());
-			pp.setId(3);
-			PitchStage ps = psServ.getPitchStageById(6);
-			pitch.setStage(ps);
+			pitch.setPriority( ppServ.getPitchPriorityById(3));
+			pitch.setStage(psServ.getPitchStageById(6));
 			pServ.updatePitch(pitch);
 		}
 	}

@@ -1,5 +1,4 @@
 checkLogin().then(populateCommittees);
-
 // async function getPitches(){
 //     let url = baseUrl + '/users/pitches/';
 //     let response = await fetch(url);
@@ -116,7 +115,7 @@ function populateCommittees() {
                         <th>Finish Date</th>
                     </tr>
                 `;
-        
+                
                 for (let pitch of genPitches) {
                     let tr = document.createElement('tr');
                     if(pitch.priority.name != 'zero'){
