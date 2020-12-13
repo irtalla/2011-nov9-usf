@@ -1,4 +1,4 @@
-package dev.rev.app;
+	package dev.rev.app;
 
 import static io.javalin.apibuilder.ApiBuilder.delete;
 import static io.javalin.apibuilder.ApiBuilder.get;
@@ -26,30 +26,40 @@ public abstract class TRMSJavalin {
 		app.routes(() -> {
 			// all requests to /cats go to this handler
 			path("form", () -> {
-				get(formcontroller::getallforms); // get available cats is the default
+				get(formcontroller::getallforms); // get available is the default
 				post(formcontroller::addform); // add a cat
 				// note: you want your specific paths to be before path variables
 				// so that javalin tries those before mapping it to a path variable
 				// basically, if the :id path was first, the "all" path would also
 				// get mapped to it and it would treat the string "all" as the id
 				// instead of as its own path
-				path ("all", () -> {
-		//			get(CatController::getAllCats); // get all cats
-				});
+			
 			//	path ("event", () -> {
 				//	get(eventcontroller::getallevents);
 			//	});
 				path(":id", () -> {
-//					get(CatController::getCatById); // get a cat by id
-//					put(CatController::updateCat); // update a cat
+					//System.out.println("helo");
+					//get(formcontroller::getformbyempid); // get a cat by id
+					get(formcontroller::getformbyid);
+					put(formcontroller::updateform); // update a cat
 //					delete(CatController::deleteCat); // delete a cat
+				});
+				path("emp/:id",()->{
+					
+					get(formcontroller::getempforms);
+					
 				});
 			});
 			path("events",() ->{
 				
 				get(eventcontroller::getallevents);
 				
+				path(":id",()->{
+					get(eventcontroller::geteventbyid);
+				});
+				
 			});
+		
 			
 			
 			// all requests to /users go to this handler

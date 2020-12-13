@@ -1,6 +1,7 @@
-package dev.rev.controllers;
+	package dev.rev.controllers;
 
 import java.util.List;
+
 
 import dev.rev.beans.reimbForm;
 import dev.rev.services.formservice;
@@ -21,11 +22,44 @@ public class formcontroller {
 	public static void getallforms(Context ctx) {
 		List<reimbForm> forms=fs.getforms();
 		if(forms != null) {
+			System.out.println("ffff"+forms);
+			
 			ctx.status(200);
 			ctx.json(forms);
 			
 		}else {
 			ctx.status(404);
 		}
+	}
+	
+	public static void getformbyid(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		System.out.println(id+"id is");
+		reimbForm cat = fs.getbyid(id);
+		System.out.println("fomr:"+cat);
+		if (cat != null) {
+			ctx.status(200);
+			ctx.json(cat);
+		} else {
+			ctx.status(404);
+		}
+	} 
+	public static void getempforms(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		System.out.println(id+"id is");
+		List<reimbForm> cat = fs.getempforms(id);
+		System.out.println("fomr:"+cat);
+		if (cat != null) {
+			ctx.status(200);
+			ctx.json(cat);
+		} else {
+			ctx.status(404);
+		}
+	} 
+	
+	
+	
+	public static void updateform(Context ctx) {
+		
 	}
 }

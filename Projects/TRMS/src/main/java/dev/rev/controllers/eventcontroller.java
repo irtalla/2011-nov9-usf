@@ -22,6 +22,17 @@ public class eventcontroller {
 		}
 		
 	}
+	public static void geteventbyid(Context ctx) {
+	//	event event=es.getbyid(ctx.pathParam("id"));
+		Integer id= Integer.valueOf(ctx.pathParam("id"));
+		event ev=es.getbyid(id);
+		if(ev !=null ) {
+			ctx.status(200);
+			ctx.json(ev);
+		}else {
+			ctx.status(400);
+		}
+	}
 	
 	
 

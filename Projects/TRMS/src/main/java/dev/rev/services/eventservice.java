@@ -8,5 +8,6 @@ public interface eventservice {
 	
 	public Set<event> getallevent();
 	public event getbyid(int id);
+	
 
 }

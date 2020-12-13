@@ -7,7 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,7 +20,7 @@ public class reimbForm {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 		@Column(name="form_id")
 		private int from_id;
-		@ManyToOne(fetch=FetchType.EAGER)
+		@OneToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name="emp_id")
 		private employee emp_id;
 		@ManyToOne
@@ -30,14 +32,17 @@ public class reimbForm {
 		private String description;
 		private int cost;
 		private String grading_format;
-		private String type_of_event;
+		//private String type_of_event;
 		private String form_status;
-		private String type_of_approval;
+		@ManyToOne
+		@JoinColumn(name="toa_id")
+		private toa toa_id;
 		private String work_time_missed;
 		
 		public reimbForm() {
+			toa_id=null;
 			from_id=cost=0;
-			dates=timet=location=description=grading_format=type_of_event=form_status=type_of_approval=work_time_missed="";
+			dates=timet=location=description=grading_format=form_status=work_time_missed="";
 			emp_id=null;
 			event_id=null;
 			
@@ -98,30 +103,23 @@ public class reimbForm {
 		public void setGrading_format(String grading_format) {
 			this.grading_format = grading_format;
 		}
-		public String getType_of_event() {
-			return type_of_event;
-		}
-		public void setType_of_event(String type_of_event) {
-			this.type_of_event = type_of_event;
-		}
 		public String getForm_status() {
 			return form_status;
 		}
 		public void setForm_status(String form_status) {
 			this.form_status = form_status;
 		}
-		public String getType_of_approval() {
-			return type_of_approval;
+
+
+		@Override
+		public String toString() {
+			return "reimbForm [from_id=" + from_id + ", emp_id=" + emp_id + ", event_id=" + event_id + ", dates="
+					+ dates + ", timet=" + timet + ", location=" + location + ", description=" + description + ", cost="
+					+ cost + ", grading_format=" + grading_format + ", type_of_event=" 
+					+ ", form_status=" + form_status + ", toa=" + toa_id + ", work_time_missed=" + work_time_missed + "]";
 		}
-		public void setType_of_approval(String type_of_approval) {
-			this.type_of_approval = type_of_approval;
-		}
-		public String getWork_time_missed() {
-			return work_time_missed;
-		}
-		public void setWork_time_missed(String work_time_missed) {
-			this.work_time_missed = work_time_missed;
-		}
+
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -136,11 +134,12 @@ public class reimbForm {
 			result = prime * result + ((grading_format == null) ? 0 : grading_format.hashCode());
 			result = prime * result + ((location == null) ? 0 : location.hashCode());
 			result = prime * result + ((timet == null) ? 0 : timet.hashCode());
-			result = prime * result + ((type_of_approval == null) ? 0 : type_of_approval.hashCode());
-			result = prime * result + ((type_of_event == null) ? 0 : type_of_event.hashCode());
+			result = prime * result + ((toa_id == null) ? 0 : toa_id.hashCode());
 			result = prime * result + ((work_time_missed == null) ? 0 : work_time_missed.hashCode());
 			return result;
 		}
+
+
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)
@@ -194,16 +193,12 @@ public class reimbForm {
 					return false;
 			} else if (!timet.equals(other.timet))
 				return false;
-			if (type_of_approval == null) {
-				if (other.type_of_approval != null)
+			if (toa_id == null) {
+				if (other.toa_id != null)
 					return false;
-			} else if (!type_of_approval.equals(other.type_of_approval))
+			} else if (!toa_id.equals(other.toa_id))
 				return false;
-			if (type_of_event == null) {
-				if (other.type_of_event != null)
-					return false;
-			} else if (!type_of_event.equals(other.type_of_event))
-				return false;
+			
 			if (work_time_missed == null) {
 				if (other.work_time_missed != null)
 					return false;
@@ -211,13 +206,28 @@ public class reimbForm {
 				return false;
 			return true;
 		}
-		@Override
-		public String toString() {
-			return "reimbForm [from_id=" + from_id + ", emp_id=" + emp_id + ", event_id=" + event_id + ", dates="
-					+ dates + ", timet=" + timet + ", location=" + location + ", description=" + description + ", cost="
-					+ cost + ", grading_format=" + grading_format + ", type_of_event=" + type_of_event
-					+ ", form_status=" + form_status + ", type_of_approval=" + type_of_approval + ", work_time_missed="
-					+ work_time_missed + "]";
+
+
+
+
+
+		public toa getToa_id() {
+			return toa_id;
+		}
+
+
+		public void setToa_id(toa toa_id) {
+			this.toa_id = toa_id;
+		}
+
+
+		public String getWork_time_missed() {
+			return work_time_missed;
+		}
+
+
+		public void setWork_time_missed(String work_time_missed) {
+			this.work_time_missed = work_time_missed;
 		}
 		
 	

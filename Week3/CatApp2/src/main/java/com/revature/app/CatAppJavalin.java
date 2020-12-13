@@ -52,7 +52,7 @@ public class CatAppJavalin {
 				});
 			});
 			path("breeds", () -> {
-				get(BreedController::getBreeds); // get all breeds
+			//	get(BreedController::getBreeds); // get all breeds
 			});
 		});
 	}

@@ -23,5 +23,8 @@
 		<mapping class="dev.rev.beans.employee"></mapping>
 		<mapping class="dev.rev.beans.event"></mapping>
 		<mapping class="dev.rev.beans.reimbForm"></mapping>
+		<mapping class="dev.rev.beans.gf"></mapping>
+		
+		<mapping class="dev.rev.beans.toa"></mapping>
 	</session-factory>
 </hibernate-configuration>

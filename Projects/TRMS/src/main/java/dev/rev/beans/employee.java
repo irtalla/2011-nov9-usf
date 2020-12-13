@@ -15,12 +15,13 @@ public class employee {
  private String emp_name;
  private String emp_email;
  private String password;
+ private String role;
  private int max_claim;
  
  public employee() {
 	 
 	 emp_id=0;
-	 emp_name="";
+	 emp_name=role="";
 	 emp_email="";
 	 password="";
 	 max_claim=1000;
@@ -57,6 +58,8 @@ public int getMax_claim() {
 public void setMax_claim(int max_claim) {
 	this.max_claim = max_claim;
 }
+
+
 @Override
 public int hashCode() {
 	final int prime = 31;
@@ -66,8 +69,11 @@ public int hashCode() {
 	result = prime * result + ((emp_name == null) ? 0 : emp_name.hashCode());
 	result = prime * result + max_claim;
 	result = prime * result + ((password == null) ? 0 : password.hashCode());
+	result = prime * result + ((role == null) ? 0 : role.hashCode());
 	return result;
 }
+
+
 @Override
 public boolean equals(Object obj) {
 	if (this == obj)
@@ -96,13 +102,29 @@ public boolean equals(Object obj) {
 			return false;
 	} else if (!password.equals(other.password))
 		return false;
+	if (role == null) {
+		if (other.role != null)
+			return false;
+	} else if (!role.equals(other.role))
+		return false;
 	return true;
 }
+
+
+public String getRole() {
+	return role;
+}
+
+
+public void setRole(String role) {
+	this.role = role;
+}
+
+
 @Override
 public String toString() {
 	return "employee [emp_id=" + emp_id + ", emp_name=" + emp_name + ", emp_email=" + emp_email + ", password="
-			+ password + ", max_claim=" + max_claim + "]";
+			+ password + ", role=" + role + ", max_claim=" + max_claim + "]";
 }
- 
  
 }

@@ -1,7 +1,10 @@
 let baseUrl = 'http://localhost:8080';
+
+let allforms2 = 'http://localhost:8080/form';
 //console.log("hrloss");
 var chk=document.getElementById("loo");
 var reform=document.getElementById('rf');
+var allforms=document.getElementById('allforms');
 reform.style.display="none";
 
 
@@ -51,7 +54,7 @@ var divcost=document.createElement("div");
 var inputcost=document.createElement("input");
 
 var divgrading=document.createElement("div");
-var inputgrading=document.createElement("input");
+var inputgrading=document.createElement("select");
 
 var divtoe=document.createElement("div");
 var inputtoe=document.createElement("select");
@@ -86,22 +89,40 @@ function setNav() {
     
         </ul>
         `;
-    } else {
-        console.log("hrlosneas");
+    } else if(loggedUser.role=="Employee"){
+        console.log("employee");
         nav.innerHTML='';
         nav.innerHTML += `
         <div class="title">
         Menu</div>
         <ul class="list-items">
         
-        <li><a href="#"><i class="fas fa-home" onclick="profile()"></i>${loggedUser.emp_name}</a></li>
-        <li><a href="#"><i class="fas fa-home" onclick="myform()"></i>Form Status</a></li>
+        <li><a href="#"><i class="fas fa-home" onclick="profile()"></i>${loggedUser.role}</a></li>
+        <li><a href="#"><i class="fas fa-home" onclick="myform()"></i>My Form</a></li>
         <li><a href="#"><i class="fas fa-sliders-h" onclick="newform()"></i>Submit a Form</a></li>
         <li><a href="#"><i class="fas fa-address-book"></i>CONTACT US</a></li>
         
         <li><a href="#"><i class="fas fa-address-book" onclick="logout()"></i>Logout</a></li>
         `;
-    }
+        }   else{
+            console.log("non employee");
+        nav.innerHTML='';
+        nav.innerHTML += `
+        <div class="title">
+        Menu</div>
+        <ul class="list-items">
+        
+        <li><a href="#"><i class="fas fa-home" onclick="profile()"></i>${loggedUser.role}</a></li>
+        <li><a href="#"><i class="fas fa-home" onclick="myform()"></i>My Form</a></li>
+        <li><a href="#"><i class="fas fa-home" onclick="getforms()"></i>Check Forms</a></li>
+        <li><a href="#"><i class="fas fa-sliders-h" onclick="newform()"></i>Submit a Form</a></li>
+        <li><a href="#"><i class="fas fa-address-book"></i>CONTACT US</a></li>
+        
+        <li><a href="#"><i class="fas fa-address-book" onclick="logout()"></i>Logout</a></li>
+        `
+
+        }
+
 
     let loginBtn = document.getElementsByName('loginBtn');
     if (loggedUser) loginBtn.onclick = logout;
@@ -112,6 +133,301 @@ function setNav() {
     }
 
 }
+
+async function myform(){
+    
+    let myforms=allforms2+'/emp/'+loggedUser.emp_id;
+    let response = await fetch(myforms,{method: 'GET'});
+    switch (response.status) {
+        case 200: // successful
+            let allforms2 = await response.json();
+            console.log("forms in ");
+            givemyforms(allforms2);
+           // form.innerHTML='';
+            
+         //   document.getElementById('loo').style.display="none";
+            break;
+        case 400: // incorrect password
+            alert('Incorrect password, try again.');
+         //   document.getElementById('pass').value = '';
+            break;
+        case 404: // user not found
+            alert('That  exist.');
+            break;
+        default: // other error
+            alert('Something went wrong.');
+            break;
+    }
+
+
+    
+    // let fors=document.getElementById('myfo');
+    // console.log("gormiasnd");
+    // let form=document.createElement('form');
+    // form.setAttribute('class','file');
+    // form.id='muform';
+    // let uploda=document.createElement('input');
+    // uploda.setAttribute('type','file');
+    // uploda.id='inpFile';
+    // let filename=document.createElement('button');
+    // filename.setAttribute('type','submit');
+    // filename.innerHTML=`upload`;
+    // form.appendChild(uploda);
+    // form.appendChild(filename);
+    // fors.appendChild(form);
+
+    // const myform=document.getElementById("muform");
+    // const inpFile= document.getElementById("inpFile");
+
+    // //filename.onclick=up;
+
+    
+    // myform.addEventListener("submit", e=>{
+
+    //     e.preventDefault();
+
+    //     const formdata= new FormData();
+    //     console.log(inpFile.files);
+
+    //     formdata.append("inpFile",inpFile.files[0]);
+
+    //      fetch('load.php',{
+    //         method: 'POST',
+    //         body: formdata
+    //     }).catch(console.error);
+
+    // });
+
+}
+async function up(){
+        console.log("asdasdasdppppppppppp");
+        const formdata= new FormData();
+        formdata.append("inpFile",inpFile.files[0]);
+        await fetch('load.php',{
+            method: 'POST',
+            headers: {
+                "Content-Type": "text/plain"
+            },   body: formdata
+        });
+    }
+
+
+function givemyforms(allforms2){
+    allforms.innerHTML = '';
+    allforms.style.width='70%';
+    
+    allforms.style.height='70%';
+
+    if (allforms2.length > 0) {
+        console.log("all formssss"+ allforms2.length);
+        let table = document.createElement('table');
+        table.id = 'formTable';
+       
+
+        table.innerHTML = `
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>location</th>
+                <th>Start Time</th> 
+                <th>Description</th>
+                <th>Cost</th>
+                <th>FormStatus</th>
+                <th>TimeMissed</th>
+                <th>Grading format</th>
+            </tr>
+        `;
+
+        for (let form of allforms2  ) {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${form.from_id}</td>
+                <td>${form.dates}</td>
+                <td>${form.location}</td>
+                <td>${form.timet}</td>
+                <td>${form.description}</td>
+                <td>${form.cost}</td>
+                <td>${form.form_status}</td>
+                <td>${form.work_time_missed}</td>
+                <td>${form.grading_format}</td>
+                
+            `;
+          //  console.log(form.form_id+"forms");
+            // let td = document.createElement('td');
+            // let ul = document.createElement('ul');
+            // td.id='forms'
+           // td.appendChild(ul);
+          //  tr.appendChild(td);
+
+            // let adoptBtn = document.createElement('button');
+            // adoptBtn.type = 'button';
+            // adoptBtn.id = 'acp_'+form.from_id;
+            // adoptBtn.textContent = 'Accept';
+            // adoptBtn.disabled = !loggedUser;
+            
+            // let rejBtn = document.createElement('button');
+            
+            // rejBtn.type = 'button';
+            // rejBtn.id = 'acp_'+form.form_id;
+            // rejBtn.textContent = 'Reject';
+            // rejBtn.disabled = !loggedUser;
+            // let askBtn = document.createElement('button');
+            
+            // askBtn.type = 'button';
+            // askBtn.id = 'ask_'+form.form_id ;
+            // askBtn.textContent = 'Ask for more info';
+            // askBtn.disabled = !loggedUser;
+            // // <button type="button" id="Howard_6"
+            // //  disabled="false">Adopt</button>
+            
+            // let btnTd = document.createElement('td');
+            table.appendChild(tr);
+            
+           // adoptBtn.addEventListener('click', updateform);
+        }
+
+        allforms.appendChild(table);
+    } else {
+        allforms.innerHTML = 'No cats are available.';
+    }
+}
+
+
+async function getforms(){
+
+    let response = await fetch(allforms2,{method: 'GET'});
+    switch (response.status) {
+        case 200: // successful
+            let allforms2 = await response.json();
+            console.log("forms in ");
+            showall(allforms2);
+           // form.innerHTML='';
+            
+         //   document.getElementById('loo').style.display="none";
+            break;
+        case 400: // incorrect password
+            alert('Incorrect password, try again.');
+         //   document.getElementById('pass').value = '';
+            break;
+        case 404: // user not found
+            alert('That user does not exist.');
+            break;
+        default: // other error
+            alert('Something went wrong.');
+            break;
+    }
+
+}
+function showall(allforms2){
+    
+
+    allforms.innerHTML = '';
+
+    if (allforms2.length > 0) {
+        console.log("all formssss"+ allforms2.length);
+        let table = document.createElement('table');
+        table.id = 'formTable';
+       
+
+        table.innerHTML = `
+            <tr>
+                <th>ID</th>
+                <th>Employee id</th>
+                <th>Date</th>
+                <th>location</th>
+                <th>Start Time</th> 
+                <th>Description</th>
+                <th>Cost</th>
+                <th>FormStatus</th>
+                <th>TimeMissed</th>
+                <th>Grading format</th>
+                <th>TypeApproval</th>
+            </tr>
+        `;
+
+        for (let form of allforms2  ) {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${form.from_id}</td>
+                <td>${form.emp_id.emp_id}</td>
+                <td>${form.dates}</td>
+                <td>${form.location}</td>
+                <td>${form.timet}</td>
+                <td>${form.description}</td>
+                <td>${form.cost}</td>
+                <td>${form.form_status}</td>
+                <td>${form.work_time_missed}</td>
+                <td>${form.grading_format}</td>
+                <td>${form.toa_id.toa_id}</td>
+                
+            `;
+          //  console.log(form.form_id+"forms");
+            let td = document.createElement('td');
+            let ul = document.createElement('ul');
+            td.id='forms'
+           // td.appendChild(ul);
+          //  tr.appendChild(td);
+
+            let adoptBtn = document.createElement('button');
+            adoptBtn.type = 'button';
+            adoptBtn.id = 'acp_'+form.from_id;
+            adoptBtn.textContent = 'Accept';
+            adoptBtn.disabled = !loggedUser;
+            
+            let rejBtn = document.createElement('button');
+            
+            rejBtn.type = 'button';
+            rejBtn.id = 'acp_'+form.form_id;
+            rejBtn.textContent = 'Reject';
+            rejBtn.disabled = !loggedUser;
+            let askBtn = document.createElement('button');
+            
+            askBtn.type = 'button';
+            askBtn.id = 'ask_'+form.form_id ;
+            askBtn.textContent = 'Ask for more info';
+            askBtn.disabled = !loggedUser;
+            // <button type="button" id="Howard_6"
+            //  disabled="false">Adopt</button>
+            
+            let btnTd = document.createElement('td');
+            btnTd.appendChild(askBtn);
+            btnTd.appendChild(adoptBtn);
+            btnTd.appendChild(rejBtn);
+            tr.appendChild(btnTd);
+            table.appendChild(tr);
+            
+            adoptBtn.addEventListener('click', updateform);
+        }
+
+        allforms.appendChild(table);
+    } else {
+        allforms.innerHTML = 'No cats are available.';
+    }
+}
+async function updateform(){
+        let btnId = event.target.id;
+        console.log("btn id "+btnId);
+        let index = btnId.indexOf('_'); // find underscore (see line 46)
+        let id = btnId.slice(index+1); // get text after underscore
+        let name = btnId.replace('_', ''); // remove underscore
+        if (confirm('You want to adopt ' + name + '?')) {
+            console.log(allforms2+'/'+id);
+            let url = allforms2 +'/'+ id;
+            let response = await fetch(url,{method: 'GET'});
+            let form= await response.json();
+            form.toa_id=form.toa_id+1;
+            console.log("form toa id"+form.toa_id);
+            let newres=await fetch(url,{method: 'PUT',body:JSON.stringify(form)});
+            if (newres.status === 200) {
+                alert('Updated successfully.');
+            } else {
+                alert('Something went wrong.');
+            }   
+        }
+        
+    }
+
+
 function profile(){
 
     
@@ -148,8 +464,16 @@ function newform(){
     divcost.innerHTML=`Cost<br>`;
     divcost.appendChild(inputcost);
     fromdiv.appendChild(divcost);
-
+    var label =document.createElement('label');
+    label.innerHTML='Grading format';
     divgrading.innerHTML=`Grading format<br>`;
+
+    inputgrading.innerHTML+=` <select name="cars" id="cars"
+<option value="Letters">Letters</option>
+<option value="Letters">Letters</option>
+<option value="Seminars">Pass/Fail</option>
+<option value="Percentage">Percentage</option>
+</select>`;
     divgrading.appendChild(inputgrading);
     fromdiv.appendChild(divgrading);
 
@@ -222,9 +546,20 @@ async function submitform()
     form.description=inputdesc.value;
     form.cost=inputcost.value;
     form.grading_format=inputgrading.value;
-    form.type_of_event=inputtoe.value;
+    //form.event_id=inputtoe.value;
     form.form_status="Pending";
-    form.type_of_approval="Pend";
+    let toa={};
+    console.log("role"+loggedUser.role);
+    if(!(loggedUser.role=='Direct')){
+            console.log("id=1");
+            toa.toa_id=1;
+        }else{
+            console.log("id=2");
+
+            toa.toa_id=2;
+             }
+    toa.stage="";
+    form.toa_id=toa;    
     form.work_time_missed=String(inputtm.value);
     let url=baseUrl+'/form';
     let response = await fetch(url,{method:'POST',body:JSON.stringify(form)});
@@ -232,6 +567,7 @@ async function submitform()
         alert('Form submitted');
         reform.innerHTML=``;
         reform.outerHTML=``;
+        setNav();
     }else{
         alert('Form was not submitted');
     }
@@ -318,11 +654,13 @@ async function logout() {
 }
 
 async function checkLogin() {
+    console.log("chekcoing");
  let url = baseUrl + '/users';
 let response = await fetch(url);
-console.log(response+"asas");
-if (response.status === 200) loggedUser = await response.json();
-setNav();
+if (response.status === 200){ loggedUser = await response.json();
+    setNav();
+
+}
 }
 
 function register(){

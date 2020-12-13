@@ -30,7 +30,7 @@ public class Person {
 	private String password;
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="cat_id")
-	private Set<Cat> cats;
+	private Set<Cat> cats1;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="role_id")
@@ -47,7 +47,7 @@ public class Person {
 		id = 0;
 		username = "";
 		password = "";
-		cats = new HashSet<Cat>();
+		cats1 = new HashSet<Cat>();
 		role = new Role();
 	}
 
@@ -76,11 +76,11 @@ public class Person {
 	}
 
 	public Set<Cat> getCats() {
-		return cats;
+		return cats1;
 	}
 
 	public void setCats(Set<Cat> cats) {
-		this.cats = cats;
+		this.cats1 = cats;
 	}
 
 	public Role getRole() {
@@ -95,7 +95,7 @@ public class Person {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cats == null) ? 0 : cats.hashCode());
+		result = prime * result + ((cats1 == null) ? 0 : cats1.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
@@ -112,10 +112,10 @@ public class Person {
 		if (getClass() != obj.getClass())
 			return false;
 		Person other = (Person) obj;
-		if (cats == null) {
-			if (other.cats != null)
+		if (cats1 == null) {
+			if (other.cats1 != null)
 				return false;
-		} else if (!cats.equals(other.cats))
+		} else if (!cats1.equals(other.cats1))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -142,7 +142,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", username=" + username + ", password=" + password + ", cats=" + cats + ", role="
+		return "Person [id=" + id + ", username=" + username + ", password=" + password + ", cats=" + cats1 + ", role="
 				+ role + "]";
 	}
 	

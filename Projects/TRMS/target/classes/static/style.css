@@ -14,6 +14,31 @@
   border-color:rgb(50, 80, 105) ;
 }
 
+#forms{
+  font-size: 2dx;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#muform{
+  position: absolute;
+  margin-left: 20%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
 #rf{
   width: 50%;
   position: absolute;

@@ -44,4 +44,18 @@ public class formserviceimp implements formservice {
 		// TODO Auto-generated method stub
 		return fd.getAll();
 	}
+
+
+	@Override
+	public reimbForm getbyid(int id) {
+		// TODO Auto-generated method stub
+		return fd.getById(id);
+	}
+
+
+	@Override
+	public List<reimbForm> getempforms(int id) {
+		// TODO Auto-generated method stub
+		return fd.getempforms(id);
+	}
 }

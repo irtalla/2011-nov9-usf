@@ -11,9 +11,8 @@ public class employeecontroller {
 
 	private static employeeService eservice =new employeeServiceImp();
 	
-	public static void checklogin(Context ctx) {
-		
-		System.out.println("Checking login");
+	public static void checklogin(Context ctx){
+		System.out.println(ctx.sessionAttribute("user")+"asdads");
 		employee p = ctx.sessionAttribute("user");
 		if (p != null) {
 			System.out.println("Logged in as " + p.getEmp_name());
@@ -23,7 +22,6 @@ public class employeecontroller {
 			System.out.println("Not logged in");
 			ctx.status(400);
 		}
-		
 	}
 	
 	public static void register(Context ctx) {

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+  <head>
+  </head>
+  <body>
+
+    <input type="file" id="fileupload" name="fileupload"/>
+    <button type="button" onclick="savefile()">Upload</button>
+
+    <script>
+        async function savefile(){
+
+       let formdata= new FormData();
+        formdata.append("file",fileupload.files[0]);
+        const link='up.php';
+        console.log(link);
+            await fetch(link,{
+            method: "POST", body:formdata
+        });
+        alert('fileuploaded');
+    }
+    </script>
+  <h1>as233333323sd</h1>
+</body>
+</html>

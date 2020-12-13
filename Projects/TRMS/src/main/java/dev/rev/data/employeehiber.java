@@ -72,7 +72,7 @@ public class employeehiber implements employeeDAO {
 		
 		criteria.select(root).where(predicateForUsername);
 			
-		employee p = s.createQuery(criteria).getSingleResult();
+		employee p = s.createQuery(criteria).uniqueResult();
 		return p;
 	}
 
