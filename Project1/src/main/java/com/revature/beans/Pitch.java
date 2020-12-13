@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -30,9 +31,11 @@ public class Pitch {
 	@OneToOne @JoinColumn(name="draft_id", referencedColumnName="id")
 	private Draft draft;
 	
-	@OneToMany
-	@JoinColumn(name="pitch_id")
+	@OneToMany(mappedBy="pitch")
 	private Set<PitchFeedback> feedback;
+	
+	@OneToMany(mappedBy="pitch")
+	private Set<PitchInfoRequest> infoRequests;
 	
 	//columns:
 	@Column(name="created_at")
@@ -70,6 +73,9 @@ public class Pitch {
 	@Enumerated(EnumType.STRING)
 	private Priority priority;
 
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
 	public Integer getId() {
 		return id;
 	}
@@ -90,6 +96,17 @@ public class Pitch {
 		return feedback;
 	}
 
+	public Set<Person> getEditorsThatHaveReacted(){
+		Set<Person> reactingEditors = new HashSet<>();
+		for(PitchFeedback pf : this.feedback) {
+			reactingEditors.add(pf.getEditor());
+		}
+		
+		for(PitchInfoRequest pir : this.infoRequests) {
+			reactingEditors.add(pir.getRequestingEditor());
+		}
+		return reactingEditors;
+	}
 	public void setFeedback(Set<PitchFeedback> feedback) {
 		this.feedback = feedback;
 	}
@@ -181,4 +198,30 @@ public class Pitch {
 	public void setPriority(Priority priority) {
 		this.priority = priority;
 	}
+
+	
+	public Draft getDraft() {
+		return draft;
+	}
+
+	public void setDraft(Draft draft) {
+		this.draft = draft;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Set<PitchInfoRequest> getInfoRequests() {
+		return infoRequests;
+	}
+
+	public void setInfoRequests(Set<PitchInfoRequest> infoRequests) {
+		this.infoRequests = infoRequests;
+	}
+
 }

@@ -13,11 +13,14 @@ import org.hibernate.Session;
 
 import com.revature.beans.Draft;
 import com.revature.beans.Genre;
+import com.revature.beans.Pitch;
+import com.revature.beans.Status;
+import com.revature.exceptions.DraftFromUnapprovedPitchException;
 import com.revature.utils.HibernateUtil;
 
 public class DraftHibernate extends GenericHibernate<Draft> implements DraftDAO{
 
-	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
+//	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	public DraftHibernate() {
 		super(Draft.class);
@@ -42,6 +45,16 @@ public class DraftHibernate extends GenericHibernate<Draft> implements DraftDAO{
 		
 		List<Draft> d = s.createQuery(cq).getResultList();
 		return new HashSet<Draft>(d);
+	}
+
+	public Draft addDraft(Draft d) throws DraftFromUnapprovedPitchException {
+		Pitch p = d.getPitch();
+		if(!p.getStatus().equals(Status.APPROVED)) {
+			throw new DraftFromUnapprovedPitchException();
+		}else {
+			this.add(d);
+		}
+		return d;
 	}
 
 }

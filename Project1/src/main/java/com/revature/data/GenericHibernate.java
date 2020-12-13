@@ -14,14 +14,13 @@ import org.hibernate.Transaction;
 import com.revature.utils.HibernateUtil;
 
 public class GenericHibernate<T> implements GenericDAO<T>{
-	private Class<T> type;
-	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
+	protected Class<T> type;
+	protected HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	public GenericHibernate(Class<T> type) {
 		this.type = type;
 	}
 	
-	@Override
 	public T getById(Integer id) {
 		Session s = hu.getSession();
 		T t = s.get(this.type, id);
@@ -29,7 +28,6 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 		return t;
 	}
 
-	@Override
 	public Set<T> getAll() {
 		Session s = hu.getSession();
 		CriteriaBuilder cb = s.getCriteriaBuilder();
@@ -43,7 +41,6 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 		return new HashSet<T>(tList);
 	}
 
-	@Override
 	public T update(T t) {
 		Session s = hu.getSession();
 		Transaction tx = null;
@@ -60,7 +57,6 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 		return t;
 	}
 
-	@Override
 	public void delete(T t) {
 		Session s = hu.getSession();
 		Transaction tx = null;
@@ -76,7 +72,6 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 		}
 	}
 
-	@Override
 	public T add(T t) {
 		Session s = hu.getSession();
 		Transaction tx = null;

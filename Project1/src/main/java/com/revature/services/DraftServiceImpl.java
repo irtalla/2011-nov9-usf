@@ -1,64 +1,27 @@
 package com.revature.services;
 
-import java.util.Set;
-
 import com.revature.beans.Draft;
+import com.revature.data.DraftDAO;
+import com.revature.data.DraftDAOFactory;
 import com.revature.exceptions.DraftFromUnapprovedPitchException;
 
-public class DraftServiceImpl implements DraftService {
-	private DraftDAO draftDao;
-	
+public class DraftServiceImpl extends GenericServiceImpl<Draft> implements DraftService {
 	public DraftServiceImpl() {
-		DraftDAOFactory factory = new DraftDAOFactory();
-		draftDao = factory.getDraftDao();
+		super(new DraftDAOFactory());
+	}
+
+	@Override
+	public DraftDAO getDao() {
+		return (DraftDAO) dao;
 	}
 	
 	@Override
-	public Draft addDraft(Draft p) throws DraftFromUnapprovedPitchException {
-		// TODO Auto-generated method stub
+	public Draft add(Draft d) {
+		try {
+			return getDao().addDraft(d); //rather than using draftDao.add(d)
+		} catch (DraftFromUnapprovedPitchException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
-
-	@Override
-	public Draft getDraftById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Draft> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Draft updateDraft(Draft p) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteDraft(Draft p) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Draft submitDraftForProofreading(Draft d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Draft approveDraft(Draft d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Draft denyDraft(Draft d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -9,7 +9,7 @@ public enum StoryType {
 		this.points = points;
 	}
 	
-	private int points() {
+	public int getPoints() {
 		return points;
 	}
 }

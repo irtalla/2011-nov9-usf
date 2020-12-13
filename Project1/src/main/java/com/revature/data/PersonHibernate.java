@@ -44,9 +44,7 @@ public class PersonHibernate extends GenericHibernate<Person> implements PersonD
 		return p;
 	}
 	
-	@Override
 	public Person getByUsername(String username) {
-		// Criteria API: a way of making queries in a programmatic syntax
 		Session s = hu.getSession();
 		CriteriaBuilder cb = s.getCriteriaBuilder();
 		CriteriaQuery<Person> criteria = cb.createQuery(Person.class);

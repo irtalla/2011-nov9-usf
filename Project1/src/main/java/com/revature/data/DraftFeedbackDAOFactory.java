@@ -1,7 +1,10 @@
 package com.revature.data;
 
-public class DraftFeedbackDAOFactory {
-	public DraftFeedbackDAO getDraftFeedbackDAO() {
+import com.revature.beans.DraftFeedback;
+
+public class DraftFeedbackDAOFactory implements GenericDAOFactory<DraftFeedback>{
+	@Override
+	public DraftFeedbackDAO getDAO() {
 		return new DraftFeedbackHibernate();
 	}
 }

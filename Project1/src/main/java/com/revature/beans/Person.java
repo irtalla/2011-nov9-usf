@@ -10,12 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.revature.exceptions.FeedbackAsAuthorException;
@@ -49,28 +45,23 @@ public class Person {
 	private Role role;
 	
 	//associations:
-	@OneToMany
-	@JoinColumn(name="author_id")
+	@OneToMany(mappedBy="author")
 	private Set<Pitch> pitches; //must be empty if role is not author
 	
-	@OneToMany
-	@JoinColumn(name="editor_id")
+	@OneToMany(mappedBy="editor")
 	private Set<PitchFeedback> pitchFeedbackGiven; //as editor
 	
-	//pitch feedback received handled via pitch
+	//pitch feedback received (as author) handled via pitch
 	
-	@OneToMany
-	@JoinColumn(name="requesting_editor_id")
+	@OneToMany(mappedBy="requestingEditor")
 	private Set<PitchInfoRequest> pitchInfoRequestsMade;
 	
-	@OneToMany
-	@JoinColumn(name="target_person_id")
+	@OneToMany(mappedBy="targetedPerson")
 	private Set<PitchInfoRequest> pitchInfoRequestsReceived;
 	
 	//authors have drafts through their pitches -> Dao
 	
-	@OneToMany
-	@JoinColumn(name="editor_id")
+	@OneToMany(mappedBy="editor")
 	private Set<DraftFeedback> draftFeedbackGiven;
 	//authors will receive draft feedback through their drafts -> Dao
 	
@@ -160,5 +151,32 @@ public class Person {
 	}
 	public void setPitchInfoRequestsReceived(Set<PitchInfoRequest> pitchInfoRequestsReceived) {
 		this.pitchInfoRequestsReceived = pitchInfoRequestsReceived;
+	}
+	public Set<GenreCommittee> getGenreCommittees() {
+		return genreCommittees;
+	}
+	public void setGenreCommittees(Set<GenreCommittee> genreCommittees) {
+		this.genreCommittees = genreCommittees;
+	}
+	
+	public boolean genreIsWithinSpecialty(Genre g) {
+		//already checking elsewhere that role is not that of an author
+		for(GenreCommittee gc : this.genreCommittees) {
+			if(gc.getGenre().equals(g)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public int getTotalStoryPoints() {
+		int sum = 0;
+		for(Pitch p : this.pitches) {
+			Status status = p.getStatus();
+			if(status.equals(Status.PENDING) || status.equals(Status.APPROVED)) {
+				sum += p.getStoryType().getPoints();
+			}
+		}
+		return sum;
 	}
 }

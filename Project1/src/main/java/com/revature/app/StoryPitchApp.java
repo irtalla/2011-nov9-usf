@@ -2,6 +2,11 @@ package com.revature.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.revature.controllers.GenericController;
+import com.revature.controllers.PersonController;
+import com.revature.controllers.PitchController;
+import com.revature.controllers.personController;
+
 import io.javalin.Javalin;
 
 public class StoryPitchApp {
@@ -14,44 +19,44 @@ public class StoryPitchApp {
 		
 		app.start(8080);
 		
+//		GenericController[] controllers = [new PitchController(), new PersonController()];
+		PitchController pitchController = new PitchController();
+		PersonController personController = new PersonController();
+		
+		
+		
 		app.routes(() -> {
-			// all requests to /cats go to this handler
+			// all requests to /pitches go to this handler
 			path("pitches", () -> {
-				get(PitchController::getViewablePitches); // get available cats is the default
-				post(PitchController::addPitch); // add a cat
+				get(pitchController::getPitchesViewableBy); // get available pitches is the default
+				post(pitchController::add); // add a pitch
 				// note: you want your specific paths to be before path variables
 				// so that javalin tries those before mapping it to a path variable
 				// basically, if the :id path was first, the "all" path would also
 				// get mapped to it and it would treat the string "all" as the id
 				// instead of as its own path
 				path ("all", () -> {
-					get(PitchController::getAllPitches); // get all cats
-				});
-				path ("approve/:id", () -> {
-					put(PitchController::approvePitch); // adopt a cat by its id
-				});
-				path ("reject/:id", () -> {
-					put(PitchController::rejectPitch); // adopt a cat by its id
-				});
-				path ("give_feedback/:id", () -> {
-					put(PitchController::giveFeedbackForPitch); // adopt a cat by its id
+					get(pitchController::getAll); // get all pitches
 				});
 				path(":id", () -> {
-					get(PitchController::getPitchById); // get a cat by id
-					put(PitchController::updatePitch); // update a cat
-					delete(PitchController::deletePitch); // delete a cat
+					get(pitchController::getById); // get a pitch by id
+					put(pitchController::update); // update a pitch
+					delete(pitchController::delete); // delete a pitch
+//					path("feedback", () -> {
+//						
+//					});
 				});
 			});
 			// all requests to /users go to this handler
 			path("users", () -> {
-				get(PersonController::checkLogin); // get logged in user
-				put(PersonController::logIn); // log in user
-				post(PersonController::registerUser); // register new user
-				delete(PersonController::logOut); // log out user
+				get(personController::checkLogin); // get logged in user
+				put(personController::logIn); // log in user
+				post(personController::registerUser); // register new user
+				delete(personController::logOut); // log out user
 				path (":id", () -> {
-					get(PersonController::getUserById); // get user by id
-					put(PersonController::updateUser); // update user
-					delete(PersonController::deleteUser); // delete user
+					get(personController::getById); // get user by id
+					put(personController::updateUser); // update user
+					delete(personController::delete); // delete user
 				});
 			});
 		});
