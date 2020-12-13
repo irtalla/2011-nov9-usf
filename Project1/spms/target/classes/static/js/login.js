@@ -1,14 +1,11 @@
 let baseUrl = 'http://localhost:8080';
-let loggedUser = null;
 
-checkLogin()
 awaiting()
 
 function awaiting(){
     console.log("In awaiting function");
     let loginBtn = document.getElementById('loginBtn');
-    if (loggedUser) loginBtn.onclick = logout;
-    else loginBtn.onclick = login;
+    loginBtn.onclick = login;
 }
 
 async function login() {
@@ -23,7 +20,6 @@ async function login() {
         case 200: // successful
             document.getElementById('usernameHelp').innerHTML = '';
             document.getElementById('passwordHelp').innerHTML = '';
-            loggedUser = await response.json();
             checkLogin();
             break;
         case 400: // incorrect password
@@ -49,6 +45,7 @@ async function login() {
 async function checkLogin() {
     let url = baseUrl + '/users';
     let response = await fetch(url, {credentials: 'include'});
+    console.log('Fetch response: ' + response);
     if (response.status === 200){
         loggedUser = await response.json();
         window.location.href = "D:/2011-nov9-usf/Project1/spms/src/main/resources/static/dashboard.html"

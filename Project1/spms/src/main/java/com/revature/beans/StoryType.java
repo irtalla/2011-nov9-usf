@@ -20,6 +20,37 @@ public class StoryType {
         pointValue = 0;
     }
 
+    public StoryType(String string){
+        switch (string){
+            case "novel":
+                id = 1;
+                type = string;
+                pointValue = 50;
+                break;
+            case "novellas":
+                id = 2;
+                type = string;
+                pointValue = 25;
+                break;
+            case "short stories":
+                id = 3;
+                type = string;
+                pointValue = 20;
+                break;
+            case "articles":
+                id = 4;
+                type = string;
+                pointValue = 10;
+                break;
+            default:
+                id = 0;
+                type = "";
+                pointValue = 0;
+                break;
+        }
+    }
+
+
     public StoryType(Integer id, String type, Integer pointValue) {
         this.id = id;
         this.type = type;

@@ -21,7 +21,7 @@ public class Author {
         user = null;
         firstName = "";
         lastName = "";
-        points = 0;
+        points = 100;
     }
 
     public Author(Integer id, User user, String firstName, String lastName, Integer points) {

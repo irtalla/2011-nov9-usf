@@ -66,28 +66,34 @@ public class UserController {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
+            User retUser = userHibernate.add(user);
+            System.out.println("Successfully Created User");
             Author author = new Author();
-            author.setUser(userHibernate.add(user));
+            author.setUser(retUser);
             author.setFirstName(firstname);
             author.setLastName(lastname);
+            author.setPoints(100);
             Author retAuthor = authorHibernate.add(author);
             if (retAuthor == null){
                 throw new Exception("Null Author Object Returned.");
             }
+            System.out.println("Successfully Created Author");
+            ctx.sessionAttribute("user", retUser);
             ctx.status(200);
         }catch (NonUniqueUsernameException e) {
             System.out.println("Username is not available.");
-            ctx.status(409);
+            ctx.status(400);
         } catch (Exception e2){
             System.out.println("Something went wrong.");
             e2.printStackTrace();
-            ctx.status(400);
+            ctx.status(404);
         }
     }
 
     public static void logout(Context ctx){
         System.out.println("Logging out");
         ctx.req.getSession().invalidate();
+        checkLogin(ctx);
         ctx.status(200);
     }
 
@@ -116,10 +122,12 @@ public class UserController {
             ctx.status(400);
         }else if (retAuthor == null){
             System.out.println("Found an editor with that ID");
+            ctx.sessionAttribute("editor", retEditor);
             ctx.status(200);
             ctx.json(retEditor);
         }else if (retEditor == null){
             System.out.println("Found an author with that ID");
+            ctx.sessionAttribute("author", retAuthor);
             ctx.status(200);
             ctx.json(retAuthor);
         } else{

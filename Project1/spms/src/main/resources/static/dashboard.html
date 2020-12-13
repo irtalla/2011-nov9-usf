@@ -42,28 +42,33 @@
                         </div>
                     </div>
                 </div>
-                <div class="container h-100">
-                    <div class="row h-100 align-item justify-content-center">
-                        <div class="col-lg-10 align-self-end">
-                            <h4 class="text-uppercase text-white font-weight-bold text-center">Dashboard</h4>
-                            <hr class="divider my-4" />
+            </header>
+
+            <div class="container">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div id="side">
+                                <div class="text-center">
+                                    <button class="btn btn-danger " id="pitch-button">New Pitch</button>
+                                </div>
+                                <div id="points" class="points text-center">Points: 100</div>
+                                <ul class="dashboard-list">
+                                    <li id="list-element-pitches" class="active">Pitches</li>
+                                    <li id="list-element-messages">Messages</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div id="pitch-list"></div>
+                    
                         </div>
                     </div>
                 </div>
-            </header>
+            </div>
         </div>
 
-        <div class="container">
-            <div class="card border-0 shadow">
-              <div class="card-body p-5">
-                <h1 class="font-weight-light text-center">Fixed Full Page Background Image</h1>
-                <p class="lead">In this snippet, the background image is fixed to the body element. Content on the page will scroll, but the image will remain in a fixed position!</p>
-                <p class="lead">Scroll down...</p>
-                <div style="height: 700px"></div>
-                <p class="lead mb-0">You've reached the end!</p>
-              </div>
-            </div>
-          </div>
+        
         
         <!-- Bootstrap core JS-->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

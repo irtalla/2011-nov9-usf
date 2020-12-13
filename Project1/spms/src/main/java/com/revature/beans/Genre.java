@@ -16,6 +16,43 @@ public class Genre {
         genre = "";
     }
 
+    public Genre(String string){
+        switch (string){
+            case "fantasy":
+                id = 1;
+                genre = string;
+                break;
+            case "mystery":
+                id = 2;
+                genre = string;
+                break;
+            case "adventure":
+                id = 3;
+                genre = string;
+                break;
+            case "action":
+                id = 4;
+                genre = string;
+                break;
+            case "romance":
+                id = 5;
+                genre = string;
+                break;
+            case "science_fiction":
+                id = 6;
+                genre = string;
+                break;
+            case "horror":
+                id = 7;
+                genre = string;
+                break;
+            default:
+                id = 0;
+                genre = "";
+                break;
+        }
+    }
+
     public Genre(Integer id, String genre) {
         this.id = id;
         this.genre = genre;

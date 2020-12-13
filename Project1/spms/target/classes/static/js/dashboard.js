@@ -242,17 +242,11 @@ function inNewPitchTab(){
     let messages = document.getElementById('list-element-messages')
     messages.onclick = inMessagesTab;
     let submitPitchBtn = document.getElementById('submitBtn');
-    submitPitchBtn.onclick = checkPitch;
+    submitPitchBtn.onclick = submitPitch;
     let logoutBtn = document.getElementById('logout');
     logoutBtn.onclick = logout;
 }
 
-function checkPitch(){
-    // TODO: check input for required inputs, and 
-    // then check if author has enough points to submit points to submit pitch
-
-    submitPitch();
-}
 
 
 async function submitPitch(){
@@ -265,7 +259,7 @@ async function submitPitch(){
     story.genre = document.getElementById('pitch-genre').value;
     story.tagline = document.getElementById('pitch-tagline').value;
     story.description = document.getElementById('pitch-description').value;
-    story.text = document.getElementById('pitch-story').value;
+    story.story = document.getElementById('pitch-story').value;
 
     console.log("JSON: " + JSON.stringify(story));
 
