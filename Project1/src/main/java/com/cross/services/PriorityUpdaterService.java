@@ -30,6 +30,7 @@ public class PriorityUpdaterService implements Runnable {
 	@Override
 	public void run() {
 		
+		System.out.println("Starting PriorityUpdaterService");
 		while (true) {
 			
 			try {
@@ -49,8 +50,5 @@ public class PriorityUpdaterService implements Runnable {
 				}
 			});
 		}
-		
 	}
-	
-	
 }

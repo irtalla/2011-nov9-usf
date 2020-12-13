@@ -15,12 +15,12 @@ public class DecisionServiceImpl implements DecisionService {
 		decisionDAO = new DecisionHibernate(); 
 	}
 	@Override
-	public Decision add(Decision d) {
+	public Decision add(Decision d) throws InvalidGeneralEditorException {
 		try {
 			return decisionDAO.add(d);
 		} catch (InvalidGeneralEditorException e) {
 			e.printStackTrace();
-			return null; 
+			throw e; 
 		}
 	}
 

@@ -82,9 +82,9 @@ const updateRequest = async (id) => {
 
 // }
 
-const saveComment = async (id) => {
+const saveComment = async (id, selectorString) => {
 
-    const newCommentContent = document.getElementById(`section-${id}-draft-comment`).value; 
+    const newCommentContent = document.getElementById(selectorString).value; 
     if (newCommentContent.length === 0) {
         alert('Cannot save empty comment');
         return; 
@@ -121,13 +121,84 @@ const handleRespond = (id) => {
         ></textarea>
         <button 
         type="button" class="btn btn-primary"
-        onclick='saveComment(${id})'
+        onclick='saveComment(${id}, \`section-${id}-draft-comment\`)'
         class 
         >
         Save
         </button>
         `;
 }
+
+const saveDecision = async (pitchId, type) => {
+
+    alert(`making a decision of type ${type} for pitch ${pitchId}`); 
+
+    let pitchStage = pitchMap.get(pitchId).stage.name.toUpperCase(); 
+    let decisionType = {}; 
+    if (pitchStage ===  "FINAL REVIEW") {
+        decisionType.name = `draft-${type}`; 
+        decisionType.id = type === "approval" ? 3 : 4; 
+    } else {
+        decisionType.name = `pitch-${type}`
+        decisionType.id = type === "approval" ? 1 : 2; 
+    }
+    
+    const decision = {
+        editorId: currentUser.id,
+        pitchId: pitchId,
+        decisionType: decisionType,
+        explanation: document.getElementById('explanation-draft-area').value
+    };
+
+    console.log(decision);
+
+    let response = await postDecision(decision);
+
+    if (response.status === 200) {
+       let decision = JSON.parse( await response.json() );
+       decisionMap.set(decision.id, decision);
+       console.log(decision);
+    } else {
+        console.log("Intenal system error: unable to post decision");
+    }
+
+}
+
+
+const postRequestWithInitialComment = async (targetId, targetType) => {
+
+    let targetDraftId = targetPitchId = targetDecisionId = -1; 
+
+    let recieverId; 
+    if (targetType === "pitch") {
+        recieverId = pitchMap.get(targetId).authorId;
+        targetPitchId = targetId;
+    }
+
+    newRequest = {
+        senderId: currentUser.id,
+        recieverId: recieverId, 
+        targetDraftId: targetDraftId,
+        targetPitchId: targetDraftId,
+        targetDecisionId: targetDecisionId 
+    }
+
+    console.log(newRequest);
+
+    let response = await postRequest(newRequest); 
+
+    if (response.status === 200 ) {
+        let request = JSON.parse( await response.json() );
+        console.log(request);
+        requestMap.set(request.id, request); 
+        await loadRequestCard(request);
+        saveComment(request.id, 'request-draft-area')
+    } else {
+        console.log("Internal system error: unable to save request.")
+    }
+
+}
+
 
 
 /**

@@ -2,7 +2,6 @@ package com.cross.data;
 
 import java.util.Set;
 
-import com.cross.beans.Comment;
 import com.cross.beans.Decision;
 import com.cross.exceptions.InvalidGeneralEditorException;
 

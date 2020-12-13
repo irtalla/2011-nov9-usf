@@ -2,7 +2,7 @@
 
 
 
-const loadModalWithDecisionExplanationPrompt = (pitchId, typeId) => {
+const loadModalWithDecisionExplanationPrompt = (pitchId, type) => {
 
     const remainingChar = 2000; 
 
@@ -10,8 +10,8 @@ const loadModalWithDecisionExplanationPrompt = (pitchId, typeId) => {
 
     document.getElementById('modal-dynamic-content-section').innerHTML =
         `<p> 
-            You are making a decision of type ${typeId} for pitch ${pitchId}. 
-            Please provide an explanation (${remainingChar} characters remaining)
+            You are making a decision of type ${type} for pitch ${pitchId}. 
+            Please provide an explanation (${remainingChar} characters remaining).
          <p>
         <div>
         <div>
@@ -19,7 +19,7 @@ const loadModalWithDecisionExplanationPrompt = (pitchId, typeId) => {
         </textarea>
         </div>
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <button type="button" class="btn btn-primary" onClick="postDecision(${pitchId}, 2)" 
+            <button type="button" class="btn btn-primary" onClick="saveDecision(${pitchId}, \'${type}\')" 
             data-dismiss="modal" aria-label="Close" >
             Save
             </button>
@@ -28,6 +28,36 @@ const loadModalWithDecisionExplanationPrompt = (pitchId, typeId) => {
             </button>
         </div>
     `;
+}
+
+const loadModalWithPitchRequestPrompt = (targetId, targetType) => {
+
+    const remainingChar = 2000; 
+
+    const updateRemainingChar = (event) => remainingChar - event.target.value.length; 
+    
+  document.getElementById('modal-dynamic-content-section').innerHTML =
+  `<p> 
+      You are making an informational request for a <strong>${targetType}</strong> with ID: <strong>${targetId}</strong>. 
+      Please provide an initial comment for this request (${remainingChar} characters remaining).
+   <p>
+  <div>
+  <div>
+  <textarea id="request-draft-area" class="form-control" rows="8" />
+  </textarea>
+  </div>
+  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+      <button type="button" class="btn btn-primary" onClick="postRequestWithInitialComment(${targetId}, \'${targetType}\')" 
+      data-dismiss="modal" aria-label="Close" >
+      Save
+      </button>
+      <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" >
+      Cancel
+      </button>
+  </div>
+`;
+
+
 }
 
 const createPitchCard = (pitch) => {
@@ -43,20 +73,22 @@ const createPitchCard = (pitch) => {
         controlButtons =
             `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <button type="button" class="btn btn-success" 
-                onClick="loadModalWithDecisionExplanationPrompt(${pitch.id}, 1)"
+                onClick="loadModalWithDecisionExplanationPrompt(${pitch.id}, \'approval\')"
                 data-toggle="modal"
                 data-target="#exampleModal"
                 >Approve
             </button>
             <button type="button" class="btn btn-warning" 
-                onClick="alert(requesting info for pitch ${pitch.id})"
+                onClick="loadModalWithPitchRequestPrompt(${pitch.id}, \'pitch\')"
+                data-toggle="modal"
+                data-target="#exampleModal"
                 >Request Info
             </button>
             <button type="button" class="btn btn-danger" 
-                onClick="loadModalWithDecisionExplanationPrompt(${pitch.id}, 2)"
+                onClick="loadModalWithDecisionExplanationPrompt(${pitch.id}, \'rejection\')"
                 data-toggle="modal"
                 data-target="#exampleModal"
-                >Cancel
+                >Reject
             </button>
         </div>`
     }

@@ -25,7 +25,6 @@ import com.cross.beans.Status;
 import com.cross.data.RequestDAO;
 import com.cross.data.RequestHibernate;
 import com.cross.data.UtilityDAO;
-import com.cross.utils.StringGenerator;
 
 public class RequestHibernateTest {
 	
@@ -40,8 +39,6 @@ public class RequestHibernateTest {
 		Random rand = new Random(); 
 		for (int i = 0; i < 20; ++i) {
 			Request rq = new Request(); 
-			rq.setRequestContent( StringGenerator.randomString(5) );
-			rq.setResponseContent( StringGenerator.randomString(5) );
 			rq.setSenderId( 1 + rand.nextInt(3) );
 			do {
 				rq.setRecieverId( 1 + rand.nextInt(3) );

@@ -92,6 +92,7 @@ public class RequestHibernate implements RequestDAO {
 				tx.rollback();
 				// Give indication of failure with null return value
 				c = null; 
+				throw e; 
 			}
 		} finally {
 			s.close();

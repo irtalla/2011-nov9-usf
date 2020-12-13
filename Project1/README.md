@@ -11,10 +11,10 @@ and can therefore generalize the controller logic. The benefit of this is that w
 an isomorphic mapping of controllers to user roles.
 
 ### Technologies Used
-ES6, HTML, CSS, BOOTSTRAP, Java, Javalin, Maven
-
-Testing:
-Postman
+Front-End: ES6, HTML, CSS, BOOTSTRAP
+Back-End:  Java, Javalin, Maven, Hibernate
+Database:  AWS PostgreSQL, DBeaver
+Testing:   JUnit, Postman
 
 
 ### Challenges and Solutions 
@@ -24,8 +24,7 @@ Converting between representational forms proved
 to be a little tricky. Javalin's bodyAsClass() method is not very reliable. So I installed 
 GSON and Jackson to facilitate converting between JSON Objects and Java Beans. 
 
-Another issue I faced was mapping requests to their targets. Unlike the mapping between comments and requests, a request can be mapped
-to a previous decision, a pitch, or a draft. A
+Another issue I faced was mapping requests to their targets. Unlike the mapping between comments and requests, a request can be mapped to a previous decision, a pitch, or a draft. A
 request HAS reciever id, but this is not sufficient to indicate the function of the request. A request meant for an editor has a different function that a request meant for an author. Moreover, it should not be the case that *all* of an author's pitches are held up because of one outstanding request. So logically, requests should be associated with pitches. But requests are not *necessarily* associated with pitches, so this information should not be placed in the request relation. I could create multiple join tables. I could create multiple request types. The best solution seems to be to create a target_type relation and assign a target_id and target_type_id to the request relation. The problem is that we could not place a foreign-key constraint on target_id, which seems like bad practice. Another solution is to 
 maintain dummy tuples in decision, pitch, and draft, and give each request a reference to each like so: 
 
@@ -45,6 +44,9 @@ specify the execution of DAO unit tests. Generally, the strategy is: add -> quer
 
 Requests
 My strategy for requests is to have each request have a set of comments associated with it. This way, a user can submit multiple comments in a row, instead of a one-off reply. Then, if the date-time of the latest receiver comment is later than the latest sender comment, we append a red exclamation point to the senders card representation, otherwise, the receiver's card representation. This gives an indication of responses and is more fluid and intuitive. 
+
+
+
 
 
 

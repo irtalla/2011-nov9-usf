@@ -33,7 +33,10 @@ public class Draft {
 	
 	
 	
-	public Draft() {}
+	public Draft() {
+		createdTime = LocalDateTime.now();
+		lastModifiedTime = LocalDateTime.now();
+	}
 	public Integer getId() {
 		return id;
 	}

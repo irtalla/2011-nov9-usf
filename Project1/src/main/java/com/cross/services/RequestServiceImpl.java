@@ -18,4 +18,9 @@ public class RequestServiceImpl implements RequestService {
 	public Set<Request> getRequestsByParticipantId(Integer id) {
 		return requestDAO.getByParticipantId(id);
 	}
+
+	@Override
+	public Request addRequest(Request r) {
+		return requestDAO.add(r);
+	}
 }

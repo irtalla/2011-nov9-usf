@@ -1,6 +1,6 @@
 package com.cross.beans;
 
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -23,10 +23,6 @@ public class Request {
 	private Integer senderId; 
 	@Column(name="reciever_id")
 	private Integer recieverId; 
-	@Column(name="request_content")
-	private String requestContent; 
-	@Column(name="response_content")
-	private String responseContent; 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="status_id")
 	private Status status;
@@ -40,8 +36,7 @@ public class Request {
 	
 	public Request() {
 		
-		requestContent = "";
-		responseContent = ""; 
+		creationTime = LocalDateTime.now();
 		status = new Status(); 
 		status.setName("open");
 		status.setId(5);
@@ -70,22 +65,6 @@ public class Request {
 
 	public void setRecieverId(Integer recieverId) {
 		this.recieverId = recieverId;
-	}
-
-	public String getRequestContent() {
-		return requestContent;
-	}
-
-	public void setRequestContent(String requestContent) {
-		this.requestContent = requestContent;
-	}
-
-	public String getResponseContent() {
-		return responseContent;
-	}
-
-	public void setResponseContent(String responseContent) {
-		this.responseContent = responseContent;
 	}
 
 	public Status getStatus() {

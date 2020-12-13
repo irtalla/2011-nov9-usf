@@ -11,7 +11,7 @@ const fetchRequests = async (id) => {
     return resposne;
 }
 
-const closeRequest = async(id) => {
+const closeRequest = async (id) => {
 
     let response = await fetch(`http://localhost:4000/api/requests/close/${id}`, {
         method: 'PUT',
@@ -23,10 +23,23 @@ const closeRequest = async(id) => {
     return response; 
 }
 
-const putUpdatedRequest = async(request) => {
+const putUpdatedRequest = async (request) => {
 
     let response = await fetch(`http://localhost:4000/api/requests`, {
         method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(request)
+    }); 
+    return response; 
+}
+
+
+const postRequest = async (request) => {
+    let response = await fetch(`http://localhost:4000/api/requests`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'

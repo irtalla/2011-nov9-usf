@@ -28,12 +28,31 @@ public class RequestController {
 	}
 	
 	public static void getRequests(Context ctx) {}
-	public static void addRequest(Context ctx) {}
 	public static void deleteRequest(Context ctx) {}
 	public static void getRequestById(Context ctx) {}
 	public static void getAllRequests(Context ctx) {}
 	
     
+	public static void addRequest(Context ctx) {
+	    Request request;
+	    request = gson.fromJson( ctx.body(), Request.class);
+	    System.out.println(request.getId());
+	    System.out.println(request.getStatus().getName());
+	    ctx.status(200); 
+	    
+		try {
+		    Request given;
+		    given = gson.fromJson( ctx.body(), Request.class);
+			Request returned = requestServ.addRequest(given);
+		    ctx.json( gson.toJson(returned) );
+			ctx.status(200);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.status(500);
+		}
+	}
+	
     
 	public static void updateRequest(Context ctx) {
 		
@@ -41,8 +60,6 @@ public class RequestController {
 	    request = gson.fromJson( ctx.body(), Request.class);
 	    System.out.println(request.getId());
 	    System.out.println(request.getStatus().getName());
-	    System.out.println(request.getRequestContent());
-	    System.out.println(request.getResponseContent());
 	    ctx.status(200); 
 		
 		
@@ -69,47 +86,6 @@ public class RequestController {
 			e.printStackTrace();
 			ctx.status(500);
 		}
-		
-//		
-//		Request requestA = new Request(), requestB = new Request(), 
-//				requestC = new Request(), requestD = new Request(); 
-//		
-//		// Two outgoing requests 
-//		requestA.setId(1);
-//		requestA.setSenderId(personId);
-//		requestA.setRecieverId(4);
-//		requestA.setRequestContent("I need information from you");
-//		
-//		requestB.setId(2);
-//		requestB.setSenderId(personId);
-//		requestB.setRecieverId(43);
-//		requestB.setRequestContent("I need information from you");
-//		requestB.setResponseContent("Here is the infomation you request");
-//		
-//		// Two incoming requests 
-//		requestC.setId(3);
-//		requestC.setSenderId(23);
-//		requestC.setRecieverId(personId);
-//		requestC.setRequestContent("I need information from you");
-//		
-//		requestD.setId(4);
-//		requestD.setSenderId(12);
-//		requestD.setRecieverId(personId);
-//		requestD.setRequestContent("I need information from you");
-//		requestD.setResponseContent("Here is the infomation you request");
-//		
-//		
-//		Request requests[] = { requestA, requestB, requestC, requestD }; 
-//		
-//	    try {
-//		    ctx.json( gson.toJson(requests) );
-//			ctx.status(200);
-//	    } catch (Exception e) {
-//	    	e.printStackTrace();
-//	    	ctx.status(500);
-//	    }
-		
-		
 	}
 
 }

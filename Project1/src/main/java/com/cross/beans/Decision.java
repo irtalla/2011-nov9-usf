@@ -30,7 +30,9 @@ public class Decision {
 	private String explanation;
 	private LocalDateTime creationTime; 
 	
-	public Decision() {}
+	public Decision() {
+		creationTime = LocalDateTime.now(); 
+	}
 	
 	public Integer getId() {
 		return id;

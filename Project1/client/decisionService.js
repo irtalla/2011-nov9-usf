@@ -1,14 +1,12 @@
 
-const postDecision = async (pitchId, typeId) => {
-    alert(`making a decision of type ${typeId} for pitch ${pitchId}`); 
-    alert(document.getElementById('explanation-draft-area').value);
-    const decision = {
-        editorId: currentUser.id,
-        pitchId: pitchId,
-        decisionType: {
-            id: typeId
+const postDecision = async (decision) => {
+    let response = await fetch(`http://localhost:4000/api/decisions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
-        explanation: ""
-
-    }
+        body: JSON.stringify(decision)
+    }); 
+    return response; 
 }
