@@ -11,10 +11,13 @@ import dev.elliman.beans.Person;
 import dev.elliman.beans.Stage;
 import dev.elliman.services.ClaimService;
 import dev.elliman.services.ClaimServiceImpl;
+import dev.elliman.services.PersonService;
+import dev.elliman.services.PersonServiceImpl;
 import io.javalin.http.Context;
 
 public class ClaimController {
 	private static ClaimService cs = new ClaimServiceImpl();
+	private static PersonService ps = new PersonServiceImpl();
 	
 	public static void getClaimsByPerson(Context ctx) {
 		Person p = ctx.sessionAttribute("user");
@@ -78,6 +81,7 @@ public class ClaimController {
 	public static void accept(Context ctx) {
 		Claim claim = cs.getClaimByID(Integer.valueOf(ctx.pathParam("id")));
 		Person person = ctx.sessionAttribute("user");
+		boolean accepted = true;
 		
 		if(person.getRole().getId() == 3) {
 			claim.setDsa(person);
@@ -95,14 +99,37 @@ public class ClaimController {
 			s.setName("Pending benifits coordinator review");
 			claim.setApprovalStage(s);
 		} else if(person.getRole().getId() == 1) {
-			claim.setBca(person);
+			if(claim.getApprovalStage().getId() == 3) {
+				claim.setBca(person);
+				Stage s = new Stage();
+				s.setId(4);
+				s.setName("Accepted");
+				claim.setApprovalStage(s);
+			} else if(claim.getApprovalStage().getId() == 6) {
+				claim.setPassingApproval(person);
+				Stage s = new Stage();
+				s.setId(7);
+				s.setName("Complete");
+				claim.setApprovalStage(s);
+				
+				//increase amount claimed
+				Person employ = claim.getPerson();
+				Double claimed = employ.getAmountClaimed();
+				claimed += claim.getEstimatedAmount();
+				employ.setAmountClaimed(claimed);
+				ps.update(employ);
+			}
+		} else if(person.getRole().getId() == 4) {
+			//submitting for grade review
 			Stage s = new Stage();
-			s.setId(4);
-			s.setName("Accepted");
+			s.setId(6);
+			s.setName("Pending grade review");
 			claim.setApprovalStage(s);
 		}
 		
-		boolean accepted = cs.accept(claim);
+		if(!cs.accept(claim)) {
+			accepted = false;
+		}
 		
 		if(accepted) {
 			ctx.status(200);
@@ -195,4 +222,9 @@ public class ClaimController {
 		c.setDenialReason(denialReason);
 		cs.deny(c);
 	}
+	
+//	public static void submitPassingGrade(Context ctx) {
+//		Integer id = Integer.valueOf(ctx.pathParam("id"));
+//		System.out.println("spg" + id);
+//	}
 }

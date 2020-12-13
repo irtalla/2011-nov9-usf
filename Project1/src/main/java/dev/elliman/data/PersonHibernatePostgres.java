@@ -6,6 +6,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import dev.elliman.beans.Person;
 import dev.elliman.utils.HibernateUtil;
@@ -32,6 +33,27 @@ public class PersonHibernatePostgres implements PersonDAO {
 		}
 		s.close();
 		return p;
+	}
+
+	@Override
+	public Boolean update(Person person) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		Boolean success = true;
+		try {
+			tx = s.beginTransaction();
+			s.update(person);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if(tx != null) {
+				tx.rollback();
+			}
+			success = false;
+		} finally {
+			s.close();
+		}
+		return success;
 	}
 
 }

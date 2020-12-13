@@ -27,4 +27,9 @@ public class PersonServiceImpl implements PersonService {
 		}
 	}
 
+	@Override
+	public Boolean update(Person person) {
+		return personDAO.update(person);
+	}
+
 }

@@ -55,6 +55,11 @@ public class Claim {
 	private Person bca;
 	@Column(name="denial_reason")
 	private String denialReason;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="passing_approval")
+	private Person passingApproval;
+	@Column(name="estimated_amount")
+	private Double estimatedAmount;
 	
 	public Claim() {
 		id = null;
@@ -72,6 +77,8 @@ public class Claim {
 		dha = null;
 		bca = null;
 		denialReason = null;
+		passingApproval = null;
+		estimatedAmount = null;
 	}
 
 	public Integer getId() {
@@ -202,6 +209,22 @@ public class Claim {
 		this.denialReason = denialReason;
 	}
 
+	public Person getPassingApproval() {
+		return passingApproval;
+	}
+
+	public void setPassingApproval(Person passingApproval) {
+		this.passingApproval = passingApproval;
+	}
+
+	public double getEstimatedAmount() {
+		return estimatedAmount;
+	}
+
+	public void setEstimatedAmount(double estimatedAmount) {
+		this.estimatedAmount = estimatedAmount;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -212,6 +235,9 @@ public class Claim {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((dha == null) ? 0 : dha.hashCode());
 		result = prime * result + ((dsa == null) ? 0 : dsa.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(estimatedAmount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
 		result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
@@ -219,8 +245,10 @@ public class Claim {
 		result = prime * result + ((hoursMissed == null) ? 0 : hoursMissed.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
+		result = prime * result + ((passingApproval == null) ? 0 : passingApproval.hashCode());
 		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -263,6 +291,8 @@ public class Claim {
 				return false;
 		} else if (!dsa.equals(other.dsa))
 			return false;
+		if (Double.doubleToLongBits(estimatedAmount) != Double.doubleToLongBits(other.estimatedAmount))
+			return false;
 		if (event == null) {
 			if (other.event != null)
 				return false;
@@ -298,6 +328,11 @@ public class Claim {
 				return false;
 		} else if (!justification.equals(other.justification))
 			return false;
+		if (passingApproval == null) {
+			if (other.passingApproval != null)
+				return false;
+		} else if (!passingApproval.equals(other.passingApproval))
+			return false;
 		if (person == null) {
 			if (other.person != null)
 				return false;
@@ -308,16 +343,22 @@ public class Claim {
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Claim [id=" + id + ", person=" + person + ", event=" + event + ", grading=" + grading + ", eventDate="
-				+ eventDate + ", eventLocation=" + eventLocation + ", description=" + description + ", price=" + price
-				+ ", justification=" + justification + ", hoursMissed=" + hoursMissed + ", approvalStage="
-				+ approvalStage + ", dsa=" + dsa + ", dha=" + dha + ", bca=" + bca + ", denialReason=" + denialReason
-				+ "]";
+		return "Claim [id=" + id + ", title=" + title + ", person=" + person + ", event=" + event + ", grading="
+				+ grading + ", eventDate=" + eventDate + ", eventLocation=" + eventLocation + ", description="
+				+ description + ", price=" + price + ", justification=" + justification + ", hoursMissed=" + hoursMissed
+				+ ", approvalStage=" + approvalStage + ", dsa=" + dsa + ", dha=" + dha + ", bca=" + bca
+				+ ", denialReason=" + denialReason + ", passingApproval=" + passingApproval + ", estimatedAmount="
+				+ estimatedAmount + "]";
 	}
 
 	

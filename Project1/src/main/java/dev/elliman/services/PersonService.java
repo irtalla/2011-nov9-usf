@@ -6,4 +6,7 @@ public interface PersonService {
 	
 	//read
 	public Person login(String username, String password);
+	
+	//write
+	public Boolean update(Person person);
 }

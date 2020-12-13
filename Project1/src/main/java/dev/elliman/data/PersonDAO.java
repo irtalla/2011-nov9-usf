@@ -6,4 +6,7 @@ public interface PersonDAO {
 
 	//read
 	public Person getPersonByUsername(String username);
+	
+	//write
+	public Boolean update(Person person);
 }

@@ -241,6 +241,15 @@ async function viewClaimDetails(index) {
 
                         <div class="row">
                             <div class="col justify-content-left">
+                                <h6>Estimated amount covered: </h6>
+                            </div>
+                            <div class="col justify-content-center">
+                                <h6>$${claim.estimatedAmount}</h6>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col justify-content-left">
                                 <h6>Hours missed: </h6>
                             </div>
                             <div class="col justify-content-center">
@@ -296,6 +305,14 @@ async function viewClaimDetails(index) {
                             </div>
                         </div>`;
         claimHTML += attachmentDiv;
+        if(claim.approvalStage.id == 4 && claim.passingApproval == null){
+            let submitForPassingHTML = `<div class="row">
+                                            <div class="col justify-content-center">
+                                                <button type="button" onclick="acceptClaim(${index})">Submit passing grade</button>
+                                            </div>
+                                        </div>`;
+            claimHTML += submitForPassingHTML;
+        }
         claimHTML += `</div>`;
     } else if(user.role.id <= 3){
         //console.log(claim.dsa);
@@ -314,7 +331,7 @@ async function viewClaimDetails(index) {
         if(user.role.id <= 1 && claim.dsa != null && claim.dha != null){
             claimHTML += `<div class="row">
                                 <div class="col">
-                                    <h6>Direct Head approval:</h6>
+                                    <h6>Department Head approval:</h6>
                                 </div>
                                 <div class="col">
                                     <h6>${claim.dha.firstName} ${claim.dha.lastName}</h6>
@@ -480,6 +497,11 @@ async function makeNewClaim(){
                                             <h2 class="titleText">New Claim</h2>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="titleText">There is a yearly rembersment limit of $1000. So far this year you have claimed $${user.amountClaimed}</h4>
+                                        </div>
+                                    </div>
 
                                     <form id="newClaimForm">
                                         <h6>Name of the event: </h6> <input id="eventName" type="text" class="goodInput">
@@ -501,6 +523,7 @@ async function makeNewClaim(){
                                         <h6>Justification:</h6><input id="justification" type="text" class="goodInput">
                                         <h6>Hours missed:</h6><input id="hoursMissed" type="number" class="goodInput">
                                         <h6>Cost: $</h6><input id="price" type="number" class="goodInput">
+                                        <h6 id="estimatedRembersment">Estimated rembersment: $0</h6>
                                         <button type="button" onclick="submitNewClaim()">Submit</button>
                                     </form>
                                 </div>`;
@@ -512,17 +535,32 @@ async function makeNewClaim(){
         let eventSelect = document.getElementById("eventOptions");
         for(let i in events){
             let option = document.createElement('option');
-            option.innerHTML = events[i].eventType;
+            option.innerHTML = events[i].eventType + ':' + events[i].percentageCovered + '%';
             eventSelect.appendChild(option);
         }
     } else {
         showClaims();
         alert('Something went wrong');
     }
+
+    //set event listener for live estimation updates
+    let priceHTML = document.getElementById('price');
+    priceHTML.addEventListener('keyup',calcEstimatedRembersment);
 }
 
 async function submitNewClaim(){
     let event = events[document.getElementById('eventOptions').selectedIndex];
+
+    let priceInput = document.getElementById('price');
+    percentageCovered = event.percentageCovered;
+
+    let price = priceInput.value;
+    let currentTotal = user.amountClaimed;
+    let estimate = price * percentageCovered / 100.0;
+
+    if(estimate + currentTotal > 1000){
+        estimate = 1000-currentTotal;
+    }
 
     let claim = {
         title : document.getElementById('eventName').value,
@@ -537,6 +575,7 @@ async function submitNewClaim(){
         price : document.getElementById('price').value,
         justification : document.getElementById('justification').value,
         hoursMissed : document.getElementById('hoursMissed').value,
+        estimatedRembersment : '' + estimate
     };
 
     let form = document.getElementById('newClaimForm');
@@ -670,4 +709,23 @@ async function answerRFC(rfcIndex){
     } else {
         alert('unable to upload files');
     }
+ }
+
+ function calcEstimatedRembersment(){
+    let priceInput = document.getElementById('price');
+    let estimatedRembersmentHTML = document.getElementById('estimatedRembersment');
+    let eventSelector = document.getElementById('eventOptions');
+    let eventType = eventSelector.options[eventSelector.selectedIndex].text;
+    let percentageCovered = eventType.split(':')[1];
+    percentageCovered = percentageCovered.substring(0, percentageCovered.length-1);
+
+    let price = priceInput.value;
+    let currentTotal = user.amountClaimed;
+    let estimate = price * percentageCovered / 100.0;
+
+    if(estimate + currentTotal > 1000){
+        estimate = 1000-currentTotal;
+    }
+
+    estimatedRembersmentHTML.innerHTML = 'Estimated rembersment: $' + estimate;
  }
