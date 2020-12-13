@@ -17,11 +17,7 @@ public class CommitteeController {
 	public static void getAllCommittees(Context ctx) {
 		Set<Committee> coms = comServ.getCommittees();
 		if(coms != null) {
-			System.out.println("current size of set committees " +coms.size());
-			for(Committee c : coms) {
-				System.out.println(c.getcommittee_name());
-				
-			}
+
 			ctx.status(200);
 			ctx.json(coms);
 		}else {

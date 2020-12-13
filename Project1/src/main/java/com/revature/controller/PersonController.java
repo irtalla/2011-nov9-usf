@@ -34,11 +34,6 @@ public class PersonController {
 		if (p != null) {
 			if (p.getPasswd().equals(password))
 			{
-				System.out.println("Logged in as " + p.getUsername());
-				System.out.println("Pitch set: " + p.getPitches());
-				System.out.println("committees set: " + p.getCommittees());
-				System.out.println("titles set " + p.getTitle());
-				System.out.println("other persons info" + p.getPasswd() + p.getId());
 				
 				ctx.status(200);
 				ctx.json(p);
@@ -104,7 +99,6 @@ public class PersonController {
 	public static void getPitchesByUserId(Context ctx) {
 		Set<Pitch> pitches = new HashSet<>();
 		Person loggedPerson = ctx.sessionAttribute("user");
-		System.out.println("pass to all pitches number: "+loggedPerson.getId());
 		pitches = personServ.getAllPitchesByPersonId(loggedPerson.getId());
 		if (pitches != null ) {
 		ctx.status(200);

@@ -1,10 +1,7 @@
 package com.revature.controller;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import com.revature.beans.Committee;
-import com.revature.beans.Genre;
 import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.service.GenreService;
@@ -60,8 +57,21 @@ public class PitchController {
 	}
 	
 	public static void updatePitch(Context ctx) {
+		Pitch uPitch = ctx.bodyAsClass(Pitch.class);
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		Pitch pitch = pServ.getPitchById(id);
+		if(uPitch.getPriority().getId() != pitch.getPriority().getId()) {
+			pitch.setPriority(ppServ.getPitchPriorityById(uPitch.getPriority().getId()));
+		}
+		if(uPitch.getStage().getId() != pitch.getStatus().getId()) {
+			pitch.setStage(psServ.getPitchStageById(uPitch.getStage().getId()));
+		}
+		if(uPitch.getStory_type().getId() != pitch.getStory_type().getId()) {
+			pitch.setStory_type(stServ.getStoryTypeById(pitch.getStory_type().getId()));
+		}
+		if(uPitch.getStatus().getId() != pitch.getStage().getId()) {
+			pitch.setStatus(statServ.getStatusById(pitch.getStatus().getId()));
+		}
 		pServ.updatePitch(pitch);
 		ctx.status(202);
 	}

@@ -4,6 +4,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 import com.revature.controller.CommitteeController;
 import com.revature.controller.PersonController;
 import com.revature.controller.PitchController;
+import com.revature.controller.StageController;
 
 import io.javalin.Javalin;
 
@@ -42,6 +43,7 @@ public class SPMSJavalinApp {
 			path("pitch", () -> { 
 				get(PitchController::getPitches);
 				post(PitchController::addPitch); 
+				delete(PitchController::deletePitch);
 	
 				path(":id", () -> {
 					get(PitchController::getPitchById); 
@@ -54,6 +56,13 @@ public class SPMSJavalinApp {
 				});
 			});
 
+			path("stage", () -> {
+				path(":id", () ->{
+				get(StageController::getStageById);
+				put(StageController::pitchAcceptedStageCheck);
+				});
+			});
+			
 			path("committees", () -> {
 				get(CommitteeController::getAllCommittees); 
 			});

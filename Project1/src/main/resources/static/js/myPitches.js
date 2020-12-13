@@ -1,7 +1,9 @@
 
 
-checkLogin().then(populatePitches);
-makePitch();
+checkLogin().then(populatePitches).then(makePitch);
+//makePitch();
+
+
 // async function getPitches(){
 //     let url = baseUrl + '/users/pitches/';
 //     let response = await fetch(url);
@@ -10,6 +12,7 @@ makePitch();
 //         populatePitches(requests);
 //     }
 // }
+let isAuthor = false;
 
 function populatePitches() {
     let pitches = loggedUser.pitches;
@@ -53,9 +56,19 @@ function populatePitches() {
         pitchSection.innerHTML = 'Authors may make pitches';
         
     }//else of if
+    let titles = loggedUser.title;
+    if(titles.length >0){
+        for(let title of titles){
+            if(title.name === 'author'){
+                isAuthor = true;
+            break;
+            }
+        }
+    }
 } //end poppitch 
 
 function makePitch(){
+    if(isAuthor){
     let makeSection = document.getElementById('makeSection');
     makeSection.innerHTML = "New Pitch Form";
 
@@ -102,8 +115,7 @@ function makePitch(){
     makeSection.appendChild(pitchform);
     let pitchButton = document.getElementById('submitChanges');
     pitchButton.addEventListener("click", submitChanges);
-    pitchButton.disabled = !loggedUser;
-    
+    }   
 }
 async function submitChanges() {
 
@@ -145,6 +157,7 @@ async function submitChanges() {
     let response = await fetch(url, {method: 'POST', body:JSON.stringify(data)});
     if (response.status >=200 && response.status <300) {
         alert('Pitch sent successfully.');
+        document.location.reload();
     } else if(response.status >=400 && response.status < 500){
         alert('400 response oh no')
     }else if(response.status === null){

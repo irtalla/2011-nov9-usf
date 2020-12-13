@@ -67,6 +67,7 @@ async function logout() {
     if (response.status != 200) alert('Something went wrong.');
     loggedUser = null;
     setNav();
+    document.location.reload();
 }
 
 async function checkLogin() {

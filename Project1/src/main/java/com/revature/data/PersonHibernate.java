@@ -45,6 +45,7 @@ public class PersonHibernate implements PersonDAO {
 		return c;
 	}
 
+
 	@Override
 	public Set<Person> getAll() {
 		Session s = hu.getSession();

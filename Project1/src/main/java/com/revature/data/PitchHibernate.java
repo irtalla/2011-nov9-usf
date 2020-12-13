@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.utils.HibernateUtil;
 
@@ -96,16 +97,26 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	@Override
 	public void delete(Pitch t) {
+		//12/12 This method does not work because it can't delete the pitch from the person_pitch table
 		Session s = hu.getSession();
 		Transaction tx = null;
 		try {
-			tx = s.beginTransaction();
-			s.delete(t);
-			tx.commit();
-		}catch(Exception e) {
-			if(tx != null) {
-				tx.rollback();
+			
+			Object persistentInstance = s.load(Pitch.class, t.getId());
+			if (persistentInstance != null) {
+				tx = s.beginTransaction();
+			    s.delete(persistentInstance);
+				tx.commit();
+				Object persistentInstance2 = s.load(Person.class, t.getId());
+				if(persistentInstance2 != null) {
+					String hql = "From Person where pitch_id = :id";
+				}
+			}else if(tx !=null) {
+				tx.rollback(); //says its dead code
+				System.out.println("hit the dead code");
 			}
+		}catch(Exception e) {
+			e.printStackTrace();
 		}finally {
 			s.close();
 		}

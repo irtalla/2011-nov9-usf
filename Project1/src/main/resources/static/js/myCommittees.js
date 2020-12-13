@@ -119,28 +119,35 @@ function populateCommittees() {
         
                 for (let pitch of genPitches) {
                     let tr = document.createElement('tr');
+                    if(pitch.priority.name != 'zero'){
                     tr.innerHTML = `
-                        <td>${pitch.id}</td>
-                        <td>${pitch.story_title}</td>
-                        <td>${pitch.story_type.name}</td>
+                        <td id= "pitchIdNum${pitch.id}">${pitch.id}</td>
+                        <td >${pitch.story_title}</td>
+                        <td id="pitchStoryTypeNum${pitch.id}">${pitch.story_type.name}</td>
                         <td>${pitch.genre.name}</td>
                         <td>${pitch.description}</td>
-                        <td>${pitch.status.name}</td>
-                        <td>${pitch.priority.name}</td>
-                        <td>${pitch.stage.name}</td>
+                        <td id="pitchStatusNum${pitch.id}">${pitch.status.name}</td>
+                        <td id="pitchPriorityNum${pitch.id}">${pitch.priority.name}</td>
+                        <td id="pitchStageNum${pitch.id}">${pitch.stage.name}</td>
                         <td>${pitch.finish_date}</td>
-                        <td><button id="accept" onclick="acceptPitch" type="button" value="${pitch.id}">accept 
+                        <td><button id="accept" type="button" value="${pitch.id}" 
+                        onclick="acceptPitch(${pitch.id})">accept 
                         </button></td>
-                        <td><button id="reject" onclick="rejectPitch" type="button" value="${pitch.id}>reject 
+
+                        <td><button id="reject" type="button" value="${pitch.id}" 
+                        onclick="rejectPitch(${pitch.id})">reject 
                         </button></td>
-                        <td><button id="request" onclick="requestPitch" type="button">request 
+
+                        <td><button id="request" type="button" onclick="requestPitch(${pitch.id})">request 
                         </button></td>
                     `;
                   
                     table.appendChild(tr);
+                    }
                 } //end for
                 
                 poppitch.appendChild(table);
+                console.log(document.getElementById('table').value);
             } else {
                 poppitch.innerHTML = 'No Pitches found for this Committee';
                 
@@ -150,42 +157,57 @@ function populateCommittees() {
             poppitch.innerHTML = 'No Pitches found for this Committee';
                 
         }//end if staus 200
-        let acceptBtn = document.getElementById('accept');
-        let rejectBtn = document.getElementById('reject');
-        let requestBtn = document.getElementById('request');
-
-        acceptBtn.addEventListener("click", acceptPitch(acceptBtn.value));
-        rejectBtn.addEventListener("click", rejectPitch(rejectBtn.value));
-        requestBtn.addEventListener("click", requestPitch);
 
     }//end pop pitch section asnyc funtion stuffs
 
 async function acceptPitch(number){
-    let url = baseUrl + '/pitch/' + number;
+
+    let data =10;
+    let url = baseUrl + '/stage/' + number;
     let response = await fetch(url, {method: 'PUT', body:JSON.stringify(data)});
     if(response.status >= 200 && response.status < 300){
         console.log("yup");
+        document.location.reload();
     }else{
         alert("Something may have happened and the accept was not processed");
     }
 }
 async function rejectPitch(number){
-    let url = baseUrl + '/pitch/'+number;
-    let response = await fetch(url, {method: 'DELETE'});
-    if(response.status >= 200 && response.status < 300){
-        console.log("yup");
-    }else{
-        alert("Something may have happened and the accept was not processed");
+    if(confirm("Are you sure you want to delete pitch #" + number + "?")){
+        let data ={
+            id: document.getElementById(`pitchIdNum${number}`),
+            story_type:{
+                id : 5
+            },
+            status:{
+                id : 3
+            },
+            priority:{
+                id: 3
+            },
+            stage:{
+                id: 5
+            }
+        };
+        let url = baseUrl + '/pitch/'+number;
+        let response = await fetch(url, {method: 'PUT', body: JSON.stringify(data)});
+        if(response.status >= 200 && response.status < 300){
+            console.log("yup");
+            document.location.reload();
+        }//check status
     }
+   
 }
 async function requestPitch(){
     let url = baseUrl + '/request';
     let response = await fetch(url, {method: 'POST', body:JSON.stringify(data)});
     if(response.status >= 200 && response.status < 300){
         console.log("yup");
+        document.location.reload();
     }else{
         alert("Something may have happened and the accept was not processed");
     }
+    
 }
 
 

@@ -3,6 +3,7 @@ package com.revature.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
 import javax.persistence.JoinColumn;
 @Entity
 @Table
@@ -36,6 +39,10 @@ public class Person {
 	@JoinTable(name="person_pitch",
 		joinColumns=@JoinColumn(name="person_id"),
 		inverseJoinColumns = @JoinColumn(name = "pitch_id"))
+//	@OneToMany(
+//			fetch = FetchType.LAZY, 
+//			mappedBy = "id" 
+//			, cascade = CascadeType.ALL)
 	private Set<Pitch> pitches;
 	
 	public Person() {
@@ -44,7 +51,7 @@ public class Person {
 		passwd = "";
 		title = new HashSet<Title>();
 		committees = new HashSet<Committee>();
-//		pitches = new HashSet<Pitch>();
+		pitches = new HashSet<Pitch>();
 	}
 
 	public Integer getId() {
