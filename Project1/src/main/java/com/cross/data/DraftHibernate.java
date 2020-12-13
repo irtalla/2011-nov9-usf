@@ -115,7 +115,7 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		CriteriaQuery<Draft> criteria = cb.createQuery(Draft.class);
 		Root<Draft> root = criteria.from(Draft.class);
 		
-		Predicate predicateForUsername = cb.equal(root.get("pitch_id"), pitchId);
+		Predicate predicateForUsername = cb.equal(root.get("pitchId"), pitchId);
 		// Predicate predicateForPassword = cb.equal(root.get("passwd"), password);
 		// Predicate predicateForBoth = cb.and(predicateForUsername, predicateForPassword);
 		

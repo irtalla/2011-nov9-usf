@@ -108,7 +108,10 @@ public class DecisionHibernate implements DecisionDAO {
 		draftDAO.update(d);
 	}
 	
-	
+	private Boolean hasMajorityVote() {
+		return false; 
+	}
+		
 	@Override
 	public Decision add(Decision d) throws InvalidGeneralEditorException {
 		
@@ -120,9 +123,10 @@ public class DecisionHibernate implements DecisionDAO {
 			Person editor = personDAO.getById( d.getEditorId() );
 			Set<Decision> prevDecisions = getByPitchId(d.getPitchId());
 			Set<Person> genreCommittee = personDAO.getAll();
-			genreCommittee.removeIf( p -> ! p.getGenres().contains( pitch.getGenre() ));
+			genreCommittee.removeIf( p -> ! p.getGenres().removeIf( 
+					g -> g.getName().equalsIgnoreCase(pitch.getGenre().getName() )) );
 
-			
+
 			// Approval cases
 			if ( isApproval(d) ) {
 
@@ -184,8 +188,16 @@ public class DecisionHibernate implements DecisionDAO {
 					 */
 					case "NOVELLA":
 					case "NOVEL":
+						/**
+						 * Double prevDecisions.size() 
+						 */
+						
+						System.out.println("Majority calc stats:");
+						System.out.println(prevDecisions.size() + 1);
+						System.out.println(genreCommittee.size()); 	
 						prevDecisions.removeIf( p -> ! p.getDecisionType().getName().equalsIgnoreCase("draft-approval") );
-						if (  (double) (prevDecisions.size() + 1) / (double) genreCommittee.size() > 0.5 ) {
+						
+						if (   ( (prevDecisions.size() + 1) / (double) genreCommittee.size() ) > 0.5 ) {
 							approvePitchAndDraft(pitch, draft);
 						}
 						break;
@@ -250,7 +262,7 @@ public class DecisionHibernate implements DecisionDAO {
 					case "NOVELLA":
 					case "NOVEL":
 						prevDecisions.removeIf( p -> ! p.getDecisionType().getName().equalsIgnoreCase("draft-rejection") );
-						if (  (double) (prevDecisions.size() + 1) / (double) genreCommittee.size() > 0.5 ) {
+						if (  ( (prevDecisions.size() + 1) / (double) genreCommittee.size() ) > 0.5 ) {
 							rejectPitchAndDraft(pitch, draft);
 						}
 						break;
