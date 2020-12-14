@@ -5,6 +5,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 import com.cross.controllers.AuthController;
 import com.cross.controllers.CommentController;
 import com.cross.controllers.DecisionController;
+import com.cross.controllers.DraftController;
 import com.cross.controllers.PitchController;
 import com.cross.controllers.RequestController;
 import com.cross.services.PriorityUpdaterService;
@@ -27,6 +28,7 @@ public class App {
 		RequestController.initGsonBuilder();
 		CommentController.initGsonBuilder();
 		DecisionController.initGsonBuilder();
+		DraftController.initGsonBuilder();
 		
 		app.start(4000);
 		
@@ -67,6 +69,14 @@ public class App {
 				path ("all", () -> {
 					get(PitchController::getAllPitches); // get all cats
 				});				
+			});
+			
+			path ("api/drafts", () -> {
+				post(DraftController::addDraft); 
+				put(DraftController::updateDraft);
+				path("pitchid/:id", () -> {
+					get(DraftController::getDraftByPitchId);
+				}); 
 			});
 			
 			// all requests to /cats go to this handler

@@ -175,10 +175,10 @@ const updatePitch = async (id) => {
  * value of null, this indicates that a user wants to create a new pitch, and none
  * of the input values will be populated. 
  */
-const populateModalWithData = (id = null) => {
+const populateModalWithData = async (id = null) => {
 
     if (id !== null) {
-        document.getElementById("pitch-modal-body").innerHTML = createPitchModalCard( pitchMap.get(id) );
+        document.getElementById("pitch-modal-body").innerHTML = await createPitchModalCard( pitchMap.get(id) );
         document.getElementById("modal-btn-section").innerHTML = `
           <button type="button" class="btn btn-warning" onClick="updatePitch(${id})">Update</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

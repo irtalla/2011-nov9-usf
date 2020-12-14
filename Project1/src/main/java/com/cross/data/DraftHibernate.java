@@ -1,5 +1,6 @@
 package com.cross.data;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,12 +15,14 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.cross.beans.Draft;
+import com.cross.beans.Pitch;
 import com.cross.utils.HibernateUtil;
 
 public class DraftHibernate implements DraftDAO {
 	
 private HibernateUtil hu = HibernateUtil.getHibernateUtil();
-	
+private PitchHibernate pitchHib = new PitchHibernate(); 
+
 	@Override
 	public Draft getById(Integer id) {
 		Session s = hu.getSession();
@@ -41,19 +44,23 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	}
 	
 	@Override
-	public boolean update(Draft t) {
+	public boolean update(Draft d) {
 		Boolean didUpdate = false; 
 		Session s = hu.getSession();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.update(t);
+			Pitch p = pitchHib.getById( d.getPitchId() );
+			p.setLastModifiedTime( LocalDateTime.now() );
+			s.update(p);
+			s.saveOrUpdate(d);
 			tx.commit();
-			didUpdate = true; 
+			return true; 
 		} catch (Exception e) {
 			if (tx != null) {
 				tx.rollback();
-				didUpdate = false; 
+				e.printStackTrace();
+				return false; 
 			}
 		} finally {
 			s.close();
@@ -88,12 +95,15 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
+			Pitch p = pitchHib.getById( c.getPitchId() );
+			p.setLastModifiedTime( LocalDateTime.now() );
+			s.update(p);
 			s.save(c);
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null) {
 				tx.rollback();
-				// Give indication of failure with null return value
+				e.printStackTrace();
 				c = null; 
 			}
 		} finally {
