@@ -1,5 +1,6 @@
 package com.revature.beans;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -178,5 +179,35 @@ public class Person {
 			}
 		}
 		return sum;
+	}
+	
+	public Set<Draft> getDrafts(){
+		Set<Draft> drafts = new HashSet<>();
+		for(Pitch p : this.getPitches()) {
+			Draft d = p.getDraft();
+			if(d != null && p.getStatus().equals(Status.APPROVED)) {
+				drafts.add(d);
+			}
+		}
+		
+		return drafts;
+	}
+	
+	public Set<Draft> getDraftsWhosePitchesIHaveReactedTo(){
+		Set<Draft> drafts = new HashSet<>();
+		for(PitchFeedback fp : this.pitchFeedbackGiven) {
+			Draft d = fp.getPitch().getDraft();
+			if(d != null) {
+				drafts.add(d);
+			}
+		}
+		
+		for(PitchInfoRequest pir : this.pitchInfoRequestsMade) {
+			Draft d = pir.getPitch().getDraft();
+			if(d != null) {
+				drafts.add(d);
+			}
+		}
+		return drafts;
 	}
 }

@@ -13,7 +13,10 @@ import org.hibernate.Session;
 
 import com.revature.beans.Draft;
 import com.revature.beans.Genre;
+import com.revature.beans.GenreCommittee;
+import com.revature.beans.Person;
 import com.revature.beans.Pitch;
+import com.revature.beans.Role;
 import com.revature.beans.Status;
 import com.revature.exceptions.DraftFromUnapprovedPitchException;
 import com.revature.utils.HibernateUtil;
@@ -56,5 +59,4 @@ public class DraftHibernate extends GenericHibernate<Draft> implements DraftDAO{
 		}
 		return d;
 	}
-
 }

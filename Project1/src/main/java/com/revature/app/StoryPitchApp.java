@@ -2,10 +2,13 @@ package com.revature.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
-import com.revature.controllers.GenericController;
+import com.revature.controllers.AttachmentController;
+import com.revature.controllers.DraftController;
+import com.revature.controllers.DraftFeedbackController;
 import com.revature.controllers.PersonController;
 import com.revature.controllers.PitchController;
-import com.revature.controllers.personController;
+import com.revature.controllers.PitchFeedbackController;
+import com.revature.controllers.PitchInfoRequestController;
 
 import io.javalin.Javalin;
 
@@ -21,20 +24,18 @@ public class StoryPitchApp {
 		
 //		GenericController[] controllers = [new PitchController(), new PersonController()];
 		PitchController pitchController = new PitchController();
+		DraftController draftController = new DraftController();
+		DraftFeedbackController draftFeedbackController = new DraftFeedbackController();
 		PersonController personController = new PersonController();
-		
-		
+		PitchFeedbackController pitchFeedbackController = new PitchFeedbackController();
+		PitchInfoRequestController pitchInfoRequestController = new PitchInfoRequestController();
+		AttachmentController attachmentsController = new AttachmentController();
 		
 		app.routes(() -> {
 			// all requests to /pitches go to this handler
 			path("pitches", () -> {
 				get(pitchController::getPitchesViewableBy); // get available pitches is the default
-				post(pitchController::add); // add a pitch
-				// note: you want your specific paths to be before path variables
-				// so that javalin tries those before mapping it to a path variable
-				// basically, if the :id path was first, the "all" path would also
-				// get mapped to it and it would treat the string "all" as the id
-				// instead of as its own path
+				post(pitchController::add); 
 				path ("all", () -> {
 					get(pitchController::getAll); // get all pitches
 				});
@@ -42,11 +43,48 @@ public class StoryPitchApp {
 					get(pitchController::getById); // get a pitch by id
 					put(pitchController::update); // update a pitch
 					delete(pitchController::delete); // delete a pitch
-//					path("feedback", () -> {
-//						
-//					});
+					path("feedback", () -> {
+						post(pitchFeedbackController::add);
+//						put(pitchFeedbackController::update); //say, to update status?
+						path(":id", () -> {
+							delete(pitchFeedbackController::delete);
+						});
+					});
+					path("info_requests", () -> {
+						post(pitchInfoRequestController::add);
+						path(":id", () -> {
+							delete(pitchInfoRequestController::delete);
+						});
+					});
+					path("attachments", () -> {
+						post(attachmentsController::add);
+						path(":id", () -> {
+							delete(attachmentsController::delete);
+						});
+					});
 				});
 			});
+			
+			path("drafts", () -> {
+				get(draftController::getDraftsViewableBy); // get available pitches is the default
+				post(draftController::add); 
+				path ("all", () -> {
+					get(draftController::getAll); // get all pitches
+				});
+				path(":id", () -> {
+					get(draftController::getById); // get a draft by id
+					put(draftController::update); // update a draft
+					delete(draftController::delete); // delete a draft
+					path("feedback", () -> {
+						post(draftFeedbackController::add);
+//						put(draftFeedbackController::update); //say, to update status?
+						path(":id", () -> {
+							delete(draftFeedbackController::delete);
+						});
+					});
+				});
+			});
+			
 			// all requests to /users go to this handler
 			path("users", () -> {
 				get(personController::checkLogin); // get logged in user

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.beans.Draft;
 import com.revature.beans.Genre;
+import com.revature.beans.Person;
 import com.revature.exceptions.DraftFromUnapprovedPitchException;
 
 public interface DraftDAO extends GenericDAO<Draft>{
