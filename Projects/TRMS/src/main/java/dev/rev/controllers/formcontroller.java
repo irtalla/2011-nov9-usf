@@ -61,5 +61,14 @@ public class formcontroller {
 	
 	public static void updateform(Context ctx) {
 		
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		reimbForm cat = ctx.bodyAsClass(reimbForm.class);
+		if (cat != null) {
+			ctx.status(200);
+			fs.update_form(cat);
+		} else {
+			ctx.status(404);
+		}
+		
 	}
 }

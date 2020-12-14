@@ -11,5 +11,6 @@ public interface employeeService {
 	// read
 	public employee getPersonById(Integer id);
 	public employee getPersonByUsername(String username);
+	public void updateemployee(employee emp);
 
 }

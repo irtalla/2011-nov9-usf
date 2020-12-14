@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,13 +29,14 @@ public class reimbForm {
 		private event event_id;
 		private String dates;
 		private String timet;
+		private String priority;
 		private String location;
 		private String description;
 		private int cost;
 		private String grading_format;
 		//private String type_of_event;
 		private String form_status;
-		@ManyToOne
+		@OneToOne(fetch=FetchType.EAGER)
 		@JoinColumn(name="toa_id")
 		private toa toa_id;
 		private String work_time_missed;
@@ -45,10 +47,21 @@ public class reimbForm {
 			dates=timet=location=description=grading_format=form_status=work_time_missed="";
 			emp_id=null;
 			event_id=null;
+			priority="";
 			
 		}
 		
 		
+		public String getPriority() {
+			return priority;
+		}
+
+
+		public void setPriority(String priority) {
+			this.priority = priority;
+		}
+
+
 		public int getFrom_id() {
 			return from_id;
 		}
@@ -110,13 +123,23 @@ public class reimbForm {
 			this.form_status = form_status;
 		}
 
+		public String getWork_time_missed() {
+			return work_time_missed;
+		}
 
-		@Override
-		public String toString() {
-			return "reimbForm [from_id=" + from_id + ", emp_id=" + emp_id + ", event_id=" + event_id + ", dates="
-					+ dates + ", timet=" + timet + ", location=" + location + ", description=" + description + ", cost="
-					+ cost + ", grading_format=" + grading_format + ", type_of_event=" 
-					+ ", form_status=" + form_status + ", toa=" + toa_id + ", work_time_missed=" + work_time_missed + "]";
+
+		public void setWork_time_missed(String work_time_missed) {
+			this.work_time_missed = work_time_missed;
+		}
+
+
+		public toa getToa_id() {
+			return toa_id;
+		}
+
+
+		public void setToa_id(toa toa_id) {
+			this.toa_id = toa_id;
 		}
 
 
@@ -133,6 +156,7 @@ public class reimbForm {
 			result = prime * result + from_id;
 			result = prime * result + ((grading_format == null) ? 0 : grading_format.hashCode());
 			result = prime * result + ((location == null) ? 0 : location.hashCode());
+			result = prime * result + ((priority == null) ? 0 : priority.hashCode());
 			result = prime * result + ((timet == null) ? 0 : timet.hashCode());
 			result = prime * result + ((toa_id == null) ? 0 : toa_id.hashCode());
 			result = prime * result + ((work_time_missed == null) ? 0 : work_time_missed.hashCode());
@@ -188,6 +212,11 @@ public class reimbForm {
 					return false;
 			} else if (!location.equals(other.location))
 				return false;
+			if (priority == null) {
+				if (other.priority != null)
+					return false;
+			} else if (!priority.equals(other.priority))
+				return false;
 			if (timet == null) {
 				if (other.timet != null)
 					return false;
@@ -198,7 +227,6 @@ public class reimbForm {
 					return false;
 			} else if (!toa_id.equals(other.toa_id))
 				return false;
-			
 			if (work_time_missed == null) {
 				if (other.work_time_missed != null)
 					return false;
@@ -208,27 +236,16 @@ public class reimbForm {
 		}
 
 
-
-
-
-		public toa getToa_id() {
-			return toa_id;
+		@Override
+		public String toString() {
+			return "reimbForm [from_id=" + from_id + ", emp_id=" + emp_id + ", event_id=" + event_id + ", dates="
+					+ dates + ", timet=" + timet + ", priority=" + priority + ", location=" + location
+					+ ", description=" + description + ", cost=" + cost + ", grading_format=" + grading_format
+					+ ", form_status=" + form_status + ", toa_id=" + toa_id + ", work_time_missed=" + work_time_missed
+					+ "]";
 		}
 
 
-		public void setToa_id(toa toa_id) {
-			this.toa_id = toa_id;
-		}
-
-
-		public String getWork_time_missed() {
-			return work_time_missed;
-		}
-
-
-		public void setWork_time_missed(String work_time_missed) {
-			this.work_time_missed = work_time_missed;
-		}
 		
 	
 }

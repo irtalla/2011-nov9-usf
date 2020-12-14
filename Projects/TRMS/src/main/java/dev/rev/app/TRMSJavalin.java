@@ -70,7 +70,7 @@ public abstract class TRMSJavalin {
 				delete(employeecontroller::logout); // log out user
 				path (":id", () -> {
 					get(employeecontroller::getuserbyid); // get user by id
-//					put(PersonController::updateUser); // update user
+					put(employeecontroller::updateUser); // update user
 //					delete(PersonController::deleteUser); // delete user
 			
 			});

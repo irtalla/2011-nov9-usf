@@ -53,7 +53,18 @@ public class formhuber implements formDAO {
 	@Override
 	public void update(reimbForm t) {
 		// TODO Auto-generated method stub
-		
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.update(t);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
 	}
 
 	@Override

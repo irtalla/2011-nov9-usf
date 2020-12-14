@@ -17,6 +17,8 @@ public class employee {
  private String password;
  private String role;
  private int max_claim;
+ private int awardedclaim;
+ private int pendingclaim;
  
  public employee() {
 	 
@@ -25,6 +27,7 @@ public class employee {
 	 emp_email="";
 	 password="";
 	 max_claim=1000;
+	 awardedclaim=pendingclaim=0;
  }
  
  
@@ -60,15 +63,47 @@ public void setMax_claim(int max_claim) {
 }
 
 
+public String getRole() {
+	return role;
+}
+
+
+public void setRole(String role) {
+	this.role = role;
+}
+
+
+public int getAwardedclaim() {
+	return awardedclaim;
+}
+
+
+public void setAwardedclaim(int awardedclaim) {
+	this.awardedclaim = awardedclaim;
+}
+
+
+public int getPendingclaim() {
+	return pendingclaim;
+}
+
+
+public void setPendingclaim(int pendingclaim) {
+	this.pendingclaim = pendingclaim;
+}
+
+
 @Override
 public int hashCode() {
 	final int prime = 31;
 	int result = 1;
+	result = prime * result + awardedclaim;
 	result = prime * result + ((emp_email == null) ? 0 : emp_email.hashCode());
 	result = prime * result + emp_id;
 	result = prime * result + ((emp_name == null) ? 0 : emp_name.hashCode());
 	result = prime * result + max_claim;
 	result = prime * result + ((password == null) ? 0 : password.hashCode());
+	result = prime * result + pendingclaim;
 	result = prime * result + ((role == null) ? 0 : role.hashCode());
 	return result;
 }
@@ -83,6 +118,8 @@ public boolean equals(Object obj) {
 	if (getClass() != obj.getClass())
 		return false;
 	employee other = (employee) obj;
+	if (awardedclaim != other.awardedclaim)
+		return false;
 	if (emp_email == null) {
 		if (other.emp_email != null)
 			return false;
@@ -102,6 +139,8 @@ public boolean equals(Object obj) {
 			return false;
 	} else if (!password.equals(other.password))
 		return false;
+	if (pendingclaim != other.pendingclaim)
+		return false;
 	if (role == null) {
 		if (other.role != null)
 			return false;
@@ -111,20 +150,11 @@ public boolean equals(Object obj) {
 }
 
 
-public String getRole() {
-	return role;
-}
-
-
-public void setRole(String role) {
-	this.role = role;
-}
-
-
 @Override
 public String toString() {
 	return "employee [emp_id=" + emp_id + ", emp_name=" + emp_name + ", emp_email=" + emp_email + ", password="
-			+ password + ", role=" + role + ", max_claim=" + max_claim + "]";
+			+ password + ", role=" + role + ", max_claim=" + max_claim + ", awardedclaim=" + awardedclaim
+			+ ", pendingclaim=" + pendingclaim + "]";
 }
- 
+
 }

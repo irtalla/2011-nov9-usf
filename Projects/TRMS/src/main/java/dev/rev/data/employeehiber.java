@@ -11,6 +11,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+
 import dev.rev.beans.employee;
 import dev.rev.utils.HibernateUtil;
 
@@ -38,7 +39,10 @@ public class employeehiber implements employeeDAO {
 	@Override
 	public employee getById(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		Session s = hu.getSession();
+		employee c = s.get(employee.class, id);
+		s.close();
+		return c;
 	}
 
 	@Override
@@ -48,9 +52,19 @@ public class employeehiber implements employeeDAO {
 	}
 
 	@Override
-	public void update(employee t) {
-		// TODO Auto-generated method stub
-		
+	public void update(employee t){
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.update(t);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
 	}
 
 	@Override

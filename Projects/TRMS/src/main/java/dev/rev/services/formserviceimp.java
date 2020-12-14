@@ -30,7 +30,7 @@ public class formserviceimp implements formservice {
 
 	public void update_form(reimbForm form) {
 		// TODO Auto-generated method stub
-		
+		fd.update(form);
 	}
 
 

@@ -98,7 +98,9 @@ function setNav() {
         <ul class="list-items">
         
         <li><a href="#"><i class="fas fa-home" onclick="profile()"></i>${loggedUser.role}</a></li>
-        <li><a href="#"><i class="fas fa-home" onclick="myform()"></i>My Form</a></li>
+        
+        <li><a href="#"><i class="fas fa-home" onclick="profile()"></i>Max Amount</a></li>
+        <li><a href="#"><i class="fas fa-home" onclick="myamount()"></i>My Form</a></li>
         <li><a href="#"><i class="fas fa-sliders-h" onclick="newform()"></i>Submit a Form</a></li>
         <li><a href="#"><i class="fas fa-address-book"></i>CONTACT US</a></li>
         
@@ -113,6 +115,8 @@ function setNav() {
         <ul class="list-items">
         
         <li><a href="#"><i class="fas fa-home" onclick="profile()"></i>${loggedUser.role}</a></li>
+        <li><a href="#"><i class="fas fa-home" onclick="myamount()"></i>Max Amount</a></li>
+
         <li><a href="#"><i class="fas fa-home" onclick="myform()"></i>My Form</a></li>
         <li><a href="#"><i class="fas fa-home" onclick="getforms()"></i>Check Forms</a></li>
         <li><a href="#"><i class="fas fa-sliders-h" onclick="newform()"></i>Submit a Form</a></li>
@@ -132,6 +136,9 @@ function setNav() {
         console.log(loginBtn.innerHTML);
     }
 
+}
+function myamount(){
+    console.log(loggedUser.max_claim);
 }
 
 async function myform(){
@@ -252,18 +259,17 @@ function givemyforms(allforms2){
                 <td>${form.grading_format}</td>
                 
             `;
-          //  console.log(form.form_id+"forms");
-            // let td = document.createElement('td');
-            // let ul = document.createElement('ul');
-            // td.id='forms'
+            let td = document.createElement('td');
+            let ul = document.createElement('ul');
+            td.id='forms'
            // td.appendChild(ul);
           //  tr.appendChild(td);
-
-            // let adoptBtn = document.createElement('button');
-            // adoptBtn.type = 'button';
-            // adoptBtn.id = 'acp_'+form.from_id;
-            // adoptBtn.textContent = 'Accept';
-            // adoptBtn.disabled = !loggedUser;
+         
+            let adoptBtn = document.createElement('button');
+            adoptBtn.type = 'button';
+            adoptBtn.id = 'acp_'+form.from_id;
+            adoptBtn.textContent = 'Upload Passing grade';
+            adoptBtn.disabled = !loggedUser;
             
             // let rejBtn = document.createElement('button');
             
@@ -280,16 +286,25 @@ function givemyforms(allforms2){
             // // <button type="button" id="Howard_6"
             // //  disabled="false">Adopt</button>
             
-            // let btnTd = document.createElement('td');
+             let btnTd = document.createElement('td');
+             btnTd.appendChild(adoptBtn);
+              tr.appendChild(btnTd);
+             if(!(form.toa_id.toa_id===4)){
+                 adoptBtn.disabled=true;
+             }
             table.appendChild(tr);
             
-           // adoptBtn.addEventListener('click', updateform);
+            adoptBtn.addEventListener('click', uploadfile);
+            
         }
 
         allforms.appendChild(table);
     } else {
         allforms.innerHTML = 'No cats are available.';
     }
+}
+function uploadfile(){
+    console.log("uploading file");
 }
 
 
@@ -347,6 +362,7 @@ function showall(allforms2){
 
         for (let form of allforms2  ) {
             let tr = document.createElement('tr');
+            
             tr.innerHTML = `
                 <td>${form.from_id}</td>
                 <td>${form.emp_id.emp_id}</td>
@@ -358,7 +374,7 @@ function showall(allforms2){
                 <td>${form.form_status}</td>
                 <td>${form.work_time_missed}</td>
                 <td>${form.grading_format}</td>
-                <td>${form.toa.toa_id}</td>
+                <td>${form.toa_id.toa_id}</td>
                 
             `;
           //  console.log(form.form_id+"forms");
@@ -396,6 +412,29 @@ function showall(allforms2){
             tr.appendChild(btnTd);
             table.appendChild(tr);
             
+            askBtn.disabled=true;
+            adoptBtn.disabled=true;
+            rejBtn.disabled=true;
+            console.log(loggedUser.role +"  " +form.toa_id.toa_id);
+            if((loggedUser.role==="Direct" && form.toa_id.toa_id===1)){
+                console.log("herer");
+                askBtn.disabled=false;
+                adoptBtn.disabled=false;
+                rejBtn.disabled=false;
+            }else if((loggedUser.role==="DepartHead" && form.toa_id.toa_id===2)){
+             
+                askBtn.disabled=false;
+                adoptBtn.disabled=false;
+                rejBtn.disabled=false;
+            }else if((loggedUser.role==="benco" && form.toa_id.toa_id===3)){
+             
+                askBtn.disabled=false;
+                adoptBtn.disabled=false;
+                rejBtn.disabled=false;
+            }
+
+
+            
             adoptBtn.addEventListener('click', updateform);
         }
 
@@ -415,8 +454,29 @@ async function updateform(){
             let url = allforms2 +'/'+ id;
             let response = await fetch(url,{method: 'GET'});
             let form= await response.json();
-            form.toa_id=form.toa_id+1;
-            console.log("form toa id"+form.toa_id);
+            console.log("form toa id:"+form.toa_id.toa_id);
+            let toa2={};
+            toa2.stage="";
+            if(form.toa_id.toa_id===1){
+                console.log("tis 1");
+                toa2.toa_id=form.toa_id.toa_id+1;
+            }else if(form.toa_id.toa_id===2){
+                console.log("tis 2");
+                toa2.toa_id=form.toa_id.toa_id+1;
+
+            }else if(form.toa_id.toa_id===3){
+                toa2.toa_id=form.toa_id.toa_id+1;
+                // if(toa2.toa_id===4){
+                //     updatecost(form);
+                // }
+                //updatecost(form);
+            }else if(form.toa_id.toa_id===4){
+               // updatecost(form);
+            }
+            form.toa_id=toa2;
+
+            console.log("form toa id"+JSON.stringify(form));
+
             let newres=await fetch(url,{method: 'PUT',body:JSON.stringify(form)});
             if (newres.status === 200) {
                 alert('Updated successfully.');
@@ -427,6 +487,47 @@ async function updateform(){
         
     }
 
+async function updatecost(form){
+
+    console.log("form cosrt"+form.cost)
+    let percent=form.event_id.event_coverage;
+    let max=form.emp_id.max_claim;
+    let cost=form.cost;
+    let awarded=cost*(percent/100);
+    let empl=form.emp_id.emp_id;
+    let emplink=baseUrl+'/users/'+empl;
+    console.log(emplink+"    :LINK");
+    let emplo=await fetch(emplink);
+    let emp=await emplo.json();
+    if(emplo.status===200){
+       // alert('asdads');
+        console.log("employee"+JSON.stringify(emp));
+        console.log("cost:"+cost+" awarded: "+awarded+"max: "+max);
+
+    }else{
+        alert('Something went wrong.');
+
+    }
+    if(cost>max_claim){
+        emp.awardedclaim=max_claim;
+    }else{
+    emp.awardedclaim=awarded;}
+    emp.max_claim=max-awarded;
+    // form.emp_id.awardedclaim=awarded;
+    // form.emp_id.max_claim=max-awarded;
+    let url=baseUrl+'/users/'+emp.emp_id;
+    let updateduser=await fetch(url,{method: 'PUT',body:JSON.stringify(emp)});
+
+    if(updateduser.status===200){
+        alert('Updated successfully.');
+
+    }else{
+        alert('Something went wrong.');
+
+    }
+    setNav();
+
+}
 
 function profile(){
 
@@ -548,6 +649,14 @@ async function submitform()
     form.grading_format=inputgrading.value;
     //form.event_id=inputtoe.value;
     form.form_status="Pending";
+    var utc = new Date().toJSON().slice(0,10);
+    console.log("toady date:"+utc+"event time :"+datesinput.value);
+    if(datediff(parseDate(utc), parseDate(datesinput.value))<14){
+        form.priority='Urgent';
+    }else{
+        form.priority='Non Urgent';
+
+    }
     let toa={};
     console.log("role"+loggedUser.role);
     if(!(loggedUser.role=='Direct')){
@@ -571,6 +680,15 @@ async function submitform()
     }else{
         alert('Form was not submitted');
     }
+}
+function parseDate(str) {
+    var mdy = str.split('-');
+    return new Date(mdy[1], mdy[0]-1, mdy[2]);
+}
+function datediff(first, second) {
+    // Take the difference between the dates and divide by milliseconds per day.
+    // Round to nearest whole number to deal with DST.
+    return Math.round((second-first)/(1000*60*60*24));
 }
 
 async function login() {

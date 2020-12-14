@@ -40,4 +40,10 @@ public class employeeServiceImp implements employeeService
 		return edao.getbyusername(username);
 	}
 
+	@Override
+	public void updateemployee(employee emp) {
+		// TODO Auto-generated method stub
+		edao.update(emp);
+	}
+
 }

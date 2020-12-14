@@ -24,6 +24,13 @@ public class employeecontroller {
 		}
 	}
 	
+	public static void updateUser(Context ctx) {
+		employee emp=ctx.bodyAsClass(employee.class);
+		eservice.updateemployee(emp);
+		ctx.status(200);
+		
+	}
+	
 	public static void register(Context ctx) {
 		
 		employee newem=ctx.bodyAsClass(employee.class);
