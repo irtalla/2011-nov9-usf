@@ -36,8 +36,11 @@ function populatePitches() {
                 <th> ReSubmit? </th>
             </tr>
         `;
-
+  
         for (let pitch of pitches) {
+            // if(pitch.status.id != 4){
+            //     total += pitch.story_type.points;
+            // }
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td id ="${pitch.id}pitchId">${pitch.id}</td>
@@ -51,18 +54,19 @@ function populatePitches() {
                 <td id ="${pitch.id}pitchStage">${pitch.stage.name}</td>
                 <td id ="${pitch.id}pitchFinish">${pitch.finish_date}</td>
 
-                <td><button id="deletePitch" type="button" value="${pitch.id}" 
+                <td><button id="deletePitch${pitch.id}" type="button" value="${pitch.id}" 
                 onclick="deletePitch(${pitch.id})">Delete This Pitch? 
                 </button></td>
 
-                <td><button id="reSubPitch" type="button" value="${pitch.id}" 
+                <td><button id="reSubPitch${pitch.id}" type="button" value="${pitch.id}" 
                 onclick="reSubPitch(${pitch.id})">Resubmit Pitch? 
                 </button></td>
             `;
           
             table.appendChild(tr);
-        } //end for
+            
 
+        } //end for
         pitchSection.appendChild(table);
     } else {
         pitchSection.innerHTML = 'Authors may make pitches';
@@ -80,6 +84,7 @@ function populatePitches() {
 } //end poppitch 
 
 function makePitch(){
+
     if(isAuthor){
     let makeSection = document.getElementById('makeSection');
     makeSection.innerHTML = "New Pitch Form";
@@ -130,6 +135,11 @@ function makePitch(){
 
     }   
 }
+
+function pitchWeighter(){
+
+}
+
 async function submitChanges() {
 
     let pitches = loggedUser.pitches;
@@ -150,7 +160,9 @@ async function submitChanges() {
         alert("Code Monkey get a job!")
     }
     for (let pitch of pitches){
-        total += pitch.story_type.points;
+        if(pitch.status.id != 4){
+            total += pitch.story_type.points;
+        }
     }
     if((total + pitchweight) >= 100) {
         statweight = 4;
@@ -209,4 +221,17 @@ async function deletePitch(number){
 
         document.location.reload();
     }
+}
+
+function reSubPitch(number){
+    //still doesn't work, can't get value out of the tag. keeps return undefined for pType, pType.value, and pType.text
+    let total = 0;
+    let pitches = loggedUser.pitches;
+    for (let pitch of pitches) {
+        if(pitch.status.id != 4){
+            total += pitch.story_type.points;
+        }
+    }
+    let pType = document.getElementById(`${number}pitchType`);
+    alert (pType.innerHTML);
 }
