@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,7 +23,6 @@ public class GenreCommittee {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="genre_committee_id")
 	private int id;
 	
 	@OneToOne(fetch=FetchType.EAGER)
@@ -30,7 +32,10 @@ public class GenreCommittee {
 	@Column(name="genre_committee_name")
 	private String name;
 	
-	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="genre_committee_table",
+			joinColumns=@JoinColumn(name="genre_committee_id"),
+			inverseJoinColumns=@JoinColumn(name="genre_commitee_id"))
 	private Set<GenreCommitteeMember> editorsInTheCommittee;
 	
 	public GenreCommittee() {
@@ -73,7 +78,7 @@ public class GenreCommittee {
 	
 	public GenreCommitteeMember retrieveAnEditor(int id) {
 		for (GenreCommitteeMember gcm: editorsInTheCommittee) {
-			if (gcm.getEditor().getId() == id) {
+			if (gcm.getEditor().getEditorId() == id) {
 				return gcm;
 			}
 		}
@@ -83,7 +88,7 @@ public class GenreCommittee {
 	
 	public boolean removeAnEditor(int id) {
 		for (GenreCommitteeMember gcm: editorsInTheCommittee) {
-			if (gcm.getEditor().getId() == id) {
+			if (gcm.getEditor().getEditorId() == id) {
 				return editorsInTheCommittee.remove(gcm);
 			}
 		}

@@ -9,7 +9,8 @@
 		<!-- Named after Queen Sectonia, whose name subtly indicates she is only near an 
 		     insect form.  Thus, a div class acting like a nav-bar, but not quite. -->
 		<div class="queen-navbarnia">
-			<h1>Story Pitch Management System - Home Page</h1>
+			<h1>Story Pitch Management System - Author View</h1>
+			<h2>Welcome!</h2>
 		</div>
 		<br>
 		
@@ -17,22 +18,28 @@
 		     this is the "soul" of the thing. Thus, "Soul of SPMS", named after the Soul
 		     version of Queen Sectonia. -->
 		<div class="soul-of-spms">
+			<h4>Create a new story pitch here</h4>
 			<form>
-				<label>Username:</label>
-				<input type="text" id="uenm"></input>
+				<label>Title</label>
+				<input type="text" id="title"></input>
 				<br>
-				<label>Password:</label>
-				<input type="text" id="asod"></input>
+				<label>Date Completed</label>
+				<input type="text" id="date"></input>
 				<br>
-				<button type="button" id="login">Log In</button>
+				<label>Genre</label>
+				<input type="text" id="genre"></input>
+				<br>
+				<label>Description (in less than 1000 characters)</label>
+				<input type="text" id="description"></input>
+				<br>
+				<label>Length Of Literary Work</label>
+				<input type="text" id="literary-work-length"></input>
+				<br>
+				<button type="button" id="new-pitch"></button>
 			</form>
-			<br>
-			
-			<a href="authorHomeScreen.html" id="author-link">Author's Home Page</a>
-			<a href="editorHomeScreen.html" id="editor-link">Editor's Home Page</a>
-			
 		</div>
 		
 		<script src="js/main.js"></script>
+		<script src="js/authoractions.js"></script>
 	</body>
 </html>

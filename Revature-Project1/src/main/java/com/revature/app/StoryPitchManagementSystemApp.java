@@ -24,13 +24,25 @@ public class StoryPitchManagementSystemApp {
 					post(UserController::validateUser);	//log in as part of it 
 														//involves validating user
 					
-					put(UserController::addUser);		//registering user		
-					delete(UserController::removeUser); //deleting user
+					delete(UserController::logOut);	//logging out
+					
+					//put(UserController::addUser);		//registering user	
+					
+					//delete(UserController::removeUser); //deleting user
 				});
 				
 				//only meant for /proposedwork
 				path("proposedWork", () -> {
 					put(ProposedWorkController::addProposedWork);	//adds the same work
+					get(ProposedWorkController::getAllProposedWorksByAuthor);
+					
+					/*
+					 * path("additionalInfo", () -> {
+					 * 		put(ProposedWorkController::addAdditionalInfo);
+					 * })
+					*/
+					
+					/*
 					path(":id", () -> {
 						get(ProposedWorkController::getProposedWorkById);	//gets proposed work by id
 
@@ -40,15 +52,15 @@ public class StoryPitchManagementSystemApp {
 																			//by name
 
 					});
-				});
-				
+					*/
+				});				
 				//only meant for /approval
 				path("approval", () -> {
 					path(":id", () -> {
 						delete(ApprovalController::editorRejectProposedWork); //editor rejects
 																			  //proposed work
 						put(ApprovalController::acceptProposedWork);	//editor accepts work
-						path("/requestInfo", () -> {
+						path("requestInfo", () -> {
 							post(ApprovalController::addRequestedInfo);	//author adds info to request
 							path(":stage", () -> {
 								get(ApprovalController::getRequestedInfo); //editor looks at

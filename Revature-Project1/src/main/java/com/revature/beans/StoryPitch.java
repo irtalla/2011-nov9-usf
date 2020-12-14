@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="approvals")
@@ -22,7 +26,7 @@ public class StoryPitch {
 	@Column(name="approval_id")
 	private int id;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="proposed_work_id")
 	private Work proposedWork;
 	
@@ -49,7 +53,26 @@ public class StoryPitch {
 	
 	@Column(name="stage_start")
 	private Date dateWhenStageStarted;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="second_stage_checker")
+	private Editor secondStageChecker;
 
+	/*
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="approval_proofreading",
+			joinColumns=@JoinColumn(name="approval_id"),
+			inverseJoinColumns=@JoinColumn(name="editor_id"))
+	private List<Editor> thoseWhoMightProofreadYourFinalWork;
+	
+	
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="final_approval_viewing",
+			joinColumns=@JoinColumn(name="approval_id"),
+			inverseJoinColumns=@JoinColumn(name="editor_id"))
+	private List<Editor> thoseWhoMightViewYourFinalWork;
+	*/
+	
 	public StoryPitch() {
 		proposedWork = null;
 		denialReason = "";
@@ -58,8 +81,43 @@ public class StoryPitch {
 		status = null;
 		assignedEditor = null;
 		seniorEditorChange = false;
+		//thoseWhoMightProofreadYourFinalWork = null;
 	}
 	
+	
+	/*	
+	public List<Editor> getThoseWhoMightViewYourFinalWork() {
+		return thoseWhoMightViewYourFinalWork;
+	}
+
+
+
+	public void setThoseWhoMightViewYourFinalWork(List<Editor> thoseWhoMightViewYourFinalWork) {
+		this.thoseWhoMightViewYourFinalWork = thoseWhoMightViewYourFinalWork;
+	}
+
+
+
+	public List<Editor> getThoseWhoMightProofreadYourFinalWork() {
+		return thoseWhoMightProofreadYourFinalWork;
+	}
+
+	public void setThoseWhoMightProofreadYourFinalWork(List<Editor> thoseWhoMightProofreadYourFinalWork) {
+		this.thoseWhoMightProofreadYourFinalWork = thoseWhoMightProofreadYourFinalWork;
+	}
+	 */
+
+
+	public Editor getSecondStageChecker() {
+		return secondStageChecker;
+	}
+
+
+	public void setSecondStageChecker(Editor secondStageChecker) {
+		this.secondStageChecker = secondStageChecker;
+	}
+
+
 	public Editor getAssignedEditor() {
 		return assignedEditor;
 	}
@@ -202,9 +260,16 @@ public class StoryPitch {
 		result = prime * result + (highPriority ? 1231 : 1237);
 		result = prime * result + id;
 		result = prime * result + ((proposedWork == null) ? 0 : proposedWork.hashCode());
+		result = prime * result + ((secondStageChecker == null) ? 0 : secondStageChecker.hashCode());
 		result = prime * result + (seniorEditorChange ? 1231 : 1237);
 		result = prime * result + ((stage == null) ? 0 : stage.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		/*
+		result = prime * result
+				+ ((thoseWhoMightProofreadYourFinalWork == null) ? 0 : thoseWhoMightProofreadYourFinalWork.hashCode());
+		result = prime * result
+				+ ((thoseWhoMightViewYourFinalWork == null) ? 0 : thoseWhoMightViewYourFinalWork.hashCode());
+		*/
 		return result;
 	}
 
@@ -241,6 +306,11 @@ public class StoryPitch {
 				return false;
 		} else if (!proposedWork.equals(other.proposedWork))
 			return false;
+		if (secondStageChecker == null) {
+			if (other.secondStageChecker != null)
+				return false;
+		} else if (!secondStageChecker.equals(other.secondStageChecker))
+			return false;
 		if (seniorEditorChange != other.seniorEditorChange)
 			return false;
 		if (stage == null) {
@@ -253,8 +323,32 @@ public class StoryPitch {
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
+		/*
+		if (thoseWhoMightProofreadYourFinalWork == null) {
+			if (other.thoseWhoMightProofreadYourFinalWork != null)
+				return false;
+		} else if (!thoseWhoMightProofreadYourFinalWork.equals(other.thoseWhoMightProofreadYourFinalWork))
+			return false;
+		if (thoseWhoMightViewYourFinalWork == null) {
+			if (other.thoseWhoMightViewYourFinalWork != null)
+				return false;
+		} else if (!thoseWhoMightViewYourFinalWork.equals(other.thoseWhoMightViewYourFinalWork))
+			return false;
+		*/
 		return true;
 	}
-	
+
+
+	/*
+	public void setThoseWhoMightProofreadYourFinalWork(List<Editor> allPossibleEditorsToCheckWork) {
+		
+	}
+
+
+	public void setThoseWhoMightViewYourFinalWork(List<Editor> thoseWhoCanView) {
+		// TODO Auto-generated method stub
+		
+	}
+	*/
 
 }

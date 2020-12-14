@@ -5,6 +5,9 @@ let otherPart = document.getElementsByClassName("soul-of-spms");
 
 let currentUser = null;
 
+/*document.getElementById("author-link").style.display = none;
+document.getElementById("editor-link").style.display = none;*/
+
 /*Not going to change it just yet, just want to try retrieving the thing*/
 document.getElementById("login").onclick = login;
 
@@ -20,10 +23,18 @@ async function login(){
     
     switch (response.status) {
         case 200:
-        	console.log("At least it went through nicely.")
+        	console.log("At least it went through nicely.");
             currentUser = await response.json();
             if (currentUser){
-            	alert(`Logged into ${currentUser.username}`);
+            	console.log(currentUser);
+            	alert(`Logged into ${currentUser.userInfo.username}`);
+            	
+            	if(currentUser.userInfo.role === "author"){
+            		document.getElementById("author-link").style.display = "block";
+            	}
+            	else if (currentUser.userInfo.role === "editors"){
+            		document.getElementById("editor-link").style.display = "block";
+            	}
             }
             break;
         case 404: // user not found

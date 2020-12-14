@@ -11,46 +11,41 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name="editors")
-public class Editor extends User {
+public class Editor{
+	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="editor_id")
+	private User userInfo;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="editor_id")
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinTable(name="all_users", 
-			joinColumns=@JoinColumn(name="editor_id"),
-			inverseJoinColumns=@JoinColumn(name="user_id"))
-	private int id;
+	private int editorId;
 	
 	@Column(name="editor_name")
 	private String name;
 	
-	@JoinTable
-	private String committeePosition;
 	
 	public Editor() {
-		super("editor");
+		userInfo = null;
+		editorId = 0;
 		name = "";
 	}
 
-	public int getId() {
-		return id;
+	public int getEditorId() {
+		return editorId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setEditorId(int id) {
+		this.editorId = id;
 	}
 
-	public String getCommitteePosition() {
-		return committeePosition;
+	public User getUserInfo() {
+		return userInfo;
 	}
 
-	public void setCommitteePosition(String committeePosition) {
-		this.committeePosition = committeePosition;
+	public void setUserInfo(User userInfo) {
+		this.userInfo = userInfo;
 	}
 
 	/**
@@ -75,10 +70,10 @@ public class Editor extends User {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((committeePosition == null) ? 0 : committeePosition.hashCode());
-		result = prime * result + id;
+		int result = 1;
+		result = prime * result + editorId;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((userInfo == null) ? 0 : userInfo.hashCode());
 		return result;
 	}
 
@@ -86,22 +81,22 @@ public class Editor extends User {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Editor other = (Editor) obj;
-		if (committeePosition == null) {
-			if (other.committeePosition != null)
-				return false;
-		} else if (!committeePosition.equals(other.committeePosition))
-			return false;
-		if (id != other.id)
+		if (editorId != other.editorId)
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (userInfo == null) {
+			if (other.userInfo != null)
+				return false;
+		} else if (!userInfo.equals(other.userInfo))
 			return false;
 		return true;
 	}

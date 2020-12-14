@@ -2,12 +2,18 @@ package com.revature.beans;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name="all_users")
 public class User {
+	
+	@Id
+	@Column(name="user_id")
+	private int id;
+	
 	
 	@Column(name="user_username")
 	private String username;
@@ -24,13 +30,14 @@ public class User {
 		role = "user";
 	}
 	
-	public User(String role) {
-		username = "";
-		password = "";
-		this.role = role;
+	public int getId() {
+		return id;
 	}
-	
-	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	/**
 	 * @return the username
 	 */

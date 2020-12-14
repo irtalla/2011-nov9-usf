@@ -10,3 +10,10 @@
 	color: #216314;
 }
 
+#author-link{
+	display: none;
+}
+
+#editor-link{
+	display: none;
+}

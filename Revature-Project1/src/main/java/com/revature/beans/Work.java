@@ -24,19 +24,14 @@ public class Work {
 	@Column(name="proposed_works_id")
 	private int id;
 	
-	@Column(name="creator_id")
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinTable(name="author_id", 
-		joinColumns=@JoinColumn(name="author_id"),
-		inverseJoinColumns=@JoinColumn(name="user_id"))
+	@JoinColumn(name="author_id")
 	private Author author;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinTable(name="genres",
-			joinColumns=@JoinColumn(name="genre"),
-			inverseJoinColumns=@JoinColumn(name="genre_id"))
+	@JoinColumn(name="genre")
 	private Genre genre;
-	
+
 	@Column(name="tentative_title")
 	private String title;
 	
@@ -56,6 +51,14 @@ public class Work {
 		title = "";
 		tentativeCompletionDate = null;
 		description = "";
+	}
+	
+	public LengthOfWork getLengthOfWork() {
+		return lengthOfWork;
+	}
+
+	public void setLengthOfWork(LengthOfWork lengthOfWork) {
+		this.lengthOfWork = lengthOfWork;
 	}
 
 	/**
@@ -144,10 +147,13 @@ public class Work {
 	
 	@Override
 	public String toString() {
-		return "The proposed literary work " + title + " by " + (author != null ? author.getName() : "")
-			+ "\nSummary: " + description;
+		return "The proposed literary work " + title + " by " + (author != null ? author.getName() : "N/A")
+			+ "\nSummary: " + description + "\nThis literary work is a " + (lengthOfWork != null ? lengthOfWork.getName() : "N/A")
+			+ "\nGenre: " + (genre != null ? genre.getGenreName() : "N/A");
 	}
 
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -156,6 +162,7 @@ public class Work {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((lengthOfWork == null) ? 0 : lengthOfWork.hashCode());
 		result = prime * result + ((tentativeCompletionDate == null) ? 0 : tentativeCompletionDate.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
@@ -186,6 +193,11 @@ public class Work {
 		} else if (!genre.equals(other.genre))
 			return false;
 		if (id != other.id)
+			return false;
+		if (lengthOfWork == null) {
+			if (other.lengthOfWork != null)
+				return false;
+		} else if (!lengthOfWork.equals(other.lengthOfWork))
 			return false;
 		if (tentativeCompletionDate == null) {
 			if (other.tentativeCompletionDate != null)

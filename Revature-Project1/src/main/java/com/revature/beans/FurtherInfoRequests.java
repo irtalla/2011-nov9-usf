@@ -22,9 +22,7 @@ public class FurtherInfoRequests {
 	private StoryPitch originalPitch;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinTable(name="approval_stage",
-			joinColumns=@JoinColumn(name="stage"),
-			inverseJoinColumns=@JoinColumn(name="approval_stage_id"))
+	@JoinColumn(name="stage")
 	private Stage stageWhenRequested;
 	
 	@Column(name="request_description")

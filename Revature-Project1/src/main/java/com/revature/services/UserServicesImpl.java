@@ -12,7 +12,7 @@ public class UserServicesImpl implements UserFunctions {
 	}
 
 	@Override
-	public User retrieveAUser(String username, String password) {
+	public Object retrieveAUser(String username, String password) {
 		return userDAO.verifyAUser(username, password);
 	}
 

@@ -8,42 +8,41 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name="genre_committee_member")
-public class GenreCommitteeMember {
+@Table(name="approval_proofreaders")
+public class ApprovalProofreaders {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="proofreader_id")
 	private int id;
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="genre_committee_id")
-	private GenreCommittee genreCommittee;
-	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="editor_id")
 	private Editor editor;
 	
-	@Column(name="editor_position")
-	private String editorType;
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="approval_id")
+	private StoryPitch storyPitch;
 	
-	public GenreCommitteeMember() {
-		genreCommittee = null;
+	public ApprovalProofreaders() {
+		id = 0;
 		editor = null;
-		editorType = "";
+		storyPitch = null;
 	}
 
-	public GenreCommittee getGenreCommittee() {
-		return genreCommittee;
+	public int getId() {
+		return id;
 	}
 
-	public void setGenreCommittee(GenreCommittee genreCommittee) {
-		this.genreCommittee = genreCommittee;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Editor getEditor() {
@@ -54,17 +53,17 @@ public class GenreCommitteeMember {
 		this.editor = editor;
 	}
 
-	public String getEditorType() {
-		return editorType;
+	public StoryPitch getStoryPitch() {
+		return storyPitch;
 	}
 
-	public void setEditorType(String editorType) {
-		this.editorType = editorType;
+	public void setStoryPitch(StoryPitch storyPitch) {
+		this.storyPitch = storyPitch;
 	}
-	
+
 	@Override
 	public String toString() {
-		return editor.getName() + " is in " + genreCommittee.getName() + " as a " + editorType;
+		return "ApprovalProofreaders [id=" + id + ", editor=" + editor + ", storyPitch=" + storyPitch + "]";
 	}
 
 	@Override
@@ -72,8 +71,8 @@ public class GenreCommitteeMember {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((editor == null) ? 0 : editor.hashCode());
-		result = prime * result + ((editorType == null) ? 0 : editorType.hashCode());
-		result = prime * result + ((genreCommittee == null) ? 0 : genreCommittee.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((storyPitch == null) ? 0 : storyPitch.hashCode());
 		return result;
 	}
 
@@ -85,21 +84,18 @@ public class GenreCommitteeMember {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GenreCommitteeMember other = (GenreCommitteeMember) obj;
+		ApprovalProofreaders other = (ApprovalProofreaders) obj;
 		if (editor == null) {
 			if (other.editor != null)
 				return false;
 		} else if (!editor.equals(other.editor))
 			return false;
-		if (editorType == null) {
-			if (other.editorType != null)
-				return false;
-		} else if (!editorType.equals(other.editorType))
+		if (id != other.id)
 			return false;
-		if (genreCommittee == null) {
-			if (other.genreCommittee != null)
+		if (storyPitch == null) {
+			if (other.storyPitch != null)
 				return false;
-		} else if (!genreCommittee.equals(other.genreCommittee))
+		} else if (!storyPitch.equals(other.storyPitch))
 			return false;
 		return true;
 	}

@@ -1,5 +1,8 @@
 package com.revature.dao;
 
-public interface ApprovalDAO {
+import com.revature.beans.StoryPitch;
 
+public interface ApprovalDAO {
+	public void rejectAPitch(StoryPitch sp);
+	public void acceptAPitch(StoryPitch sp);
 }

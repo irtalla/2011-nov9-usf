@@ -14,16 +14,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="authors")
-public class Author extends User{
+public class Author{
 	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="author_id")
+	private User userInfo;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="author_id")
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinTable(name="all_users", 
-			joinColumns=@JoinColumn(name="author_id"),
-			inverseJoinColumns=@JoinColumn(name="user_id"))
-	private int id;
+	private int authorId;
 	
 	@Column(name="author_name")
 	private String name;
@@ -31,19 +30,27 @@ public class Author extends User{
 	@Column(name="points_remaining")
 	private int pointsRemaining;
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public Author() {
-		super("author");
-
+		userInfo = null;
 		name = "";
+		authorId = 0;
 		pointsRemaining = 100;
+	}
+	
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int id) {
+		this.authorId = id;
+	}
+	
+	public User getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(User userInfo) {
+		this.userInfo = userInfo;
 	}
 
 	/**
@@ -82,10 +89,11 @@ public class Author extends User{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + id;
+		int result = 1;
+		result = prime * result + authorId;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + pointsRemaining;
+		result = prime * result + ((userInfo == null) ? 0 : userInfo.hashCode());
 		return result;
 	}
 
@@ -93,12 +101,12 @@ public class Author extends User{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Author other = (Author) obj;
-		if (id != other.id)
+		if (authorId != other.authorId)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -106,6 +114,11 @@ public class Author extends User{
 		} else if (!name.equals(other.name))
 			return false;
 		if (pointsRemaining != other.pointsRemaining)
+			return false;
+		if (userInfo == null) {
+			if (other.userInfo != null)
+				return false;
+		} else if (!userInfo.equals(other.userInfo))
 			return false;
 		return true;
 	}
