@@ -21,7 +21,6 @@ form.innerHTML = `
 		</select></div>
 	<div><label type='date'>Start Date</label>
 	<input type="date" id="start_date"> </div>
-<<<<<<< HEAD
 	<div>
 		<label>Amount</label>
 		<input id="amount"> 
@@ -62,12 +61,6 @@ form.innerHTML = `
 	</div>
 
 	<input class="btn btn-primary" type='submit' onClick="addEvtReq()" > 	
-=======
-	<div><label>Amount</label>
-	<input id="amount"> </div>
-	<label>Submit</label>
-	<input type='submit' onClick="addEvtReq()" > 	
->>>>>>> df51458cb2f15ea4949e5418db43191105523d0a
 `
 evtReqSection.appendChild(form); 
 

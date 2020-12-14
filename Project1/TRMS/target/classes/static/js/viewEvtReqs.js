@@ -1,4 +1,4 @@
-checkLogin();
+// checkLogin();
 
 getEvtReqs();
 
@@ -19,6 +19,10 @@ function populateEvtReqs(evtReqs) {
 
     if (evtReqs.length > 0) {
         let table = document.createElement('table');
+        table.classList.add("table");
+        table.classList.add("table-bordered");
+        table.classList.add("border-primary");
+        table.classList.add("table-hover");
 
         table.innerHTML = `
             <tr>
@@ -37,29 +41,30 @@ function populateEvtReqs(evtReqs) {
             </tr>
         `;
 		
-		// alert(evtReqs.length);
+        // alert(evtReqs.length);
+        
+        let tbody = document.createElement('tbody');
 		
         for (let evtReq of evtReqs) {
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${evtReq.id}</td>
                 <td>${evtReq.name}</td>
-                <td>${evtReq.posting_date}</td>
+                <td>${new Date(evtReq.posting_date).toLocaleDateString()}</td>
                 <td>${evtReq.direct_supervisor_approval_status_id}</td>
+                <td>${evtReq.department_head_approval_status_id}</td>
                 <td>${evtReq.benefits_coordinator_approval_status_id}</td>
                 <td>${evtReq.person_id}</td>
                 <td>${evtReq.type_id}</td>
                 <td>${evtReq.req_fr_cmnt_id}</td>
                 <td>${evtReq.priority_id}</td>
-			    <td>${evtReq.start_date}</td>  
+			    <td>${new Date(evtReq.start_date).toLocaleDateString()}</td>  
 			    <td>${evtReq.amount}</td>             
             `;
             
-             let td = document.createElement('td');
-             // tr.appendChild(td);
-             table.appendChild(tr);
-                     
+             tbody.appendChild(tr);                    
         }
+             table.appendChild(tbody);
              evtReqSection.appendChild(table);
     } else {
         evtReqSection.innerHTML = 'No events are available.';

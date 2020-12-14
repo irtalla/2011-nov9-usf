@@ -63,11 +63,6 @@ public class EvtReqPostgres implements EvtReqDAO {
 					+ "event_time = ?, location_id = ?, grading_format_id = ?, work_related_justification = ?, passing_cutoff_grade_id = ?,"
 					+ " WHERE id= ?";
 			
-//			String sql = "UPDATE evt_req SET name= ?, posting_date= ?, direct_supervisor_approval_status_id= ? ,"
-//					+ " department_head_approval_status_id= ? ,benefits_coordinator_approval_status_id=?,"
-//					+ " person_id= ?, type_id= ?, req_fr_cmnt_id= ?, priority_id= ?, start_date= ?, amount= ? "
-//					+ "event_time = ?, location_id = ?"
-//					+ " WHERE id= ?";
 							
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			
@@ -119,7 +114,6 @@ public class EvtReqPostgres implements EvtReqDAO {
 			conn.setAutoCommit(false);
 			
 			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount, event_time, location_id, grading_format_id, work_related_justification, passing_cutoff_grade_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount, event_time, location_id, grading_format_id, work_related_justification, passing_cutoff_grade_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
 			String[] keys = {"id"};
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
@@ -167,10 +161,57 @@ public class EvtReqPostgres implements EvtReqDAO {
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
-
+				
 				EvtReq evtReq = new EvtReq();
 				evtReq.setId(rs.getInt("id"));
 				evtReq.setName(rs.getString("name"));
+				evtReq.setPosting_date(rs.getDate("posting_date"));
+				
+				if (rs.getObject("direct_supervisor_approval_status_id") != null) {
+					evtReq.setDirect_supervisor_approval_id(rs.getInt("direct_supervisor_approval_status_id"));
+				  }
+				
+				if (rs.getObject("department_head_approval_status_id") != null) {
+					evtReq.setDepartment_head_approval_id(rs.getInt("department_head_approval_status_id"));
+				  }
+				
+				if (rs.getObject("benefits_coordinator_approval_status_id") != null) {
+					evtReq.setBenefits_coordinator_approval_id(rs.getInt("benefits_coordinator_approval_status_id"));
+				  }
+				
+				if (rs.getObject("req_fr_cmnt_id") != null) {
+					evtReq.setReq_fr_cmnt_id(rs.getInt("req_fr_cmnt_id"));
+				  }
+				
+				if (rs.getObject("priority_id") != null) {
+					evtReq.setPriority_id(rs.getInt("priority_id"));
+				  }
+				
+				if (rs.getObject("event_time") != null) {
+				    
+				  }
+				
+				if (rs.getObject("location_id") != null) {
+				    
+				  }
+				
+				if (rs.getObject("grading_format_id") != null) {
+				    
+				  }
+				
+				if (rs.getObject("work_related_justification") != null) {
+				    
+				  }
+				
+				if (rs.getObject("passing_cutoff_grade_id") != null) {
+				    
+				  }
+				
+				evtReq.setPerson_id(rs.getInt("person_id"));
+				evtReq.setType_id(rs.getInt("type_id"));
+				evtReq.setStart_date(rs.getDate("start_date"));
+				evtReq.setAmount(rs.getDouble("amount"));
+				
 
 				evtReqs.add(evtReq);
 			}
@@ -203,11 +244,57 @@ public class EvtReqPostgres implements EvtReqDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-
+				
 				EvtReq evtReq = new EvtReq();
 				evtReq.setId(rs.getInt("id"));
 				evtReq.setName(rs.getString("name"));
-
+				evtReq.setPosting_date(rs.getDate("posting_date"));
+				
+				if (rs.getObject("direct_supervisor_approval_status_id") != null) {
+					evtReq.setDirect_supervisor_approval_id(rs.getInt("direct_supervisor_approval_status_id"));
+				  }
+				
+				if (rs.getObject("department_head_approval_status_id") != null) {
+					evtReq.setDepartment_head_approval_id(rs.getInt("department_head_approval_status_id"));
+				  }
+				
+				if (rs.getObject("benefits_coordinator_approval_status_id") != null) {
+					evtReq.setBenefits_coordinator_approval_id(rs.getInt("benefits_coordinator_approval_status_id"));
+				  }
+				
+				if (rs.getObject("req_fr_cmnt_id") != null) {
+					evtReq.setReq_fr_cmnt_id(rs.getInt("req_fr_cmnt_id"));
+				  }
+				
+				if (rs.getObject("priority_id") != null) {
+					evtReq.setPriority_id(rs.getInt("priority_id"));
+				  }
+				
+				if (rs.getObject("event_time") != null) {
+				    
+				  }
+				
+				if (rs.getObject("location_id") != null) {
+				    
+				  }
+				
+				if (rs.getObject("grading_format_id") != null) {
+				    
+				  }
+				
+				if (rs.getObject("work_related_justification") != null) {
+				    
+				  }
+				
+				if (rs.getObject("passing_cutoff_grade_id") != null) {
+				    
+				  }
+				
+				evtReq.setPerson_id(rs.getInt("person_id"));
+				evtReq.setType_id(rs.getInt("type_id"));
+				evtReq.setStart_date(rs.getDate("start_date"));
+				evtReq.setAmount(rs.getDouble("amount"));
+				
 				evtReqs.add(evtReq);
 			}
 
