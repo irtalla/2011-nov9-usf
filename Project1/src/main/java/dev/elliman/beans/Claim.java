@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table
@@ -62,6 +63,8 @@ public class Claim {
 	private Double estimatedAmount;
 	@Column(name="last_approved")
 	private LocalDateTime lastApproved;
+	@Transient
+	private Boolean isUrgent;
 	
 	public Claim() {
 		id = null;
@@ -82,6 +85,7 @@ public class Claim {
 		passingApproval = null;
 		estimatedAmount = null;
 		lastApproved = null;
+		isUrgent = null;
 	}
 
 	public Integer getId() {
@@ -234,6 +238,14 @@ public class Claim {
 
 	public void setLastApproved(LocalDateTime lastApproved) {
 		this.lastApproved = lastApproved;
+	}
+
+	public Boolean getIsUrgent() {
+		return isUrgent;
+	}
+
+	public void setIsUrgent(Boolean isUrgent) {
+		this.isUrgent = isUrgent;
 	}
 
 	@Override

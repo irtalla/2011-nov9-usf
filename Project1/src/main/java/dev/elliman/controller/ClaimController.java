@@ -22,6 +22,7 @@ public class ClaimController {
 	public static void getClaimsByPerson(Context ctx) {
 		Person p = ctx.sessionAttribute("user");
 		List<Claim> claims = cs.getClaimsByPerson(p);
+		setUrgentClaimField(claims);
 		
 		if(claims != null) {
 			ctx.status(200);
@@ -45,6 +46,7 @@ public class ClaimController {
 	public static void getDSUnapprovedClaims(Context ctx) {
 		//Person p = ctx.sessionAttribute("user");
 		List<Claim> claims = cs.getDSUnapprovedClaims();
+		setUrgentClaimField(claims);
 		
 		if(claims != null) {
 			ctx.status(200);
@@ -57,6 +59,7 @@ public class ClaimController {
 	public static void getDHUnapprovedClaims(Context ctx) {
 		//Person p = ctx.sessionAttribute("user");
 		List<Claim> claims = cs.getDHUnapprovedClaims();
+		setUrgentClaimField(claims);
 		
 		if(claims != null) {
 			ctx.status(200);
@@ -69,12 +72,25 @@ public class ClaimController {
 	public static void getBCUnapprovedClaims(Context ctx) {
 		//Person p = ctx.sessionAttribute("user");
 		List<Claim> claims = cs.getBCUnapprovedClaims();
+		setUrgentClaimField(claims);
 		
 		if(claims != null) {
 			ctx.status(200);
 			ctx.json(claims);
 		} else {
 			ctx.status(500);
+		}
+	}
+	
+	private static void setUrgentClaimField(List<Claim> claims) {
+		LocalDateTime ldt = LocalDateTime.now();
+		ldt = ldt.plusDays(14);
+		for(Claim c : claims) {
+			if(c.getEventDate().compareTo(ldt) < 0) {
+				c.setIsUrgent(true);
+			} else {
+				c.setIsUrgent(false);
+			}
 		}
 	}
 	

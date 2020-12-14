@@ -152,7 +152,7 @@ async function updateClaims() {
     let futureClaimsDiv = document.getElementById('futureClaimsDiv');
     futureClaimsDiv.innerHTML = '';
     let archivedClaimsDiv = document.getElementById('archivedClaimsDiv');
-    archivedClaimsDiv = '';
+    archivedClaimsDiv.innerHTML = '';
 
     newClaimDiv = document.getElementById('newClaimDiv');
     newClaimDiv.innerHTML = '';
@@ -192,12 +192,16 @@ async function updateClaims() {
                 </div>
             </div>`;
 
-        //if(date.)
-
-        urgentClaimsDiv.innerHTML += claimHTML;
+        console.log(claim.approvalStage.id);
+        console.log(archivedClaimsDiv);
+        if(claim.approvalStage.id == 7 || claim.approvalStage.id == 0){
+            archivedClaimsDiv.innerHTML += claimHTML;
+        } else if(claim.isUrgent){
+            urgentClaimsDiv.innerHTML += claimHTML;
+        } else {
+            futureClaimsDiv.innerHTML += claimHTML;
+        }
     }
-
-
 }
 
 async function viewClaimDetails(index) {
@@ -557,7 +561,7 @@ async function makeNewClaim(){
                                         <h6>Event Date:</h6><input id="eventDate" type="date" class="goodInput">
                                         <h6>Event Time:</h6><input id="eventTime" type="time" class="goodInput">
                                         <h6>Event Location:</h6><input id="eventLocation" type="text" class="goodInput">
-                                        <h6>Passing percentage:<h6><input id="passingPercentage" type="number" class="goodInput">
+                                        <h6>Passing percentage:<h6><input id="passingPercentage" type="number" class="goodInput" value="80">
                                         <h6>Passing letter:</h6>
                                         <select id="passingLetter" class="goodInput">
                                             <option>N/A</option>
@@ -590,6 +594,10 @@ async function makeNewClaim(){
         showClaims();
         alert('Something went wrong');
     }
+
+    let dateInput = document.getElementById('eventDate');
+    let today = new Date();
+    dateInput.setAttribute('min', today);
 
     //set event listener for live estimation updates
     let priceHTML = document.getElementById('price');
