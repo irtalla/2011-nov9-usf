@@ -114,9 +114,8 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	@Override
-	public void updatePitch(Pitch p) {
-		// TODO Auto-generated method stub
-		
+	public boolean updatePitch(Pitch p) {
+		return pitchDAO.update(p);
 	}
 
 	@Override

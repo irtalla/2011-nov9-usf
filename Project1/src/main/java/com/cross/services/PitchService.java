@@ -12,7 +12,7 @@ public interface PitchService {
 	public Pitch addPitch(Pitch p);
 	public Set<Pitch> getAll(); 
 	public Pitch getPitchById(Integer id);
-	public void updatePitch(Pitch p);
+	public boolean updatePitch(Pitch p);
 	public boolean deletePitch(Pitch p);
 
 }

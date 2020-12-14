@@ -66,15 +66,7 @@ public class App {
 				});
 				path ("all", () -> {
 					get(PitchController::getAllPitches); // get all cats
-				});
-				path ("reject/:id", () -> {
-					put(PitchController::rejectPitch); // adopt a cat by its id
-				});
-				path ("accept/:id", () -> {
-					put(PitchController::acceptPitch); // adopt a cat by its id
-				});
-				
-				
+				});				
 			});
 			
 			// all requests to /cats go to this handler

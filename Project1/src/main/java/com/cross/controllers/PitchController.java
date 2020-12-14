@@ -35,10 +35,28 @@ public class PitchController {
 	
 	public static void getPendingPitches(Context ctx) { /* TODO : implement */ }
 	public static void getPitchById(Context ctx) { /* TODO : implement */ }
-	public static void updatePitch(Context ctx) { /* TODO : implement */ }
 	public static void getAllPitches(Context ctx) { /* TODO : implement */ }
-	public static void rejectPitch(Context ctx) { /* TODO : implement */ }
-	public static void acceptPitch(Context ctx) { /* TODO : implement */ }
+
+	
+	
+	public static void updatePitch(Context ctx) {
+		try {
+		    Pitch updatedPitch;	    
+		    updatedPitch = gson.fromJson( ctx.body(), Pitch.class);
+		    
+		    Boolean didUpdate = pitchServ.updatePitch(updatedPitch); 
+		    System.out.println(didUpdate);
+		    if (didUpdate) {
+		    	ctx.status(200);
+		    } else {
+		    	ctx.status(500);
+		    }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.status(500);
+		}
+	}
 	
 	
 	public static void getPitchByGenre(Context ctx) {  

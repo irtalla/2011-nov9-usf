@@ -39,7 +39,7 @@ private PersonDAO personHib = new PersonHibernate();
 	
 	@Override
 	public boolean update(Pitch t) {
-		Boolean didUpdate = false; 
+		System.out.println("Attempting update");
 		Session s = hu.getSession();
 		Transaction tx = null;
 		try {
@@ -47,16 +47,17 @@ private PersonDAO personHib = new PersonHibernate();
 			t.setLastModifiedTime( LocalDateTime.now() );
 			s.update(t);
 			tx.commit();
-			didUpdate = true; 
+			System.out.println("Update successful");
+			return true; 
 		} catch (Exception e) {
 			if (tx != null) {
 				tx.rollback();
-				didUpdate = false; 
 			}
+			e.printStackTrace(); 
+			return false;
 		} finally {
 			s.close();
 		}
-		return didUpdate; 
 	}
 	
 	@Override

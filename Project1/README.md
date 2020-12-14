@@ -36,6 +36,11 @@ maintain dummy tuples in decision, pitch, and draft, and give each request a ref
 
 A little inelegant, but straightforward enough. Two values will be -1, and one value will be a positive integer. This can be designated client-side. To maintain referential integrity, we will have dummy rows for decision, pitch, draft, author, and editor. 
 
+UPDATE : A even quicker way to do this is to remove the target_draft_id fk in the request column. Since, 
+pitches and drafts are in one-to-one relation, there is no need to reference a pitch directly. Further, since requests represent persistent communication channels organized around some topic, an editor can simply specify the content with the initial comment. That leaves reqeusts targeting editors' decisions. 
+
+
+
 One interesting observation is that almost every attribute of a pitch is a target for a query. This makes sense, as pitches are the main product. But it is an interesting observation.
 
 

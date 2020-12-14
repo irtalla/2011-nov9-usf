@@ -10,6 +10,18 @@ const postPitch = async (pitch) => {
     return response;
 }
 
+const putPitch = async (pitch) => {
+    let response = await fetch(`http://localhost:4000/api/pitches/${pitch.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(pitch)
+    });
+    return response;
+}
+
 const fetchPitchesByAuthorId = async (authorId) => {
     let response = await fetch(`http://localhost:4000/api/pitches/authorid/${authorId}`, {
         method: 'GET',

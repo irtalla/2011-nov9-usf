@@ -12,7 +12,7 @@ const postDecision = async (decision) => {
 }
 
 const getDecisionsByPitchIds = async (pitchId) => {
-    let response = await fetch(`http://localhost:4000/api/decisions/requestid/${pitchId}`, {
+    let response = await fetch(`http://localhost:4000/api/decisions/pitchid/${pitchId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip({trigger :'hover'})
-  })
+    $('[data-toggle="tooltip"]').tooltip({ trigger: 'hover' })
+})
 
 
 const loadModalWithDecisionExplanationPrompt = (pitchId, type) => {
@@ -65,12 +65,19 @@ const loadModalWithRequestPrompt = (targetId, targetType) => {
 const createPitchCard = (pitch) => {
 
 
-    let controlButtons;
+    let controlButtons, decisionHistory;
     if (currentUser.role.name.toUpperCase() === 'AUTHOR') {
         controlButtons =
             `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <button type="button" class="btn btn-danger" onClick="deletePitch(${pitch.id})">Delete</button>
-        </div>`;
+                <button type="button" class="btn btn-success" data-toggle="modal" 
+                data-target="#exampleModal" onClick="populateModalWithData(${pitch.id})">
+                    Open
+                </button>
+                <button type="button" class="btn btn-danger" onClick="deletePitch(${pitch.id})">Delete</button>
+            </div>`;
+
+        decisionHistory = '';
+
     } else {
         controlButtons =
             `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -93,6 +100,11 @@ const createPitchCard = (pitch) => {
                 >Reject
             </button>
         </div>`;
+        decisionHistory = `
+            <strong>Decision History</strong>
+                <div id="pitch-card-${pitch.id}-decision-section" class="card-decision-section">
+            </div>`;
+
     }
 
 
@@ -116,7 +128,7 @@ const createPitchCard = (pitch) => {
             break;
     }
 
-    let progressBarWidthValue; 
+    let progressBarWidthValue;
     switch (pitch.stage.name.toUpperCase()) {
         case "GENRE REVIEW":
             progressBarWidthValue = 25;
@@ -153,28 +165,16 @@ const createPitchCard = (pitch) => {
       <li class="list-group-item">Completion Deadline: ${pitch.completionDate || 'completion date unspecified'} </li>
     </ul>
     <div class="card-body">
-
-    <strong>Decision History</strong>
-      <div id="pitch-card-${pitch.id}-decision-section" class="card-decision-section">
-      </div>
-      
-      
-      <button type="button" 
-        class="btn btn-primary" 
-        data-toggle="modal" 
-        data-target="#exampleModal"
-        onClick="populateModalWithData(${pitch.id})">
-        Expand/Edit
-      </button>
-      ${controlButtons}
+        ${decisionHistory}
+        ${controlButtons}
     </div>
   </div>
 </div>`;
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip({trigger :'hover'})
-    $('[data-toggle="tooltip"]').tooltip({animation :'true'})
-  })
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({ trigger: 'hover' })
+        $('[data-toggle="tooltip"]').tooltip({ animation: 'true' })
+    })
 
 
     return pitchCard;

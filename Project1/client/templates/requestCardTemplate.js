@@ -1,25 +1,25 @@
 
 
-const isSenderAndEditor = (request) =>  {
-    return request.senderId === currentUser.id && 
-        currentUser.role.name.toUpperCase().includes('EDITOR'); 
+const isSenderAndEditor = (request) => {
+    return request.senderId === currentUser.id &&
+        currentUser.role.name.toUpperCase().includes('EDITOR');
 }
 
-const loadRequestCard = (request) => {
+const createRequestCard = (request) => {
 
     // Only senders should be able to close requets. So we expose the close function
     // on if the current user is the sender. Dynamic rendering is possible using 
     // template literals and the ternary statement
     let controlButtons;
-    if ( isSenderAndEditor(request) ) {
-        controlButtons = 
-        `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+    if (isSenderAndEditor(request)) {
+        controlButtons =
+            `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <button type="button" class="btn btn-primary" onClick="handleRespond(${request.id})">Add Comment</button>
             <button type="button" class="btn btn-danger" onClick="handleCloseRequest(${request.id})">Close</button>
         </div>`
     } else {
-        controlButtons = 
-        `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        controlButtons =
+            `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <button type="button" class="btn btn-primary" onClick="handleRespond(${request.id})">Add Comment</button>
         </div>`
     }
@@ -38,8 +38,9 @@ const loadRequestCard = (request) => {
                 </div>
                 ... ... ... 
                 <div id="request-card-${request.id}-comment-section" class="card-comment-section">
+                <div id="request-card-${request.id}-new-comment-section" class="card-comment-section"></div>
                 </div>
-                    ${ controlButtons }
+                    ${controlButtons}
                 </div>
         </div>`;
 

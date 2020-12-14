@@ -30,6 +30,33 @@ const commentMap = new Map();
 const personMap = new Map(); 
 const decisionMap = new Map(); 
 
+
+/*
+
+create table pitch (
+	id serial primary key,
+	author_id integer references person,
+	title varchar(40),
+	tagline varchar(1000),
+	status_id integer references status,
+	genre_id integer references genre,
+	form_id integer references form, 
+	general_editor_id integer references person,
+	priority_lvl_id integer references priority,
+	stage_id integer references stage,
+	deadline TIMESTAMP, 
+	createdTime TIMESTAMP, 
+	lastModifiedTime TIMESTAMP
+);
+
+
+*/
+
+
+
+
+
+
 /**
  * Fetch pitches for current user. 
  */
@@ -37,8 +64,6 @@ const fetchPitches = async () => {
 
     let response = await fetchPitchesByAuthorId(currentUser.id); 
     let pitches = JSON.parse(await response.json());
-
-    console.log(typeof (pitches));
     console.log(pitches);
 
     for (const pitch of pitches) {
@@ -86,7 +111,7 @@ fetchPitches();
 
 
 
-const createPitchModalTemplate =
+const createSubmitPitchModalTemplate =
     `<form>
 <div class="form-group">
   <label for="exampleFormControlInput1">Title</label>
@@ -120,6 +145,30 @@ const createPitchModalTemplate =
 `;
 
 
+const handlePitchContentChange = (id) => {
+  pitchMap.set(id, {
+      ...pitchMap.get(id),
+      [event.target.name]: event.target.value
+  });
+
+  console.log( pitchMap.get(id)[event.target.name] );
+}
+
+const updatePitch = async (id) => {
+
+  let updatedPitch = pitchMap.get(id); 
+  let response = await putPitch(updatedPitch);
+  if (response.status === 200) {
+    alert("update successful"); 
+    document.getElementById('main-data-display-row').
+      removeChild( document.getElementById(`pitch-card-${id}`) ); 
+    document.getElementById('main-data-display-row').innerHTML += createPitchCard(updatedPitch);
+  } else {
+    alert("Internal system error: could not update pitch");
+  }
+}
+
+
 /**
  * Callback method to populate modal with data. The id parameter specifies 
  * Is used to get get the corresponding pitch data from a hashmap. If id is default 
@@ -128,21 +177,14 @@ const createPitchModalTemplate =
  */
 const populateModalWithData = (id = null) => {
 
-    if (id) {
-        const pitch = pitchMap.get(id);
-        document.getElementById("pitch-modal-body").innerHTML = `
-      <h3>Title: ${pitch.title} </h3>
-      <h5>tagline: ${pitch.tagline} </h5>
-      <h5>Genre: ${pitch.genre.name} </h5>
-      <h5>Form: ${pitch.form.name} </h5>`;
-
+    if (id !== null) {
+        document.getElementById("pitch-modal-body").innerHTML = createPitchModalCard( pitchMap.get(id) );
         document.getElementById("modal-btn-section").innerHTML = `
-      <button type="button" class="btn btn-success">Edit</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
-      `;
+          <button type="button" class="btn btn-warning" onClick="updatePitch(${id})">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          `;
     } else {
-        document.getElementById("pitch-modal-body").innerHTML = createPitchModalTemplate;
+        document.getElementById("pitch-modal-body").innerHTML = createSubmitPitchModalTemplate;
         document.getElementById("modal-btn-section").innerHTML = `
     <button type="button" class="btn btn-success" data-dismiss="modal" onClick="savePitch()">Save</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -201,3 +243,94 @@ const deletePitch = async (id) => {
 
 }
 
+const saveComment = async (id, selectorString) => {
+
+  const newCommentContent = document.getElementById(selectorString).value;
+  if (newCommentContent.length === 0) {
+      alert('Cannot save empty comment');
+      return;
+  }
+  const newComment = {
+      requestId: id,
+      commentorId: currentUser.id,
+      content: newCommentContent
+  };
+
+  let response = await postComment(newComment);
+
+  if (response.status === 200) {
+      const comment = JSON.parse(await response.json());
+      document.getElementById(`request-card-${comment.requestId}-comment-section`)
+          .innerHTML += createCommentCard(comment);
+
+      /**
+       * This block sometimes fails if a new request card is being added. However, it's
+       * a benign failure, so we will wrap it in a try-catch block and print the error
+       */
+      try {
+          document.getElementById(`request-card-${comment.requestId}-comment-section`).
+              removeChild(document.getElementById(`draft-comment-response-section-${comment.requestId}`));
+      } catch (e) {
+          console.warn(e);
+      }
+
+  } else {
+      alert("Internal System error: Unable to save comment");
+      console.log(resposne);
+  }
+
+}
+
+const handleRespond = (id) => {
+    document.getElementById(`request-card-${id}-comment-section`).innerHTML +=
+        `<div id="draft-comment-response-section-${id}">
+        <textarea 
+        class="form-control" 
+        id="section-${id}-draft-comment"
+        rows="4"
+        ></textarea>
+        <button 
+        type="button" class="btn btn-primary"
+        onclick='saveComment(${id}, \`section-${id}-draft-comment\`)'
+        class 
+        >
+        Save
+        </button>
+        `;
+}
+/**
+ * 
+ * @param {*} id The id of the current user
+ */
+const getRequests = async (id) => {
+
+  let response = await fetchRequests(id);
+  if (response.status === 200) {
+      let requests = JSON.parse(await response.json());
+      console.log(requests);
+      // This removes the spinners. Maybe we should check and remove in loadRequests? 
+      document.getElementById("outgoing-requests-display-selection").innerHTML = "";
+      document.getElementById("incoming-requests-display-selection").innerHTML = "";
+      for (const request of requests) {
+          requestMap.set(request.id, request);
+          await createRequestCard(request);
+          let response = await fetchCommentsByRequestId(request.id);
+          if (response.status == 200) {
+              let comments = JSON.parse(await response.json());
+              for (let comment of comments) {
+                  commentMap.set(comment.id, comment);
+                  document.getElementById(`request-card-${comment.requestId}-comment-section`)
+                      .innerHTML += createCommentCard(comment);
+              }
+          } else {
+              alert(`unable to load comments for request ${request.id}`);
+          }
+
+      }
+
+  } else {
+      alert("could not fetch requests");
+  }
+}
+
+getRequests(currentUser.id); 

@@ -68,20 +68,6 @@ const updateRequest = async (id) => {
     }
 }
 
-
-// const handleReponseContentChange = (id) => {
-
-//     let currentResponseContent = document.getElementById(`input-response-section-${id}`).value;
-
-//     requestMap.set(id, {
-//         ...requestMap.get(id),
-//         responseContent: currentResponseContent
-//     });
-
-//     console.log(requestMap.get(id).responseContent);
-
-// }
-
 const saveComment = async (id, selectorString) => {
 
     const newCommentContent = document.getElementById(selectorString).value;
@@ -204,7 +190,7 @@ const postRequestWithInitialComment = async (targetId, targetType) => {
         let request = JSON.parse(await response.json());
         console.log(request);
         requestMap.set(request.id, request);
-        await loadRequestCard(request);
+        await createRequestCard(request);
         saveComment(request.id, 'request-draft-area')
     } else {
         console.log("Internal system error: unable to save request.")
@@ -229,7 +215,7 @@ const getRequests = async (id) => {
         document.getElementById("incoming-requests-display-selection").innerHTML = "";
         for (const request of requests) {
             requestMap.set(request.id, request);
-            await loadRequestCard(request);
+            await createRequestCard(request);
             let response = await fetchCommentsByRequestId(request.id);
             if (response.status == 200) {
                 let comments = JSON.parse(await response.json());
@@ -310,13 +296,3 @@ const getPitchesByGenreAndGeneralEditor = async () => {
     }
 }
 getPitchesByGenreAndGeneralEditor();
-
-// const getDecisions = async (id) => {
-//     let response = await getDecisionsByPitchIds(id);
-//     if (response.status === 200) {
-//         let decisions = JSON.parse(response.json());
-//         console.log(decisions);
-//     } else {
-//         console.log("Internal system error: could not load decisions by pitch id");
-//     }
-// }
