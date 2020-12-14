@@ -154,7 +154,7 @@ async function acceptPitch(number){
 async function rejectPitch(number){
     if(confirm("Are you sure you want to delete pitch #" + number + "?")){
         let data ={
-            id: document.getElementById(`pitchIdNum${number}`),
+            id: document.getElementById(`pitchIdNum${number}`).innerHTML,
             story_type:{
                 id : 5
             },

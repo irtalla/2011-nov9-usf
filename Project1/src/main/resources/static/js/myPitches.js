@@ -38,7 +38,7 @@ function populatePitches() {
         `;
 
         for (let pitch of pitches) {
-            // if(pitch.status.id != 4){
+            // if(pitch.status.id < 3){
             //     total += pitch.story_type.points;
             // }
             let tr = document.createElement('tr');
@@ -160,7 +160,7 @@ async function submitChanges() {
         alert("Code Monkey get a job!")
     }
     for (let pitch of pitches) {
-        if (pitch.status.id != 4) {
+        if (pitch.status.id < 3) {
             total += pitch.story_type.points;
         }
     }
@@ -223,13 +223,13 @@ async function deletePitch(number) {
     }
 }
 
-function reSubPitch(number) {
+async function reSubPitch(number) {
     //still doesn't work, can't get value out of the tag. keeps return undefined for pType, pType.value, and pType.text
     let total = 0;
     let pitches = loggedUser.pitches;
     let currPitch;
     for (let pitch of pitches) {
-        if (pitch.status.id != 4) {
+        if (pitch.status.id < 3) {
             total += pitch.story_type.points;
         }
         if (pitch.id == number) {
@@ -287,8 +287,8 @@ function reSubPitch(number) {
             "name": "pending"
         },
         "priority": {
-            "id": currPitch.priority.id,
-            "name": currPitch.priority.name
+            "id": 1,
+            "name": 'normal'
         },
         "stage": {
             "id": setPitchStage.id,
