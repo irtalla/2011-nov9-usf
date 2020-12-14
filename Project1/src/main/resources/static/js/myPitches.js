@@ -1,17 +1,7 @@
+"use strict"
 
-
-checkLogin().then(populatePitches).then(makePitch);
+checkLogin().then(populatePitches).then(makePitch).then(insertFileUpload);
 //makePitch();
-
-
-// async function getPitches(){
-//     let url = baseUrl + '/users/pitches/';
-//     let response = await fetch(url);
-//     if(response.status === 200) {
-//         let requests = await response.json();
-//         populatePitches(requests);
-//     }
-// }
 let isAuthor = false;
 
 function populatePitches() {
@@ -90,7 +80,8 @@ function makePitch() {
         makeSection.innerHTML = "New Pitch Form";
 
         let pitchform = document.createElement('form');
-        pitchform.id = 'newPitch'
+        pitchform.id = 'form';
+
         pitchform.innerHTML = `
         <input type='text' id='story_title' placeholder= 'Story Title'><br>
         <label for="story_type">Choose story length:</label>
@@ -128,8 +119,8 @@ function makePitch() {
                Submit Changes
         </button>
     `;
-        document.getElementById("form").appendChild(document.createElement("br"));
-        insertFileUpload();
+        //document.getElementById("form").appendChild(document.createElement("br"));
+        // insertFileUpload();
 
 
 
@@ -201,6 +192,7 @@ async function uploadFiles() {
         data.append("files[]", files[i], files[i].name);
         console.log(files[i].name);
     }
+}
 
 
 async function submitChanges() {

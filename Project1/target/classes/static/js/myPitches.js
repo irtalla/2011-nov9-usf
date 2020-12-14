@@ -1,17 +1,7 @@
+"use strict"
 
-
-checkLogin().then(populatePitches).then(makePitch);
+checkLogin().then(populatePitches).then(makePitch).then(insertFileUpload);
 //makePitch();
-
-
-// async function getPitches(){
-//     let url = baseUrl + '/users/pitches/';
-//     let response = await fetch(url);
-//     if(response.status === 200) {
-//         let requests = await response.json();
-//         populatePitches(requests);
-//     }
-// }
 let isAuthor = false;
 
 function populatePitches() {
@@ -90,7 +80,8 @@ function makePitch() {
         makeSection.innerHTML = "New Pitch Form";
 
         let pitchform = document.createElement('form');
-        pitchform.id = 'newPitch'
+        pitchform.id = 'form';
+
         pitchform.innerHTML = `
         <input type='text' id='story_title' placeholder= 'Story Title'><br>
         <label for="story_type">Choose story length:</label>
@@ -114,20 +105,24 @@ function makePitch() {
         <option value="7">Sports</option>
         <option value="8">Kids</option>
         </select><br>
-
+        <br>
         <textarea rows="4" cols="50" id="description" form="newPitch">
         Description of Story...</textarea>
-
+        <br>
         <label for="fdate">Finish date:</label>
 
         <input type="date" id="fdate" name="finish_date"
                value="2020-12-01"
                min="2020-12-01" max="2021-12-31">
-
+        <br>
         <button id="submitChanges" onclick="submitChanges" type="button">
                Submit Changes
         </button>
     `;
+        //document.getElementById("form").appendChild(document.createElement("br"));
+        // insertFileUpload();
+
+
 
         makeSection.appendChild(pitchform);
         let pitchButton = document.getElementById('submitChanges');
@@ -136,9 +131,69 @@ function makePitch() {
     }
 }
 
-function pitchWeighter() {
-
+function insertFileUpload() {
+    let label = document.createElement("label");
+    label.setAttribute("for", "additionalFile");
+    let labelText = document.createTextNode("Select files to upload: ");
+    label.appendChild(labelText);
+    document.getElementById("form").appendChild(label);
+    let file = document.createElement("input");
+    file.type = "file";
+    file.id = "additionalFile";
+    file.name = "additionalFile";
+    file.multiple = true;
+    file.ondrop = "drop(event)";
+    file.ondragover = "allowDrop(event)";
+    document.getElementById("form").appendChild(file);
+    let clearFile = document.createElement("button");
+    clearFile.type = "button";
+    clearFile.id = "clearFile";
+    clearFile.name = "clearFile";
+    clearFile.hidden = true;
+    let clearText = document.createTextNode("Clear Files");
+    clearFile.appendChild(clearText);
+    clearFile.onclick = clearFiles;
+    document.getElementById("form").appendChild(clearFile);
+    file.addEventListener("change", handleFiles, false);
+    let fileSection = document.createElement("section");
+    fileSection.id = "fileSection";
+    document.getElementById("form").appendChild(fileSection);
 }
+
+
+function handleFiles(e) {
+    if (!e.target.files) return;
+    
+    let files = e.target.files;
+    let fileSection = document.getElementById("fileSection");
+    fileSection.innerHTML = '';
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        fileSection.innerHTML += file.name + "<br/>";
+    }
+    document.getElementById("clearFile").hidden = false;
+}
+
+function clearFiles() {
+
+    document.getElementById("additionalFile").value = null;
+    document.getElementById("additionalFile").files = null;
+    let fileSection = document.getElementById("fileSection");
+    fileSection.innerHTML = '';
+    document.getElementById("clearFile").hidden = true;
+}
+
+async function uploadFiles() {
+    let url = baseUrl + "/pitch/file";
+    let data = new FormData();
+    let files = document.getElementById("additionalFile").files;
+    let len = files.length;
+    for (let i = 0; i < len; i++) {
+        data.append("files[]", files[i], files[i].name);
+        console.log(files[i].name);
+    }
+}
+
 
 async function submitChanges() {
 
