@@ -8,11 +8,14 @@ import com.revature.beans.EvtReq;
 import com.revature.beans.Person;
 import com.revature.services.EvtReqService;
 import com.revature.services.EvtReqServiceImpl;
+import com.revature.services.PersonService;
+import com.revature.services.PersonServiceImpl;
 
 import io.javalin.http.Context;
 
 public class EvtReqController {
 	private static EvtReqService evtReqServ = new EvtReqServiceImpl();
+	private static PersonService personServ = new PersonServiceImpl();
 	
 	public static void getEvtReqById(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
@@ -23,6 +26,23 @@ public class EvtReqController {
 		} else {
 			ctx.status(404);
 		}
+	}
+	
+	public static void approveEvtReqs(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Person p = ctx.sessionAttribute("user");
+		if (p != null && personServ.isApprover(p.getId()) == true) {
+			boolean result = evtReqServ.approveEvtReq(id, p.getUsername());
+			if (result == true) {
+				ctx.status(200);
+				ctx.result("The event request is now approved");
+			} else {
+				ctx.status(404);
+			}
+		} else {
+			ctx.status(404);
+		}
+		
 	}
 	
 	public static void getAllEvtReqs(Context ctx) {
@@ -40,6 +60,19 @@ public class EvtReqController {
 	public static void getAvailableEvtReqs(Context ctx) {
 		System.out.println("Getting available events");
 		Set<EvtReq> evtReqSet = evtReqServ.getAvailableEvtReqs();
+		if (evtReqSet != null) {
+			System.out.println("got some event");
+			ctx.status(200);
+			ctx.json(evtReqSet);
+		} else {
+			System.out.println("no event found");
+			ctx.status(404); 
+		}
+	}
+	
+	public static void getEvtReqsToApprove(Context ctx) {
+		System.out.println("Getting events request to approve");
+		Set<EvtReq> evtReqSet = evtReqServ.getPendingEvtReqs();
 		if (evtReqSet != null) {
 			System.out.println("got some event");
 			ctx.status(200);

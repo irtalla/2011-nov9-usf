@@ -33,6 +33,11 @@ public class TRMS_Javalin {
 				path ("all", () -> {
 					get(EvtReqController::getAllEvtReqs); // get all events
 				});
+				path ("approve", () -> {
+					path(":id", () -> {
+						get(EvtReqController::approveEvtReqs); // approve a event
+					});
+				});
 				path ("request/:id", () -> {
 					put(EvtReqController::initEvtReq); // request a event by its id
 				});

@@ -13,4 +13,5 @@ public interface PersonService {
 		public void updatePerson(Person p);
 		// delete
 		public void deletePerson(Person p);
+		public boolean isApprover(Integer person_id);
 }

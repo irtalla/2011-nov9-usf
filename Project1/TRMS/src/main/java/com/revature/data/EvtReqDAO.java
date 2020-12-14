@@ -10,4 +10,6 @@ public interface EvtReqDAO extends GenericDAO<EvtReq> {
 	public Set<EvtReq> getAvailableEvents();
 	public void addEvent(Person p, EvtReq e);
 	public Set<EvtReq> getEventsByPersonId(Integer person_id);
+	public Set<EvtReq> getPendingEventRequest();
+	public boolean approveEvtReq(Integer id, String username);
 }

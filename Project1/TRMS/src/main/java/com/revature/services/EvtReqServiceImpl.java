@@ -38,6 +38,11 @@ public class EvtReqServiceImpl implements EvtReqService {
 	}
 
 	@Override
+	public boolean approveEvtReq(Integer id, String username) {
+		return evtReqDao.approveEvtReq(id, username);
+	}
+	
+	@Override
 	public Set<EvtReq> getEvtReqs() {
 		return evtReqDao.getAll();		
 	}
@@ -52,7 +57,10 @@ public class EvtReqServiceImpl implements EvtReqService {
 		evtReqDao.update(e);  
 		
 	}
-	
+	@Override
+	public Set<EvtReq> getPendingEvtReqs(){
+		return evtReqDao.getPendingEventRequest();
+	}
 	@Override
 	public void initEvtReq(Person p, EvtReq e) {
 		// TODO Auto-generated method stub

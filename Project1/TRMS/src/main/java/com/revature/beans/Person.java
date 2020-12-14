@@ -14,6 +14,7 @@ public class Person {
 	private String password;
 	private Set<Title> titles;
 	private Set<EvtReq> evtReqs;
+	private Set<EvtReq> evtReqsToApprove;
 	private Role role;
 	private ReqFrCmnt reqFrCmnt;
 
@@ -39,6 +40,16 @@ public class Person {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+
+	public Set<EvtReq> getEvtReqsToApprove() {
+		return evtReqsToApprove;
+	}
+
+
+	public void setEvtReqsToApprove(Set<EvtReq> evtReqsToApprove) {
+		this.evtReqsToApprove = evtReqsToApprove;
 	}
 
 

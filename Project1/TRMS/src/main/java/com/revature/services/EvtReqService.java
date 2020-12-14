@@ -11,8 +11,10 @@ public interface EvtReqService {
 	
 	// "read" methods
 	public EvtReq getEvtReqById(Integer id);
+	public boolean approveEvtReq(Integer id, String username);
 	public Set<EvtReq> getEvtReqs();
 	public Set<EvtReq> getAvailableEvtReqs();
+	public Set<EvtReq> getPendingEvtReqs();
 	// "update" methods
 	public void updateEvtReq(EvtReq e);
 	public void initEvtReq(Person p, EvtReq e);

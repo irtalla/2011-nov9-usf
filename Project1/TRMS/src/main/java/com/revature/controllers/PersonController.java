@@ -1,6 +1,8 @@
 package com.revature.controllers;
 
 import com.revature.beans.Person;
+import com.revature.services.EvtReqService;
+import com.revature.services.EvtReqServiceImpl;
 import com.revature.services.PersonService;
 import com.revature.services.PersonServiceImpl;
 
@@ -9,11 +11,18 @@ import io.javalin.http.Context;
 
 public class PersonController {
 	private static PersonService personServ = new PersonServiceImpl();
+	private static EvtReqService evtReqServ = new EvtReqServiceImpl();
+	
 	public static void checkLogin(Context ctx) {
 		System.out.println("Checking login"); 
 		Person p = ctx.sessionAttribute("user");
 		if (p != null) {
 			System.out.println("Logged in as " + p.getUsername() );
+			
+			//update evt to approve
+			if (personServ.isApprover(p.getId()))
+				p.setEvtReqsToApprove(evtReqServ.getPendingEvtReqs());
+			
 			ctx.json(p);
 			ctx.status(200);
 		} else {

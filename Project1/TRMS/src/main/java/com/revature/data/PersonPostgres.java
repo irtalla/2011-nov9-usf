@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.revature.beans.EvtReq;
+import com.revature.beans.Title;
+import com.revature.data.TitleDAO;
+import com.revature.data.TitleDAOFactory;
 import com.revature.beans.Person;
 import com.revature.beans.Role;
 import com.revature.utils.ConnectionUtil;
@@ -219,6 +222,19 @@ public class PersonPostgres implements PersonDAO {
 		return evtReqs;*/
 	}
 
-
+	public boolean isApprover(Integer person_id) {
+		
+		Set<Title> tset = new HashSet<>();
+		TitleDAO tdao = new TitlePostgres();
+		tset = tdao.getTitlesByPersonId(person_id);
+		
+		for (Title t : tset)
+		{
+			if (t.getName() != "employee")
+				return true;
+		}
+		
+		return false;
+	}
 	
 }

@@ -4,14 +4,21 @@ import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
 
+import com.revature.data.TitleDAO;
+import com.revature.data.TitleDAOFactory;
+
 import exceptions.NonUniqueUsernameException;
 
 public class PersonServiceImpl implements PersonService {
 private PersonDAO personDao;
+private TitleDAO tileDao;
 	
 	public PersonServiceImpl() {
 		PersonDAOFactory personDaoFactory = new PersonDAOFactory();
 		personDao = personDaoFactory.getPersonDAO();
+		
+		TitleDAOFactory titleDaoFactory = new TitleDAOFactory();
+		tileDao = titleDaoFactory.getTitleDAO();
 	}
 
 	@Override
@@ -39,6 +46,10 @@ private PersonDAO personDao;
 	public void deletePerson(Person p) {
 		personDao.delete(p);
 	}
+	
 
+	public boolean isApprover(Integer person_id) {
+		return 	personDao.isApprover(person_id);
+	}
 
 }

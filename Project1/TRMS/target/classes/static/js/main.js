@@ -12,16 +12,17 @@ function setNav() {
         nav.innerHTML += ` 
             <form>
                 <label for="user">Username: </label>
-                <input id="user" name="user" type="text" />
+                <input id="user" name="user" type="text" value="pokemon"/>
                 <label for="pass"> Password: </label>
-                <input id="pass" name="pass" type="password" />
+                <input id="pass" name="pass" type="password" value="pokemon"/>
                 <button type="button" id="loginBtn">Log In</button>
             </form>    
              <a href="register.html">Register User</a>      
         `;
     } else {
         nav.innerHTML += `
-            <a href="myEvtReqs.html">My Event Requests</a>
+			<a href="EvtReqToApprove.html">Event Requests To Approve</a>            
+			<a href="myEvtReqs.html">My Event Requests</a>
 			<a href="addEvtReqs.html">Add Event Requests</a>
             <span>
                 ${loggedUser.username}&nbsp;

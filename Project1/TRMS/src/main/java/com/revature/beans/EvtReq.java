@@ -22,29 +22,49 @@ public class EvtReq {
 	private Integer grading_format_id;
 	private String work_related_justification;
 	private Integer passing_cutoff_grade_id;
-	
+	private Integer status;
+	private String approver_username;
 	
 	public EvtReq() {
 		id = 0;
 		name = "";
 		posting_date = new Date();
-		direct_supervisor_approval_id = 0;
-		department_head_approval_id = 0;
-		benefits_coordinator_approval_id = 0;	
-		person_id = 0;
-		type_id = 0;
-		req_fr_cmnt_id = 0;
-		priority_id = 0;
+		direct_supervisor_approval_id = null;
+		department_head_approval_id = null;
+		benefits_coordinator_approval_id = null;	
+		person_id = null;
+		type_id = null;
+		req_fr_cmnt_id = null;
+		priority_id = null;
 		start_date = new Date();
 		amount = 0.00;
 		event_time = null; 
-		location_id = 0;
-		grading_format_id = 0;
-		work_related_justification = "";
-		passing_cutoff_grade_id = 0;
+		location_id = null;
+		grading_format_id = null;
+		work_related_justification = null;
+		passing_cutoff_grade_id = null;
+		
+	}
+
+	public Integer getStatus() {
+		return status;
 	}
 
 
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
+	public String getApprover_username() {
+		return approver_username;
+	}
+
+
+	public void setApprover_username(String approver_username) {
+		this.approver_username = approver_username;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
