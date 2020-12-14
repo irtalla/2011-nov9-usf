@@ -26,6 +26,7 @@
 		<mapping class="com.revature.beans.Status"></mapping>
 		<mapping class="com.revature.beans.StoryType"></mapping>
 		<mapping class="com.revature.beans.Title"></mapping>
+		<mapping class="com.revature.beans.AdditionalFile"></mapping>
 		
 	</session-factory>
 </hibernate-configuration>

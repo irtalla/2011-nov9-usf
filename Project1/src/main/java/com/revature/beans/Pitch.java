@@ -2,6 +2,8 @@ package com.revature.beans;
 
 
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 @Entity
 @Table
 public class Pitch {
@@ -48,6 +52,9 @@ public class Pitch {
 	private PitchStage stage;
 
 	private String finish_date;
+	
+	@OneToMany(mappedBy = "pitch")
+	private Set<AdditionalFile> file;
 	
 	
 	public Pitch() {
@@ -124,12 +131,24 @@ public class Pitch {
 		this.stage = stage;
 	}
 	
+	public Set<AdditionalFile> getFiles() {
+		return file;
+	}
+	public void setFiles(Set<AdditionalFile> file) {
+		this.file = file;
+	}
+	//helper method to add files
+	public void addFiles(AdditionalFile af) {
+		this.file.add(af);
+		af.setPitch(this);
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((file == null) ? 0 : file.hashCode());
 		result = prime * result + ((finish_date == null) ? 0 : finish_date.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -158,6 +177,11 @@ public class Pitch {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
+			return false;
+		if (file == null) {
+			if (other.file != null)
+				return false;
+		} else if (!file.equals(other.file))
 			return false;
 		if (finish_date == null) {
 			if (other.finish_date != null)
@@ -201,6 +225,9 @@ public class Pitch {
 			return false;
 		return true;
 	}
+	
+	
+	
 //	@Override
 //	public String toString() {
 //		return "Pitch id:" + id + //" by " + //author +
