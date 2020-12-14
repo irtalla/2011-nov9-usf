@@ -28,7 +28,7 @@ public class Pitch {
 //	@JoinTable(name="person_pitch",
 //	joinColumns=@JoinColumn(name="pitch_id"),
 //	inverseJoinColumns = @JoinColumn(name = "person_id"))
-
+	
 	private Integer author;
 	
 	private String story_title;

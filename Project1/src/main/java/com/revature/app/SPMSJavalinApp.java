@@ -53,7 +53,9 @@ public class SPMSJavalinApp {
 					put(PitchController::updatePitch); 
 					delete(PitchController::deletePitch);
 				});
-			
+				path("file", () ->{
+					post(PitchController::uploadFile);
+				});
 				path("committees/:id", () -> {
 				get(PitchController::getCommitteePitches);
 				});

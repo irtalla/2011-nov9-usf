@@ -19,6 +19,7 @@ import com.revature.service.StatusServiceImpl;
 import com.revature.service.StoryTypeService;
 import com.revature.service.StoryTypeServiceImpl;
 
+import io.javalin.core.util.FileUtil;
 import io.javalin.http.Context;
 
 public class PitchController {
@@ -104,6 +105,14 @@ public class PitchController {
 			ctx.status(404);
 			System.out.println("they told me this code was dead! how are you here! get out!");
 		}
+	}
+	
+	public static void uploadFile(Context ctx) {
+		ctx.uploadedFiles("files[]").forEach(file -> {
+			FileUtil.streamToFile(file.getContent(),"./src/main/resources/files/temp/" + file.getFilename());
+			pServ.updateFilePaths(file.getFilename());
+		});
+
 	}
 
 	

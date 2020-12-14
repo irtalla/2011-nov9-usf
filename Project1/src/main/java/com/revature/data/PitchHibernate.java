@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.revature.beans.AdditionalFile;
 import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.utils.HibernateUtil;
@@ -143,4 +144,21 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		return pitches;
 	}
 
+	@Override
+	public Pitch getByAdditionalFile(AdditionalFile af) {
+		Pitch p = null;
+		try (Session s = hu.getSession()) {
+			s.beginTransaction();
+			String hql = "From Pitch where file_id = :id";
+
+//			String hql = "SELECT p FROM Pitch p JOIN p.additionalFiles a WHERE a.id = :add_file_id";
+			Query<Pitch> q = s.createQuery(hql, Pitch.class);
+			q.setParameter("id", af.getId());
+			p = q.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return p;
+	}
 }

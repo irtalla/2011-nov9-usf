@@ -17,4 +17,6 @@ public interface PitchService {
 
 	public Set<Pitch> getCommitteePitches(Integer id);
 
+	public String updateFilePaths(String file);
+
 }
