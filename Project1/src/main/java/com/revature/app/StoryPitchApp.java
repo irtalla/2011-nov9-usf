@@ -91,6 +91,15 @@ public class StoryPitchApp {
 				put(personController::logIn); // log in user
 				post(personController::registerUser); // register new user
 				delete(personController::logOut); // log out user
+				path("authors", () -> {
+					get(personController::getAllAuthors);
+				});
+				path("editors/:role", () -> {
+					get(personController::getAllEditorsWithRole);
+					path(":genre", () -> {
+						get(personController::getAllEditorsWithRoleAndGenre);
+					});
+				});
 				path (":id", () -> {
 					get(personController::getById); // get user by id
 					put(personController::updateUser); // update user

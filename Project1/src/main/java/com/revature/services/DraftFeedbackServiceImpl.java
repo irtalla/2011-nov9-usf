@@ -15,13 +15,13 @@ import com.revature.data.GenreCommitteeDAO;
 import com.revature.data.GenreCommitteeDAOFactory;
 
 public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> implements DraftFeedbackService{
-	private GenreCommitteeDAO gcDao;
-	private DraftDAO draftDao;
+	private GenreCommitteeServiceImpl gcServ;
+	private DraftServiceImpl draftServ;
 	
 	public DraftFeedbackServiceImpl() {
 		super(new DraftFeedbackDAOFactory());
-		gcDao = new GenreCommitteeDAOFactory().getDAO();
-		draftDao = new DraftDAOFactory().getDAO();
+		gcServ = new GenreCommitteeServiceImpl();
+		draftServ = new DraftServiceImpl();
 	}
 	
 	@Override
@@ -36,18 +36,20 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 		if(df.getStatus().equals(Status.APPROVED)) {
 			this.approveDraftVia(df);
 		}
+		else if(df.getStatus().equals(Status.DENIED)) {
+			this.denyDraftVia(df);
+		}
 		return df;
 	}
 
-	private void approveDraftVia(DraftFeedback df) {
+	public void approveDraftVia(DraftFeedback df) {
 		Draft draft = df.getDraft();
 		Person editor = df.getEditor();
-		
 		
 		int totalApprovals = draft.getApprovals().size();
 		
 		totalApprovals += 1;
-		GenreCommittee gc = gcDao.getByGenre(draft.getGenre());
+		GenreCommittee gc = gcServ.getByGenre(draft.getGenre());
 		StoryType st = draft.getStoryType();
 		boolean fullyApproved = false;
 		switch(st) {
@@ -79,11 +81,54 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 		}
 		if(fullyApproved) {
 			draft.setStatus(Status.APPROVED);
-			draftDao.update(draft);
+			draftServ.update(draft);
 		}
 	}
 
-//	private void denyDraftVia(DraftFeedback df) {
-//		
-//	}
+	public void denyDraftVia(DraftFeedback df) {
+		Draft draft = df.getDraft();
+		Person editor = df.getEditor();
+		StoryType st = draft.getStoryType();
+		GenreCommittee gc = gcServ.getByGenre(draft.getGenre());
+		
+		boolean fullyDenied = false;
+		int totalDenials= draft.getDenials().size();
+		
+		totalDenials += 1;
+		
+		
+		switch(st) {
+			case ARTICLE:
+				fullyDenied= editor.getRole().equals(Role.SENIOR_EDITOR);
+				break;
+			case SHORT_STORY:
+				boolean alreadyDeniedBySeniorEditor = draft.getHasBeenDeniedBySeniorEditor();
+				int priorDenialTotal = draft.getDenials().size();
+				
+				if(alreadyDeniedBySeniorEditor) {
+					if(priorDenialTotal >= 1) {
+						fullyDenied = true;
+					}
+				}else {
+					if(priorDenialTotal >= 1 && editor.getRole().equals(Role.SENIOR_EDITOR)) {
+						fullyDenied = true;
+					}
+				}
+				break;
+			case NOVELLA:
+			case NOVEL:
+				int totalDenialsNeeded = (int) Math.ceil(gc.getMembers().size()/2);
+				fullyDenied = totalDenials >= totalDenialsNeeded;
+				//fall-through, meaning same procedure for novella
+				break;	
+			default:
+				System.out.println(st + "is not a valid type for StoryType.");
+				break;
+		}
+		if(fullyDenied) {
+			draft.setStatus(Status.DENIED);
+			this.draftServ.update(draft);
+			
+		}
+	}
 }

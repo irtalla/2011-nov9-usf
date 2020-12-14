@@ -29,4 +29,6 @@ public class DraftController extends GenericController<Draft> {
 			ctx.status(404);
 		}
 	}
+	
+	
 }

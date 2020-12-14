@@ -1,6 +1,10 @@
 package com.revature.controllers;
 
+import java.util.Set;
+
+import com.revature.beans.Genre;
 import com.revature.beans.Person;
+import com.revature.beans.Role;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.PersonServiceImpl;
 
@@ -77,8 +81,46 @@ public class PersonController extends GenericController<Person>{
 		Person newPerson = ctx.bodyAsClass(Person.class);
 		try {
 			newPerson = getServ().updatePerson(newPerson);
+			ctx.json(newPerson);
 		} catch (NonUniqueUsernameException e) {
 			System.out.println("Username already taken :(");
+			ctx.status(409); // 409 = conflict
+		}
+		ctx.status(200);
+	}
+	
+	public void getAllAuthors(Context ctx) {
+		try {
+			Set<Person> allAuthors = getServ().getAllPeopleWithRole(Role.AUTHOR);
+			ctx.json(allAuthors);
+		} catch (Exception e) {
+			System.out.println("Error! :(");
+			ctx.status(409); // 409 = conflict
+		}
+		ctx.status(200);
+	}
+	
+	public void getAllEditorsWithRole(Context ctx) {
+		Role role = ctx.queryParam("role", Role.class).get();
+		try {
+			Set<Person> allPeopleWithRole = getServ().getAllPeopleWithRole(role);
+			ctx.json(allPeopleWithRole);
+		} catch (Exception e) {
+			System.out.println("Error! :(");
+			ctx.status(409); // 409 = conflict
+		}
+		ctx.status(200);
+	}
+	
+	public void getAllEditorsWithRoleAndGenre(Context ctx) {
+		Genre genre = ctx.queryParam("genre", Genre.class).get();
+		Role role = ctx.queryParam("role", Role.class).get();
+		
+		try {
+			Set<Person> allPeopleWithRole = getServ().getAllEditorsWithRole(role, genre);
+			ctx.json(allPeopleWithRole);
+		} catch (Exception e) {
+			System.out.println("Error! :(");
 			ctx.status(409); // 409 = conflict
 		}
 		ctx.status(200);

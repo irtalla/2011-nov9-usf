@@ -66,11 +66,11 @@ public class Draft {
 		this.narrative = narrative;
 	}
 
-	public Set<DraftFeedback> getDraftFeedbackGiven() {
+	public Set<DraftFeedback> getFeedback() {
 		return feedback;
 	}
 
-	public void setDraftFeedbackGiven(Set<DraftFeedback> feedback) {
+	public void setFeedback(Set<DraftFeedback> feedback) {
 		this.feedback = feedback;
 	}
 
@@ -93,8 +93,29 @@ public class Draft {
 		return approvals;
 	}
 	
+	public Set<DraftFeedback> getDenials(){
+		Set<DraftFeedback> denials = new HashSet<>();
+		for(DraftFeedback df : this.feedback) {
+			if(df.getStatus().equals(Status.DENIED)) {
+				denials.add(df);
+			}
+		}
+		
+		return denials;
+	}
+	
 	public boolean getHasBeenApprovedBySeniorEditors(){
 		for(DraftFeedback df : this.getApprovals()) {
+			if(df.getEditor().getRole().equals(Role.SENIOR_EDITOR)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public boolean getHasBeenDeniedBySeniorEditor() {
+		for(DraftFeedback df : this.getDenials()) {
 			if(df.getEditor().getRole().equals(Role.SENIOR_EDITOR)) {
 				return true;
 			}
