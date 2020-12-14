@@ -3,6 +3,7 @@ package com.revature.app;
 import io.javalin.Javalin;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+
 import com.revature.controllers.ApprovalController;
 import com.revature.controllers.DepartmentController;
 import com.revature.controllers.EmployeeController;
@@ -93,6 +94,23 @@ public class TRMSJavalin {
 				get(DepartmentController::getAllDepartments);
 				path("/:id", () -> {
 					get(DepartmentController::getDepartmentById);
+				});
+			});
+			path("uploads", () -> {
+				path("/presentations", () -> {
+					post(ReimbursementFormController::addGradePresentationFile);
+				});
+			});
+			path("downloads", () -> {
+				path("/presentations", () -> {
+					get(ReimbursementFormController::getGradePresentationFileByFormId);
+				});
+			});
+			path("notifications", () -> {
+				post(ReimbursementFormController::addReimbursementChangeNotification);
+				put(ReimbursementFormController::updateReimbursementChangeNotification);
+				path("/:id", () -> {
+					get(ReimbursementFormController::getReimbursementChangeNotificationByFormId);
 				});
 			});
 		});

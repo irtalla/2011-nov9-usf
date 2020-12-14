@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.beans.GradePresentationFile;
 import com.revature.beans.GradingFormat;
+import com.revature.beans.ReimbursementChangeNotification;
 import com.revature.beans.ReimbursementForm;
 import com.revature.beans.Stage;
 import com.revature.beans.Status;
@@ -15,6 +16,11 @@ public interface ReimbursementFormDAO extends GenericDAO<ReimbursementForm> {
 	public Set<GradingFormat> getAllGradingFormats();
 	public Integer addPresentationFile(GradePresentationFile file);
 	public GradePresentationFile getGradePresentationFileById(Integer id);
-	public GradePresentationFile getGradePresentationFileByFormId(Integer id);
+	public Set<GradePresentationFile> getGradePresentationFileByFormId(Integer id);
+	public void deleteGradePresentationFile(GradePresentationFile file);
+	public Set<ReimbursementChangeNotification> getReimbursementChangeNotificationByFormId(Integer id);
+	public ReimbursementChangeNotification addReimbursementChangeNotification(ReimbursementChangeNotification notification);
+	public void deleteReimbursementChangeNotification(ReimbursementChangeNotification notification);
+	public void updateReimbursementChangeNotification(ReimbursementChangeNotification notification);
 
 }

@@ -20,6 +20,8 @@ async function populateData()
     let infoRequestsRecipient = await getInfoRequestByTargetId(user.id);
 
     let infoRequestSender = await getInfoRequestByRequestorId(user.id);
+    
+    
 
     let sidebarDiv = document.getElementById("rightSideBar");
 
@@ -30,6 +32,7 @@ async function populateData()
             displayNotification(sidebarDiv, i, true);
         }
     }
+    
 
     for (let i of infoRequestSender)
     {
@@ -39,7 +42,77 @@ async function populateData()
         }
     }
 
+    let reimbursementChangeNotifications = [];
+    for(let f of forms)
+    {
+        let permissionlevel = await canViewReimbursment(f);
+        if (permissionlevel == 1)
+        {
+             let notifs = await getReimbursementChangeNotificationByFormId(f.id);
+             for(let n of notifs)
+             {
+                 reimbursementChangeNotifications.push(n);
+             }
+        }
+    }
 
+    for(let n of reimbursementChangeNotifications)
+    {
+        displayReimbursementChangeNotification(sidebarDiv, n);
+    }
+
+
+}
+
+async function displayReimbursementChangeNotification(sidebarDiv, notif)
+{
+
+    let form = await getReimbursementFormById(notif.formId);
+    let event = await getEventById(form.eventId);
+
+    let notification = document.createElement("p");
+    notification.innerHTML = "Reimbursement has changed for " + event.name + ". New amount is: " + notif.newAmount + " Reasoning: " + notif.message;
+    notification.className = "reimburseNotif" + notif.id;
+    sidebarDiv.appendChild(notification);
+    let closeBtn = document.createElement("button");
+    closeBtn.innerHTML = "Dismiss";
+    closeBtn.addEventListener("click", function() {closeReimbursementNotification(sidebarDiv, notif);});
+    closeBtn.className = "reimburseNotif" + notif.id;
+    
+
+    let cancelRequestBtn = document.createElement("button");
+    cancelRequestBtn.innerHTML = "Cancel request";
+    cancelRequestBtn.addEventListener("click", function() {deleteReimbursementForm(form); location.reload();});
+    cancelRequestBtn.className = "reimburseNotif" + notif.id;
+
+    sidebarDiv.appendChild(cancelRequestBtn);
+    sidebarDiv.appendChild(closeBtn);
+}
+
+async function closeReimbursementNotification(sidebarDiv, notif)
+{
+
+    notif.status = await getStatusById(5);
+
+    updateReimbursementChangeNotification(notif);
+
+    let children = sidebarDiv.childNodes;
+
+    let toRemove =[];
+
+    for(let c of children)
+    {
+        toRemove.push(c)
+    }
+
+    for(let c of toRemove)
+    {
+        //console.log(c);
+        if (c.className == ("reimburseNotif" + notif.id))
+        {
+            sidebarDiv.removeChild(c);
+        }
+    }
 }
 
 async function checkUrgency(event)
@@ -191,6 +264,8 @@ async function displayFormToData(dataDiv, form, permissionlevel)
 
 }
 
+
+
 async function expandForm(parent, form, permissionlevel)
 {
 
@@ -224,7 +299,32 @@ async function expandForm(parent, form, permissionlevel)
     addDataPiece(parent, form.gradingFormat.name, "Grading Format: ");
     addDataPiece(parent, form.passingGrade, "Passing Grade: ");
     addDataPiece(parent, form.justification, "Justification");
-    addDataPiece(parent, form.reimbursementAmount, "Expected Reimbursement");
+
+    if(permissionlevel > 3 && form.stage.id == 3)
+    {
+        let reimbursementDescription = document.createElement("p");
+        reimbursementDescription.innerHTML = "Expected Reimbursement: "
+        parent.appendChild(reimbursementDescription);
+        let reimbursmentText = document.createElement("input");
+        reimbursmentText.setAttribute("type", "number");
+        reimbursmentText.value = form.reimbursementAmount;
+        parent.appendChild(reimbursmentText);
+        let amntChangeReason = document.createElement("input");
+        amntChangeReason.setAttribute("type", "text");
+        amntChangeReason.value = "Reasoning";
+        parent.appendChild(amntChangeReason);
+        let updateAmntBtn = document.createElement("button");
+        updateAmntBtn.innerHTML = "update";
+        updateAmntBtn.addEventListener("click", function() {changeReimbursementAmount(form, reimbursmentText.value, amntChangeReason.value);});
+        parent.appendChild(updateAmntBtn);
+        parent.appendChild(document.createElement("br"));
+        parent.appendChild(document.createElement("br"));
+    }
+    else
+    {
+        addDataPiece(parent, form.reimbursementAmount, "Expected Reimbursement: ");
+    }
+
     addDataPiece(parent, form.hoursMissed, "Hours Missed:");
     addDataPiece(parent, form.stage.name, "Current Stage: ");
     addDataPiece(parent, millisToStringDate(form.stageEntryDate), "Date Current Stage Entered: ");
@@ -263,6 +363,7 @@ async function expandForm(parent, form, permissionlevel)
         requestSupervisorInfoButton.innerHTML = "Request Additional Supervisor Info";
         parent.appendChild(requestSupervisorInfoButton);
     }
+   
     if (permissionlevel > 3)
     {
         let requestDepartmentHeadInfoButton = document.createElement("button");
@@ -272,29 +373,98 @@ async function expandForm(parent, form, permissionlevel)
         requestDepartmentHeadInfoButton.innerHTML = "Request Additional Department Head Info";
         parent.appendChild(requestDepartmentHeadInfoButton);
     }
+    if (permissionlevel > 3 && form.stage.id == 4)
+    {
+        let downloadPresentationFilesLink = document.createElement("button");
+        downloadPresentationFilesLink.innerHTML = "download presentation files";
+        downloadPresentationFilesLink.addEventListener("click",function () {downloadPresentationFiles(form.id)});
+        parent.appendChild(downloadPresentationFilesLink);
+
+    }
     if (permissionlevel == 1 && form.stage.id == 4)
     {
         let uploadPresentationButton = document.createElement("input");
         uploadPresentationButton.setAttribute("type", "file");
         uploadPresentationButton.addEventListener("change", function() {uploadPresentationFile(parent, form, uploadPresentationButton.files)});
         uploadPresentationButton.innerHTML = "Upload Grade/Presentation";
+        uploadPresentationButton.className = "uploadBtn";
         parent.appendChild(uploadPresentationButton);
     }
 
 }
 
+async function changeReimbursementAmount(form, amount, reason)
+{
+    
+    let status = null;
+    if (amount > form.reimbursementAmount)
+    {
+       status = await getStatusById(1);
+    }
+    else
+    {
+        status = await getStatusById(6);
+        form.status = await getStatusById(6);
+    }
+    form.reimbursementAmount = amount;
+    updateReimbursementForm(form);
+    let changeNotification = {id: -1, formId: form.id,message: reason, newAmount: amount, status: status};
+    addReimbursementChangeNotification(changeNotification);
+    alert("value Updated!");
+}
+
 async function uploadPresentationFile(parent, form, files)
 {
+    console.log(files);
     if(!files)
     {
-        alert("Nothing Uploaded!");
         return;
     }
-    console.log(files);
-    formData = new FormData();
-    formData.append(filses[0].name,files[0]);
+
+    let formData = new FormData();
+
+    formData.append(files[0].name,files[0]);
+
+    let newId = await addPresentationFile(formData, form.id, files[0].name);
+    if(newId)
+    {
+        alert("Upload Successful!");
+    }
+    else{
+        alert("Upload Failed!");
+    }
 
 }
+
+async function downloadPresentationFiles(id)
+{
+    let data = await getPresentationFile(id);
+    //console.log(data);
+    let bytearr = base64ToArrayBuffer(data[0].data);
+    var blob = new Blob([bytearr], {type: "application/pdf"});
+    let download = document.createElement("a");
+    download.setAttribute("download", data[0].fileName);
+    download.setAttribute("href", window.URL.createObjectURL(blob));
+    //download.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data[0].data));
+    
+    download.style.display = "none";
+    document.body.appendChild(download);
+    download.click();
+    document.body.removeChild(download);
+}
+
+//Source: https://stackoverflow.com/questions/35038884/download-file-from-bytes-in-javascript
+function base64ToArrayBuffer(base64) {
+    var binaryString = window.atob(base64);
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+       var ascii = binaryString.charCodeAt(i);
+       bytes[i] = ascii;
+    }
+    return bytes;
+ }
+
 
 async function addDataPiece(parent, data, message)
 {

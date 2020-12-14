@@ -24,5 +24,7 @@
 		<mapping class="com.revature.beans.Approval"></mapping>
 		<mapping class="com.revature.beans.InformationRequest"></mapping>
 		<mapping class="com.revature.beans.GradePresentationFile"></mapping>
+		<mapping class="com.revature.beans.ReimbursementChangeNotification"></mapping>
+		
 	</session-factory>
 </hibernate-configuration>

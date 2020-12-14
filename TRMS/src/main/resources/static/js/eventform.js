@@ -348,6 +348,9 @@ function appendNumericInput(form, description, id)
     console.log(parseFloat(reimbursetype.reimbursementPercent));
     let estimatedReimbursement = (parseFloat(reimbursetype.reimbursementPercent) / 100) * cost;
 
+
+    let today = new Date();
+
     let reimbursmentLimit = 1000;
 
     let currentReimbursementResponse = await fetch(baseUrl + "/forms/reimbursement");
@@ -357,11 +360,14 @@ function appendNumericInput(form, description, id)
 
     for (f of allReimbursement)
     {
-        if (user.id == f.employeeId)
+        let oldDate = new Date(f.fileDate);
+        if ((user.id == f.employeeId) && (oldDate.getFullYear() == today.getFullYear()))
         {
             currentReimbursement += f.reimbursementAmount;
         }
     }
+
+    let reimburseMessage = ""
 
     if (currentReimbursement + estimatedReimbursement > reimbursmentLimit)
     {
@@ -370,12 +376,12 @@ function appendNumericInput(form, description, id)
         {
             estimatedReimbursement = 0;
         }
-        estimatedReimbursement += " Reimbursement Limit Reached!";
+        reimburseMessage += " Reimbursement Limit Reached!";
     }
 
 
-    text.innerHTML = "Estimated reimbursement: " + estimatedReimbursement;
-    alert("Estimated reimbursement: " + estimatedReimbursement);
+    text.innerHTML = "Estimated reimbursement: " + estimatedReimbursement + reimburseMessage;
+    alert("Estimated reimbursement: " + estimatedReimbursement + reimburseMessage);
 
     form.appendChild(document.createElement("br"));
     form.appendChild(document.createElement("br"));
@@ -423,7 +429,7 @@ function appendNumericInput(form, description, id)
 
 
     //end event info
-    let today = new Date();
+    
     //begin reimbursement form info
     let id = -1;
     let fileDate = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + (today.getDate()+1);

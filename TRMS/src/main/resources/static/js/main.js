@@ -45,15 +45,62 @@ async function login()
     }
 }
 
-async function uploadPresentationFile(formData)
+async function addReimbursementChangeNotification(notif)
 {
-    let presentationFileResponse = await fetch('/upload/presentations',{method: 'POST', body: formData});
+    let ReimbursementChangeNotificationResponse = await fetch(baseUrl + '/notifications', {method: 'POST', body: JSON.stringify(notif)});
+
+    if (ReimbursementChangeNotificationResponse.status === 200)
+    {
+        return await ReimbursementChangeNotificationResponse.json();
+    }
+    return null;
+}
+
+async function updateReimbursementChangeNotification(notif)
+{
+    let ReimbursementChangeNotificationResponse = await fetch(baseUrl + '/notifications', {method: 'PUT', body: JSON.stringify(notif)});
+
+    if (ReimbursementChangeNotificationResponse.status === 200)
+    {
+        return true;
+    }
+    return false;
+}
+
+async function getReimbursementChangeNotificationByFormId(id)
+{
+    let ReimbursementChangeNotificationResponse = await fetch(baseUrl + '/notifications/' + id);
+
+    let notifs = null;
+    if (ReimbursementChangeNotificationResponse.status === 200)
+    {
+        notifs = await ReimbursementChangeNotificationResponse.json();
+    }
+    return notifs;
+}
+
+async function addPresentationFile(formData, formId, name)
+{
+
+    let presentationFileResponse = await fetch(baseUrl + '/uploads/presentations?formid=' + formId + '&name=' + name,{method: 'POST', body: formData});
 
     if (presentationFileResponse.status === 200)
     {
         return true;
     }
     return false;
+}
+
+async function getPresentationFile(formId)
+{
+    
+    let presentationFileResponse = await fetch(baseUrl + '/downloads/presentations?formid=' + formId);
+
+    if (presentationFileResponse.status === 200)
+    {
+        return await presentationFileResponse.json();
+    }
+    return null;
 }
 
 //check if someone has not responded in a "timely manner" and progress stages accordingly
@@ -173,6 +220,17 @@ async function getStatusById(id)
 async function updateReimbursementForm(reimbursementForm)
 {
     let ReimbursementResponse = await fetch(baseUrl + "/forms/reimbursement", {method: "PUT", body: JSON.stringify(reimbursementForm)});
+
+    if(ReimbursementResponse.status === 200)
+    {
+        return true;
+    }
+    return false;
+}
+
+async function deleteReimbursementForm(reimbursementForm)
+{
+    let ReimbursementResponse = await fetch(baseUrl + "/forms/reimbursement", {method: "DELETE", body: JSON.stringify(reimbursementForm)});
 
     if(ReimbursementResponse.status === 200)
     {
@@ -341,7 +399,7 @@ async function canViewReimbursment(reimbursementForm)
             return 3;
         }
     }
-    else if (reimbursementForm.stage.id == 3)
+    else if (reimbursementForm.stage.id == 3 || reimbursementForm.stage.id == 4)
     {
         //benco view
         if (user.id == BenCo.id)

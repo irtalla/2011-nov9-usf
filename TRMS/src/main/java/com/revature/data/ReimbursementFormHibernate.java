@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 
 import com.revature.beans.GradePresentationFile;
 import com.revature.beans.GradingFormat;
+import com.revature.beans.ReimbursementChangeNotification;
 import com.revature.beans.ReimbursementForm;
 import com.revature.beans.Stage;
 import com.revature.beans.Status;
@@ -152,13 +153,95 @@ public class ReimbursementFormHibernate implements ReimbursementFormDAO {
 	}
 
 	@Override
-	public GradePresentationFile getGradePresentationFileByFormId(Integer id) {
+	public Set<GradePresentationFile> getGradePresentationFileByFormId(Integer id) {
 		Session s = hu.getSession();
 		String query = "FROM GradePresentationFile WHERE formId = :formId";
 		Query<GradePresentationFile> q = s.createQuery(query, GradePresentationFile.class);
 		q.setParameter("formId", id);
 		List<GradePresentationFile> l = q.getResultList();
-		return l.get(0);
+		Set<GradePresentationFile> set = new HashSet<>();
+		set.addAll(l);
+		return set;
+	}
+
+	@Override
+	public void deleteGradePresentationFile(GradePresentationFile file) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.delete(file);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		
+	}
+
+	@Override
+	public Set<ReimbursementChangeNotification> getReimbursementChangeNotificationByFormId(Integer id) {
+		Session s = hu.getSession();
+		String query = "FROM ReimbursementChangeNotification WHERE formId = :formId";
+		Query<ReimbursementChangeNotification> q = s.createQuery(query, ReimbursementChangeNotification.class);
+		q.setParameter("formId", id);
+		List<ReimbursementChangeNotification> l = q.getResultList();
+		Set<ReimbursementChangeNotification> set = new HashSet<>();
+		set.addAll(l);
+		return set;
+	}
+
+	@Override
+	public ReimbursementChangeNotification addReimbursementChangeNotification(ReimbursementChangeNotification notification) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.save(notification);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		return notification;
+	}
+
+	@Override
+	public void deleteReimbursementChangeNotification(ReimbursementChangeNotification notification) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.delete(notification);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		
+	}
+
+	@Override
+	public void updateReimbursementChangeNotification(ReimbursementChangeNotification notification) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.update(notification);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
 	}
 
 }

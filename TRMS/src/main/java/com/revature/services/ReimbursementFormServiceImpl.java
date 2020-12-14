@@ -2,7 +2,9 @@ package com.revature.services;
 
 import java.util.Set;
 
+import com.revature.beans.GradePresentationFile;
 import com.revature.beans.GradingFormat;
+import com.revature.beans.ReimbursementChangeNotification;
 import com.revature.beans.ReimbursementForm;
 import com.revature.beans.Stage;
 import com.revature.beans.Status;
@@ -57,6 +59,37 @@ public class ReimbursementFormServiceImpl implements ReimbursementFormService {
 	@Override
 	public Set<GradingFormat> getGradingFormats() {
 		return dao.getAllGradingFormats();
+	}
+
+	@Override
+	public Integer addGradePresentationFile(GradePresentationFile f) {
+		return dao.addPresentationFile(f);
+	}
+
+	@Override
+	public GradePresentationFile getGradePresentionFileById(Integer id) {
+		return dao.getGradePresentationFileById(id);
+	}
+
+	@Override
+	public Set<GradePresentationFile> getGradePresentionFileByFormId(Integer id) {
+		return dao.getGradePresentationFileByFormId(id);
+	}
+
+	@Override
+	public Integer addReimbursementChangeNotification(ReimbursementChangeNotification f) {
+		return dao.addReimbursementChangeNotification(f).getId();
+	}
+
+	@Override
+	public Set<ReimbursementChangeNotification> getReimbursementChangeNotificationByFormId(Integer id) {
+		return dao.getReimbursementChangeNotificationByFormId(id);
+	}
+
+	@Override
+	public void updateReimbursementChangeNotification(ReimbursementChangeNotification f) {
+		dao.updateReimbursementChangeNotification(f);
+		
 	}
 
 }
