@@ -4,6 +4,7 @@
     --red: #FF6961;
     --blue: #78A2CC;
     --purple: #b19cd9;
+    --paper: #eeeedd;
 }
 
 body {
@@ -14,7 +15,7 @@ body {
 }
 
 navbar, main {
-    background-color: var(--purple);
+    background-color: var(--paper);
     padding: 14px;
 }
 

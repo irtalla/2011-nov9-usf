@@ -2,6 +2,7 @@
 
 import {baseUrl, loggedUser, setLoggedUser} from "./global.js";
 let form = document.getElementById("submissionForm");
+const currentUser = localStorage.getItem("loggedUser");
 
 setSubmission();
 
@@ -36,13 +37,7 @@ function setSubmission() {
 async function submitPitch() {
     let url = baseUrl + "/pitch";
 
-    let currentUser = null;
-    while (true) {
-        if (localStorage.getItem("loggedUser")) {
-            currentUser = JSON.parse(localStorage.getItem("loggedUser"));
-            break;
-        }
-    }
+    let author = JSON.parse(currentUser);
     let types = await getStoryTypes();
     let storyType = null;
     for (let type of types) {
@@ -76,7 +71,7 @@ async function submitPitch() {
 
     let data = {
         id: 0,
-        author: currentUser,
+        author: author,
         title: document.getElementById("title").value,
         tagline: document.getElementById("tagline").value,
         storyType: storyType,
@@ -220,7 +215,6 @@ async function uploadFiles() {
 }
 
 async function checkTotalScore() {
-    let currentUser = localStorage.getItem("loggedUser");
     let userId = null;
     if (currentUser) {
         let parsedUser = JSON.parse(currentUser);
@@ -260,7 +254,7 @@ function insertBackToPitchButton() {
     let button = document.createElement("button");
     button.type="button";
     button.id = "backToPitch";
-    button.className = "backToPitch";
+    button.className = "submitBtn";
     let text = document.createTextNode("return to pitch portal");
     button.appendChild(text);
     button.onclick = returnToPitch;
@@ -268,7 +262,7 @@ function insertBackToPitchButton() {
 }
 
 function returnToPitch() {
-    window.location.replace(baseUrl + "/viewPitch.html");
+    window.location.replace(baseUrl + "/pitchHub.html");
 }
 
 function getToday() {

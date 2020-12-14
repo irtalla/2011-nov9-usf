@@ -1,17 +1,16 @@
 package com.revature.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.Part;
-
+import com.revature.app.SpmsAppJavalin;
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
 import com.revature.models.Priority;
 import com.revature.models.ReviewStatus;
 import com.revature.models.StoryType;
-import com.revature.models.User;
 import com.revature.services.PitchService;
 import com.revature.services.PitchServiceImpl;
 
@@ -33,17 +32,24 @@ public class PitchController {
 			}
 		} catch (Exception e) {
 			System.out.println("An exception occurred");
-			ctx.status(400);
+			ctx.status(500);
 			return;
 		}
 		ctx.status(200);
 	}
 	
 	public static void uploadFile(Context ctx) {
+		List<String> uploadedFiles = new ArrayList<>();
 		ctx.uploadedFiles("files[]").forEach(file -> {
-			FileUtil.streamToFile(file.getContent(),"./src/main/resources/files/temp/" + file.getFilename());
-			pitchServ.updateFilePaths(file.getFilename());
+			FileUtil.streamToFile(file.getContent(), SpmsAppJavalin.USER_FILE_LOC + "/temp/" + file.getFilename());
+			String newPath = pitchServ.updateFilePaths(file.getFilename());
+			uploadedFiles.add(newPath);
 		});
+		if (uploadedFiles.isEmpty() || uploadedFiles.equals(null)) {
+			ctx.status(500);
+		} else {
+			ctx.status(200);
+		}
 
 	}
 	

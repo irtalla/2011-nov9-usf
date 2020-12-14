@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.revature.app.SpmsAppJavalin;
 import com.revature.data.AdditionalFileDAO;
 import com.revature.data.AdditionalFileDAOFactory;
 import com.revature.data.GenreDAO;
@@ -183,7 +184,7 @@ public class PitchServiceImpl implements PitchService {
 						System.out.println(fileNames);
 						for (Object f : fileNames) {
 							AdditionalFile af = new AdditionalFile();
-							String path = "./src/main/resources/files/temp/" + f.toString();
+							String path = SpmsAppJavalin.USER_FILE_LOC + "/temp/" + f.toString();
 							af.setId(1);
 							af.setPath(path);
 							try {
@@ -291,14 +292,14 @@ public class PitchServiceImpl implements PitchService {
 	@Override
 	public String updateFilePaths(String file) {
 
-		String path = "./src/main/resources/files/temp/" + file;
+		String path = SpmsAppJavalin.USER_FILE_LOC + "/temp/" + file;
 		
 		AdditionalFile af = afDao.getByPath(path);
 //		System.out.println(af);
 		Pitch p = pitchDao.getByAdditionalFile(af);
 //		System.out.println(p);
 		
-		String updatedPath = "./src/main/resources/files/pitch_" + p.getId() + "/pitch/";
+		String updatedPath = SpmsAppJavalin.USER_FILE_LOC + "/pitch_" + p.getId() + "/pitch/";
 		File newPath = new File(updatedPath);
 		if (!newPath.exists()) {
 			Boolean success = newPath.mkdirs();
@@ -325,6 +326,12 @@ public class PitchServiceImpl implements PitchService {
 			System.out.println("Successfully moved from " + path + " to " + updatedPath);
 		} else {
 			System.out.println("Failed to move file");
+		}
+		
+		File moved = new File(updatedPath);
+		if (moved.equals(null)) {
+			String failed = null;
+			return failed;
 		}
 		
 		return updatedPath;

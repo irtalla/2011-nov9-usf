@@ -89,10 +89,10 @@ function authorSetNav() {
             <br>
             <span>
                 ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
-                <button type="button" id="loginBtn">logout</button>
+                <button type="button" id="loginBtn" class="submitBtn">logout</button>
              </span>
              <br>
-             <a href="viewPitch.html"><strong>Pitches</strong></a>
+             <a href="pitchHub.html"><strong>Pitches</strong></a>
             `;
     } else {
         nav.innerHTML += `
@@ -101,8 +101,8 @@ function authorSetNav() {
                 <input id="user" name="user" type="text" />
                 <label for="pass">password: </label>
                 <input id="pass" name="pass" type="password" />
-                <button type="button" id="loginBtn">login</button>
-                <button type="button" id="registerBtn">register</button>
+                <button type="button" id="loginBtn" class="submitBtn">login</button>
+                <button type="button" id="registerBtn" class="submitBtn">register</button>
             </form>
         `;
     }

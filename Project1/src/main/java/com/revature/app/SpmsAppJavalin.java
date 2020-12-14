@@ -8,7 +8,8 @@ import com.revature.controller.UserController;
 import io.javalin.Javalin;
 
 public class SpmsAppJavalin {
-
+	public static final String USER_FILE_LOC = "./src/main/resources/static/files";
+	
 	public static void main(String[] args) {
 		Javalin app = Javalin.create((config) -> {
 			config.addStaticFiles("/static");

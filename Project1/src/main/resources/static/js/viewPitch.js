@@ -2,98 +2,82 @@
 
 import {baseUrl, loggedUser, setLoggedUser} from "./global.js";
 
-let main = document.getElementById("mainSection");
+let viewer = document.getElementById("pitchViewer");
+const currentUser = localStorage.getItem("loggedUser");
+const currentPitch = localStorage.getItem("pitchToView");
+setLoggedUser(currentUser);
 
+setViewer();
 
-setUpMainSection();
+function setViewer() {
+    getPitch();
+}
 
-function setUpMainSection() {
-    let pitches = document.createElement("table");
-    pitches.id = "pitchTable";
-    pitches.className = "pitchTable";
-    let header = document.createElement("thead");
-    header.id = "pitchTableHeader";
-    header.className = "pitchTableHeader";
-    header.innerHTML = `
-        <tr>
-            <th> Title
-            <th> Submitted
-            <th> Current Stage
-            <th> Current Status
-            <th> Resubmit
-        </tr>
+function setupDefault(pitch) {
+    console.log(pitch);
+    const parsedPitch = pitch;
+    let pitchDay = parsedPitch.pitchMadeAt.dayOfMonth;
+    let pitchMonth = parsedPitch.pitchMadeAt.monthValue - 1;
+    let pitchYear = parsedPitch.pitchMadeAt.year;
+    let pitchMade = new Date(pitchYear, pitchMonth, pitchDay).toDateString();
+    let complDay = parsedPitch.completionDate.dayOfMonth;
+    let complMonth = parsedPitch.completionDate.monthValue - 1;
+    let complYear = parsedPitch.completionDate.year;
+    let completionDate = new Date(complYear, complMonth, complDay).toDateString();
+
+    viewer.innerHTML += `
+        <h1> Title:  ${parsedPitch.title} </h1>
+        <h2> Author:  ${parsedPitch.author.firstName} ${parsedPitch.author.lastName} </h2>
+        <h3> Author Email: ${parsedPitch.author.email} </h3>
+        <h2> Genre:  ${parsedPitch.genre.name} </h2>
+        <h2> Story Type:  ${parsedPitch.storyType.name} </h2>
+        <h2> Tagline:  </h2>
+        <p> ${parsedPitch.tagline} </p>
+        <h2> Description:  </h2>
+        <p> ${parsedPitch.description} </p>
+        <h3> Pitch Made:  ${pitchMade} </h3>
+        <h3> Projected Completion:  ${completionDate} </h3>
+        <h3> Additional Files: </h3>
+        <section id="additionalFiles"> </section>
+
         `;
-    pitches.appendChild(header);
-    main.appendChild(pitches);
+    let returnBtn = document.createElement("button");
+    returnBtn.type = "button";
+    returnBtn.id = "returnToHubBtn";
+    returnBtn.className = "submitBtn";
+    returnBtn.onclick = returnToHub;
+    let rText = document.createTextNode("return to hub");
+    returnBtn.appendChild(rText);
+    viewer.appendChild(returnBtn);
 
-    let toSubmitPitchBtn = document.createElement("button");
-    toSubmitPitchBtn.type = "button";
-    toSubmitPitchBtn.id = "toSubmitPitchBtn";
-    toSubmitPitchBtn.name = "toSubmitPitchBtn";
-    let tspText = document.createTextNode("make a new pitch");
-    toSubmitPitchBtn.appendChild(tspText);
-    toSubmitPitchBtn.onclick = toSubmitPitch;
-    main.appendChild(toSubmitPitchBtn);
-
-    getAuthorPitches();
-}
-
-function toSubmitPitch() {
-    window.location.replace("./submitPitch.html");
-}
-
-async function getAuthorPitches() {
-    let currentUser = localStorage.getItem("loggedUser");
-    let userId = null;
-    if (currentUser) {
-        let parsedUser = JSON.parse(currentUser);
-        userId = parsedUser.id;
+    for (let file of parsedPitch.additionalFiles) {
+        let path = file.path;
+        console.log(path);
+        path = path.replace("./src/main/resources/static/", "/");
+        console.log(path);
+        let fileName = path.slice(path.lastIndexOf("/") + 1);
+        console.log(fileName);
+        console.log(path);
+        // path = "/files/pitch_1/index.html";
+        let downloads = document.createElement("a");
+        downloads.href = path;
+        downloads.download = true;
+        downloads.text = fileName;
+        document.getElementById("additionalFiles").appendChild(downloads);
     }
+}
 
-    let url = baseUrl + '/pitch/author/' + userId;
+async function getPitch () {
+    let pitchId = JSON.parse(currentPitch);
+    let url = baseUrl + "/pitch/" + pitchId;
+    // console.log(url);
+
+    let pitch = null;
     let response = await fetch(url);
     if (response.status === 200) {
-        populatePitchTable(await response.json());
+        pitch = await response.json();
+        setupDefault(pitch);
     }
-}
-
-async function populatePitchTable(pitches) {
-    console.log(pitches);
-    let table = document.getElementById("pitchTable");
-    for (let pitch of pitches) {
-        let p = pitch;
-        let row = document.createElement("tr");
-
-        let title = p.title;
-        let titleEntry = document.createElement("td");
-        titleEntry.innerHTML = title;
-        row.appendChild(titleEntry);
-
-        let submission = reformatDate(p.pitchMadeAt);
-        let subEntry = document.createElement("td");
-        subEntry.innerHTML = submission;
-        row.appendChild(subEntry);
-
-        let pitchStage = p.pitchStage.name;
-        let stageEntry = document.createElement("td");
-        stageEntry.innerHTML = pitchStage;
-        row.appendChild(stageEntry);
-
-        let reviewStatus = p.reviewStatus.name;
-        let statusEntry = document.createElement("td");
-        statusEntry.innerHTML = reviewStatus;
-        row.appendChild(statusEntry);
-
-        table.appendChild(row);
-    }
-}
-
-function reformatDate(rawDate) {
-
-    let year = rawDate.year;
-    let month = rawDate.month;
-    let date = rawDate.dayOfMonth;
-    return new Date(`${month} ${date}, ${year}`).toDateString();
 }
 
 async function getFiles(file) {
@@ -106,4 +90,9 @@ async function getFiles(file) {
     downloader.href = url;
     console.log(downloader);
     downloader.click();
+}
+
+function returnToHub() {
+    localStorage.setItem("pitchToView", null);
+    window.location.replace("./pitchHub.html");
 }
