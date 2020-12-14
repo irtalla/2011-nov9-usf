@@ -18,6 +18,7 @@ import com.cross.beans.Decision;
 import com.cross.beans.DecisionType;
 import com.cross.beans.Pitch;
 import com.cross.beans.Stage;
+import com.cross.beans.Status;
 import com.cross.data.DecisionDAO;
 import com.cross.data.UtilityDAO;
 import com.cross.exceptions.InvalidGeneralEditorException;
@@ -172,9 +173,132 @@ public class DecisionHibernateTest {
 		p = new PitchHibernate().getById(0);
 		assertTrue( p.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );
 		assertTrue( p.getStatus().getName().equalsIgnoreCase("APPROVED"));
+		
+		p.setStage( UtilityDAO.getByName(new Stage(), "genre review"));
+		p.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		assertTrue ( new PitchHibernate().update(p) );
 	}
-
 	
+	@DisplayName("approvePitchInGenreStageTest")
+	@Test
+	@Order(6) 
+	public void rejectPitchInGenreStageTest() throws InvalidGeneralEditorException {
+		
+		System.out.println( dummyPitch.getStage().getName() );
+		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENRE REVIEW") );		
+		Decision d = new Decision(); 
+		d.setPitchId(0);
+		d.setEditorId(2);
+		d.setDecisionType(UtilityDAO.getByName(new DecisionType(), "pitch-rejection") );
+		d.setCreationTime( LocalDateTime.now() );
+		d.setExplanation("dfjiapf sadfjpds");
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		Pitch p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("GENRE REVIEW") );
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("REJECTED"));
+
+	}
+	
+	@DisplayName("approvePitchInGenreStageTest")
+	@Test
+	@Order(7) 
+	public void rejectPitchInGeneralStageTest() throws InvalidGeneralEditorException {
+		
+		System.out.println( dummyPitch.getStage().getName() );
+		dummyPitch.setStage( UtilityDAO.getByName(new Stage(), "general review"));
+		dummyPitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		new PitchHibernate().update(dummyPitch);
+		dummyPitch = new PitchHibernate().getById(0);
+		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENERAL REVIEW") );		
+		Decision d = new Decision(); 
+		d.setPitchId(0);
+		d.setEditorId(3);
+		d.setDecisionType(UtilityDAO.getByName(new DecisionType(), "pitch-rejection") );
+		d.setCreationTime( LocalDateTime.now() );
+		d.setExplanation("dfjiapf sadfjpds");
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		Pitch p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("GENERAL REVIEW") );
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("REJECTED"));
+		dummyPitch = p; 
+	}
+	
+	@DisplayName("approvePitchInSeniorStageTest")
+	@Test
+	@Order(8) 
+	public void rejectPitchInSeniorStageTest() throws InvalidGeneralEditorException {
+		
+		System.out.println( dummyPitch.getStage().getName() );
+		dummyPitch.setStage( UtilityDAO.getByName(new Stage(), "senior review"));
+		dummyPitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		new PitchHibernate().update(dummyPitch);
+		dummyPitch = new PitchHibernate().getById(0);
+		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("SENIOR REVIEW") );		
+		Decision d = new Decision(); 
+		d.setPitchId(0);
+		d.setEditorId(2);
+		d.setDecisionType(UtilityDAO.getByName(new DecisionType(), "pitch-rejection") );
+		d.setCreationTime( LocalDateTime.now() );
+		d.setExplanation("dfjiapf sadfjpds");
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		Pitch p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("SENIOR REVIEW") );
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("REJECTED"));
+		dummyPitch = p; 
+	}
+	
+	@DisplayName("rejectPitchInFinalStageTest")
+	@Test
+	@Order(9) 
+	public void rejectPitchInFinalStageTest() throws InvalidGeneralEditorException {
+		
+		System.out.println( dummyPitch.getStage().getName() );
+		dummyPitch.setStage( UtilityDAO.getByName(new Stage(), "final review"));
+		dummyPitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		new PitchHibernate().update(dummyPitch);
+		dummyPitch = new PitchHibernate().getById(0);
+		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );		
+		Decision d = new Decision(); 
+		d.setPitchId(0);
+		d.setDecisionType(UtilityDAO.getByName(new DecisionType(), "draft-rejection") );
+		d.setCreationTime( LocalDateTime.now() );
+		d.setExplanation("dfjiapf sadfjpds");
+		
+		
+		// Pitch with id 0 has a genre id of 1, and there are 4 members of that committee,
+		// so the pitch will need three draft approvals to be accepted; 
+		d.setEditorId(2);
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		Pitch p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("PENDING-EDITOR-REVIEW"));
+		
+		d.setEditorId(4);
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("PENDING-EDITOR-REVIEW"));
+		
+		d.setEditorId(5);
+		d = decisionDAO.add(d); 
+		assertTrue(d != null);
+		p = new PitchHibernate().getById(0);
+		assertTrue( p.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("REJECTED"));
+		
+		p.setStage( UtilityDAO.getByName(new Stage(), "genre review"));
+		p.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		assertTrue ( new PitchHibernate().update(p) );
+	}
 	
 	
 	

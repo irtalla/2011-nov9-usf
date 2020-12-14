@@ -34,7 +34,7 @@ maintain dummy tuples in decision, pitch, and draft, and give each request a ref
 	target_decision_id references decision 
 	}
 
-A little inelegant, but straightforward enough. Two values will be -1, and one value will be a positive integer. This can be designated client-side. And we don't need more join tables or request types!
+A little inelegant, but straightforward enough. Two values will be -1, and one value will be a positive integer. This can be designated client-side. To maintain referential integrity, we will have dummy rows for decision, pitch, draft, author, and editor. 
 
 One interesting observation is that almost every attribute of a pitch is a target for a query. This makes sense, as pitches are the main product. But it is an interesting observation.
 

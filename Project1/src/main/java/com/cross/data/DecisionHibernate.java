@@ -209,7 +209,7 @@ public class DecisionHibernate implements DecisionDAO {
 						throw new UnknownStageException(); 
 				}
 
-			} else if ( ! isRejection(d) ) {
+			} else if (  isRejection(d) ) {
 				
 				switch ( pitch.getStage().getName().toUpperCase() ) {
 				case "GENRE REVIEW":

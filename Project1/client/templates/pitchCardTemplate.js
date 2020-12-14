@@ -1,12 +1,14 @@
 
-
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip({trigger :'hover'})
+  })
 
 
 const loadModalWithDecisionExplanationPrompt = (pitchId, type) => {
 
-    const remainingChar = 2000; 
+    const remainingChar = 2000;
 
-    const updateRemainingChar = (event) => remainingChar - event.target.value.length; 
+    const updateRemainingChar = (event) => remainingChar - event.target.value.length;
 
     document.getElementById('modal-dynamic-content-section').innerHTML =
         `<p> 
@@ -32,13 +34,15 @@ const loadModalWithDecisionExplanationPrompt = (pitchId, type) => {
 
 const loadModalWithPitchRequestPrompt = (targetId, targetType) => {
 
-    const remainingChar = 2000; 
+    const remainingChar = 2000;
 
-    const updateRemainingChar = (event) => remainingChar - event.target.value.length; 
-    
-  document.getElementById('modal-dynamic-content-section').innerHTML =
-  `<p> 
-      You are making an informational request for a <strong>${targetType}</strong> with ID: <strong>${targetId}</strong>. 
+    const updateRemainingChar = (event) => remainingChar - event.target.value.length;
+
+    document.getElementById('modal-dynamic-content-section').innerHTML =
+        `<p> 
+      You are opening a request for a <strong>${targetType}</strong> with ID: <strong>${targetId}</strong>. 
+      Requests can be opened to solicit additional information on a pitch, draft, or decision. Futhermore, 
+      Requests can also be opened to communicate editorial suggestions to the author. 
       Please provide an initial comment for this request (${remainingChar} characters remaining).
    <p>
   <div>
@@ -82,7 +86,7 @@ const createPitchCard = (pitch) => {
                 onClick="loadModalWithPitchRequestPrompt(${pitch.id}, \'pitch\')"
                 data-toggle="modal"
                 data-target="#exampleModal"
-                >Request Info
+                >Open Request
             </button>
             <button type="button" class="btn btn-danger" 
                 onClick="loadModalWithDecisionExplanationPrompt(${pitch.id}, \'rejection\')"
@@ -97,9 +101,38 @@ const createPitchCard = (pitch) => {
 
     let generic_image_src = `https://thumbs.dreamstime.com/t/white-feather-quill-pen-glass-inkwell-old-glass-ink-pen-feather-well-quill-image-106467206.jpg`;
 
-    let progressBarColor;
-    let progressBarWidth;
 
+    let progressBarColorClass;
+    switch (pitch.status.name.toUpperCase()) {
+        case "APPROVED":
+            progressBarColorClass = 'bg-success';
+            break;
+        case "REJECTED":
+            progressBarColorClass = 'bg-danger';
+            break;
+        case "PENDING-EDITOR-REVIEW":
+            progressBarColorClass = 'bg-warning';
+            break;
+        case "PENDING-AUTHOR-REVIEW":
+            progressBarColorClass = 'bg-info';
+            break;
+    }
+
+    let progressBarWidthValue; 
+    switch (pitch.stage.name.toUpperCase()) {
+        case "GENRE REVIEW":
+            progressBarWidthValue = 25;
+            break;
+        case "GENERAL REVIEW":
+            progressBarWidthValue = 50;
+            break;
+        case "SENIOR REVIEW":
+            progressBarWidthValue = 75;
+            break;
+        case "FINAL REVIEW":
+            progressBarWidthValue = 100;
+            break;
+    }
 
     const pitchCard =
         `<div id="pitch-card-${pitch.id}" class="col-md-4">
@@ -112,8 +145,10 @@ const createPitchCard = (pitch) => {
       </p>
     </div>
     <div class="progress">
-      <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
+      <div class="progress-bar ${progressBarColorClass}" role="progressbar" style="width: ${progressBarWidthValue}%" aria-valuenow="${progressBarWidthValue}" aria-valuemin="0" aria-valuemax="100"
+      data-toggle="tooltip" data-placement="top" title="Status: ${pitch.status.name} | Stage: ${pitch.stage.name}"
+      ></div>
+      </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">Genre: ${pitch.genre.name || 'genre unspecified'} </li>
       <li class="list-group-item">Form: ${pitch.form.name || 'form unspecified'} </li>
@@ -132,6 +167,12 @@ const createPitchCard = (pitch) => {
     </div>
   </div>
 </div>`;
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip({trigger :'hover'})
+    $('[data-toggle="tooltip"]').tooltip({animation :'true'})
+  })
+
 
     return pitchCard;
 }
