@@ -1,5 +1,6 @@
 package com.cross.data;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,13 +9,14 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.cross.beans.Person;
 import com.cross.beans.Pitch;
 import com.cross.utils.HibernateUtil;
 
 public class PitchHibernate implements PitchDAO {
 	
 private HibernateUtil hu = HibernateUtil.getHibernateUtil();
-	
+private PersonDAO personHib = new PersonHibernate(); 
 	@Override
 	public Pitch getById(Integer id) {
 		Session s = hu.getSession();
@@ -42,6 +44,7 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
+			t.setLastModifiedTime( LocalDateTime.now() );
 			s.update(t);
 			tx.commit();
 			didUpdate = true; 
@@ -63,6 +66,9 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
+			Person author = personHib.getById( t.getAuthorId() ); 
+			author.setPoints( author.getPoints() + t.getForm().getPoints() );
+			s.update(author);
 			s.delete(t);
 			tx.commit();
 			didDelete = true; 
@@ -83,6 +89,9 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
+			Person author = personHib.getById( c.getAuthorId() ); 
+			author.setPoints( author.getPoints() + c.getForm().getPoints() );
+			s.update(author);
 			s.save(c);
 			tx.commit();
 		} catch (Exception e) {

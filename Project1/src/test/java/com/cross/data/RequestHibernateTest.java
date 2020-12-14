@@ -44,7 +44,7 @@ public class RequestHibernateTest {
 				rq.setRecieverId( 1 + rand.nextInt(3) );
 			} while (rq.getSenderId() == rq.getRecieverId() );
 			Status s = new Status(); 
-			s.setId(4 + rand.nextInt(2) );
+			s.setId(5 + rand.nextInt(1) );
 			s.setName( UtilityDAO.getById(s, s.getId()).getName());
 			rq.setStatus(s);
 			rq.setCreationTime( LocalDateTime.now() );

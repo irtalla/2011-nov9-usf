@@ -7,6 +7,6 @@ import com.cross.exceptions.InvalidGeneralEditorException;
 
 public interface DecisionService {
 	
-	public Decision add(Decision d) throws InvalidGeneralEditorException; 
+	public Decision add(Decision d) throws Exception; 
 	public Set<Decision> getDecisionsByPitchId(Integer id);
 }

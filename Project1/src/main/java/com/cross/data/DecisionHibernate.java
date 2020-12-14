@@ -1,5 +1,6 @@
 package com.cross.data;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,18 +95,26 @@ public class DecisionHibernate implements DecisionDAO {
 		return false; 
 	}
 	
-	private void approvePitchAndDraft(Pitch p, Draft d) {
+	private void approvePitchAndDraft(Pitch p, Draft d, Session s) {
 		p.setStatus( UtilityDAO.getByName(new Status(), "approved"));
 		d.setStatus( UtilityDAO.getByName(new Status(), "approved"));
-		pitchDAO.update(p);
-		draftDAO.update(d);
+		Person author = personDAO.getById( p.getAuthorId() );
+		Integer pts = author.getPoints() + p.getForm().getPoints(); 
+		author.setPoints( pts );
+		s.update(p);
+		s.update(d);
+		s.update(author);
 	}
 	
-	private void rejectPitchAndDraft(Pitch p, Draft d) {
+	private void rejectPitchAndDraft(Pitch p, Draft d, Session s) {
 		p.setStatus( UtilityDAO.getByName(new Status(), "rejected"));
 		d.setStatus( UtilityDAO.getByName(new Status(), "rejected"));
-		pitchDAO.update(p);
-		draftDAO.update(d);
+		Person author = personDAO.getById( p.getAuthorId() );
+		Integer pts = author.getPoints() + p.getForm().getPoints();
+		author.setPoints( pts );
+		s.update(p);
+		s.update(d);
+		s.update(author);
 	}
 	
 	private Boolean hasMajorityVote() {
@@ -113,13 +122,14 @@ public class DecisionHibernate implements DecisionDAO {
 	}
 		
 	@Override
-	public Decision add(Decision d) throws InvalidGeneralEditorException {
+	public Decision add(Decision d) throws Exception {
 		
 		Session s = hu.getSession(); 
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
 			Pitch pitch = pitchDAO.getById( d.getPitchId() );
+			pitch.setLastModifiedTime( LocalDateTime.now() );
 			Person editor = personDAO.getById( d.getEditorId() );
 			Set<Decision> prevDecisions = getByPitchId(d.getPitchId());
 			Set<Person> genreCommittee = personDAO.getAll();
@@ -134,7 +144,7 @@ public class DecisionHibernate implements DecisionDAO {
 				case "GENRE REVIEW":
 					pitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
 					pitch.setStage( UtilityDAO.getByName(new Stage(), "general review"));
-					pitchDAO.update(pitch); 
+					s.update(pitch); 
 					break;
 				case "GENERAL REVIEW":
 					if ( editor.getGenres().removeIf(g -> g.getId() == pitch.getGenre().getId() ) ) {
@@ -142,13 +152,13 @@ public class DecisionHibernate implements DecisionDAO {
 					} else {
 						pitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
 						pitch.setStage( UtilityDAO.getByName(new Stage(), "senior review"));
-						pitchDAO.update(pitch); 
+						s.update(pitch); 
 					}
 					break;
 				case "SENIOR REVIEW":
 					pitch.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
 					pitch.setStage( UtilityDAO.getByName(new Stage(), "final review"));
-					pitchDAO.update(pitch); 
+					s.update(pitch); 
 					break;
 				case "FINAL REVIEW":
 					
@@ -162,7 +172,7 @@ public class DecisionHibernate implements DecisionDAO {
 					 */
 					case "ARTICLE": 
 						if ( isSeniorEditor(editor) ) {
-							approvePitchAndDraft(pitch, draft);
+							approvePitchAndDraft(pitch, draft, s);
 						}
 						break; 
 					/**
@@ -178,9 +188,9 @@ public class DecisionHibernate implements DecisionDAO {
 						prevDecisions.removeIf( p -> ! p.getDecisionType().getName().equalsIgnoreCase("draft-approval") );
 						
 						if ( isSeniorEditor(editor) && prevDecisions.size() > 0 ) {
-							approvePitchAndDraft(pitch, draft);
+							approvePitchAndDraft(pitch, draft, s);
 						} else if ( hasPrevSeniorApproval(prevDecisions) ) {
-							approvePitchAndDraft(pitch, draft);
+							approvePitchAndDraft(pitch, draft, s);
 						} else { /* the draft and pitch statuses remaining pending */ }
 						break; 
 					/*
@@ -198,7 +208,7 @@ public class DecisionHibernate implements DecisionDAO {
 						prevDecisions.removeIf( p -> ! p.getDecisionType().getName().equalsIgnoreCase("draft-approval") );
 						
 						if (   ( (prevDecisions.size() + 1) / (double) genreCommittee.size() ) > 0.5 ) {
-							approvePitchAndDraft(pitch, draft);
+							approvePitchAndDraft(pitch, draft, s);
 						}
 						break;
 					default: 
@@ -214,19 +224,19 @@ public class DecisionHibernate implements DecisionDAO {
 				switch ( pitch.getStage().getName().toUpperCase() ) {
 				case "GENRE REVIEW":
 					pitch.setStatus( UtilityDAO.getByName(new Status(), "rejected"));
-					pitchDAO.update(pitch); 
+					s.update(pitch); 
 					break;
 				case "GENERAL REVIEW":
 					if ( editor.getGenres().removeIf(g -> g.getId() == pitch.getGenre().getId() ) ) {
 						throw new InvalidGeneralEditorException(); 
 					} else {
 						pitch.setStatus( UtilityDAO.getByName(new Status(), "rejected"));
-						pitchDAO.update(pitch); 
+						s.update(pitch); 
 					}
 					break;
 				case "SENIOR REVIEW":
 					pitch.setStatus( UtilityDAO.getByName(new Status(), "rejected"));
-					pitchDAO.update(pitch); 
+					s.update(pitch); 
 					break;
 				case "FINAL REVIEW":
 					
@@ -235,7 +245,7 @@ public class DecisionHibernate implements DecisionDAO {
 					switch ( pitch.getForm().getName().toUpperCase() ) {
 					case "ARTICLE": 
 						if ( isSeniorEditor(editor) ) {
-							rejectPitchAndDraft(pitch, draft);
+							rejectPitchAndDraft(pitch, draft, s);
 						}
 						break; 
 					/**
@@ -251,9 +261,9 @@ public class DecisionHibernate implements DecisionDAO {
 						prevDecisions.removeIf( p -> ! p.getDecisionType().getName().equalsIgnoreCase("draft-rejection") );
 						
 						if ( isSeniorEditor(editor) && prevDecisions.size() > 0 ) {
-							rejectPitchAndDraft(pitch, draft);
+							rejectPitchAndDraft(pitch, draft, s);
 						} else if ( hasPrevSeniorApproval(prevDecisions) ) {
-							rejectPitchAndDraft(pitch, draft);
+							rejectPitchAndDraft(pitch, draft, s);
 						} else { /* the draft and pitch statuses remaining pending */ }
 						break; 
 					/*
@@ -263,7 +273,7 @@ public class DecisionHibernate implements DecisionDAO {
 					case "NOVEL":
 						prevDecisions.removeIf( p -> ! p.getDecisionType().getName().equalsIgnoreCase("draft-rejection") );
 						if (  ( (prevDecisions.size() + 1) / (double) genreCommittee.size() ) > 0.5 ) {
-							rejectPitchAndDraft(pitch, draft);
+							rejectPitchAndDraft(pitch, draft, s);
 						}
 						break;
 					default: 
@@ -281,7 +291,7 @@ public class DecisionHibernate implements DecisionDAO {
 		} catch (Exception e) {
 			if (tx != null) { tx.rollback(); }
 			e.printStackTrace();
-			d = null; 
+			throw e; 
 		}
 		return d; 
 	}

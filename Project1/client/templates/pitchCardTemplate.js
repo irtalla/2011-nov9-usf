@@ -32,7 +32,7 @@ const loadModalWithDecisionExplanationPrompt = (pitchId, type) => {
     `;
 }
 
-const loadModalWithPitchRequestPrompt = (targetId, targetType) => {
+const loadModalWithRequestPrompt = (targetId, targetType) => {
 
     const remainingChar = 2000;
 
@@ -60,8 +60,6 @@ const loadModalWithPitchRequestPrompt = (targetId, targetType) => {
       </button>
   </div>
 `;
-
-
 }
 
 const createPitchCard = (pitch) => {
@@ -72,7 +70,7 @@ const createPitchCard = (pitch) => {
         controlButtons =
             `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
             <button type="button" class="btn btn-danger" onClick="deletePitch(${pitch.id})">Delete</button>
-        </div>`
+        </div>`;
     } else {
         controlButtons =
             `<div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -83,7 +81,7 @@ const createPitchCard = (pitch) => {
                 >Approve
             </button>
             <button type="button" class="btn btn-warning" 
-                onClick="loadModalWithPitchRequestPrompt(${pitch.id}, \'pitch\')"
+                onClick="loadModalWithRequestPrompt(${pitch.id}, \'pitch\')"
                 data-toggle="modal"
                 data-target="#exampleModal"
                 >Open Request
@@ -94,7 +92,7 @@ const createPitchCard = (pitch) => {
                 data-target="#exampleModal"
                 >Reject
             </button>
-        </div>`
+        </div>`;
     }
 
 
@@ -155,7 +153,12 @@ const createPitchCard = (pitch) => {
       <li class="list-group-item">Completion Deadline: ${pitch.completionDate || 'completion date unspecified'} </li>
     </ul>
     <div class="card-body">
-      <a href="#" class="card-link">Card link</a>
+
+    <strong>Decision History</strong>
+      <div id="pitch-card-${pitch.id}-decision-section" class="card-decision-section">
+      </div>
+      
+      
       <button type="button" 
         class="btn btn-primary" 
         data-toggle="modal" 

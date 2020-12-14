@@ -84,28 +84,38 @@ const updateRequest = async (id) => {
 
 const saveComment = async (id, selectorString) => {
 
-    const newCommentContent = document.getElementById(selectorString).value; 
+    const newCommentContent = document.getElementById(selectorString).value;
     if (newCommentContent.length === 0) {
         alert('Cannot save empty comment');
-        return; 
+        return;
     }
     const newComment = {
-        requestId: id, 
+        requestId: id,
         commentorId: currentUser.id,
         content: newCommentContent
     };
-    
-    let response = await postComment(newComment); 
 
-    if (response.status === 200 ) {
-        const comment = JSON.parse( await response.json() );
+    let response = await postComment(newComment);
+
+    if (response.status === 200) {
+        const comment = JSON.parse(await response.json());
         document.getElementById(`request-card-${comment.requestId}-comment-section`)
-        .innerHTML += createCommentCard(comment);
-        document.getElementById(`request-card-${comment.requestId}-comment-section`).
-        removeChild(document.getElementById(`draft-comment-response-section-${comment.requestId}`));
+            .innerHTML += createCommentCard(comment);
+
+        /**
+         * This block sometimes fails if a new request card is being added. However, it's
+         * a benign failure, so we will wrap it in a try-catch block and print the error
+         */
+        try {
+            document.getElementById(`request-card-${comment.requestId}-comment-section`).
+                removeChild(document.getElementById(`draft-comment-response-section-${comment.requestId}`));
+        } catch (e) {
+            console.warn(e);
+        }
+
     } else {
         alert("Internal System error: Unable to save comment");
-        console.log(resposne); 
+        console.log(resposne);
     }
 
 }
@@ -131,18 +141,18 @@ const handleRespond = (id) => {
 
 const saveDecision = async (pitchId, type) => {
 
-    alert(`making a decision of type ${type} for pitch ${pitchId}`); 
+    alert(`making a decision of type ${type} for pitch ${pitchId}`);
 
-    let pitchStage = pitchMap.get(pitchId).stage.name.toUpperCase(); 
-    let decisionType = {}; 
-    if (pitchStage ===  "FINAL REVIEW") {
-        decisionType.name = `draft-${type}`; 
-        decisionType.id = type === "approval" ? 3 : 4; 
+    let pitchStage = pitchMap.get(pitchId).stage.name.toUpperCase();
+    let decisionType = {};
+    if (pitchStage === "FINAL REVIEW") {
+        decisionType.name = `draft-${type}`;
+        decisionType.id = type === "approval" ? 3 : 4;
     } else {
         decisionType.name = `pitch-${type}`
-        decisionType.id = type === "approval" ? 1 : 2; 
+        decisionType.id = type === "approval" ? 1 : 2;
     }
-    
+
     const decision = {
         editorId: currentUser.id,
         pitchId: pitchId,
@@ -155,9 +165,9 @@ const saveDecision = async (pitchId, type) => {
     let response = await postDecision(decision);
 
     if (response.status === 200) {
-       let decision = JSON.parse( await response.json() );
-       decisionMap.set(decision.id, decision);
-       console.log(decision);
+        let decision = JSON.parse(await response.json());
+        decisionMap.set(decision.id, decision);
+        console.log(decision);
     } else {
         console.log("Intenal system error: unable to post decision");
     }
@@ -167,30 +177,33 @@ const saveDecision = async (pitchId, type) => {
 
 const postRequestWithInitialComment = async (targetId, targetType) => {
 
-    let targetDraftId = targetPitchId = targetDecisionId = -1; 
+    let targetDraftId = targetPitchId = targetDecisionId = -1;
 
-    let recieverId; 
+    let recieverId;
     if (targetType === "pitch") {
         recieverId = pitchMap.get(targetId).authorId;
         targetPitchId = targetId;
+    } else if (targetType === "decision") {
+        recieverID = decisionMap.get(targetId).authorId; 
+        targetDecision = targetId; 
     }
 
     newRequest = {
         senderId: currentUser.id,
-        recieverId: recieverId, 
+        recieverId: recieverId,
         targetDraftId: targetDraftId,
         targetPitchId: targetDraftId,
-        targetDecisionId: targetDecisionId 
+        targetDecisionId: targetDecisionId
     }
 
     console.log(newRequest);
 
-    let response = await postRequest(newRequest); 
+    let response = await postRequest(newRequest);
 
-    if (response.status === 200 ) {
-        let request = JSON.parse( await response.json() );
+    if (response.status === 200) {
+        let request = JSON.parse(await response.json());
         console.log(request);
-        requestMap.set(request.id, request); 
+        requestMap.set(request.id, request);
         await loadRequestCard(request);
         saveComment(request.id, 'request-draft-area')
     } else {
@@ -219,7 +232,7 @@ const getRequests = async (id) => {
             await loadRequestCard(request);
             let response = await fetchCommentsByRequestId(request.id);
             if (response.status == 200) {
-                let comments = JSON.parse ( await response.json() ); 
+                let comments = JSON.parse(await response.json());
                 for (let comment of comments) {
                     commentMap.set(comment.id, comment);
                     document.getElementById(`request-card-${comment.requestId}-comment-section`)
@@ -244,8 +257,23 @@ const getPitchesByGenreAndGeneralEditor = async () => {
     if (response.status === 200) {
         let pitches = JSON.parse(await response.json());
         for (const pitch of pitches) {
-            pitchMap.set(pitch.id, pitch); 
+            pitchMap.set(pitch.id, pitch);
             document.getElementById("general-pitch-data-display-row").innerHTML += createPitchCard(pitch);
+
+            if (currentUser.role.name.toUpperCase().includes("EDITOR")) {
+                let response = await getDecisionsByPitchIds(pitch.id);
+                if (response.status === 200) {
+                    let decisions = JSON.parse( await response.json());
+                    console.log(decisions);
+                    for (const decision of decisions) {
+                        decisionMap.set(decision.id, decision);
+                        document.getElementById(`pitch-card-${pitch.id}-decision-section`).innerHTML 
+                        += createDecisionCard(decision);
+                    }
+                } else {
+                    console.log("Internal system error: could not load decisions by pitch id");
+                }
+            }
         }
     } else {
         alert("Internal system error: could not load pitches by general id");
@@ -256,12 +284,39 @@ const getPitchesByGenreAndGeneralEditor = async () => {
         if (response.status === 200) {
             let pitches = JSON.parse(await response.json());
             for (const pitch of pitches) {
-                pitchMap.set(pitch.id, pitch); 
-                document.getElementById("genre-pitch-data-display-row").innerHTML += createPitchCard(pitch);
+                pitchMap.set(pitch.id, pitch);
+                document.getElementById("genre-pitch-data-display-row").innerHTML 
+                += createPitchCard(pitch);
+
+                if (currentUser.role.name.toUpperCase().includes("EDITOR")) {
+                    let response = await getDecisionsByPitchIds(pitch.id);
+                    if (response.status === 200) {
+                        let decisions = JSON.parse( await response.json());
+                        console.log(decisions);
+                        for (const decision of decisions) {
+                            decisionMap.set(decision.id, decision);
+                            document.getElementById(`pitch-card-${pitch.id}-decision-section`).innerHTML 
+                            += createDecisionCard(decision);
+                        }
+                    } else {
+                        console.log("Internal system error: could not load decisions by pitch id");
+                    }
+                }
+
             }
         } else {
             alert("Internal system error: could not load pitches by genre");
         }
     }
 }
-getPitchesByGenreAndGeneralEditor(); 
+getPitchesByGenreAndGeneralEditor();
+
+// const getDecisions = async (id) => {
+//     let response = await getDecisionsByPitchIds(id);
+//     if (response.status === 200) {
+//         let decisions = JSON.parse(response.json());
+//         console.log(decisions);
+//     } else {
+//         console.log("Internal system error: could not load decisions by pitch id");
+//     }
+// }

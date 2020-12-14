@@ -34,8 +34,7 @@ public class Draft {
 	
 	
 	public Draft() {
-		createdTime = LocalDateTime.now();
-		lastModifiedTime = LocalDateTime.now();
+		createdTime = lastModifiedTime = LocalDateTime.now();
 	}
 	public Integer getId() {
 		return id;

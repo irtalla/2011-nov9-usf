@@ -44,7 +44,10 @@ public class Pitch {
 	private LocalDateTime createdTime;
 	private LocalDateTime lastModifiedTime; 
 		
-	public Pitch() {}; 
+	public Pitch() {
+		createdTime = lastModifiedTime = LocalDateTime.now();
+		deadline = createdTime.plusDays(30);
+	}; 
 	
 	public Integer getId() {
 		return id;

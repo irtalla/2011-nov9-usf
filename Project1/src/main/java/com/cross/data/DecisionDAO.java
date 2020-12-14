@@ -15,7 +15,7 @@ public interface DecisionDAO {
 
 	boolean delete(Decision t);
 
-	Decision add(Decision c) throws InvalidGeneralEditorException;
+	Decision add(Decision c) throws Exception;
 
 	Set<Decision> getByEditorId(Integer editorId);
 

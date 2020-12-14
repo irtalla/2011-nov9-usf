@@ -100,7 +100,7 @@ public class App {
 			
 			path ("api/decisions", () -> {
 				post(DecisionController::addDecision); 
-				path("requestid/:id", () -> {
+				path("pitchid/:id", () -> {
 					get(DecisionController::getDecisionsByPitchId);
 				});
 				

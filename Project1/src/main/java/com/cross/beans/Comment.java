@@ -23,7 +23,9 @@ public class Comment {
 	private String content; 
 	private LocalDateTime creationTime; 
 	
-	public Comment() {}
+	public Comment() {
+		creationTime = LocalDateTime.now(); 
+	}
 
 	public Integer getId() {
 		return id;

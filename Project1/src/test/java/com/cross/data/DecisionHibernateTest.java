@@ -52,11 +52,11 @@ public class DecisionHibernateTest {
 	@DisplayName("approvePitchInGenreStageTest")
 	@Test
 	@Order(2) 
-	public void approvePitchInGenreStageTest() throws InvalidGeneralEditorException {
+	public void approvePitchInGenreStageTest() throws Exception {
 		
 		System.out.println( dummyPitch.getStage().getName() );
-		
-		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENRE REVIEW") );		
+		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENRE REVIEW") );
+		LocalDateTime beforeDecision = dummyPitch.getLastModifiedTime(); 
 		Decision d = new Decision(); 
 		d.setPitchId(0);
 		d.setEditorId(2);
@@ -67,16 +67,15 @@ public class DecisionHibernateTest {
 		assertTrue(d != null);
 		Pitch p = new PitchHibernate().getById(0);
 		assertTrue( p.getStage().getName().equalsIgnoreCase("GENERAL REVIEW") );
-		dummyPitch = p; 
+		assertTrue( p.getLastModifiedTime().isAfter(beforeDecision) );
 	}
 	
 	@DisplayName("approvePitchInGeneralStageTest")
 	@Test
 	@Order(3) 
-	public void approvePitchInGeneralStageTest() {
+	public void approvePitchInGeneralStageTest() throws Exception {
 		
-		System.out.println( dummyPitch.getStage().getName() );
-		
+		dummyPitch = new PitchHibernate().getById(0);
 		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("GENERAL REVIEW") );		
 		final Decision d = new Decision(); 
 		d.setPitchId(0);
@@ -116,8 +115,8 @@ public class DecisionHibernateTest {
 	@Order(4) 
 	public void approvePitchInSeniorStageTest() {
 		
+		dummyPitch = new PitchHibernate().getById(0);
 		System.out.println( dummyPitch.getStage().getName() );
-		
 		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("SENIOR REVIEW") );		
 		Decision d = new Decision(); 
 		d.setPitchId(0);
@@ -127,7 +126,7 @@ public class DecisionHibernateTest {
 		d.setExplanation("dfjiapf sadfjpds");
 		try {
 			d = decisionDAO.add(d);
-		} catch (InvalidGeneralEditorException e) {
+		} catch ( Exception e) {
 			e.printStackTrace();
 		} 
 		assertTrue(d != null);
@@ -139,10 +138,10 @@ public class DecisionHibernateTest {
 	@DisplayName("approvePitchInFinalStageTest")
 	@Test
 	@Order(5) 
-	public void approvePitchInFinalStageTest() throws InvalidGeneralEditorException {
+	public void approvePitchInFinalStageTest() throws Exception {
 		
+		dummyPitch = new PitchHibernate().getById(0);
 		System.out.println( dummyPitch.getStage().getName() );
-		
 		assertTrue(dummyPitch.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );		
 		Decision d = new Decision(); 
 		d.setPitchId(0);
@@ -158,14 +157,14 @@ public class DecisionHibernateTest {
 		assertTrue(d != null);
 		Pitch p = new PitchHibernate().getById(0);
 		assertTrue( p.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );
-		assertTrue( p.getStatus().getName().equalsIgnoreCase("PENDING-AUTHOR-REVIEW"));
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("PENDING-EDITOR-REVIEW"));
 		
 		d.setEditorId(4);
 		d = decisionDAO.add(d); 
 		assertTrue(d != null);
 		p = new PitchHibernate().getById(0);
 		assertTrue( p.getStage().getName().equalsIgnoreCase("FINAL REVIEW") );
-		assertTrue( p.getStatus().getName().equalsIgnoreCase("PENDING-AUTHOR-REVIEW"));
+		assertTrue( p.getStatus().getName().equalsIgnoreCase("PENDING-EDITOR-REVIEW"));
 		
 		d.setEditorId(5);
 		d = decisionDAO.add(d); 
@@ -182,7 +181,7 @@ public class DecisionHibernateTest {
 	@DisplayName("approvePitchInGenreStageTest")
 	@Test
 	@Order(6) 
-	public void rejectPitchInGenreStageTest() throws InvalidGeneralEditorException {
+	public void rejectPitchInGenreStageTest() throws Exception {
 		
 		System.out.println( dummyPitch.getStage().getName() );
 		
@@ -204,7 +203,7 @@ public class DecisionHibernateTest {
 	@DisplayName("approvePitchInGenreStageTest")
 	@Test
 	@Order(7) 
-	public void rejectPitchInGeneralStageTest() throws InvalidGeneralEditorException {
+	public void rejectPitchInGeneralStageTest() throws Exception {
 		
 		System.out.println( dummyPitch.getStage().getName() );
 		dummyPitch.setStage( UtilityDAO.getByName(new Stage(), "general review"));
@@ -230,7 +229,7 @@ public class DecisionHibernateTest {
 	@DisplayName("approvePitchInSeniorStageTest")
 	@Test
 	@Order(8) 
-	public void rejectPitchInSeniorStageTest() throws InvalidGeneralEditorException {
+	public void rejectPitchInSeniorStageTest() throws Exception {
 		
 		System.out.println( dummyPitch.getStage().getName() );
 		dummyPitch.setStage( UtilityDAO.getByName(new Stage(), "senior review"));
@@ -256,7 +255,7 @@ public class DecisionHibernateTest {
 	@DisplayName("rejectPitchInFinalStageTest")
 	@Test
 	@Order(9) 
-	public void rejectPitchInFinalStageTest() throws InvalidGeneralEditorException {
+	public void rejectPitchInFinalStageTest() throws Exception {
 		
 		System.out.println( dummyPitch.getStage().getName() );
 		dummyPitch.setStage( UtilityDAO.getByName(new Stage(), "final review"));
