@@ -10,6 +10,8 @@ public class DAOFactory {
 	private static DepartmentDAO depDAO = null;
 	private static ApprovalDAO appDAO = null;
 	private static InformationRequestDAO infoDAO = null;
+	private static ApprovalFileDAO appFileDAO = null;
+	private static AttatchmentDAO evAttDAO = null;
 	
 
 	
@@ -85,5 +87,24 @@ public class DAOFactory {
 			infoDAO = new InformationRequestHibernate();
 		}
 		return infoDAO;
+	}
+	
+	public static ApprovalFileDAO getApprovalFileDAO()
+	{
+		if (appFileDAO == null)
+		{
+			appFileDAO = new ApprovalFileHibernate();
+		}
+		return appFileDAO;
+	}
+	
+	public static AttatchmentDAO getAttatchmentDAO()
+	{
+		if (evAttDAO == null)
+		{
+			evAttDAO = new AttatchmentHibernate();
+		}
+		return evAttDAO;
+		
 	}
 }

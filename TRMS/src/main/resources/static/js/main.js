@@ -45,6 +45,50 @@ async function login()
     }
 }
 
+async function addApprovalFile(formData, formId, name)
+{
+    let presentationFileResponse = await fetch(baseUrl + '/uploads/approvalfiles?formid=' + formId + '&name=' + name,{method: 'POST', body: formData});
+
+    if (presentationFileResponse.status === 200)
+    {
+        return true;
+    }
+    return false;
+}
+
+async function addEventAttatchmentFile(formData, eventId, name)
+{
+    let presentationFileResponse = await fetch(baseUrl + '/uploads/eventattatchments?eventid=' + eventId + '&name=' + name,{method: 'POST', body: formData});
+
+    if (presentationFileResponse.status === 200)
+    {
+        return true;
+    }
+    return false;
+}
+
+async function getApprovalFile(formId)
+{
+    let presentationFileResponse = await fetch(baseUrl + '/downloads/approvalfiles?formid=' + formId);
+
+    if (presentationFileResponse.status === 200)
+    {
+        return await presentationFileResponse.json();
+    }
+    return null;
+}
+
+async function getEventAttatchment(eventId)
+{
+    let presentationFileResponse = await fetch(baseUrl + '/downloads/eventattatchments?eventid=' + eventId);
+
+    if (presentationFileResponse.status === 200)
+    {
+        return await presentationFileResponse.json();
+    }
+    return null;
+}
+
 async function addReimbursementChangeNotification(notif)
 {
     let ReimbursementChangeNotificationResponse = await fetch(baseUrl + '/notifications', {method: 'POST', body: JSON.stringify(notif)});

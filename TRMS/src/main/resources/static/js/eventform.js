@@ -136,6 +136,7 @@ async function displayForm()
     */
     //appendTextInput(eventForm, "Grading Format: ", "gradeFormat");
 
+    appendFileInput(eventForm, "OPTIONAL - Upload Event Attatchments:", "attatchmentUpload", "event");
 
     let gradeFormatResponse = await fetch(baseUrl + "/forms/gradingformats/all");
     let allGradeFormats = await gradeFormatResponse.json();
@@ -197,8 +198,53 @@ async function displayForm()
 
     //appendNumericInput(form, "Reimbursement Amount: ");
     
-    appendNumericInput(eventForm, "Work Hours Missed", "hoursMissed");
+    appendNumericInput(eventForm, "Work Hours Missed:", "hoursMissed");
 
+    appendFileInput(eventForm, "OPTIONAL - External Approval:", "approvalFile", "approval");
+
+    let optionalRadioText = document.createElement("label");
+    optionalRadioText.innerHTML = "OPTIONAL - specify approval level in attatched email";
+    eventForm.appendChild(optionalRadioText);
+    eventForm.appendChild(document.createElement("br"));
+
+    let supervisorLabel = document.createElement("label");
+    supervisorLabel.innerHTML = "Supervisor";
+    
+    let supervisorRadio = document.createElement("input");
+    supervisorRadio.setAttribute("type", "radio");
+    supervisorRadio.setAttribute("name", "approvalType");
+    supervisorRadio.setAttribute("value", 2);
+
+    eventForm.appendChild(supervisorRadio);
+    eventForm.appendChild(supervisorLabel);
+    eventForm.appendChild(document.createElement("br"));
+
+    let depHeadLabel = document.createElement("label");
+    depHeadLabel.innerHTML = "Department Head";
+    let depHeadRadio = document.createElement("input");
+    depHeadRadio.setAttribute("type", "radio");
+    depHeadRadio.setAttribute("name", "approvalType");
+    depHeadRadio.setAttribute("value", 3);
+
+    eventForm.appendChild(depHeadRadio);
+    eventForm.appendChild(depHeadLabel);
+    eventForm.appendChild(document.createElement("br"));
+
+    let benCoLabel = document.createElement("label");
+    benCoLabel.innerHTML = "Benefits Coordinator";
+    let benCoRadio = document.createElement("input");
+    benCoRadio.setAttribute("type", "radio");
+    benCoRadio.setAttribute("name", "approvalType");
+    benCoRadio.setAttribute("value", 4);
+
+    eventForm.appendChild(benCoRadio);
+    eventForm.appendChild(benCoLabel);
+    eventForm.appendChild(document.createElement("br"));
+    eventForm.appendChild(document.createElement("br"));
+
+
+
+    
 
     let validateButton = document.createElement("button");
     validateButton.textContent = "Submit Form!";
@@ -208,6 +254,86 @@ async function displayForm()
     eventForm.appendChild(validateButton);
 
     dataDiv.appendChild(eventForm);
+}
+
+function appendFileInput(form, description, id, type)
+{
+    let element = document.createElement("input");
+    let textElement = document.createElement("label");
+    let idnum = id;
+
+    element.setAttribute("type", "file");
+    element.className = "optional";
+    element.innerHTML = "upload";
+    element.setAttribute("id", idnum);
+    textElement.innerHTML = description;
+    
+    form.appendChild(textElement);
+    form.appendChild(document.createElement("br"));
+    if (type == "event")
+    {
+        //element.addEventListener("change", function() {uploadEventFile(form, element.files)});
+    }
+    else if (type == "approval")
+    {
+       //element.addEventListener("change", function() {uploadApprovalFile(form, element.files)});
+    }
+    else
+    {
+        return;
+    }
+
+
+    form.appendChild(element);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(document.createElement("br"));
+}
+
+async function uploadEventFile(form, files)
+{
+
+    if(!files)
+    {
+        alert("uploaded nothing!");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append(files[0].name, files[0]);
+
+    let result = await addEventAttatchmentFile(formData, form.eventId, files[0].name);
+
+    if (result)
+    {
+        alert("Upload Successful!");
+    }
+    else{
+        alert("Upload Failed!");
+    }
+
+
+}
+
+async function uploadApprovalFile(form, files)
+{
+    if(!files)
+    {
+        alert("uploaded nothing!");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append(files[0].name, files[0]);
+
+    let result = await addApprovalFile(formData, form.eventId, files[0].name);
+
+    if (result)
+    {
+        alert("Upload Successful!");
+    }
+    else{
+        alert("Upload Failed!");
+    }
 }
 
 function appendTextInput(form, description, id)
@@ -243,11 +369,11 @@ function appendNumericInput(form, description, id)
  async function validateData(form)
 {
 
-    console.log(form.childNodes);
+    let today = new Date();
     valid = false;
 
     let reimbursetypeId;
-    for(e of form.childNodes)
+    for(let e of form.childNodes)
     {
         if(e.name == "eventType")
         {
@@ -262,6 +388,19 @@ function appendNumericInput(form, description, id)
         }
     }
 
+    let fastForwardTo = null;
+    for(let e of form.childNodes)
+    {
+        if (e.name == "approvalType")
+        {
+            if (e.checked == true)
+            {
+                fastForwardTo = e.getAttribute("value");
+            }
+        }
+    }
+
+    
     
 
     if(!valid)
@@ -269,10 +408,30 @@ function appendNumericInput(form, description, id)
         alert("Please select an Event Type!");
         return;
     }
+    valid = true;
+
+    for(let e of form.childNodes)
+    {
+        if (e.id == "date")
+        {
+            let aDate = new Date(e.value);
+            if (aDate - today < 86400000*7)
+            {
+                valid = false;
+            }
+        }
+    }
+
+    if(!valid)
+    {
+        alert("Event too soon, at least 1 week required!");
+        return;
+    }
+
     valid = false;
 
     let gradeFormatId;
-    for(e of form.childNodes)
+    for(let e of form.childNodes)
     {
         if(e.name == "gradeFormat")
         {
@@ -301,7 +460,7 @@ function appendNumericInput(form, description, id)
     let cost = 0;
     for(e of form.childNodes)
     {
-        if (e.tagName == "INPUT")
+        if (e.tagName == "INPUT" && e.className != "optional")
         {
             if(e.value == "")
             {
@@ -325,7 +484,6 @@ function appendNumericInput(form, description, id)
     if (response.status === 200)
     {
         reimbursetype = await response.json();
-        console.log(reimbursetype);
     }
     else{
         console.log("failed to get type, code " + response.status);
@@ -349,7 +507,7 @@ function appendNumericInput(form, description, id)
     let estimatedReimbursement = (parseFloat(reimbursetype.reimbursementPercent) / 100) * cost;
 
 
-    let today = new Date();
+    
 
     let reimbursmentLimit = 1000;
 
@@ -443,7 +601,6 @@ function appendNumericInput(form, description, id)
     let stage = -1; //get from db
     let stageEntryDate = today.getFullYear() + "-" + (today.getMonth()+1) + "-" + (today.getDate()+1);
     let status = -1; // get from db
-
     for(e of form.childNodes)
     {
         if (e.tagName == "INPUT")
@@ -452,6 +609,7 @@ function appendNumericInput(form, description, id)
             if(e.id == "name")
             {
                 name = e.value;
+                console.log(name);
             }
             else if (e.id == "date")
             {
@@ -507,22 +665,37 @@ function appendNumericInput(form, description, id)
             let day = date.substring(i+1);
             day = parseInt(day);
             day += 1;
-            date = cut + day.toString();
+            if (day < 10)
+            {
+                day = "0" + day.toString()
+            }
+            else
+            {
+                day = day.toString();
+            }
+            date = cut + day;
             //console.log(cut + " " + day);
             break;
         }
     }
     //console.log("Event Date " + date);
     //alert("stop");
-    event = {id: -1, name: name, type: type, date: date, time: time};
-    
+    event = {id: -1, name: name, type: type, date: date, time: time, location: location, description: description, cost: cost};
+
 
     let eventResponse = await fetch(baseUrl + "/events", {method: "POST", body: JSON.stringify(event)});
     event.id = await eventResponse.json(); 
 
-    console.log(event);
+    
 
-    let stageResponse = await fetch(baseUrl + "/forms/stages/1");
+
+    let stageToBe = 1
+    if(fastForwardTo)
+    {
+        stageToBe = fastForwardTo;
+    }
+
+    let stageResponse = await fetch(baseUrl + "/forms/stages/" + stageToBe);
     stage = await stageResponse.json();
 
     console.log(stage);
@@ -544,6 +717,21 @@ function appendNumericInput(form, description, id)
     reimbursememntForm.id = await reimbursementResponse.json();
 
     console.log(reimbursememntForm);
+
+
+    for(i of form.childNodes)
+    {
+        if (i.id == "attatchmentUpload")
+        {
+            uploadEventFile(reimbursememntForm, i.files);
+        }
+        else if (i.id == "approvalFile")
+        {
+            uploadApprovalFile(reimbursememntForm, i.files);
+        }
+    }
+
+    alert("stop");
     
     window.location.replace('homepage.html');
 

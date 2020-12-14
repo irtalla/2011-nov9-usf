@@ -295,6 +295,14 @@ async function expandForm(parent, form, permissionlevel)
     addDataPiece(parent, event.location, "Event Location: ");
     addDataPiece(parent, event.description, "Event: Description");
     addDataPiece(parent, event.cost, "Event Cost");
+
+    let downloadAttatchmentFilesLink = document.createElement("button");
+    downloadAttatchmentFilesLink.innerHTML = "download attatchment files";
+    downloadAttatchmentFilesLink.addEventListener("click",function () {downloadAttatchmentFiles(form)});
+    parent.appendChild(downloadAttatchmentFilesLink);
+    parent.appendChild(document.createElement("br"));
+    parent.appendChild(document.createElement("br"));
+
     addDataPiece(parent, millisToStringDate(form.fileDate), "File Date: ");
     addDataPiece(parent, form.gradingFormat.name, "Grading Format: ");
     addDataPiece(parent, form.passingGrade, "Passing Grade: ");
@@ -393,6 +401,23 @@ async function expandForm(parent, form, permissionlevel)
 
 }
 
+async function downloadAttatchmentFiles(form)
+{
+    let data = await getEventAttatchment(form.eventId);
+    //console.log(data);
+    let bytearr = base64ToArrayBuffer(data[0].data);
+    var blob = new Blob([bytearr], {type: "application/pdf"});
+    let download = document.createElement("a");
+    download.setAttribute("download", data[0].name);
+    download.setAttribute("href", window.URL.createObjectURL(blob));
+    //download.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data[0].data));
+    
+    download.style.display = "none";
+    document.body.appendChild(download);
+    download.click();
+    document.body.removeChild(download);
+}
+
 async function changeReimbursementAmount(form, amount, reason)
 {
     
@@ -415,7 +440,6 @@ async function changeReimbursementAmount(form, amount, reason)
 
 async function uploadPresentationFile(parent, form, files)
 {
-    console.log(files);
     if(!files)
     {
         return;

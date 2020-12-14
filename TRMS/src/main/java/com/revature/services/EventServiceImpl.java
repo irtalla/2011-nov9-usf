@@ -3,6 +3,7 @@ package com.revature.services;
 import java.util.Set;
 
 import com.revature.beans.Event;
+import com.revature.beans.EventAttatchment;
 import com.revature.beans.EventType;
 import com.revature.data.DAOFactory;
 
@@ -43,6 +44,22 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public Set<EventType> getEventTypes() {
 		return DAOFactory.getEventTypeDAO().getAll();
+	}
+
+	@Override
+	public Integer addEventAttatchment(EventAttatchment e) {
+		return DAOFactory.getAttatchmentDAO().add(e).getId();
+	}
+
+	@Override
+	public Set<EventAttatchment> getEventAttatchmentsByEventId(Integer id) {
+		return DAOFactory.getAttatchmentDAO().getEventAttatchmentByEventId(id);
+	}
+
+	@Override
+	public void removeEventAttatchment(EventAttatchment e) {
+		DAOFactory.getAttatchmentDAO().delete(e);
+		
 	}
 
 }

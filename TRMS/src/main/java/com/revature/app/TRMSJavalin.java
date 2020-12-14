@@ -100,10 +100,22 @@ public class TRMSJavalin {
 				path("/presentations", () -> {
 					post(ReimbursementFormController::addGradePresentationFile);
 				});
+				path("/eventattatchments", () -> {
+					post(EventController::addEventAttatchment);
+				});
+				path("/approvalfiles", () -> {
+					post(ApprovalController::addApprovalFile);
+				});
 			});
 			path("downloads", () -> {
 				path("/presentations", () -> {
 					get(ReimbursementFormController::getGradePresentationFileByFormId);
+				});
+				path("/eventattatchments", () -> {
+					get(EventController::getEventAttatchmentByEventId);
+				});
+				path("/approvalfiles", () -> {
+					get(ApprovalController::getApprovalFileByFormId);
 				});
 			});
 			path("notifications", () -> {
