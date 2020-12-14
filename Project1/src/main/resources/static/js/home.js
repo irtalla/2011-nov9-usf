@@ -191,9 +191,7 @@ async function updateClaims() {
                     <h4>${claim.approvalStage.name}</h4>
                 </div>
             </div>`;
-
-        console.log(claim.approvalStage.id);
-        console.log(archivedClaimsDiv);
+        //console.log();
         if(claim.approvalStage.id == 7 || claim.approvalStage.id == 0){
             archivedClaimsDiv.innerHTML += claimHTML;
         } else if(claim.isUrgent){
@@ -291,12 +289,12 @@ async function viewClaimDetails(index) {
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div id="amountCoveredRow" class="row">
                             <div class="col justify-content-left">
                                 <h6>Estimated amount covered: </h6>
                             </div>
                             <div class="col justify-content-center">
-                                <h6>$${claim.estimatedAmount}</h6>
+                                <h6 id="estiamtedAmountText">$${claim.estimatedAmount}</h6>
                             </div>
                         </div>
 
@@ -310,7 +308,17 @@ async function viewClaimDetails(index) {
                         </div>
 
                     `;//</div>
-    
+    if(claim.approvalStage.id == 0){
+        let deinalReasonHTML = `<div class="row">
+                                    <div class="col justify-content-left">
+                                        <h6>Denial reason: </h6>
+                                    </div>
+                                    <div class="col justify-content-center">
+                                        <h6>${claim.denialReason}</h6>
+                                    </div>
+                                </div>`;
+    }
+
     //list all the uploaded files
     let response = await fetch(baseUrl + '/attachment/' + claim.id);
     if(response.status === 200){
@@ -357,6 +365,16 @@ async function viewClaimDetails(index) {
                             </div>
                         </div>`;
         claimHTML += attachmentDiv;
+
+        if(claim.approvalStage.id != 0){
+            let cancelHTML = `<div class="row">
+                                    <div class="col">
+                                        <button id="cancelButton" onclick="cancelClaim(${claim.id})">Cancel Claim</button>
+                                    </div>
+                                </div>`;
+            claimHTML += cancelHTML;
+        }
+
         if(claim.approvalStage.id == 4 && claim.passingApproval == null){
             let submitForPassingHTML = `<div class="row">
                                             <div class="col justify-content-center">
@@ -419,6 +437,22 @@ async function viewClaimDetails(index) {
     }
 
     claimsDiv.innerHTML = claimHTML;
+
+    if(user.role.id == 1){
+        let pcr = document.getElementById('amountCoveredRow');
+        pcr.innerHTML = `<div class="col justify-content-left">
+                            <h6>Estimated amount covered: </h6>
+                        </div>
+                        <div id="amountCoveredArea" claimID="${claim.id}" class="col justify-content-center">
+                            <h6 id="estiamtedAmountText">$${claim.estimatedAmount}</h6>
+                        </div>
+                        <div class="col justify-content-right">
+                            <button id="updateCRA" type="button">Edit</button>
+                        </div>
+                        `;
+        let pcrButton = document.getElementById('updateCRA');
+        pcrButton.addEventListener('click', editCRA);
+    }
 
     //add comments
     let commentsDiv = document.getElementById('commentsDiv');
@@ -520,9 +554,9 @@ async function acceptClaim(index){
     let response = await fetch(url, {method: 'POST', body: JSON.stringify(claims[index])});
 
     if(response.status === 200){
-        getClaimsList();
+        showClaims();
     } else {
-        getClaimsList();
+        showClaims();
         alert('something went wrong');
     }
 }
@@ -784,4 +818,57 @@ async function answerRFC(rfcIndex){
     }
 
     estimatedRembersmentHTML.innerHTML = 'Estimated rembersment: $' + estimate;
+ }
+
+ function editCRA(){
+    let button = document.getElementById('updateCRA');
+    let editArea = document.getElementById('amountCoveredArea');
+    let currentEstimatedAmount = document.getElementById('estiamtedAmountText');
+    currentEstimatedAmount = currentEstimatedAmount.innerHTML.substring(1);
+
+    button.innerHTML = 'Save';
+    button.removeEventListener('click', editCRA);
+    button.addEventListener('click', updateCRA);
+
+    editArea.innerHTML = `<input id="newEstimatedAmountInput" type="number" value="${currentEstimatedAmount}">`;
+ }
+
+ async function updateCRA(){
+    let button = document.getElementById('updateCRA');
+    let editArea = document.getElementById('amountCoveredArea');
+    let newAmountInput = document.getElementById('newEstimatedAmountInput');
+
+    button.innerHTML = 'Edit';
+    button.removeEventListener('click', updateCRA);
+    button.addEventListener('click', editCRA);
+
+    if(newAmountInput.value != ''){
+        let newAmount = newAmountInput.value;
+        let claimID = editArea.getAttribute('claimID');
+        let data = {
+            id : claimID,
+            amount : newAmount
+        };
+        let response = await fetch(baseUrl + '/claims/bc/', {
+            method : 'PUT',
+            body : JSON.stringify(data)
+        });
+
+        if(response.status === 200){
+            editArea.innerHTML = `<h6 id="estiamtedAmountText">$${newAmount}</h6>`;
+        } else {
+            alert('Something went wrong');
+        }
+    }
+ }
+
+ async function cancelClaim(claimID){
+    let denialReason = 'Canceled';
+    let response = await fetch(baseUrl + '/claims/deny/' + claimID, {method: 'DELETE', body: denialReason});
+
+    if(response.status === 200){
+        showClaims();
+    } else {
+        alert('Something went wrong');
+    }
  }

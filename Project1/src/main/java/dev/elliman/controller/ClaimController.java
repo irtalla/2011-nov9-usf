@@ -267,4 +267,31 @@ public class ClaimController {
 			}
 		}
 	}
+	
+	public static void changeReimbursementAmount(Context ctx) {
+		Integer claimID = null;
+		Double amount = null;
+		String body = ctx.body();
+		body = body.substring(1, body.length()-1);
+		String[] parts = body.split(",");
+		for(String part : parts) {
+			String field = part.split(":")[0];
+			field = field.substring(1,field.length()-1);
+			String value = part.split(":")[1];
+			value = value.substring(1, value.length()-1);
+			
+			if("id".equals(field)) {
+				claimID = Integer.valueOf(value);
+			} else if("amount".equals(field)) {
+				amount = Double.valueOf(value);
+			}
+		}
+		Boolean success = cs.updateRiembersementAmount(claimID, amount);
+		
+		if(success) {
+			ctx.status(200);
+		} else {
+			ctx.status(500);
+		}
+	}
 }

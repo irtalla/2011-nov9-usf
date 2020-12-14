@@ -59,6 +59,7 @@ public class TRMSJavalin {
 				});
 				path("bc", () -> {
 					get(ClaimController::getBCUnapprovedClaims);
+					put(ClaimController::changeReimbursementAmount);
 				});
 				path("accept/:id", () -> {
 					post(ClaimController::accept);

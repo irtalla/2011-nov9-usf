@@ -34,7 +34,7 @@ public class ClaimServiceImpl implements ClaimService {
 	}
 
 	@Override
-	public boolean accept(Claim claim) {
+	public Boolean accept(Claim claim) {
 		return claimDAO.update(claim);
 	}
 
@@ -74,7 +74,14 @@ public class ClaimServiceImpl implements ClaimService {
 	}
 
 	@Override
-	public boolean deny(Claim claim) {
+	public Boolean deny(Claim claim) {
+		return claimDAO.update(claim);
+	}
+
+	@Override
+	public Boolean updateRiembersementAmount(Integer claimID, Double amount) {
+		Claim claim = claimDAO.getClaimByID(claimID);
+		claim.setEstimatedAmount(amount);
 		return claimDAO.update(claim);
 	}
 
