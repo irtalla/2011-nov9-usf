@@ -32,6 +32,14 @@ public class Individual {
 	private String name;
 	private String fname;
 	private String lname;
+	private Boolean isdepartmenthead;
+	
+	public Boolean getIsdepartmenthead() {
+		return isdepartmenthead;
+	}
+	public void setIsdepartmenthead(Boolean isdepartmenthead) {
+		this.isdepartmenthead = isdepartmenthead;
+	}
 	public String getFname() {
 		return fname;
 	}

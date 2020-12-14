@@ -15,9 +15,13 @@
 		<property name="use_sql_comments">true</property>
 		
 		<!-- tell hibernate where to find our mappings -->
-		<mapping class="com.revature.beans.Individual"></mapping>
-		<mapping class="com.revature.beans.Role"></mapping>
 		<mapping class="com.revature.beans.Department"></mapping>
+		<mapping class="com.revature.beans.Event"></mapping>
+		<mapping class="com.revature.beans.EventType"></mapping>
+		<mapping class="com.revature.beans.Individual"></mapping>
+		<mapping class="com.revature.beans.Reimbursement"></mapping>
+		<mapping class="com.revature.beans.Role"></mapping>
+		<mapping class="com.revature.beans.Status"></mapping>
 		
 	</session-factory>
 </hibernate-configuration>

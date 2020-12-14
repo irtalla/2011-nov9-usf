@@ -23,5 +23,19 @@ main {
 }
 
 table, tr, td {
-    border: 1px #cc7722;
+    border-spacing: 10px;
+    border-collapse: separate;
 }
+
+.card{
+    background-color:	#DCDCDC;
+}
+.topcorner{
+    position:absolute;
+    top:0;
+    right:0;
+    padding-right: 25px;
+   }
+   td, th {
+    vertical-align:top;
+    }

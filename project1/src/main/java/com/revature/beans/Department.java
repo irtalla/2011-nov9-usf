@@ -1,6 +1,5 @@
 package com.revature.beans;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table
-
 public class Department {
 	
 @Id
@@ -17,6 +15,7 @@ public class Department {
 private Integer id;
 
 private String name;
+
 @Transient
 private Individual head;
 

@@ -1,6 +1,9 @@
 let baseUrl = 'http://localhost:8080';
+
 let nav = document.getElementById('navBar');
 loggedUser = null;
+reimbursements = {};
+attachments = {};
 checkLogin();
 setNav();
 function setNav() {
@@ -42,14 +45,12 @@ function setNav() {
             `;
                 break;
         }
-
     }
 
     let loginBtn = document.getElementById('loginBtn');
     if (loggedUser) loginBtn.onclick = logout;
     else loginBtn.onclick = login;
-}
-//        
+}       
 
 async function login() {
     let url = baseUrl + '/users?';
@@ -77,6 +78,51 @@ async function login() {
     }
 }
 
+async function getReimbursements(callback) {
+    let url = baseUrl + '/reimbursements';
+    let response = await fetch(url, { method: 'GET' });
+
+    switch (response.status) {
+        case 200: // successful
+            reimbursements = await response.json();
+            break;
+        default: // other error
+            alert('Something went wrong retrieving reimbursements.');
+            break;
+    }
+    callback(reimbursements);
+}
+
+async function getReimbursementsById(id, callback) {
+    let url = baseUrl + '/reimbursements/' + id;
+    let response = await fetch(url, { method: 'GET' });
+
+    switch (response.status) {
+        case 200: // successful
+            reimbursements = await response.json();
+            break;
+        default: // other error
+            alert('Something went wrong retrieving reimbursements.');
+            break;
+    }
+    callback(reimbursements);
+}
+async function getAttachmentsById(id, callback) {
+    let url = baseUrl + '/reimbursements/attachments/' + id;
+    let response = await fetch(url, { method: 'GET' });
+
+    switch (response.status) {
+        case 200: // successful
+            attachments = await response.json();
+            callback(attachments);
+            return attachments;
+            break;
+        default: // other error
+            alert('Something went wrong retrieving attachments.');
+            break;
+    }
+}
+
 async function logout() {
     let url = baseUrl + '/users';
     let response = await fetch(url, { method: 'DELETE' });
@@ -84,6 +130,7 @@ async function logout() {
     if (response.status != 200) alert('Something went wrong.');
     loggedUser = null;
     setNav();
+    document.getElementById("form").innerHTML = ``;
 }
 
 async function checkLogin() {
@@ -91,4 +138,31 @@ async function checkLogin() {
     let response = await fetch(url);
     if (response.status === 200) loggedUser = await response.json();
     setNav();
+}
+function coverageBasedOnType(type, cost){
+    switch (type) {
+        case '1'://univ 80
+            return cost * 0.8;
+            break;
+
+        case '2'://semin 60 
+            return cost * 0.6;  
+            break;
+
+        case '3'://cert prep 75
+            return cost * 0.75;
+            break;
+
+        case '4'://cert 100 
+            return cost;
+            break;
+
+        case '5'://tech training 90
+         return cost * 0.9;
+            break;
+
+        case '6'://other 30
+            return cost * 0.3;
+            break; 
+    }
 }

@@ -2,7 +2,17 @@ package com.revature.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDateTime;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
+import org.apache.commons.io.FileUtils;
+
 import com.revature.controllers.IndividualController;
+import com.revature.controllers.ReimbursementController;
 
 import io.javalin.Javalin;
 //import com.revature.controllers.CatController;
@@ -19,28 +29,6 @@ public class Project1Javalin {
 		app.start(8080);
 		
 		app.routes(() -> {
-//			// all requests to /cats go to this handler
-//			path("cats", () -> {
-//				get(CatController::getAvailableCats); // get available cats is the default
-//				post(CatController::addCat); // add a cat
-//				// note: you want your specific paths to be before path variables
-//				// so that javalin tries those before mapping it to a path variable
-//				// basically, if the :id path was first, the "all" path would also
-//				// get mapped to it and it would treat the string "all" as the id
-//				// instead of as its own path
-//				path ("all", () -> {
-//					get(CatController::getAllCats); // get all cats
-//				});
-//				path ("adopt/:id", () -> {
-//					put(CatController::adoptCat); // adopt a cat by its id
-//				});
-//				path(":id", () -> {
-//					get(CatController::getCatById); // get a cat by id
-//					put(CatController::updateCat); // update a cat
-//					delete(CatController::deleteCat); // delete a cat
-//				});
-//			});
-//			// all requests to /users go to this handler
 			path("users", () -> {
 				get(IndividualController::checkLogin); // get logged in user
 				put(IndividualController::logIn); // log in user
@@ -52,6 +40,39 @@ public class Project1Javalin {
 					delete(IndividualController::deleteUser); // delete user
 				});
 			});
+			path("reimbursements", () -> {
+				get(ReimbursementController::getAll); // get all reimbursements
+				post(ReimbursementController::addReimbursement); // add a new reimbursement
+				path ("attachments/:id", () -> {
+					get(ReimbursementController::getAttachmentsById); // get attachments by reimbursement id
+				});
+				path ("supapprove/:id", () -> {
+					put(ReimbursementController::supapprove); // get attachments by reimbursement id
+				});	
+				path ("benapprove/:id", () -> {
+					put(ReimbursementController::benapprove); // get attachments by reimbursement id
+				});	
+				path ("headapprove/:id", () -> {
+					put(ReimbursementController::headapprove); // get attachments by reimbursement id
+				});	
+
+				path (":id", () -> {
+					get(ReimbursementController::getById); // get reimbursements by employee id
+					put(ReimbursementController::getReimbursementById); // get single reimbursement by reimbursement id
+				});
+			});
+			 app.post("/upload", ctx -> {
+			ctx.uploadedFiles("files").forEach(file -> {
+				          try {
+				      		  String reimbursementId = ctx.queryParam("rid");
+				              FileUtils.copyInputStreamToFile(file.getContent(), new File("src/main/resources/static/attachments/" + reimbursementId + "/" + file.getFilename()));
+				              ctx.html("Upload successful");
+				          } catch (IOException e) {
+				              ctx.html("Upload failed");
+				              e.printStackTrace();
+				          }
+				     });
+				 });
 		});
 	}
 }

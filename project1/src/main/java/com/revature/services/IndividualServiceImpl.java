@@ -30,7 +30,6 @@ public class IndividualServiceImpl implements IndividualService {
 	@Override
 	public void updateIndividual(Individual p) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

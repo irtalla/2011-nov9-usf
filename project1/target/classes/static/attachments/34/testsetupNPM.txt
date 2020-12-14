@@ -1,0 +1,10 @@
+inside the static folder (where js files are)
+
+npm init (just skip through all settings except test, set it to jasmine)
+npm install jasmine
+npx jasmine init
+npm install -g protractor
+webdriver-manager update
+webdriver-manager start
+
+set-executionpolicy -scope currentUser unrestricted

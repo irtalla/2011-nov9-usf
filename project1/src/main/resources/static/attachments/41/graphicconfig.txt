@@ -1,0 +1,9 @@
+VIDEOADAPTER=0          // 0 : AutoDetect / 1 : First graphic card
+MONITOR=0               // 0 : First monitor
+WINDOWED=2              // 0 : Fullscreen / 1 : Windowed / 2 : Windowed Fullscreen
+RESX=1536               // In pixels
+RESY=864                // In pixels
+REFRESHRATE=0           // In Hz / 0 : AutoDetect 
+VSYNC=1                 // 0 : no vsync / 1-4 : number of vsync to wait 
+VIDEOMEMORY=0           // In MB / 0 : AutoDetect
+USECMDLIST=1            // Activate driver command list / 0 : Off / 1 : On
