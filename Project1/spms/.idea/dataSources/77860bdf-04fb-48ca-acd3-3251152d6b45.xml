@@ -1160,6 +1160,7 @@ UC/16394
     </table>
     <table id="60" parent="24" name="story">
       <ObjectId>24867</ObjectId>
+      <Outdated>1</Outdated>
       <Owner>postgres</Owner>
       <StateNumber>4738</StateNumber>
     </table>

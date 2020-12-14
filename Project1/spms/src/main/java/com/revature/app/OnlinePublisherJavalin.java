@@ -33,12 +33,13 @@ public class OnlinePublisherJavalin {
                 });
             });
             path("author",() ->{
+                put(AuthorController::updatePitch);
                 post(AuthorController::submitPitch);
 
-                path(":id/stories", () -> {
+                path("stories", () -> {
                    get(AuthorController::getStories);
                 });
-                path(":id/messages", () -> {
+                path("messages", () -> {
                     get(AuthorController::getMessages);
                 });
             });

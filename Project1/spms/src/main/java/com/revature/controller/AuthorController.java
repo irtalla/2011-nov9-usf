@@ -24,18 +24,20 @@ public class AuthorController {
         Set<Story> storySet = storyHibernate.getAll();
         Set<Story> filteredSet = new HashSet<>();
         Author author = ctx.sessionAttribute("author");
+        System.out.println("Author of ID#" + author.getId());
         if (author == null){
             System.out.println("Author object is null.");
             ctx.status(400);
         }else{
             for (Story s : storySet){
-                if (s.getAuthor() == author){
+                if (s.getAuthor().getId() == author.getId()){
                     filteredSet.add(s);
                 }
             }
+            System.out.println("Fetched Author Stories \n" + filteredSet);
+            ctx.status(200);
+            ctx.json(filteredSet);
         }
-        ctx.status(200);
-        ctx.json(filteredSet);
     }
 
     public static void getMessages(Context ctx){
@@ -55,9 +57,9 @@ public class AuthorController {
                     filteredSet.add(r);
                 }
             }
+            ctx.status(200);
+            ctx.json(filteredSet);
         }
-        ctx.status(200);
-        ctx.json(filteredSet);
     }
 
 
@@ -77,5 +79,11 @@ public class AuthorController {
         authorHibernate.update(author);
         ctx.status(200);
         System.out.println("Added Story #" + retStory.getId());
+    }
+
+    public static void updatePitch(Context ctx){
+        System.out.println("Updating a pitch.");
+        Story story = ctx.bodyAsClass(Story.class);
+        
     }
 }

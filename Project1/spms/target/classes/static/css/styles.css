@@ -10390,4 +10390,6 @@ header.dashboard_masthead {
   font-size: medium;
 }
 
-
+#pitch-list td a { 
+  display: block; 
+}

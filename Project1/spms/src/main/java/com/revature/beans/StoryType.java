@@ -27,17 +27,17 @@ public class StoryType {
                 type = string;
                 pointValue = 50;
                 break;
-            case "novellas":
+            case "novella":
                 id = 2;
                 type = string;
                 pointValue = 25;
                 break;
-            case "short stories":
+            case "short story":
                 id = 3;
                 type = string;
                 pointValue = 20;
                 break;
-            case "articles":
+            case "article":
                 id = 4;
                 type = string;
                 pointValue = 10;
