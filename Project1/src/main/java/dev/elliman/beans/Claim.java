@@ -60,6 +60,8 @@ public class Claim {
 	private Person passingApproval;
 	@Column(name="estimated_amount")
 	private Double estimatedAmount;
+	@Column(name="last_approved")
+	private LocalDateTime lastApproved;
 	
 	public Claim() {
 		id = null;
@@ -79,6 +81,7 @@ public class Claim {
 		denialReason = null;
 		passingApproval = null;
 		estimatedAmount = null;
+		lastApproved = null;
 	}
 
 	public Integer getId() {
@@ -225,6 +228,14 @@ public class Claim {
 		this.estimatedAmount = estimatedAmount;
 	}
 
+	public LocalDateTime getLastApproved() {
+		return lastApproved;
+	}
+
+	public void setLastApproved(LocalDateTime lastApproved) {
+		this.lastApproved = lastApproved;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -235,9 +246,7 @@ public class Claim {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((dha == null) ? 0 : dha.hashCode());
 		result = prime * result + ((dsa == null) ? 0 : dsa.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(estimatedAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((estimatedAmount == null) ? 0 : estimatedAmount.hashCode());
 		result = prime * result + ((event == null) ? 0 : event.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
 		result = prime * result + ((eventLocation == null) ? 0 : eventLocation.hashCode());
@@ -245,6 +254,7 @@ public class Claim {
 		result = prime * result + ((hoursMissed == null) ? 0 : hoursMissed.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((justification == null) ? 0 : justification.hashCode());
+		result = prime * result + ((lastApproved == null) ? 0 : lastApproved.hashCode());
 		result = prime * result + ((passingApproval == null) ? 0 : passingApproval.hashCode());
 		result = prime * result + ((person == null) ? 0 : person.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
@@ -291,7 +301,10 @@ public class Claim {
 				return false;
 		} else if (!dsa.equals(other.dsa))
 			return false;
-		if (Double.doubleToLongBits(estimatedAmount) != Double.doubleToLongBits(other.estimatedAmount))
+		if (estimatedAmount == null) {
+			if (other.estimatedAmount != null)
+				return false;
+		} else if (!estimatedAmount.equals(other.estimatedAmount))
 			return false;
 		if (event == null) {
 			if (other.event != null)
@@ -328,6 +341,11 @@ public class Claim {
 				return false;
 		} else if (!justification.equals(other.justification))
 			return false;
+		if (lastApproved == null) {
+			if (other.lastApproved != null)
+				return false;
+		} else if (!lastApproved.equals(other.lastApproved))
+			return false;
 		if (passingApproval == null) {
 			if (other.passingApproval != null)
 				return false;
@@ -358,8 +376,6 @@ public class Claim {
 				+ description + ", price=" + price + ", justification=" + justification + ", hoursMissed=" + hoursMissed
 				+ ", approvalStage=" + approvalStage + ", dsa=" + dsa + ", dha=" + dha + ", bca=" + bca
 				+ ", denialReason=" + denialReason + ", passingApproval=" + passingApproval + ", estimatedAmount="
-				+ estimatedAmount + "]";
+				+ estimatedAmount + ", lastApproved=" + lastApproved + "]";
 	}
-
-	
 }

@@ -32,4 +32,14 @@ public class PersonServiceImpl implements PersonService {
 		return personDAO.update(person);
 	}
 
+	@Override
+	public Person getAutoDS() {
+		return personDAO.getPersonByUsername("DSAutoApprover");
+	}
+
+	@Override
+	public Person getAutoDH() {
+		return personDAO.getPersonByUsername("DHAutoApprover");
+	}
+
 }

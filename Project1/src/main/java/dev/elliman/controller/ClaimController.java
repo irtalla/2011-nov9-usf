@@ -89,6 +89,7 @@ public class ClaimController {
 			s.setId(2);
 			s.setName("Pending department head review");
 			claim.setApprovalStage(s);
+			claim.setLastApproved(LocalDateTime.now());
 		} else if(person.getRole().getId() == 2) {
 			if(claim.getDsa() == null) {
 				claim.setDsa(person);
@@ -98,6 +99,7 @@ public class ClaimController {
 			s.setId(3);
 			s.setName("Pending benifits coordinator review");
 			claim.setApprovalStage(s);
+			claim.setLastApproved(LocalDateTime.now());
 		} else if(person.getRole().getId() == 1) {
 			if(claim.getApprovalStage().getId() == 3) {
 				claim.setBca(person);
@@ -105,12 +107,14 @@ public class ClaimController {
 				s.setId(4);
 				s.setName("Accepted");
 				claim.setApprovalStage(s);
+				claim.setLastApproved(LocalDateTime.now());
 			} else if(claim.getApprovalStage().getId() == 6) {
 				claim.setPassingApproval(person);
 				Stage s = new Stage();
 				s.setId(7);
 				s.setName("Complete");
 				claim.setApprovalStage(s);
+				claim.setLastApproved(LocalDateTime.now());
 				
 				//increase amount claimed
 				Person employ = claim.getPerson();
@@ -125,6 +129,7 @@ public class ClaimController {
 			s.setId(6);
 			s.setName("Pending grade review");
 			claim.setApprovalStage(s);
+			claim.setLastApproved(LocalDateTime.now());
 		}
 		
 		if(!cs.accept(claim)) {
@@ -197,6 +202,9 @@ public class ClaimController {
 			} else if("hoursMissed".equals(field)) {
 				Integer hoursMissed = Integer.valueOf(valueSection.substring(1, valueSection.length()-1));
 				c.setHoursMissed(hoursMissed);
+			} else if("estimatedRembersment".contentEquals(field)) {
+				Double estimated = Double.valueOf(valueSection.substring(1, valueSection.length()-1));
+				c.setEstimatedAmount(estimated);
 			}
 		}
 		String dateTime = dateString + "T" + timeString + ":00";
@@ -206,6 +214,7 @@ public class ClaimController {
 		Person p = ctx.sessionAttribute("user");
 		c.setPersonID(p);
 		c.setGrading(cs.getGrading(g));
+		c.setLastApproved(LocalDateTime.now());
 		
 		cs.makeClaim(c);
 	}
@@ -223,8 +232,23 @@ public class ClaimController {
 		cs.deny(c);
 	}
 	
-//	public static void submitPassingGrade(Context ctx) {
-//		Integer id = Integer.valueOf(ctx.pathParam("id"));
-//		System.out.println("spg" + id);
-//	}
+	public static void autoApproveClaims() {
+		List<Claim> dsUnapproved = cs.getDSUnapprovedClaims();
+		Person autoDS = ps.getAutoDS();
+		for(Claim c : dsUnapproved) {
+			if(Math.abs(c.getLastApproved().getDayOfYear() - LocalDateTime.now().getDayOfYear()) > 7) {
+				c.setDsa(autoDS);
+				cs.accept(c);
+			}
+		}
+		
+		List<Claim> dhUnapproved = cs.getDHUnapprovedClaims();
+		Person autoDH = ps.getAutoDH();
+		for(Claim c : dhUnapproved) {
+			if(Math.abs(c.getLastApproved().getDayOfYear() - LocalDateTime.now().getDayOfYear()) > 7) {
+				c.setDha(autoDH);
+				cs.accept(c);
+			}
+		}
+	}
 }

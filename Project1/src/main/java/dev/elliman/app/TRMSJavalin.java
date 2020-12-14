@@ -2,9 +2,13 @@ package dev.elliman.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import dev.elliman.controller.ClaimController;
 import dev.elliman.controller.CommentController;
 import dev.elliman.controller.PersonController;
+import io.cucumber.java.it.Date;
 import io.javalin.Javalin;
 
 public class TRMSJavalin {
@@ -15,6 +19,18 @@ public class TRMSJavalin {
 		Javalin app = Javalin.create((config) -> {
 			config.addStaticFiles("/static");
 			config.enableCorsForAllOrigins();
+			
+			//auto approval timer
+			TimerTask autoApprovalTask = new TimerTask() {
+				@Override
+				public void run() {
+					ClaimController.autoApproveClaims();
+				}
+			};
+			
+			Timer autoApprovalTimer = new Timer();
+			long dayInMilliseconds = 24*60*60*1000;
+			autoApprovalTimer.scheduleAtFixedRate(autoApprovalTask, 0, dayInMilliseconds);
 		});
 		
 		app.start(8080);

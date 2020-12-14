@@ -49,6 +49,46 @@ async function showClaims(){
 
                                 <div id="claimsDiv" class="container">
 
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col justify-content-center">
+                                                <h2>Urgent Claims</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div id="urgentClaimsDiv" class="container"></div>
+
+                                    <br>
+
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col justify-content-center">
+                                                <h2>Future Claims</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div id="futureClaimsDiv" class="container"></div>
+
+                                    <br>
+
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col justify-content-center">
+                                                <h2>Archived Claims</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div id="archivedClaimsDiv" class="container"></div>
+                                    
                                 </div>
                                 
                                 <div id="commentsDiv">
@@ -104,9 +144,15 @@ async function getClaimsList() {
 async function updateClaims() {
     currentClaimID = null;
     claimsDiv = document.getElementById('claimsDiv');
-    claimsDiv.innerHTML = '';
+    //claimsDiv.innerHTML = '';
     //clear comments div
     //document.getElementById('commentsDiv').innerHTML = '';
+    let urgentClaimsDiv = document.getElementById('urgentClaimsDiv');
+    urgentClaimsDiv.innerHTML = '';
+    let futureClaimsDiv = document.getElementById('futureClaimsDiv');
+    futureClaimsDiv.innerHTML = '';
+    let archivedClaimsDiv = document.getElementById('archivedClaimsDiv');
+    archivedClaimsDiv = '';
 
     newClaimDiv = document.getElementById('newClaimDiv');
     newClaimDiv.innerHTML = '';
@@ -146,7 +192,9 @@ async function updateClaims() {
                 </div>
             </div>`;
 
-        claimsDiv.innerHTML += claimHTML;
+        //if(date.)
+
+        urgentClaimsDiv.innerHTML += claimHTML;
     }
 
 
