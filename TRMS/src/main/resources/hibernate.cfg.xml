@@ -20,5 +20,9 @@
 		<mapping class="com.revature.beans.Stage"></mapping>
 		<mapping class="com.revature.beans.GradingFormat"></mapping>
 		<mapping class="com.revature.beans.ReimbursementForm"></mapping>
+		<mapping class="com.revature.beans.Department"></mapping>
+		<mapping class="com.revature.beans.Approval"></mapping>
+		<mapping class="com.revature.beans.InformationRequest"></mapping>
+		<mapping class="com.revature.beans.GradePresentationFile"></mapping>
 	</session-factory>
 </hibernate-configuration>

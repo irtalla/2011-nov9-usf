@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "tuition_reimbursement_form")
 public class ReimbursementForm {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,17 +35,25 @@ public class ReimbursementForm {
 	private String justification;
 	@Column(name = "reimbursement_amount")
 	private double reimbursementAmount;
-	@Column(name = "hours_missed")
+	@Column(name = "time_missed_hours")
 	private int hoursMissed;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="stage_id")
 	private Stage stage;
 	@Column(name = "stage_entry_date")
 	private Date stageEntryDate;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="status_id")
 	private Status status;
 	
+	@Override
+	public String toString() {
+		return "ReimbursementForm [id=" + id + ", fileDate=" + fileDate + ", employeeId=" + employeeId + ", eventId="
+				+ eventId + ", gradingFormat=" + gradingFormat + ", passingGrade=" + passingGrade + ", justification="
+				+ justification + ", reimbursementAmount=" + reimbursementAmount + ", hoursMissed=" + hoursMissed
+				+ ", stage=" + stage + ", stageEntryDate=" + stageEntryDate + ", status=" + status + "]";
+	}
+
 	public ReimbursementForm()
 	{
 		id = -1;
@@ -196,7 +205,7 @@ public class ReimbursementForm {
 		if (fileDate == null) {
 			if (other.fileDate != null)
 				return false;
-		} else if (!fileDate.equals(other.fileDate))
+		} else if (!fileDate.toString().equals(other.fileDate.toString()))
 			return false;
 		if (gradingFormat == null) {
 			if (other.gradingFormat != null)
@@ -227,7 +236,7 @@ public class ReimbursementForm {
 		if (stageEntryDate == null) {
 			if (other.stageEntryDate != null)
 				return false;
-		} else if (!stageEntryDate.equals(other.stageEntryDate))
+		} else if (!stageEntryDate.toString().equals(other.stageEntryDate.toString()))
 			return false;
 		if (status == null) {
 			if (other.status != null)

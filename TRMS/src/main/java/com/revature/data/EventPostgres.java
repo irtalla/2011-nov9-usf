@@ -26,8 +26,8 @@ public class EventPostgres implements EventDAO {
 			String sql = "insert into reimbursement_event values (default, ?, ?, ?, ?, ?, ?, ?)";
 			String[] keys = {"id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
-			pstmt.setInt(1, t.getType().getId());
-			pstmt.setString(2, t.getName());
+			pstmt.setString(1, t.getName());
+			pstmt.setInt(2, t.getType().getId());
 			pstmt.setDate(3, t.getDate());
 			pstmt.setTime(4, t.getTime());
 			pstmt.setString(5, t.getLocation());
@@ -244,7 +244,6 @@ public class EventPostgres implements EventDAO {
 		try
 		{
 			conn.setAutoCommit(false);
-			//TODO fix this shit
 			String sql = "delete from reimbursement_event where id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, t.getId());

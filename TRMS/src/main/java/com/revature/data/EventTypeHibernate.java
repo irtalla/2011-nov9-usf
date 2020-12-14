@@ -42,13 +42,13 @@ public class EventTypeHibernate implements EventTypeDAO {
 
 	@Override
 	public void update(EventType t) {
-		// TODO Auto-generated method stub
+		// not implemented
 
 	}
 
 	@Override
 	public void delete(EventType t) {
-		// TODO Auto-generated method stub
+		// not implemented
 
 	}
 

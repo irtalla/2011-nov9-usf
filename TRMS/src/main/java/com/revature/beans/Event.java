@@ -11,13 +11,7 @@ public class Event {
 	private EventType type;
 	private Date date;
 	private Time time;
-	public Time getTime() {
-		return time;
-	}
-
-	public void setTime(Time time) {
-		this.time = time;
-	}
+	
 	private String location;
 	private String description;
 	private double cost;
@@ -25,16 +19,25 @@ public class Event {
 	public Event()
 	{
 		id = -1;
+		name = "";
 		type = new EventType();
 		Calendar c = new GregorianCalendar(2000,1,31,12,59);
 		date = new Date(c.getTime().getTime());
 		time = new Time(c.getTimeInMillis());
 	}
 	
+	public Time getTime() {
+		return time;
+	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+	
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", type=" + type + ", date=" + date + ", time=" + time + ", location=" + location
-				+ ", description=" + description + ", cost=" + cost + "]";
+		return "Event [id=" + id + ", name=" + name + ", type=" + type + ", date=" + date + ", time=" + time
+				+ ", location=" + location + ", description=" + description + ", cost=" + cost + "]";
 	}
 
 	
@@ -91,12 +94,10 @@ public class Event {
 		long temp;
 		temp = Double.doubleToLongBits(cost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((time == null) ? 0 : time.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -110,11 +111,6 @@ public class Event {
 			return false;
 		Event other = (Event) obj;
 		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
-			return false;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -132,11 +128,6 @@ public class Event {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (time == null) {
-			if (other.time != null)
-				return false;
-		} else if (!time.equals(other.time))
 			return false;
 		if (type == null) {
 			if (other.type != null)

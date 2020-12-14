@@ -20,6 +20,11 @@ public class Stage {
 		name = "";
 	}
 
+	@Override
+	public String toString() {
+		return "Stage [id=" + id + ", name=" + name + "]";
+	}
+
 	public int getId() {
 		return id;
 	}

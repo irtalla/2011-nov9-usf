@@ -3,8 +3,12 @@ package com.revature.app;
 import io.javalin.Javalin;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.revature.controllers.ApprovalController;
+import com.revature.controllers.DepartmentController;
 import com.revature.controllers.EmployeeController;
 import com.revature.controllers.EventController;
+import com.revature.controllers.InformationRequestController;
+import com.revature.controllers.ReimbursementFormController;
 
 public class TRMSJavalin {
 
@@ -28,14 +32,67 @@ public class TRMSJavalin {
 				
 			});
 			path("events", () ->{
-				get(EventController::getEventById);
-				put(EventController::addEvent);
+				get(EventController::getAllEvents);
+				post(EventController::addEvent);
 				delete(EventController::deleteEvent);
 				path("/types", () -> {
-					get(EventController::getEventTypeById);
-					path("/all", () -> {
-						get(EventController::getAllEventTypes);
+					get(EventController::getAllEventTypes);
+					path(":id", () -> {
+						get(EventController::getEventTypeById);
 					});
+				});
+				path(":id", () -> {
+					get(EventController::getEventById);
+				});
+			});
+			path("forms", () -> {
+				path("/reimbursement", () -> {
+					get(ReimbursementFormController::getAllReimbursementForms);
+					post(ReimbursementFormController::addReimbursementForm);
+					put(ReimbursementFormController::updateReimbursementForm);
+					delete(ReimbursementFormController::deleteReimbursementForm);
+					path(":id", () -> {
+						get(ReimbursementFormController::getReimbursementFormById);
+					});
+					
+				});
+				path("/stages/:id", () -> {
+					get(ReimbursementFormController::getStageById);
+				});
+				path("/statuses/:id", () -> {
+					get(ReimbursementFormController::getStatusById);
+				});
+				path("/gradingformats", () -> {
+					path("/all", () -> {
+						get(ReimbursementFormController::getAllGradingFormats);
+					});
+					path("/:id", () -> {
+						get(ReimbursementFormController::getGradingFormatById);
+					});
+					
+				});
+				path("/approval", () -> {
+					get(ApprovalController::getAllApprovals);
+					post(ApprovalController::addApproval);
+					path(":id", () ->{
+						get(ApprovalController::getApprovalById);
+						delete(ApprovalController::deleteApproval);
+					});
+				});
+				path("/inforequest", () -> {
+					get(InformationRequestController::getAllInformationRequests);
+					post(InformationRequestController::addInformationRequest);
+					put(InformationRequestController::updateInformationRequest);
+					path(":id", () -> {
+						get(InformationRequestController::getInformationRequestById);
+						delete(InformationRequestController::deleteInformationRequest);
+					});
+				});
+			});
+			path("departments", () -> {
+				get(DepartmentController::getAllDepartments);
+				path("/:id", () -> {
+					get(DepartmentController::getDepartmentById);
 				});
 			});
 		});

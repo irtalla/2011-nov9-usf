@@ -1,18 +1,38 @@
 package com.revature.data;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
+import com.revature.beans.GradePresentationFile;
+import com.revature.beans.GradingFormat;
 import com.revature.beans.ReimbursementForm;
+import com.revature.beans.Stage;
+import com.revature.beans.Status;
 import com.revature.utils.HibernateUtil;
 
 public class ReimbursementFormHibernate implements ReimbursementFormDAO {
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 	@Override
 	public ReimbursementForm add(ReimbursementForm t) {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.save(t);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		return t;
 	}
 
 	@Override
@@ -25,20 +45,120 @@ public class ReimbursementFormHibernate implements ReimbursementFormDAO {
 
 	@Override
 	public Set<ReimbursementForm> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		Session s = hu.getSession();
+		String query = "FROM ReimbursementForm";
+		Query<ReimbursementForm> q = s.createQuery(query, ReimbursementForm.class);
+		List<ReimbursementForm> typeList = q.getResultList();
+		Set<ReimbursementForm> typeSet = new HashSet<>();
+		typeSet.addAll(typeList);
+		s.close();
+		return typeSet;
 	}
 
 	@Override
 	public void update(ReimbursementForm t) {
-		// TODO Auto-generated method stub
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.update(t);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
 		
 	}
 
 	@Override
 	public void delete(ReimbursementForm t) {
-		// TODO Auto-generated method stub
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.delete(t);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
 		
+	}
+
+	@Override
+	public Stage getStageById(Integer id) {
+		Session s = hu.getSession();
+		Stage stage = s.get(Stage.class, id);
+		s.close();
+		return stage;
+	}
+
+	@Override
+	public Status getStatusById(Integer id) {
+		Session s = hu.getSession();
+		Status status = s.get(Status.class, id);
+		s.close();
+		return status;
+	}
+
+	@Override
+	public GradingFormat getGradingFormatById(Integer id) {
+		Session s = hu.getSession();
+		GradingFormat format = s.get(GradingFormat.class, id);
+		s.close();
+		return format;
+	}
+
+	@Override
+	public Set<GradingFormat> getAllGradingFormats() {
+		Session s = hu.getSession();
+		String query = "FROM GradingFormat";
+		Query<GradingFormat> q = s.createQuery(query, GradingFormat.class);
+		List<GradingFormat> typeList = q.getResultList();
+		Set<GradingFormat> typeSet = new HashSet<>();
+		typeSet.addAll(typeList);
+		s.close();
+		return typeSet;
+	}
+
+	@Override
+	public Integer addPresentationFile(GradePresentationFile file) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.save(file);
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		return file.getId();
+	}
+
+	@Override
+	public GradePresentationFile getGradePresentationFileById(Integer id) {
+		Session s = hu.getSession();
+		GradePresentationFile format = s.get(GradePresentationFile.class, id);
+		s.close();
+		return format;
+	}
+
+	@Override
+	public GradePresentationFile getGradePresentationFileByFormId(Integer id) {
+		Session s = hu.getSession();
+		String query = "FROM GradePresentationFile WHERE formId = :formId";
+		Query<GradePresentationFile> q = s.createQuery(query, GradePresentationFile.class);
+		q.setParameter("formId", id);
+		List<GradePresentationFile> l = q.getResultList();
+		return l.get(0);
 	}
 
 }

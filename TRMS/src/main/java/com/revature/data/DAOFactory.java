@@ -6,6 +6,10 @@ public class DAOFactory {
 	private static EmployeeDAO emDAO = null;
 	private static EventDAO evDAO = null;
 	private static EventTypeDAO evTypeDAO = null;
+	private static ReimbursementFormDAO formDAO = null;
+	private static DepartmentDAO depDAO = null;
+	private static ApprovalDAO appDAO = null;
+	private static InformationRequestDAO infoDAO = null;
 	
 
 	
@@ -45,5 +49,41 @@ public class DAOFactory {
 			evTypeDAO = new EventTypeHibernate();
 		}
 		return evTypeDAO;
+	}
+	
+	public static ReimbursementFormDAO getReimbursementFormDAO()
+	{
+		if (formDAO == null)
+		{
+			formDAO = new ReimbursementFormHibernate();
+		}
+		return formDAO;
+	}
+	
+	public static DepartmentDAO getDepartmentDAO()
+	{
+		if (depDAO == null)
+		{
+			depDAO = new DepartmentHibernate();
+		}
+		return depDAO;
+	}
+	
+	public static ApprovalDAO getApprovalDAO()
+	{
+		if (appDAO == null)
+		{
+			appDAO = new ApprovalHibernate();
+		}
+		return appDAO;
+	}
+	
+	public static InformationRequestDAO getInformationRequestDAO()
+	{
+		if (infoDAO == null)
+		{
+			infoDAO = new InformationRequestHibernate();
+		}
+		return infoDAO;
 	}
 }

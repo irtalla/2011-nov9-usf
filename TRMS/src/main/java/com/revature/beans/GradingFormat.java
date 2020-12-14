@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "grading_format")
 public class GradingFormat {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -18,6 +18,11 @@ public class GradingFormat {
 	{
 		id = -1;
 		name = "";
+	}
+
+	@Override
+	public String toString() {
+		return "GradingFormat [id=" + id + ", name=" + name + "]";
 	}
 
 	public int getId() {

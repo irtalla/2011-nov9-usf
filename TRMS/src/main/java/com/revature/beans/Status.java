@@ -20,6 +20,11 @@ public class Status {
 		name = "";
 	}
 
+	@Override
+	public String toString() {
+		return "Status [id=" + id + ", name=" + name + "]";
+	}
+
 	public int getId() {
 		return id;
 	}

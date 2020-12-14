@@ -1,9 +1,23 @@
 package com.revature.beans;
 
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Department {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	@Column(name="department_head_id")
 	private int departmentHeadId;
+	@Column(name="benco_id")
 	private int bencoId;
 	
 	public Department()

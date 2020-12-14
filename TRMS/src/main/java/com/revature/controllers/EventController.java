@@ -46,7 +46,8 @@ public class EventController {
 	public static void addEvent(Context ctx)
 	{
 		Event evt = ctx.bodyAsClass(Event.class);
-		evServ.addEvent(evt);
+		int id = evServ.addEvent(evt);
+		ctx.json(id);
 		ctx.status(201);
 	}
 	

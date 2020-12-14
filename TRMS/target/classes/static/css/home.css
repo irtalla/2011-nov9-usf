@@ -1,5 +1,6 @@
-.sidebar {
-    width: 160px;
+#leftSideBar 
+{
+    width: 15%;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -9,10 +10,31 @@
     padding-top: 20px;
 }
 
-body {
+#rightSideBar
+{
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: rgb(241, 229, 229);
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+body 
+{
     background-color: rgb(112, 98, 98);
 }
 
-.main {
-    margin-left: 160px;
+.main 
+{
+    margin-left: 15%;
+    max-width: 70%;
+}
+
+.form
+{
+    margin-left: 15%;
+    max-width: 70%;
 }
