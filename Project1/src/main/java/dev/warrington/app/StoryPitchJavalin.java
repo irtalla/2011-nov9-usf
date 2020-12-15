@@ -23,6 +23,13 @@ public class StoryPitchJavalin {
 			});
 			path("stories", () -> {
 				put(StoryController::getMyStories);
+				post(StoryController::addStory);
+			});
+			path("approve", () -> {
+				put(StoryController::approve);
+			});
+			path("deny", () -> {
+				put(StoryController::deny);
 			});
 		});
 		

@@ -6,16 +6,20 @@ public class Story {
 
 	private Integer id;
 	private String title;
-	private Person author;
-	private Genre genre;
-	private StoryType storyType;
+	private Integer authorId;
+	private String firstName;
+	private String lastName;
+	private Integer genre;
+	private Integer storyType;
 	private String tagline;
 	private String description;
-	private Status status;
+	private Integer status;
 	private Integer priority;
 	private String filePath;
+	private String note;
+	private Boolean request;
 	private LocalDate submissionDate;
-	private LocalDate completionDate;
+	private String completionDate;
 	
 	public Integer getId() {
 		return id;
@@ -33,27 +37,19 @@ public class Story {
 		this.title = title;
 	}
 
-	public Person getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(Person author) {
-		this.author = author;
-	}
-
-	public Genre getGenre() {
+	public Integer getGenre() {
 		return genre;
 	}
 
-	public void setGenre(Genre genre) {
+	public void setGenre(Integer genre) {
 		this.genre = genre;
 	}
 
-	public StoryType getStoryType() {
+	public Integer getStoryType() {
 		return storyType;
 	}
 
-	public void setStoryType(StoryType storyType) {
+	public void setStoryType(Integer storyType) {
 		this.storyType = storyType;
 	}
 
@@ -73,11 +69,11 @@ public class Story {
 		this.description = description;
 	}
 
-	public Status getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -105,12 +101,52 @@ public class Story {
 		this.submissionDate = submissionDate;
 	}
 
-	public LocalDate getCompletionDate() {
+	public String getCompletionDate() {
 		return completionDate;
 	}
 
-	public void setCompletionDate(LocalDate completionDate) {
+	public void setCompletionDate(String completionDate) {
 		this.completionDate = completionDate;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Boolean getRequest() {
+		return request;
+	}
+
+	public void setRequest(Boolean request) {
+		this.request = request;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Integer getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
 	}
 	
 }

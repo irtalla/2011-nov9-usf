@@ -28,7 +28,7 @@ function setNav() {
         }
         else {
             nav.innerHTML += `
-                <a href="addSpecial.html">Pending Stories</a>
+                <a href="pendingStories.html">Pending Stories</a>
             `;
         }
 
@@ -41,8 +41,12 @@ function setNav() {
     }
 
     let loginBtn = document.getElementById('loginBtn');
-    if (localStorage.getItem('username')) loginBtn.onclick = logout;
-    else loginBtn.onclick = login;
+    if (localStorage.getItem('username')) {
+        loginBtn.addEventListener("click", logout);
+        loginBtn.addEventListener("click", () => {
+            window.location.replace("index.html");
+        });
+    } else loginBtn.onclick = login;
 }
 
 async function login() {

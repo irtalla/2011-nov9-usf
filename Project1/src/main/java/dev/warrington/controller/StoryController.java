@@ -1,5 +1,6 @@
 package dev.warrington.controller;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import dev.warrington.beans.Person;
@@ -16,6 +17,8 @@ public class StoryController {
 		System.out.println("Retrieving stories");
 		String personId = ctx.queryParam("id");
 		String roleId = ctx.queryParam("role");
+		//System.out.println(personId);
+		//System.out.println(roleId);
 		Set<Story> stories = storyServ.getMyStories(Integer.parseInt(personId), Integer.parseInt(roleId));
 		
 		if (stories != null) {
@@ -26,4 +29,22 @@ public class StoryController {
 		}
 	}
 	
+	public static void addStory(Context ctx) {
+		Story s = ctx.bodyAsClass(Story.class);
+		String[] splitDate = s.getCompletionDate().toString().split("-");
+		s.setCompletionDate(splitDate[1] + "-" + splitDate[2] + "-" + splitDate[3]);
+		s.setSubmissionDate(LocalDate.now());
+		storyServ.addStory(s);
+		ctx.status(201);
+	}
+	
+	public static void approve(Context ctx) {
+		Integer id = Integer.parseInt(ctx.queryParam("id"));
+		storyServ.approve(id);
+	}
+	
+	public static void deny(Context ctx) {
+		Integer id = Integer.parseInt(ctx.queryParam("id"));
+		storyServ.deny(id);
+	}
 }

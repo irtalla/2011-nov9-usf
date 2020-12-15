@@ -1,5 +1,5 @@
 setNav();
-populateCats();
+getStories();
 
 async function getStories() {
     let url = baseUrl + '/stories?';
@@ -8,17 +8,19 @@ async function getStories() {
     let response = await fetch(url, {method: 'PUT'});
     if (response.status == 200) {
         let stories = await response.json();
-        populateStories();
+        populateStories(stories);
     }
 }
 
-function populateStories() {
+function populateStories(stories) {
     let storySection = document.getElementById('myStories');
+
+    console.log(stories);
 
     if (stories.length > 0) {
         let table = document.createElement('table');
 
-        table.innerHTML = `
+       table.innerHTML = `
             <tr>
                 <th>Title</th>
                 <th>Author</th>
@@ -31,28 +33,86 @@ function populateStories() {
                 <th>Completion</th>
             </tr>
         `;
-
-        for (let cat of cats) {
+        
+        for (let story of stories) {
             let tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${cat.id}</td>
-                <td>${cat.name}</td>
-                <td>${cat.age}</td>
-                <td>${cat.breed.name}</td>
-            `;
-            let td = document.createElement('td');
-            let ul = document.createElement('ul');
-            for (let sn of cat.specialNeeds) {
-                let li = document.createElement('li');
-                li.innerHTML = sn.name;
-                ul.appendChild(li);
+            let genre;
+            let type;
+            let status;
+
+            switch(story.genre) {
+                case 1:
+                    genre = "adventure";
+                    break;
+                case 2:
+                    genre = "biography";
+                    break;
+                case 3:
+                    genre = "drama";
+                    break;
+                case 4:
+                    genre = "fantasy";
+                    break;
+                case 5:
+                    genre = "history";
+                    break;
+                case 6:
+                    genre = "horror";
+                    break;
+                case 7:
+                    genre = "science fiction";
+                    break;
+                case 8:
+                    genre = "self help";
+                    break;
+                case 9:
+                    genre = "travel";
+                    break;
             }
-            td.appendChild(ul);
-            tr.appendChild(td);
+
+            switch(story.storyType) {
+                case 1:
+                    type = "novel";
+                    break;
+                case 2:
+                    type = "novella";
+                    break;
+                case 3:
+                    type = "short story";
+                    break;
+                case 4:
+                    type = "article";
+                    break;
+            }
+
+            if (story.status == 1) {
+                status = "hold";
+            } else if (story.status > 0 && story.status < 8) {
+                status = "pending";
+            } else if (story.status == 8) {
+                status = "approved";
+            } else {
+                status = "rejected";
+            }
+
+            let submitted = story.submissionDate.year + "-" + story.submissionDate.monthValue + "-" + story.submissionDate.dayOfMonth;
+
+            tr.innerHTML = `
+                <td>${story.title}</td>
+                <td>${story.firstName + " " + story.lastName}</td>;
+                <td>${genre}</td>
+                <td>${type}</td>
+                <td>${story.tagline}</td>
+                <td>${story.description}</td>
+                <td>${status}</td>
+                <td>${submitted}</td>
+                <td>${story.completionDate}</td>
+            `;
+
             table.appendChild(tr);
         }
 
-        catSection.appendChild(table);
+        storySection.appendChild(table);
     } else {
         storySection.innerHTML = 'You don\'t have any submitted stories.';
     }
