@@ -17,26 +17,57 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="pitch")
-public class Pitch {
+public class Pitch /*implements GenericBean*/{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	//associations:
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="author_id")
+//	@ManyToOne(fetch=FetchType.EAGER)
+//	@JoinColumn(name="author_id")
+	@Transient
 	private Person author;
+	@Column(name="author_id")
+	private Integer authorId;
 	
-	@OneToOne(fetch=FetchType.EAGER) @JoinColumn(name="draft_id", referencedColumnName="id")
+//	@OneToOne(fetch=FetchType.EAGER) @JoinColumn(name="draft_id", referencedColumnName="id")
+	@Transient
 	private Draft draft;
+	@Column(name="draft_id")
+	private Integer draftId;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="pitch")
+//	@OneToMany(fetch=FetchType.EAGER, mappedBy="pitch")
+	@Transient
 	private Set<PitchFeedback> feedback;
 	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="pitch")
+	
+//	@OneToMany(fetch=FetchType.EAGER, mappedBy="pitch")
+	@Transient
 	private Set<PitchInfoRequest> infoRequests;
+	
+//	@Override
+//	@Transient
+//	public Set<AssociationMap<?>> foreignKeysForPrimaryKeyToClasses(){
+//		//where these foreign keys go in predicates of criteria queries
+//		Set<AssociationMap<?>> mapSet = new HashSet<>();
+//		mapSet.add(new AssociationMap<PitchFeedback>(PitchFeedback.class, "pitchId", true));
+//		mapSet.add(new AssociationMap<PitchInfoRequest>(PitchInfoRequest.class, "pitchId", true));
+//		return mapSet;
+//	}
+	
+	//belongs to associations:
+//	@Override
+//	@Transient
+//	public Set<AssociationMap<?>> owningForeignKeysToClasses(){
+//		//where these foreign keys go in predicates of criteria queries
+//		Set<AssociationMap<?>> mapSet = new HashSet<>();
+//		mapSet.add(new AssociationMap<Person>(Person.class, "authorId", false));
+//		mapSet.add(new AssociationMap<Draft>(Draft.class, "pitchId", false));
+//		return mapSet;
+//	}
 	
 	//columns:
 	@Column(name="created_at")
@@ -85,18 +116,35 @@ public class Pitch {
 		this.id = id;
 	}
 
+	public Integer getAuthorId() {
+		return authorId;
+	}
+	
+	@Transient
+	public void setAuthorId(Integer id) {
+		this.authorId = id;
+	}
+	@Transient
 	public Person getAuthor() {
 		return author;
 	}
 
+	@Transient
 	public void setAuthor(Person author) {
 		this.author = author;
 	}
 
+	@Transient
 	public Set<PitchFeedback> getFeedback() {
 		return feedback;
 	}
-
+	
+	@Transient
+	public void setFeedback(Set<PitchFeedback> feedback) {
+		this.feedback = feedback;
+	}
+	
+	@Transient
 	public Set<Person> getEditorsThatHaveReacted(){
 		Set<Person> reactingEditors = new HashSet<>();
 		for(PitchFeedback pf : this.feedback) {
@@ -108,9 +156,7 @@ public class Pitch {
 		}
 		return reactingEditors;
 	}
-	public void setFeedback(Set<PitchFeedback> feedback) {
-		this.feedback = feedback;
-	}
+	
 
 	public Date getCreatedAt() {
 		return createdAt;
@@ -200,15 +246,15 @@ public class Pitch {
 		this.priority = priority;
 	}
 
-	
+	@Transient
 	public Draft getDraft() {
 		return draft;
 	}
-
+	@Transient
 	public void setDraft(Draft draft) {
 		this.draft = draft;
 	}
-
+//
 	public Status getStatus() {
 		return status;
 	}
@@ -216,11 +262,11 @@ public class Pitch {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
+	@Transient
 	public Set<PitchInfoRequest> getInfoRequests() {
 		return infoRequests;
 	}
-
+	@Transient
 	public void setInfoRequests(Set<PitchInfoRequest> infoRequests) {
 		this.infoRequests = infoRequests;
 	}

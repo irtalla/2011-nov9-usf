@@ -22,7 +22,7 @@ public class PersonHibernate extends GenericHibernate<Person> implements PersonD
 	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	public PersonHibernate() {
-		super(Person.class);
+		super(Person.class, "person");
 	}
 	
 //	@Override

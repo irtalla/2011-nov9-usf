@@ -1,5 +1,7 @@
 package com.revature.data;
 
+import java.util.Set;
+
 import com.revature.beans.Draft;
 import com.revature.beans.DraftFeedback;
 import com.revature.beans.Person;
@@ -12,7 +14,7 @@ import com.revature.exceptions.UnexplainedDenialException;
 public class DraftFeedbackHibernate extends GenericHibernate<DraftFeedback> implements DraftFeedbackDAO{
 
 	public DraftFeedbackHibernate() {
-		super(DraftFeedback.class);
+		super(DraftFeedback.class, "draft_feedback");
 	}
 
 	public DraftFeedback addDraftFeedback(DraftFeedback df)
@@ -31,6 +33,18 @@ public class DraftFeedbackHibernate extends GenericHibernate<DraftFeedback> impl
 		}
 		
 		return df;
+	}
+
+	@Override
+	public Set<DraftFeedback> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DraftFeedback getByIdEagerly(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="genre_committee")
@@ -24,12 +25,13 @@ public class GenreCommittee {
 	@Enumerated(EnumType.STRING)
 	private Genre genre;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(
-		name="genre_committee_membership",
-		joinColumns= { @JoinColumn(name="genre_committee_id") },
-		inverseJoinColumns= { @JoinColumn(name="editor_id") }
-	)
+//	@ManyToMany(fetch=FetchType.LAZY)
+//	@JoinTable(
+//		name="genre_committee_membership",
+//		joinColumns= { @JoinColumn(name="genre_committee_id") },
+//		inverseJoinColumns= { @JoinColumn(name="editor_id") }
+//	)
+	@Transient
 	private Set<Person> members;
 
 	public Integer getId() {
@@ -39,11 +41,11 @@ public class GenreCommittee {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Transient
 	public Set<Person> getMembers() {
 		return members;
 	}
-
+	@Transient
 	public void setMembers(Set<Person> members) {
 		this.members = members;
 	}

@@ -10,7 +10,7 @@ import com.revature.exceptions.UninvolvedRequestTargetException;
 public class PitchInfoRequestHibernate extends GenericHibernate<PitchInfoRequest> implements PitchInfoRequestDAO {
 
 	public PitchInfoRequestHibernate() {
-		super(PitchInfoRequest.class);
+		super(PitchInfoRequest.class, "pitch_info_request");
 	}
 
 	@Override

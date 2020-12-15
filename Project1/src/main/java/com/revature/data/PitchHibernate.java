@@ -23,7 +23,7 @@ import com.revature.exceptions.SurplusPitchException;
 public class PitchHibernate extends GenericHibernate<Pitch> implements PitchDAO{
 
 	public PitchHibernate() {
-		super(Pitch.class);
+		super(Pitch.class, "pitch");
 	}
 
 	@Override

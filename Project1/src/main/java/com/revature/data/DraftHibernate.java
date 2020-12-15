@@ -26,7 +26,7 @@ public class DraftHibernate extends GenericHibernate<Draft> implements DraftDAO{
 //	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 
 	public DraftHibernate() {
-		super(Draft.class);
+		super(Draft.class, "draft");
 	}
 	
 //	public DraftHibernate(Class<Draft> type) {

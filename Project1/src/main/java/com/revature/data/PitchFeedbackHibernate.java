@@ -15,7 +15,7 @@ import com.revature.exceptions.UnexplainedDenialException;
 public class PitchFeedbackHibernate extends GenericHibernate<PitchFeedback> implements PitchFeedbackDAO{
 
 	public PitchFeedbackHibernate() {
-		super(PitchFeedback.class);
+		super(PitchFeedback.class, "pitch_feedback");
 	}
 
 	public PitchFeedback addPitchFeedback(PitchFeedback pf) throws PitchFeedbackWithChangesByNonSeniorEditorException,

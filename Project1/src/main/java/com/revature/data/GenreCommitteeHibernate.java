@@ -17,7 +17,7 @@ import com.revature.exceptions.InvalidCommitteeSizeException;
 public class GenreCommitteeHibernate extends GenericHibernate<GenreCommittee> implements GenreCommitteeDAO{
 
 	public GenreCommitteeHibernate() {
-		super(GenreCommittee.class);
+		super(GenreCommittee.class, "genre_committee");
 	}
 
 	@Override

@@ -20,12 +20,16 @@ public class PitchFeedback {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="pitch_id")
-	private Pitch pitch;
+//	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="pitch_id")
+//	private Pitch pitch;
+	@Column(name="pitch_id")
+	private Integer pitchId;
 	
-	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="editor_id")
-	private Person editor; //person who is giving feedback; role must be that of an editor,
+//	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="editor_id")
+//	private Person editor; //person who is giving feedback; role must be that of an editor,
 	//with authority of greater scope than the editor who most recently approved this pitch, if any
+	@Column(name="editor_id")
+	private Integer editorId;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status; //the status being conferred to this pitch by an editor
@@ -52,24 +56,42 @@ public class PitchFeedback {
 		this.id = id;
 	}
 
-	public Pitch getPitch() {
-		return pitch;
-	}
+//	public Pitch getPitch() {
+//		return pitch;
+//	}
+//
+//	public void setPitch(Pitch pitch) {
+//		this.pitch = pitch;
+//	}
 
-	public void setPitch(Pitch pitch) {
-		this.pitch = pitch;
-	}
+//	public Person getEditor() {
+//		return editor;
+//	}
+//
+//	public void setEditor(Person editor) {
+//		this.editor = editor;
+//	}
 
-	public Person getEditor() {
-		return editor;
-	}
-
-	public void setEditor(Person editor) {
-		this.editor = editor;
-	}
-
+	
+	
 	public Status getStatus() {
 		return status;
+	}
+
+	public Integer getPitchId() {
+		return pitchId;
+	}
+
+	public void setPitchId(Integer pitchId) {
+		this.pitchId = pitchId;
+	}
+
+	public Integer getEditorId() {
+		return editorId;
+	}
+
+	public void setEditorId(Integer editorId) {
+		this.editorId = editorId;
 	}
 
 	public void setStatus(Status status) {

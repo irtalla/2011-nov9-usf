@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="attachment")
@@ -22,8 +23,12 @@ public class Attachment {
 	@Column(name="file_body")
 	private byte[] fileBody;
 	
-	@ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="pitch_id")
+//	@ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="pitch_id")
+	@Transient
 	private Pitch pitch;
+	
+	@Column(name="pitch_id")
+	private Integer pitchId;
 
 	public Integer getId() {
 		return id;
@@ -49,11 +54,23 @@ public class Attachment {
 		this.fileBody = fileBody;
 	}
 
+	public Integer getPitchId() {
+		return pitchId;
+	}
+
+	public void setPitchId(Integer pitchId) {
+		this.pitchId = pitchId;
+	}
+
+	@Transient
 	public Pitch getPitch() {
 		return pitch;
 	}
 
+	@Transient
 	public void setPitch(Pitch pitch) {
 		this.pitch = pitch;
 	}
+	
+	
 }
