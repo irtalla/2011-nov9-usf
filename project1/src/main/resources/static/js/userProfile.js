@@ -114,6 +114,8 @@ function showProfile(parentDivId) {
                 }
 
                 for (let i = 0; i < reimbursements.length; i++) {
+                    if (!reimbursements[i].supervisor_approved)//if not supervisorapproved
+                    {
                     getAttachmentsById(reimbursements[i].id, () => {
                         atts = document.getElementById(`aUl${i}`);
                         for (let j = 0; j < attachments.length; j++) {
@@ -122,6 +124,7 @@ function showProfile(parentDivId) {
                             atts.appendChild(aLi);
                         }
                     });
+                }
                 }
 
             });

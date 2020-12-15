@@ -31,7 +31,12 @@ public class ReimbursementController {
 	public static Integer addReimbursement(Context ctx) {
 		Integer retValue = 0;
 		Reimbursement rToAdd = new Reimbursement();
+		
 		rToAdd = ctx.bodyAsClass(Reimbursement.class);
+		rToAdd.setBenco_approved(false);
+		rToAdd.setDepartment_head_approved(false);
+		rToAdd.setSupervisor_approved(false);
+		
 		try{
 			retValue = reimbursementServ.addReimbursement(rToAdd);
 		}

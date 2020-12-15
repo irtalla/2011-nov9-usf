@@ -63,7 +63,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.inventory.gui.InventoryApp</mainClass>
+                            <mainClass>com.revature.app.Project1Javalin</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

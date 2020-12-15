@@ -55,7 +55,11 @@ public class Project1Javalin {
 				path ("headapprove/:id", () -> {
 					put(ReimbursementController::headapprove); // get attachments by reimbursement id
 				});	
+				path ("addmessage/:id", () -> {
+					put(ReimbursementController::addMessage); // add message
+				});	
 
+						
 				path (":id", () -> {
 					get(ReimbursementController::getById); // get reimbursements by employee id
 					put(ReimbursementController::getReimbursementById); // get single reimbursement by reimbursement id
