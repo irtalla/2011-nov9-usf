@@ -51,9 +51,7 @@ public class SPMSJavalinApp {
 		
 			path("pitch", () -> { 
 				get(PitchController::getPitches);
-				post(PitchController::addPitch); 
-				delete(PitchController::deletePitch);
-	
+				post(PitchController::addPitch); 	
 				path(":id", () -> {
 					get(PitchController::getPitchById); 
 					put(PitchController::updatePitch); 

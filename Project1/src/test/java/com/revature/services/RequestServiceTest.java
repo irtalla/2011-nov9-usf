@@ -57,4 +57,11 @@ public class RequestServiceTest {
 		verify(irdao).add(ir);
 		
 	}
+	
+	@Test
+	public void testUpdateRequest() {
+		InfoRequest ir = new InfoRequest();
+		irserv.updateInfoRequest(ir);
+		verify(irdao).update(ir);
+	}
 }
