@@ -10,7 +10,7 @@ const loadModalWithDecisionExplanationPrompt = (pitchId, type) => {
 
     const updateRemainingChar = (event) => remainingChar - event.target.value.length;
 
-    document.getElementById('modal-dynamic-content-section').innerHTML =
+    document.getElementById('pitch-modal-body').innerHTML =
         `<p> 
             You are making a decision of type ${type} for pitch ${pitchId}. 
             Please provide an explanation (${remainingChar} characters remaining).
@@ -38,7 +38,7 @@ const loadModalWithRequestPrompt = (targetId, targetType) => {
 
     const updateRemainingChar = (event) => remainingChar - event.target.value.length;
 
-    document.getElementById('modal-dynamic-content-section').innerHTML =
+    document.getElementById('pitch-modal-body').innerHTML =
         `<p> 
       You are opening a request for a <strong>${targetType}</strong> with ID: <strong>${targetId}</strong>. 
       Requests can be opened to solicit additional information on a pitch, draft, or decision. Futhermore, 
@@ -86,6 +86,10 @@ const createPitchCard = (pitch) => {
                 data-toggle="modal"
                 data-target="#exampleModal"
                 >Approve
+            </button>
+            <button type="button" class="btn btn-info" data-toggle="modal" 
+            data-target="#exampleModal" onClick="populateModalWithData(${pitch.id})">
+                Open
             </button>
             <button type="button" class="btn btn-warning" 
                 onClick="loadModalWithRequestPrompt(${pitch.id}, \'pitch\')"

@@ -173,12 +173,12 @@
           <div class="row">
             <div class="col">
               <ul id="pitch-data-loading-zone" class="list-group">
-                ( Should contain data or some shit )
+                ( Possible Data Display Area )
               </ul>
             </div>
             <div class="col">
               <ul class="list-group">
-                ( Should contain data or some shit )
+                ( Possible Data Display Area)
               </ul>
             </div>
           </div>
@@ -189,16 +189,6 @@
         <h4>High Priority Pitches</h4>
         <hr />
         <div id="high-priority-pitch-data-display-row" class="row">
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
         </div>
         <br />
 
@@ -229,67 +219,41 @@
         <h4>Pitches Under Your General Editorship</h4>
         <hr />
         <div id="general-pitch-data-display-row" class="row">
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
         </div>
         <br />
 
         <h4>Pitches Under Your Genre Editorship</h4>
         <hr />
         <div id="genre-pitch-data-display-row" class="row">
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
-          <div class="col-md-3">
-            <div class="card">...</div>
-          </div>
         </div>
         <br /><br />
 
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#exampleModal"
-          onClick="populateModalWithData(1)"
-        >
-          Launch demo modal
-        </button>
       </div>
       <!-- /container -->
     </main>
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div id="modal-dynamic-content-section" class="modal-body">
-              ...
-            </div>
-          </div>
-        </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modal-dynamic-content-section">
+
+      </div>
+      <div id="pitch-modal-body" class="modal-body">
+        ...
+      </div>
+      <div id="modal-btn-section" class="modal-footer">
+        ...
       </div>
     </div>
+  </div>
+</div>
 
     <footer class="container">
       <p>&copy; Company 2017-2020</p>
@@ -298,10 +262,12 @@
     <script src="../decisionService.js"></script>
     <script src="../decisionCardTemplate.js"></script>
     <script src="../templates//pitchCardTemplate.js"></script>
+    <script src="../templates/pitchModalTemplate.js"></script>
     <script src="../templates/requestCardTemplate.js"></script>
     <script src="../templates/commentTemplate.js"></script>
     <script src="../requestService.js"></script>
     <script src="../pitchService.js"></script>
+    <script src="../draftServices.js"></script>
     <script src="editor.js"></script>
   </body>
 </html>

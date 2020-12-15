@@ -29,7 +29,8 @@ const pitchMap = new Map();
 const commentMap = new Map();
 const personMap = new Map();
 const decisionMap = new Map();
-
+const draftMap = new Map(); 
+let highPriorityPithches = 0; 
 
 const handleCloseRequest = async (id) => {
 
@@ -161,6 +162,27 @@ const saveDecision = async (pitchId, type) => {
 }
 
 
+/**
+ * Callback method to populate modal with data. The id parameter specifies 
+ * Is used to get get the corresponding pitch data from a hashmap. If id is default 
+ * value of null, this indicates that a user wants to create a new pitch, and none
+ * of the input values will be populated. 
+ */
+const populateModalWithData = async (id) => {
+
+    if (id !== null) {
+        document.getElementById("pitch-modal-body").innerHTML = await createPitchModalCard(pitchMap.get(id));
+        document.getElementById("modal-btn-section").innerHTML = `
+          <button type="button" class="btn btn-warning" onClick="updatePitch(${id})">Commit Pitch</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          `;
+    } else {
+        throw Error("No pitchId specified")
+    }
+
+};
+
+
 const postRequestWithInitialComment = async (targetId, targetType) => {
 
     let targetDraftId = targetPitchId = targetDecisionId = -1;
@@ -244,7 +266,16 @@ const getPitchesByGenreAndGeneralEditor = async () => {
         let pitches = JSON.parse(await response.json());
         for (const pitch of pitches) {
             pitchMap.set(pitch.id, pitch);
-            document.getElementById("general-pitch-data-display-row").innerHTML += createPitchCard(pitch);
+
+            if ( pitch.priorityLevel.name === "high") {
+                document.getElementById("high-priority-pitch-data-display-row").innerHTML 
+                += createPitchCard(pitch);
+                highPriorityPithches++;
+            } else {
+                document.getElementById("general-pitch-data-display-row").innerHTML 
+                += createPitchCard(pitch);
+            }
+
 
             if (currentUser.role.name.toUpperCase().includes("EDITOR")) {
                 let response = await getDecisionsByPitchIds(pitch.id);
@@ -271,8 +302,15 @@ const getPitchesByGenreAndGeneralEditor = async () => {
             let pitches = JSON.parse(await response.json());
             for (const pitch of pitches) {
                 pitchMap.set(pitch.id, pitch);
-                document.getElementById("genre-pitch-data-display-row").innerHTML 
-                += createPitchCard(pitch);
+
+                if ( pitch.priorityLevel.name === "high") {
+                    document.getElementById("high-priority-pitch-data-display-row").innerHTML 
+                    += createPitchCard(pitch);
+                    highPriorityPithches++
+                } else {
+                    document.getElementById("genre-pitch-data-display-row").innerHTML 
+                    += createPitchCard(pitch);
+                }
 
                 if (currentUser.role.name.toUpperCase().includes("EDITOR")) {
                     let response = await getDecisionsByPitchIds(pitch.id);
