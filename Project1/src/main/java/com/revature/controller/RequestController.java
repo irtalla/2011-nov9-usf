@@ -27,12 +27,16 @@ public class RequestController {
 	
 	
 	public static void addRequest(Context ctx) {
-		System.out.println("Hello in addrequest");
-		
+
 		InfoRequest ir = ctx.bodyAsClass(InfoRequest.class);
+	
 		ir.setRecipient(pServ.getPersonById(ir.getRecipient().getId()));
 		ir.setSender(pServ.getPersonById(ir.getSender().getId()));
 		ir.setQuestion(ir.getQuestion());
+		ir.setAnswer("Waiting for an answer");
+		System.out.println("Sending the following request to the db: revieving-"+ir.getRecipient().getUsername() 
+				+"sending-"+ ir.getSender().getUsername() +
+				"question- "+ir.getQuestion());
 		irServ.addInfoRequest(ir);
 		ctx.status(201);
 	}

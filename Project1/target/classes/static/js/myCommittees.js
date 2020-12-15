@@ -215,6 +215,7 @@ async function requestPitch(number){
             sender: {
                 id: loggedUser.id
             },
+            pitch:{id: number},
             question: document.getElementById('question').value
         };
         let nexturl = baseUrl + '/requests';

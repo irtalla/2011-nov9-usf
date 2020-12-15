@@ -4,7 +4,9 @@ async function getRequests(){
     let getUserUrl = baseUrl + "/users/requests/"+ loggedUser.id;
     let response = await fetch(getUserUrl, {method: 'GET'});
     if(response.status === 200){
+        alert ("200 status!");
         let userReqs = response.json();
+        alert(userReqs);
         populateRequests(userReqs);
     }
 }

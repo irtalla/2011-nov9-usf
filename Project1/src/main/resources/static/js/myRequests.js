@@ -11,7 +11,7 @@ async function getRequests(){
 
 async function populateRequests(userReqs){
     let reqSection = document.getElementById('reqSection');
-
+    alert(userReqs.length)
     if(userReqs.length > 0){
         let table = document.createElement('table');
         table.innerHTML = `

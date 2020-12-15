@@ -10,6 +10,7 @@ public class InfoRequestServiceImpl implements InfoRequestService {
 	private InfoRequestDAO irDao = new InfoRequestHibernate();
 	@Override
 	public Integer addInfoRequest(InfoRequest ir) {
+		System.out.println("In the service impl to add: "+ir);
 		return irDao.add(ir).getId();
 	}
 
@@ -30,6 +31,7 @@ public class InfoRequestServiceImpl implements InfoRequestService {
 
 	@Override
 	public Set<InfoRequest> getReqsByUserId(Integer id) {
+		System.out.println("in the serviceimpl layer with user Id" + id);
 		return irDao.reqsByUserId(id);
 	}
 
