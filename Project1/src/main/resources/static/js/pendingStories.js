@@ -20,16 +20,28 @@ function populateStories(stories) {
     if (stories.length > 0) {
         let table = document.createElement('table');
         table.id = "pendingTable";
+
+        table.innerHTML = `
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Type</th>
+                <th>Tagline</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Submitted</th>
+                <th>Completion</th>
+            </tr>
+        `;
         
-        let i = 0
-        for (let story of stories) {
-            let tr = document.createElement('tr');
+       let i = 0
+    for (let story of stories) {
+        let tr = document.createElement('tr');
             
     let genre;
     let type;
     let status;
-
-    table.innerHTML = "";
 
     switch(story.genre) {
         case 1:
@@ -80,8 +92,10 @@ function populateStories(stories) {
                 status = "hold";
             } else if (story.status > 0 && story.status < 8) {
                 status = "pending";
-            } else {
+            } else if (story.status == 8){
                 status = "approved";
+            } else {
+                status = "rejected";
             }
 
     let submitted = story.submissionDate.year + "-" + story.submissionDate.monthValue + "-" + story.submissionDate.dayOfMonth;
@@ -99,7 +113,7 @@ function populateStories(stories) {
     `;
 
             table.appendChild(tr);
-            i += 1;
+            i+=1;
     }
 
         storySection.appendChild(table);
@@ -109,6 +123,7 @@ function populateStories(stories) {
             <input type="text" id="num">
             <input type="button" id="approve" value="Approve">
             <input type="button" id="deny" value="Deny">
+            <input type="button" id="req" value="Request">
         `;
 
         storySection.appendChild(actionForm);
@@ -119,6 +134,9 @@ function populateStories(stories) {
         document.getElementById('deny').addEventListener('click', function(){
             deny(stories[document.getElementById('num').value]);
         });
+        document.getElementById('req').addEventListener('click', function(){
+            requestMore(stories[document.getElementById('num').value]);
+        });
 
     } else {
         storySection.innerHTML = 'You don\'t have any pending stories.';
@@ -126,6 +144,7 @@ function populateStories(stories) {
 }
 
 async function approve (story) {
+    console.log(story.id);
     let url = baseUrl + '/approve?';
     url += 'id=' + story.id;
     let response = await fetch(url, {method: 'PUT'});
@@ -143,6 +162,7 @@ async function requestMore (story) {
     let url = baseUrl + '/req?';
     url += 'id=' + story.id;
     let response = await fetch(url, {method: 'PUT'});
+    window.location.replace("index.html");
 }
 
 function viewBookInfo(story) {

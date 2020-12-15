@@ -316,7 +316,30 @@ public class StoryPostgres implements StoryDAO {
 
 	@Override
 	public void req(Integer id) {
+		Integer status = 0;
 		
+		try (Connection conn = cu.getConnection()) {
+			String sql = "select status_id from story join status on status_id = story.status where story_id = " + id;
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (rs.next()) {
+				status = rs.getInt("status_id");
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		
+		if (--status != 0) {
+			try (Connection conn = cu.getConnection()) {
+				String sql = "update story set status = " + status + " where story_id = " + id;
+				Statement stmt = conn.createStatement();
+				Integer rowsAffected = stmt.executeUpdate(sql);
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void delete(Integer id) {

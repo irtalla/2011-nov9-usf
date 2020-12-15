@@ -54,11 +54,11 @@ public class PersonController {
 		System.out.println("Checking login");
 		Person p = ctx.sessionAttribute("user");
 		if (p != null) {
-			System.out.println("Logged in as " + p.getUsername());
+			//System.out.println("Logged in as " + p.getUsername());
 			ctx.json(p);
 			ctx.status(200);
 		} else {
-			System.out.println("Not logged in");
+			//System.out.println("Not logged in");
 			ctx.status(400);
 		}
 		

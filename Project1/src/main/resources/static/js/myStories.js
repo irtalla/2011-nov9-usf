@@ -102,7 +102,7 @@ function populateStories(stories) {
 
             tr.innerHTML = `
                 <td>${story.title}</td>
-                <td>${story.firstName + " " + story.lastName}</td>;
+                <td>${story.firstName + " " + story.lastName}</td>
                 <td>${genre}</td>
                 <td>${type}</td>
                 <td>${story.tagline}</td>

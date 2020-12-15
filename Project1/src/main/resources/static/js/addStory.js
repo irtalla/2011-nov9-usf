@@ -12,7 +12,7 @@ addSection.innerHTML = `
         <option value="4">Fantasy</option>
         <option value="5">History</option>
         <option value="6">Horror</option>
-        <option value="7">Science Fiction</option>
+        <option value="7">Sci-Fi</option>
         <option value="8">Self Help</option>
         <option value="9">Travel</option>
     </select>
