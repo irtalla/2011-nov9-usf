@@ -1,43 +1,47 @@
+"use strict"
 let addCatMenuOpen = false;
 setup();
 
 function setup() {
-    getCats().then(() => {
+    getForms().then(() => {
         checkLogin().then(() => {
             if (loggedUser.role.name === 'Employee') employeeSetup();
         });
     });
 }
 
-async function getCats() {
-    let url = baseUrl + '/cats';
+async function getForms() {
+    let url = baseUrl + '/submitForms';
     let response = await fetch(url);
     if (response.status === 200) {
-        let cats = await response.json();
-        populateCats(cats);
+        let forms = await response.json();
+        populateForms(forms);
     }
 }
 
-function populateCats(cats) {
-    let catSection = document.getElementById('catSection');
-    catSection.innerHTML = '';
+function populateForms(forms) {
+    let formSection = document.getElementById('formSection');
+    formSection.innerHTML = '';
 
-    if (cats.length > 0) {
+    if (forms.length > 0) {
         let table = document.createElement('table');
-        table.id = 'catTable';
+        table.id = 'formTable';
 
         table.innerHTML = `
             <tr>
-                <th>ID</th>
                 <th>Name</th>
-                <th>Age</th>
-                <th>Breed</th>
-                <th>Special Needs</th>
-                <th></th>
+                <th>Event</th>
+                <th>% of Reim</th>
+                <th>Cost</th>
+                <th>Appr type</th>
+                <th>Status</th>
+                <th>Grade</th>
+                <th>Descript</th>
+                <th>Date</th
             </tr>
         `;
 
-        for (let cat of cats) {
+        for (let cat of forms) {
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${cat.id}</td>

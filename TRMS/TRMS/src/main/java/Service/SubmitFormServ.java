@@ -10,9 +10,16 @@ public interface SubmitFormServ {
 	
 	public Set<SubmitForm> getAll();
 	
-	public SubmitForm getByIds(Integer emp_id, Integer event_id);
+	public SubmitForm getById(Integer emp_id);
 	
 	public void update(SubmitForm sf);
 	
+	public Set<SubmitForm> getDS();
+	
+	public Set<SubmitForm> getDH();
+	
+	public Set<SubmitForm> getHY();
+	
+	public Set<SubmitForm> getPile();
 
 }

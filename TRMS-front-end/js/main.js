@@ -2,11 +2,10 @@
 let baseUrl = 'http://localhost:8531';
 let nav = document.getElementById('navb');
 let loggedUser = null;
-//checkLogin();
+checkLogin();
 setNav();
 function setNav() {
     if (!loggedUser) {
-		nav.innerHTML = ``;
         nav.innerHTML += `
             <form>
                 <label for="user">Username: </label>
@@ -17,20 +16,18 @@ function setNav() {
             </form>
         `;
     } else {
-		nav.innerHTML = ``;
         nav.innerHTML += `
             <span>
-                <h3><p>Hello ${loggedUser.fullName}&nbsp;</p></h3>
+                <p>hello ${loggedUser.username}&nbsp;</p>
                 <a href="viewForms.html">view forms</a>
-              <a href="index.html"><button type="button" id="loginBtn">Log Out</button><a/>
+                <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
-    
-	}
+    }
+
     let loginBtn = document.getElementById('loginBtn');
     if (loggedUser) loginBtn.onclick = logout;
     else loginBtn.onclick = login;
-	
 }
 
 async function login() {
@@ -66,7 +63,6 @@ async function logout() {
 
     if (response.status != 200) alert('Something went wrong.');
     loggedUser = null;
-	formSection.innerHTML = ``;
     setNav();
 }
 

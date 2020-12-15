@@ -8,7 +8,8 @@ public class SubmitForm {
 	private String date;
 	private String description;
 	private String grade;
-	
+	private String additionalInfo;
+
 	public SubmitForm() {
 		emp = new Employee();
 		et = new EventType();
@@ -16,6 +17,7 @@ public class SubmitForm {
 		date = "";
 		grade = "n/a";
 		description = "";
+		additionalInfo = "";
 	}
 	
 	public String getDescription() {
@@ -64,6 +66,13 @@ public class SubmitForm {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getAdditionalInfo() {
+		return additionalInfo;
+	}
+
+	public void setAdditionalInfo(String additionalInfo) {
+		this.additionalInfo = additionalInfo;
 	}
 
 }

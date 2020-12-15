@@ -67,7 +67,12 @@ public class EmployeeContr {
 	
 	public static void updateUser(Context ctx) {
 		Employee tempEmployee = ctx.bodyAsClass(Employee.class);
+		if(tempEmployee != null) {
 		employeeServ.updateEmployee(tempEmployee);
-		ctx.status(202);
+		ctx.status(200);
+		System.out.println("made it through empcontr");
+		}else {
+			ctx.status(404);
+		}
 	}
 }

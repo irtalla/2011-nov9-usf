@@ -50,7 +50,7 @@ public class EmployeePost implements EmployeeDAO {
 		
 		try (Connection conn = cu.getConnection())
 		{
-			String sql = "select employee.id as emp_id, employee.userName as uname, employee.pass as pass, employee.full_name as fname, \r\n" + 
+			String sql = "select employee.id as emp_id,employee.full_name as fname, employee.userName as uname, employee.pass as pass, employee.full_name as fname, \r\n" + 
 					"employee.available_funds as af, employee.role_id as rid, roles.r_name as rname from employee join roles \r\n" + 
 					"on employee.role_id = roles.id where employee.userName = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -61,6 +61,7 @@ public class EmployeePost implements EmployeeDAO {
 			{
 				Employee emp = new Employee();
 				emp.setId(rs.getInt("emp_id"));
+				emp.setFullName(rs.getString("fname"));
 				emp.setUser(rs.getString("uname"));
 				emp.setPass(rs.getString("pass"));
 				emp.setAvailFunds(rs.getDouble("af"));
