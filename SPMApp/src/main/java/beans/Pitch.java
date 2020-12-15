@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Pitch {
 	public Pitch() {
 		p_id = 0;
+		suggestion ="";
 		title = "";
 		author = new Usr();
 		st = new Story_type();
@@ -46,6 +47,8 @@ public class Pitch {
 	private String description;
 	@Column(name="authinfo")
 	private String authinfo;
+	@Column(name="suggestion")
+	private String suggestion;
 //	@Column(name="deadline")
 //	private LocalDateTime deadline;
 //	@Column(name="genreapproval")
@@ -60,7 +63,7 @@ public class Pitch {
 	@Override
 	public String toString() {
 		return "Pitch [p_id=" + p_id + "title=" + title + ", author_id=" + author + ", st=" + st + ", priority=" + priority + ", status="
-				+ status + ", genre=" + genre + ", description=" + description + ", authinfo=" + authinfo
+				+ status + ", genre=" + genre + ", suggestion=" + suggestion + ", description=" + description + ", authinfo=" + authinfo
 				+ ", genre_approval="  + ", editor_approval="
 				 + ", assistant_approval=" + "]";
 	}
@@ -70,6 +73,12 @@ public class Pitch {
 //	public String getAssistantApproval() {
 //		return this.assistant_approval;
 //	}
+	public String getSuggestion() {
+		return suggestion;
+	}
+	public void setSuggestion(String s) {
+		suggestion = s;
+	}
 	public Integer getP_id() {
 		return p_id;
 	}

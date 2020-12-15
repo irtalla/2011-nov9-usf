@@ -6,6 +6,7 @@ import beans.Usr;
 import beans.Approval;
 import beans.Draft;
 import beans.Pitch;
+import beans.Suggestion;
 
 public interface PitchDAO extends GenericDAO <Pitch> {
 	public Pitch add(Pitch p);
@@ -18,4 +19,6 @@ public interface PitchDAO extends GenericDAO <Pitch> {
 	public Approval getApprovalById(Integer id);
 	public Draft acceptDraft(Draft draft);
 	public Set<Draft> getDrafts();
+	public Set<Suggestion> getSuggestions();
+	public Suggestion makeSuggestion(Suggestion suggestion);
 }

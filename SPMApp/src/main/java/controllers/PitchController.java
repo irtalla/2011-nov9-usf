@@ -7,6 +7,7 @@ import io.javalin.http.Context;
 import beans.Approval;
 import beans.Draft;
 import beans.Pitch;
+import beans.Suggestion;
 import services.UsrService;
 import services.UsrServiceImpl;
 import services.PitchService;
@@ -135,10 +136,19 @@ public class PitchController {
 		pitchServ.addApproval(approval);
 		ctx.status(201);
 	}
-	//TODO 
-	public static void makeSuggestion(Context ctx) { /* We need to make a Suggestion bean to create the object which we send to DB; just content and 
-												     ID fkeys */
-
+public static void getSuggestions(Context ctx) { // before 2pm try to make a few tests and do what you did 3x yesterday for a suggestion page. you got this boo
+	Set<Suggestion> suggestionSet = pitchServ.getSuggestions();
+		if (suggestionSet != null) {
+			ctx.status(200);
+			ctx.json(suggestionSet);
+		} else {
+			ctx.status(404);
+		}
+}
+	public static void makeSuggestion(Context ctx) { 
+		Suggestion suggestion= ctx.bodyAsClass(Suggestion.class);
+		pitchServ.addSuggestion(suggestion);
+		ctx.status(201);
+		}
 	}
 	
-}

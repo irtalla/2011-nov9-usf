@@ -197,7 +197,7 @@ function editPitch() {
 		<td><input id = "ePTitle" type = "text" value = ${nodes.item(3).innerHTML}></td>
 		<td><input id = "ePDescription" type = "text" value = ${nodes.item(5).innerHTML}></td>
 		<td>${nodes.item(7).innerHTML}</td>
-		<td>${nodes.item(9).innerHTML}</td>
+		<td><input id = "ePSuggestion" type = "text" value = ${nodes.item(9).innerHTML}></td>
 		<td><button disabled = 'true'>Accept</button>
 		<button id = ${editId}>Save</button></td>
 		`;
@@ -220,6 +220,7 @@ async function savePitch()
 	
 	pitch.title = document.getElementById('ePTitle').value;
 	pitch.description = document.getElementById('ePDescription').value;
+	pitch.suggestion = document.getElementById('ePSuggestion').value;
 	console.log(pitch);
 	
 	let newResponse = await fetch(url,{method:'PUT',body:JSON.stringify(pitch)});

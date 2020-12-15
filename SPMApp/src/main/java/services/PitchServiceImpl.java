@@ -5,6 +5,7 @@ import java.util.Set;
 import beans.Approval;
 import beans.Draft;
 import beans.Pitch;
+import beans.Suggestion;
 import beans.Usr;
 import data.PitchDAO;
 import data.PitchDAOFactory;
@@ -91,5 +92,12 @@ public class PitchServiceImpl implements PitchService {
 	public Set<Draft> getDrafts() {
 		return pitchDao.getDrafts();
 	}
-
+	@Override
+	public Set<Suggestion> getSuggestions() {
+		return pitchDao.getSuggestions(); 
+	}
+	@Override
+	public void addSuggestion(Suggestion suggestion) {
+		pitchDao.makeSuggestion(suggestion);
+	}
 }

@@ -18,5 +18,6 @@
 		<mapping class="beans.Genre"></mapping>
 		<mapping class="beans.Priority"></mapping>
 		<mapping class="beans.Story_type"></mapping>
+		<mapping class="beans.Suggestion"></mapping>
 		<mapping class="beans.Status"></mapping>
 	</session-factory></hibernate-configuration>

@@ -138,7 +138,7 @@ async function editApproval() {
 	
 	editTr.innerHTML = `
 		<td>${nodes.item(1).innerHTML}</td>
-		<td><input id = "eAContent" type = "text" value = ${nodes.item(4).innerHTML}></td>
+		<td><input id = "eAContent" type = "text" value = ${nodes.item(5).innerHTML}></td>
 		<td><button disabled = 'true'>Accept</button>
 		<button id = ${editId}>save</button></td>
 		`;
@@ -152,7 +152,7 @@ async function saveApproval(){
 	let index = btnId.indexOf('_');
 	let id = btnId.slice(index+1);
 	console.log(id);
-	let url = baseUrl + '/pitches/approve/' + id;
+	let url = baseUrl + '/pitches/approve/';
 	let response = await fetch(url);
 	
 	let approval = await response.json();

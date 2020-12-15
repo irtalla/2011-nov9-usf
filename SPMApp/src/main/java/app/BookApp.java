@@ -25,16 +25,20 @@ public static void main(String[] args) {
 			path("approve", () -> {
 				get(PitchController::getApprovals);
 				post(PitchController::approvePitch);
-				path("approve/:id", () -> {
-				get(PitchController::getApprovalById);
 				put(PitchController::updateApproval);
+				path("/:id", () -> {
+				get(PitchController::getApprovalById);
 				});
 				});
 			path("drafts", () -> {
 				get(PitchController::getDrafts);
 				post(PitchController::acceptApproval);
 			});
-			path("pitches/:id", () -> {
+			path("suggestions", () -> {
+				get(PitchController::getSuggestions);
+				post(PitchController::makeSuggestion);
+			});
+			path("/:id", () -> {
 				get(PitchController::getPitchById);
 				put(PitchController::updatePitch);
 				delete(PitchController::deletePitch);

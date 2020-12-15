@@ -3,12 +3,14 @@ let nav = document.getElementById('navBar');
 let loggedUser = null;
 checkLogin();
 setNav();
+document.getElementById('image-id').src = '/chef.png';
 function setNav() {
 	nav.innerHTML = `
 		<a href="index.html"><strong>Book app</strong></a>
 		<a href="viewPitches.html">View Pitches</a>
 		<a href="viewApprovals.html">View Approvals</a>
-		<a href="viewDrafts.html">View Drafts</a>`
+		<a href="viewDrafts.html">View Drafts</a>
+		<a href="viewSuggestions.html">View Suggestions</a>`
 	if (!loggedUser) {
 		nav.innerHTML += `
 		<form>

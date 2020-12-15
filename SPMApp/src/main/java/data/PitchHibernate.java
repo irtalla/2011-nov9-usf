@@ -17,6 +17,7 @@ import org.hibernate.Transaction;
 import beans.Approval;
 import beans.Draft;
 import beans.Pitch;
+import beans.Suggestion;
 import beans.Usr;
 
 import beans.Pitch;
@@ -237,5 +238,35 @@ public class PitchHibernate implements PitchDAO {
 		draftSet.addAll(draftList);
 		s.close();
 		return draftSet;
+	}
+
+	@Override
+	public Set<Suggestion> getSuggestions() {
+		Session s = hu.getSession();
+		String query = "FROM Suggestion";
+		Query<Suggestion> q = s.createQuery(query, Suggestion.class);
+		List<Suggestion> suggestionList = q.getResultList();
+		Set<Suggestion> suggestionSet = new HashSet<>();
+		suggestionSet.addAll(suggestionList);
+		s.close();
+		return suggestionSet;
+	}
+
+	@Override
+	public Suggestion makeSuggestion(Suggestion a) {
+		System.out.println("Suggest captured" + a);
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.save(a);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		return a;
 	}
 }

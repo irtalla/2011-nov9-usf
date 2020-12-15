@@ -1,6 +1,8 @@
 package services;
 
 import beans.Usr;
+import beans.Suggestion;
+
 import java.util.Set;
 
 import beans.Approval;
@@ -26,4 +28,6 @@ public interface PitchService {
 	public Approval getApprovalById(Integer id);
 	public void acceptDraft(Draft draft);
 	public Set<Draft> getDrafts();
+	public Set<Suggestion> getSuggestions();
+	public void addSuggestion(Suggestion suggestion);
 }
