@@ -21,11 +21,11 @@ public class Work {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="proposed_works_id")
+	@Column(name="proposed_work_id")
 	private int id;
 	
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="author_id")
+	@JoinColumn(name="creator_id")
 	private Author author;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

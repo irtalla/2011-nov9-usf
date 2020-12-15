@@ -23,17 +23,17 @@ public class ProposedWorkController {
 		
 		Status startingStatus = new Status();
 		Stage startingStage = new Stage();
-		if (literaryWork.getLengthOfWork().getAssociatedPoints() < literaryWork.getAuthor().getPointsRemaining()){ 
-			startingStatus.setId(2);
-			startingStatus.setStatus("on hold");
-			startingStage.setId(5);
-			startingStage.setStageName("before");
-		}
-		else {
+		if (literaryWork.getLengthOfWork().getAssociatedPoints() < literaryWork.getAuthor().getPointsRemaining()){
 			startingStatus.setId(1);
 			startingStatus.setStatus("pending");
 			startingStage.setId(1);
 			startingStage.setStageName("assistant editor");
+		}
+		else {
+			startingStatus.setId(2);
+			startingStatus.setStatus("on hold");
+			startingStage.setId(5);
+			startingStage.setStageName("before");
 		}
 		
 		storyPitch.setStatus(startingStatus);

@@ -9,7 +9,7 @@
 		<!-- Named after Queen Sectonia, whose name subtly indicates she is only near an 
 		     insect form.  Thus, a div class acting like a nav-bar, but not quite. -->
 		<div class="queen-navbarnia">
-			<h1>Story Pitch Management System - Author View</h1>
+			<h1>Story Pitch Management System - Editor View</h1>
 			<h2>Welcome!</h2>
 		</div>
 		<br>
@@ -17,20 +17,15 @@
 		<!-- As this is truly the where everything as of now is shown off,
 		     this is the "soul" of the thing. Thus, "Soul of SPMS", named after the Soul
 		     version of Queen Sectonia. -->
-		<div class="soul-of-spms">
-			<form>
-				<label>Username</label>
-				<input type="text" id="uenm"></input>
+		<div class="soul-of-spms" id="main-part">
+			<form id="rejection-reason">
+				<label>Please mention why you have rejected that story pitch</label>
 				<br>
-				<label>Password:</label>
-				<input type="text" id="asod"></input>
-				<br>
-				<button type="button" id="login">Log In</button>
+				<input type="text" id="rejection-description"></input>
 			</form>
-			
-			<a href="authorHomeScreen.html"></a>
 		</div>
 		
 		<script src="js/main.js"></script>
+		<script src="js/editoractions.js"></script>
 	</body>
 </html>

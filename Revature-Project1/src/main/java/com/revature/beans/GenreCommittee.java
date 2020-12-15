@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -23,6 +24,7 @@ public class GenreCommittee {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="genre_committee_id")
 	private int id;
 	
 	@OneToOne(fetch=FetchType.EAGER)
@@ -32,10 +34,13 @@ public class GenreCommittee {
 	@Column(name="genre_committee_name")
 	private String name;
 	
+	/*
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="genre_committee_table",
 			joinColumns=@JoinColumn(name="genre_committee_id"),
 			inverseJoinColumns=@JoinColumn(name="genre_commitee_id"))
+	*/
+	@Transient
 	private Set<GenreCommitteeMember> editorsInTheCommittee;
 	
 	public GenreCommittee() {

@@ -14,11 +14,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="genre_committee_member")
+@Table(name="genre_committee_members")
 public class GenreCommitteeMember {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="genre_committee_member_id")
 	private int id;
 	
 	@OneToOne(fetch=FetchType.EAGER)

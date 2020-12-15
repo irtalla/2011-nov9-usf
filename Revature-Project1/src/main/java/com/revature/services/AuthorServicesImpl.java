@@ -46,10 +46,12 @@ public class AuthorServicesImpl implements AuthorFunctions {
 		Genre genre = work.getGenre();
 		Editor assistantEditor = gcmDAO.assignAnAssistantEditor(work);
 		storyPitch.setAssignedEditor(assistantEditor);
+		Date date = new Date(new java.util.Date().getTime());
+		storyPitch.setDateWhenStageStarted(date);
 		
-		storyPitchDAO.addStoryPitch(storyPitch);
 		proposedWorkDAO.addProposedWork(storyPitch.getProposedWork());
-	
+		storyPitchDAO.addStoryPitch(storyPitch);
+
 		return storyPitch;
 	}
 

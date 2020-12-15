@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import java.util.Set;
+
 import com.revature.beans.FurtherInfoRequests;
 import com.revature.beans.Status;
 import com.revature.beans.StoryPitch;
@@ -55,7 +57,8 @@ public class ApprovalController {
 	public static void getRequestedInfo(Context ctx) {
 		int approvalID = Integer.parseInt(ctx.pathParam("id"));
 		int approvalStage = Integer.parseInt(ctx.pathParam("stage"));
-		esi.getRequestedInfo(approvalID, approvalStage);
+		Set<FurtherInfoRequests> firTrees = esi.getRequestedInfo(approvalID, approvalStage);
+		ctx.json(firTrees);
 		ctx.status(200);
 	}
 	
@@ -63,6 +66,13 @@ public class ApprovalController {
 		int userID = Integer.parseInt(ctx.pathParam("userID"));
 		int proposedWorkID = Integer.parseInt(ctx.pathParam("workID"));
 		asi.authorRemoveProposedWork(userID, proposedWorkID);
+		ctx.status(200);
+	}
+	
+	public static void getAllNeededApprovals(Context ctx) {
+		int editorID = Integer.parseInt(ctx.pathParam("editorID"));
+		Set<StoryPitch> editorMustCheck = esi.getPitchesByEditorApproval(editorID);
+		ctx.json(editorMustCheck);
 		ctx.status(200);
 	}
 	

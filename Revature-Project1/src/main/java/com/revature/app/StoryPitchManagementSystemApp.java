@@ -21,8 +21,12 @@ public class StoryPitchManagementSystemApp {
 		app.routes(() -> {
 				//only meant for /users
 				path("users", () ->{
+					get(UserController::checkLogin);
+					
 					post(UserController::validateUser);	//log in as part of it 
 														//involves validating user
+					
+					
 					
 					delete(UserController::logOut);	//logging out
 					
@@ -73,6 +77,10 @@ public class StoryPitchManagementSystemApp {
 					path(":userId/:workId", () ->{
 						delete(ApprovalController::authorRemoveProposedWork); //author removes work
 																			  //if changes are made 
+					});
+					
+					path("editor/:editorID", () -> {
+						get(ApprovalController::getAllNeededApprovals);
 					});
 			   });
 		});

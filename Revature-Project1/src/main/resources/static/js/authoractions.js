@@ -1,10 +1,19 @@
 
+document.getElementById("new-pitch").onclick = addAProposedWork;
+document.getElementById("logout").onclick = logout;
 
 async function addAProposedWork(){
 	url = baseUrl + "/proposedWork";
 	
 	let supposedDate = document.getElementById("date").value;
-
+	let date = new Date();
+	date.setMonth(parseInt(supposedDate.substring(0, 2), 10));
+	date.setDate(parseInt(supposedDate.substring(3, 5), 10));
+	date.setYear(parseInt(supposedDate.substring(6, 10), 10));
+	date.setHours(0);
+	date.setMinutes(0);
+	date.setSeconds(0);
+	date.setMilliseconds(0);
 	
 	
 	
@@ -64,29 +73,33 @@ async function addAProposedWork(){
 	
 	let literaryWorkObject = {
 			id: 0,
-			author: "random replaced text",
+			author: currentUser,
 			title: document.getElementById("title").value,
 			genre: {id: genreID,
-					name: genreName},
+					genreName: genreName},
 			description: document.getElementById("description").value,
 			lengthOfWork: {id: lengthOfWorkID,
 						   name: lengthOfWorkName,
 						   associatedPoints: lengthOfWorkPoints},
-			date: supposedDate
+			tentativeCompletionDate: date
 	};
 	
+	currentUser.pointsRemaining -= lengthOfWorkPoints;
+	if (currentUser.pointsRemaining < 0){
+		alert("Warning! You cannot pitch the " + lengthOfWorkName + " because you do not have enough points.");
+		currentUser.pointsRemaining;
+		return;
+	}
+	
 	let response = await fetch(url, {
-		method: 'POST',
-		body: literaryWorkObject
+		method: 'PUT',
+		body: JSON.stringify(literaryWorkObject)
 	});
 	
 	switch (response.status) {
     case 200:
-     	console.log("At least it went through nicely.")
-        currentUser = await response.json();
-        if (currentUser){
-        	alert(`Logged into ${currentUser.username}`);
-        }
+    	let theResponse = await response.json();
+     	console.log("You have submitted your pitch for " + title + " the " + genreName + " " + lengthOfWorkName);
         break;
     default: // other error
      	console.log("There is no upside at this point")
@@ -98,4 +111,10 @@ async function addAProposedWork(){
 	
 }
 
-document.getElementById("new-pitch").onclick = addAProposedWork;
+async function logout(){
+	url = baseUrl + "/users";
+    let response = await fetch(url, {method:'DELETE'});
+
+    if (response.status != 200) alert('Something went wrong.');
+    loggedUser = null;
+}

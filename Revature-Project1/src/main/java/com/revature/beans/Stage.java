@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table
+@Table(name="approval_stage")
 public class Stage {
 	
 	@Id

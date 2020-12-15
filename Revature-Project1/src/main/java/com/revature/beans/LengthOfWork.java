@@ -13,6 +13,7 @@ public class LengthOfWork {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="work_length_type_id")
 	private int id;
 	
 	@Column(name="wlt_name")

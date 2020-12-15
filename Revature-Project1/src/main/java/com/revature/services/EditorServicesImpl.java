@@ -136,4 +136,9 @@ public class EditorServicesImpl implements EditorFunctions {
 		return firDAO.getFurtherInfo(approvalID, approvalStage);
 	}
 
+	@Override
+	public Set<StoryPitch> getPitchesByEditorApproval(int editorID) {
+		return spDAO.retrievePitchesByEditorApproval(editorID);
+	}
+
 }

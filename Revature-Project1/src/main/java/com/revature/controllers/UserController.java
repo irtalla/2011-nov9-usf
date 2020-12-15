@@ -61,4 +61,37 @@ public class UserController {
 	public static void removeUser(Context ctx) {
 		//User username = ctx
 	}
+	
+	public static void checkLogin(Context ctx) {
+		System.out.println("Checking login");
+		Object foundUser = ctx.sessionAttribute("user");
+		Author a = null;
+		Editor e = null;
+		
+		if (foundUser instanceof Author) {
+			a = (Author)foundUser;
+		}
+		else if (foundUser instanceof Editor) {
+			e = (Editor)foundUser;
+		}
+		else {
+			//it used imaginary table type/bean. Nothing happened.
+		}
+		
+		
+		if (a != null) {
+			System.out.println("Logged in as " + a.getUserInfo().getUsername());
+			ctx.json(a);
+			ctx.status(200);
+		} else if (e != null) {
+			System.out.println("Logged in as " + e.getUserInfo().getUsername());
+			ctx.json(e);
+			ctx.status(200);
+		} else {
+			System.out.println("Not logged in");
+			ctx.status(400);
+		}
+	}
 }
+
+

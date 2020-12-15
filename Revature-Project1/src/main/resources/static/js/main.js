@@ -1,15 +1,20 @@
 let baseUrl = "http://localhost:8081";
+let currentUser = null;
+
+checkLogin();
 
 let fakeNav = document.getElementsByClassName("queen-navbaria");
 let otherPart = document.getElementsByClassName("soul-of-spms");
 
-let currentUser = null;
+
 
 /*document.getElementById("author-link").style.display = none;
 document.getElementById("editor-link").style.display = none;*/
 
 /*Not going to change it just yet, just want to try retrieving the thing*/
-document.getElementById("login").onclick = login;
+if (document.getElementById("login")){
+	document.getElementById("login").onclick = login;
+}
 
 async function login(){
 	//http://localhost:8081/users?username=hitormiss&password=iguesstheynevermisshuh
@@ -32,7 +37,7 @@ async function login(){
             	if(currentUser.userInfo.role === "author"){
             		document.getElementById("author-link").style.display = "block";
             	}
-            	else if (currentUser.userInfo.role === "editors"){
+            	else if (currentUser.userInfo.role === "editor"){
             		document.getElementById("editor-link").style.display = "block";
             	}
             }
@@ -51,4 +56,13 @@ async function login(){
     }
 }
 
+
+async function checkLogin(){
+    let url = baseUrl + '/users';
+    let response = await fetch(url);
+    if (response.status === 200){ 
+    	currentUser = await response.json() 
+    };
+
+}
 

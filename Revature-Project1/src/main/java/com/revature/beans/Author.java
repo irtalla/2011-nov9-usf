@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name="authors")
 public class Author{
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="author_id")
 	private User userInfo;
 

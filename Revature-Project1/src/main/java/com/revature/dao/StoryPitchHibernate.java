@@ -1,6 +1,8 @@
 package com.revature.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -89,9 +91,23 @@ public class StoryPitchHibernate implements StoryPitchDAO {
 
 		String query = "FROM StoryPitch where proposed_work_id=:id";
 		Query<StoryPitch> q = s.createQuery(query, StoryPitch.class);
-		List<StoryPitch> catsList = q.getResultList();
+		q.setParameter("id", workID);
+		List<StoryPitch> storyPitchList = q.getResultList();
 		s.close();
-		return catsList.get(0);
+		return storyPitchList.get(0);
+	}
+
+	@Override
+	public Set<StoryPitch> retrievePitchesByEditorApproval(int editorID) {
+		Session s = su.getSession();
+		
+		String query = "FROM StoryPitch where editor_id=:id";
+		Query<StoryPitch> q = s.createQuery(query, StoryPitch.class);
+		q.setParameter("id", editorID);
+		List<StoryPitch> storyPitchList = q.getResultList();
+		Set<StoryPitch> storyPitchSet = new HashSet<StoryPitch>();
+		storyPitchSet.addAll(storyPitchList);
+		return storyPitchSet;
 	}
 
 

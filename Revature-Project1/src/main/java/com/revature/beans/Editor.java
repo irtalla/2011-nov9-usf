@@ -20,6 +20,7 @@ public class Editor{
 	private User userInfo;
 	
 	@Id
+	@Column(name="editor_id")
 	private int editorId;
 	
 	@Column(name="editor_name")

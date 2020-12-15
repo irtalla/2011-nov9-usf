@@ -3,7 +3,7 @@
 	<head>
 		<title>Story Pitch Management System</title>
 		<meta charset="utf-8"/>
-		<link rel="stylesheet" href="css/mainStyle.css">
+		<link rel="stylesheet" href="css/authorStyle.css">
 	</head>
 	<body>
 		<!-- Named after Queen Sectonia, whose name subtly indicates she is only near an 
@@ -18,25 +18,36 @@
 		     this is the "soul" of the thing. Thus, "Soul of SPMS", named after the Soul
 		     version of Queen Sectonia. -->
 		<div class="soul-of-spms">
-			<h4>Create a new story pitch here</h4>
-			<form>
-				<label>Title</label>
-				<input type="text" id="title"></input>
-				<br>
-				<label>Date Completed</label>
-				<input type="text" id="date"></input>
-				<br>
-				<label>Genre</label>
-				<input type="text" id="genre"></input>
-				<br>
-				<label>Description (in less than 1000 characters)</label>
-				<input type="text" id="description"></input>
-				<br>
-				<label>Length Of Literary Work</label>
-				<input type="text" id="literary-work-length"></input>
-				<br>
-				<button type="button" id="new-pitch"></button>
-			</form>
+			<table>
+				<tr>
+					<td>
+						<h4>Create a new story pitch here</h4>
+						<form>
+							<label>Title</label>
+							<input type="text" id="title"></input>
+							<br>
+							<label>Date Completed</label>
+							<input type="text" id="date"></input>
+							<br>
+							<label>Genre</label>
+							<input type="text" id="genre"></input>
+							<br>
+							<label>Description (in less than 1000 characters)</label>
+							<input type="text" id="description"></input>
+							<br>
+							<label>Length Of Literary Work</label>
+							<input type="text" id="literary-work-length"></input>
+							<br>
+							<button type="button" id="new-pitch">Submit Your New Pitch!</button>
+						</form>
+					</td>
+					<td>
+						<h4>View all of your stories here.</h4>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<a href="index.html" id="logout">Log Out</a>
 		</div>
 		
 		<script src="js/main.js"></script>
