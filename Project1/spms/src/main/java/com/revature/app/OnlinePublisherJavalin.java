@@ -1,6 +1,7 @@
 package com.revature.app;
 
 import com.revature.beans.Author;
+import com.revature.beans.Editor;
 import com.revature.controller.AuthorController;
 import com.revature.controller.EditorController;
 import com.revature.controller.UserController;
@@ -44,9 +45,22 @@ public class OnlinePublisherJavalin {
                 });
             });
             path("editor",() ->{
-                path(":id", ()-> {
-                    get(EditorController::generateApprovalList);
+
+                path("approvals", () -> {
+                    get(EditorController::getApprovals);
+                    path(":id", () -> {
+                        put(EditorController::approvalStory);
+                    });
                 });
+
+                path("requests", () -> {
+                    get(EditorController::getRequests);
+                    post(EditorController::addRequests);
+                });
+
+            });
+            path("committee",() ->{
+                get(EditorController::getCommittee);
             });
 
         });

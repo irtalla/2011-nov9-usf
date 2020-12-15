@@ -3,6 +3,7 @@ let loggedUser = null;
 let author = null;
 let retrievedPitches = [];
 let retrievedMessages = [];
+let currentPitchId = null;
 
 
 getUser();
@@ -25,20 +26,22 @@ async function getAuthorEditor(){
     let response = await fetch(url, {credentials: 'include'});
     if (response.status === 200){
         author = await response.json();
-        setUp();
+        if (author.role != null){
+            getCommittee();
+        }else{
+            setUpAuthor();
+        }
     }else{
         alert('Error getting User Data');
     }
 }
 
-function setUp(){
+function setUpAuthor(){
     document.getElementById('welcome_text').innerHTML = 'Welcome ' + author['firstName'] + ".";
     document.getElementById('points').innerHTML = 'Points: ' + author['points'];
 
     retrievedPitchesFunction();
 }
-
-
 
 function inPitchesTab(){
     // Setup
@@ -48,7 +51,7 @@ function inPitchesTab(){
         <div id="view-pitch">
             <h3>View Pitch</h3>
             <div id="pitch-body" class="text-center no-content">
-                No selected pitch
+                No Selected Pitch
             </div>
         </div>
 
@@ -58,9 +61,8 @@ function inPitchesTab(){
         <table class="table table-striped" id='pitch-table'></table>`;
 
     for (let x of retrievedPitches){
-        console.log('in for loop');
         document.getElementById('pitch-table').innerHTML += `
-        <tr id='${x.id}' onclick='showPitch(${x.id})'>
+        <tr id='${x.id}' onclick='setCurrentPitchID(this.id)'>
             <th style="text-transform:capitalize">${x.type.type}</th>
             <td>${x.title}</td>
             <td>Status: ${x.status.status}</td>
@@ -72,16 +74,21 @@ function inPitchesTab(){
     let newPitch = document.getElementById('pitch-button');
     newPitch.onclick = inNewPitchTab;
     let messages = document.getElementById('list-element-messages')
-    messages.onclick = inMessagesTab;
+    messages.onclick = retrievedMessagesFunction;
     let logoutBtn = document.getElementById('logout');
     logoutBtn.onclick = logout;
 }
 
-function showPitch(id){
+function setCurrentPitchID(id){
+    currentPitchId = id;
+    showPitch()
+}
+
+function showPitch(){
     console.log('In showPitch()');
     let pitch = null;
     for (let x of retrievedPitches){
-        if (x.id == id){
+        if (x.id == currentPitchId){
             pitch = x;
         }
     }
@@ -113,9 +120,9 @@ function showPitch(id){
             <div class="col-auto">
                 <select name="pitch-story-type" id="pitch-story-type" class="form-control" style="font-size: medium;">
                         <option id='novel' value="novel">Novel (50p)</option>
-                        <option id="novella" value="novellas">Novella (25p)</option>
-                        <option id="short story" value="short stories">Short Story (20p)</option>
-                        <option id="article" value="articles">Article (10p)</option>
+                        <option id="novella" value="novella">Novella (25p)</option>
+                        <option id="short story" value="short story">Short Story (20p)</option>
+                        <option id="article" value="article">Article (10p)</option>
                 </select>
                 <small id="typeHelp" class="form-text text-white"></small>
             </div>
@@ -174,29 +181,28 @@ function showPitch(id){
 
     let selectGenreIndex = document.getElementById(pitch.genre.genre).index;
     document.getElementById('pitch-genre').options[selectGenreIndex].selected=true;
-    console.log('View Pitch: Elements loaded.')
 
-    let updatePitchBtn = document.getElementById('updateBtn');
-    updatePitchBtn.onclick = console.log('update clicked')//checkPitchUpdate(id);
+    let updateBtn = document.getElementById('updateBtn');
+    updateBtn.onclick=checkPitchUpdate;
+
 }
 
 function inMessagesTab(){
 
     // Setup
-    retrievedMessagesFunction;
     document.getElementById('list-element-pitches').className = '';
     document.getElementById('list-element-messages').className = 'active';
     document.getElementById('pitch-list').innerHTML = ` 
         <div id="view-pitch">
             <h3>View Messages</h3>
             <div id="pitch-body" class="text-center no-content">
-                No selected message
+                No Selected Message
             </div>
         </div>
 
         <hr class="divider my-4" />
 
-        <h3 class="text-center">Submitted Pitches and Stories</h3>
+        <h3 class="text-center">Messages</h3>
         <table class="table table-striped"></table>`;
         
 
@@ -204,7 +210,7 @@ function inMessagesTab(){
     let newPitch = document.getElementById('pitch-button');
     newPitch.onclick = inNewPitchTab;
     let pitches = document.getElementById('list-element-pitches')
-    pitches.onclick = inPitchesTab;
+    pitches.onclick = retrievedPitchesFunction;
     let logoutBtn = document.getElementById('logout');
     logoutBtn.onclick = logout;
 }
@@ -319,6 +325,7 @@ function inNewPitchTab(){
 }
 
 function checkPitch(){
+    console.log('Checking Pitch');
     let story = {};
     story.id=0;
     story.author = author;
@@ -357,7 +364,8 @@ function checkPitch(){
         document.getElementById('pitch-description').className = document.getElementById('pitch-description').className + ' error';
         document.getElementById('titleHelp').innerHTML = 'Description cannot be empty. Please include a detailed description that helps our editors evaluate your pitch.';
     } else {
-        submitPitch;
+        console.log('Pass Check');
+        submitPitch();
     }
 
     let submitPitchBtn = document.getElementById('submitBtn');
@@ -365,49 +373,50 @@ function checkPitch(){
 }
 
 
-function checkPitchUpdate(id){
-    let story = {};
-    story.id=0;
-    story.author = author;
-    story.title = document.getElementById('pitch-title').value;
-    story.completionDate = document.getElementById('pitch-completion-date').value;
-    story.type = document.getElementById('pitch-story-type').value;
-    story.genre = document.getElementById('pitch-genre').value;
-    story.tagline = document.getElementById('pitch-tagline').value;
-    story.description = document.getElementById('pitch-description').value;
-    story.text = document.getElementById('pitch-story').value;
+function checkPitchUpdate(){
+    let story = null;
+    for (let x of retrievedPitches){
+        if (x.id == currentPitchId){
+            story = x;
+        }
+    }
+    let currentStoryValue = story.type.pointValue;
 
     clearError;
 
-    if (story.title == ''){
+    if (document.getElementById('pitch-title').value == ''){
         document.getElementById('pitch-title').className = document.getElementById('pitch-title').className + ' error';
         document.getElementById('titleHelp').innerHTML = 'Title cannot be empty';
-    } else if (story.completionDate == ''){
+    } else if (document.getElementById('pitch-completion-date').value == ''){
         document.getElementById('pitch-completion-date').className = document.getElementById('pitch-completion-date').className + ' error';
         document.getElementById('dateHelp').innerHTML = 'Completion Date cannot be empty. Please estimate a time for completion date.';
-    } else if (story.type == 'novel' && author['points'] < 50){
+
+
+    } else if (document.getElementById('pitch-story-type').value == 'novel' && author['points'] < 50 - currentStoryValue){
         document.getElementById('pitch-story-type').className = document.getElementById('pitch-story-type').className + ' error';
         document.getElementById('typeHelp').innerHTML = 'Story type exceed alloted points. Please wait until existing pitches pass approval or delete old pitches.';
-    } else if (story.type == 'novellas' && author['points'] < 25){
+    } else if (document.getElementById('pitch-story-type').value == 'novella' && author['points'] < 25 - currentStoryValue){
         document.getElementById('pitch-story-type').className = document.getElementById('pitch-story-type').className + ' error';
         document.getElementById('typeHelp').innerHTML = 'Story type exceed alloted points. Please wait until existing pitches pass approval or delete old pitches.';
-    } else if (story.type == 'short stories' && author['points'] < 20){
+    } else if (document.getElementById('pitch-story-type').value == 'short story' && author['points'] < 20 - currentStoryValue){
         document.getElementById('pitch-story-type').className = document.getElementById('pitch-story-type').className + ' error';
          document.getElementById('typeHelp').innerHTML = 'Story type exceed alloted points. Please wait until existing pitches pass approval or delete old pitches.';
-    } else if (story.type == 'articles' && author['points'] < 10){
+    } else if (document.getElementById('pitch-story-type').value == 'article' && author['points'] < 10 - currentStoryValue){
         document.getElementById('pitch-story-type').className = document.getElementById('pitch-story-type').className + ' error';
         document.getElementById('typeHelp').innerHTML = 'Story type exceed alloted points. Please wait until existing pitches pass approval or delete old pitches.';
-     } else if (story.tagline == ''){
+
+
+     } else if (document.getElementById('pitch-tagline').valuee == ''){
         document.getElementById('pitch-tagline').className = document.getElementById('pitch-tagline').className + ' error';
         document.getElementById('titleHelp').innerHTML = 'Tagline cannot be empty. Please include a interesting tagline to hook readers looking at the cover.';
-    } else if (story.description == ''){
+    } else if (document.getElementById('pitch-description').value == ''){
         document.getElementById('pitch-description').className = document.getElementById('pitch-description').className + ' error';
         document.getElementById('titleHelp').innerHTML = 'Description cannot be empty. Please include a detailed description that helps our editors evaluate your pitch.';
     } else {
-        updatePitch(id);
+        updatePitch();
     }
     let submitPitchBtn = document.getElementById('updateBtn');
-    submitPitchBtn.onclick = checkPitch(id);
+    submitPitchBtn.onclick = checkPitchUpdate;
 }
 
 function clearError(){
@@ -441,7 +450,9 @@ function clearError(){
 
 
 async function submitPitch(){
-    let story = retrievedPitches;
+    console.log('Submit Pitch')
+
+    let story = {};
     story.title = document.getElementById('pitch-title').value;
     story.completionDate = document.getElementById('pitch-completion-date').value;
     story.type = document.getElementById('pitch-story-type').value;
@@ -462,11 +473,13 @@ async function submitPitch(){
     getAuthorEditor();
 }
 
-async function updatePitch(id){
-    let story = {};
+async function updatePitch(){
+    console.log('in update pitch function')
+
+    let story = null;
 
     for (let x of retrievedPitches){
-        if (x.id == id){
+        if (x.id == currentPitchId){
             story = x;
         }
     }
@@ -474,13 +487,38 @@ async function updatePitch(id){
     console.log('located old pitch');
     story.title = document.getElementById('pitch-title').value;
     story.completionDate = document.getElementById('pitch-completion-date').value;
-    story.type = document.getElementById('pitch-story-type').value;
+    let newtype = document.getElementById('pitch-story-type').value;
     story.genre = document.getElementById('pitch-genre').value;
     story.tagline = document.getElementById('pitch-tagline').value;
     story.description = document.getElementById('pitch-description').value;
     story.text = document.getElementById('pitch-story').value;
 
-    console.log("JSON: " + story);
+    console.log('New Type value:' + newtype);
+    switch(newtype){
+        case 'novel':
+            console.log('Changing story type to novel');
+            story.author.points = story.author.points - (50 - story.type.pointValue);
+            story.type = newtype;
+            break;
+        case 'novella':
+            console.log('Changing story type to novella');
+            story.author.points = story.author.points - (25 - story.type.pointValue);
+            story.type = newtype;
+            break;
+        case 'short story':
+            console.log('Changing story type to short story');
+            story.author.points = story.author.points - (20 - story.type.pointValue);
+            story.type = newtype;
+            break;
+        case 'article':
+            console.log('Changing story type to article');
+            story.author.points = story.author.points - (10 - story.type.pointValue);
+            story.type = newtype;
+            break;
+    }
+
+
+    console.log("JSON: " + JSON.stringify(story));
 
     let url = baseUrl + '/author';
     let response = await fetch(url, {credentials: 'include', method:'PUT', body:JSON.stringify(story)});
@@ -528,6 +566,13 @@ async function logout() {
         alert('Something went wrong.')
     } else {
         loggedUser = null;
+        author = null;
+        retrievedPitches = [];
+        retrievedMessages = [];
+        currentPitchId = null;
+        committee = null;
+        retrievedApproval = [];
+        retrievedRequest = [];
         window.location.href = "D:/2011-nov9-usf/Project1/spms/src/main/resources/static/index.html";
     }
 }

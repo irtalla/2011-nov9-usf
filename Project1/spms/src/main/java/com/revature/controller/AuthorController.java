@@ -50,10 +50,10 @@ public class AuthorController {
             ctx.status(400);
         }else{
             for (Request r : requestSet){
-                if (r.getSender() == author.getUser()){
+                if (r.getSender().getId() == author.getUser().getId()){
                     filteredSet.add(r);
                 }
-                if (r.getReceiver() == author.getUser()){
+                if (r.getReceiver().getId() == author.getUser().getId()){
                     filteredSet.add(r);
                 }
             }
@@ -66,15 +66,17 @@ public class AuthorController {
     public static void submitPitch(Context ctx){
         System.out.println("Submit a pitch.");
         Story story = ctx.bodyAsClass(Story.class);
+        System.out.println(story);
         story.setStatus(statusHibernate.getById(1));
+        Author author = ctx.sessionAttribute("author");
+        story.setAuthor(author);
         Set<Committee> committeeSet = committeeHibernate.getAll();
         for (Committee c : committeeSet){
-            if (c.getGenre() == story.getGenre()){
+            if (c.getGenre().getId() == story.getGenre().getId()){
                 story.setCommittee(c);
             }
         }
         Story retStory = storyHibernate.add(story);
-        Author author = authorHibernate.getById(story.getAuthor().getId());
         author.setPoints(author.getPoints() - story.getType().getPointValue());
         authorHibernate.update(author);
         ctx.status(200);
@@ -84,6 +86,13 @@ public class AuthorController {
     public static void updatePitch(Context ctx){
         System.out.println("Updating a pitch.");
         Story story = ctx.bodyAsClass(Story.class);
-        
+        try{
+            authorHibernate.update(story.getAuthor());
+            storyHibernate.update(story);
+            ctx.status(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            ctx.status(400);
+        }
     }
 }

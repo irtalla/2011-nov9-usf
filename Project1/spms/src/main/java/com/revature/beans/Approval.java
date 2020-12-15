@@ -7,6 +7,7 @@ import java.util.Objects;
 @Table
 public class Approval {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "story")
