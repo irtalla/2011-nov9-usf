@@ -1,4 +1,4 @@
-// checkLogin();
+checkLogin();
 
 getEvtReqs();
 

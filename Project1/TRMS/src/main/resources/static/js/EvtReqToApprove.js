@@ -62,8 +62,8 @@ function populateEvtReqs() {
                 <td>${evtReq.priority_id}</td>
                 <td>${new Date(evtReq.start_date).toLocaleDateString()}</td>  
                 <td>${evtReq.amount}</td>
-				<td>${evtReq.status}</td>
-				<td><a id="approve${evtReq.id}" href="${url}${evtReq.id}">Approve</a></td>     
+				<td>${evtReq.status == 1 ? "Approved" : (evtReq.status == -1 ? "Rejected" : (evtReq.status == 0 ? "Pending" : "Unknown"))}</td>
+				<td><a class="btn btn-primary" id="approve${evtReq.id}" href="${evtReq.status == 0 ? url + evtReq.id : "#"}">${evtReq.status == 0 ? "Approve" : "Done"}</a></td>     
             `;
              tbody.appendChild(tr);
         }

@@ -4,44 +4,36 @@ let div= document.createElement('div');
 div.classList.add("container");
 
 div.innerHTML = `
-	<div class="row col-md-6 col-md-offset-3">
-		<div class="panel panel-primary">
-			<div class="panel-heading text-center">Registration Form</div>
-
-			<div class="panel-body">
-				<form>
-						<div class="form-div form-group"> 
-							<label for="username">Username</label> 
-							<input id="username" class="form-control"> 
-						</div>
-						<div class="form-div form-group"> 
-							<label for="password">Password</label> 
-							<input id="password" class="form-control"> 
-						</div>
-						<div class="form-div form-group"> 
-							<label for="roles">User Role</label>
-							<select name="roles" id="roles">
-								<option value="1">1. Requestor</option>
-								<option value="2">2. Approver</option>
-							</select>	
-						</div>
-						<div class="form-div form-group"> 
-							<label for="titles">User Title</label>
-							<select name="titles" id="titles">
-								<option value="Employee">1. Employee</option>
-								<option value="Benefits Coordinator">2. Benefits Coordinator</option>
-								<option value="Direct Supervisor">3. Direct Supervisor</option>
-								<option value="Deparment Head">4. Deparment Head</option>
-							</select>
-						</div>
-						<br />
-						<input class="btn btn-primary" type='submit' onClick="register()" > 	
-					</div>
-				</form>
-
+	<div class="container">	
+		<form>
+				<div class="mb-3"> 
+					<label class="form-label" for="username">Username</label> 
+					<input class="form-control" id="username" class="form-control"> 
+				</div>
+				<div class="mb-3"> 
+					<label class="form-label" for="password">Password</label> 
+					<input class="form-control" id="password" class="form-control"> 
+				</div>
+				<div class="mb-3"> 
+					<label class="form-label" for="roles">User Role</label>
+					<select class="form-select" name="roles" id="roles">
+						<option value="1">1. Requestor</option>
+						<option value="2">2. Approver</option>
+					</select>	
+				</div>
+				<div class="mb-3"> 
+					<label class="form-label" for="titles">User Title</label>
+					<select class="form-select" name="titles" id="titles">
+						<option value="Employee">1. Employee</option>
+						<option value="Benefits Coordinator">2. Benefits Coordinator</option>
+						<option value="Direct Supervisor">3. Direct Supervisor</option>
+						<option value="Deparment Head">4. Deparment Head</option>
+					</select>
+				</div>
+				<br />
+				<input class="btn btn-primary" type='submit' onClick="register()" > 	
 			</div>
-
-		<div class="panel-footer text-right">&copy; Revature</div>
+		</form>
 	</div>
     `
 

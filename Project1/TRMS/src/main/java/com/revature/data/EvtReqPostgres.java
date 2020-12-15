@@ -122,13 +122,7 @@ public class EvtReqPostgres implements EvtReqDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
-			
-			/*String sql = "UPDATE evt_req SET name= ?, posting_date= ?, direct_supervisor_approval_status_id= ? ,"
-					+ " department_head_approval_status_id= ? ,benefits_coordinator_approval_status_id=?,"
-					+ " person_id= ?, type_id= ?, req_fr_cmnt_id= ?, priority_id= ?, start_date= ?, amount= ? "
-					+ "event_time = ?, location_id = ?, grading_format_id = ?, work_related_justification = ?, passing_cutoff_grade_id = ?, status = ?, approver_username = ?"
-					+ " WHERE id= ?";*/
-			
+						
 			
 			String sql = "UPDATE evt_req SET name=?, posting_date=?, direct_supervisor_approval_status_id=?, department_head_approval_status_id=?, benefits_coordinator_approval_status_id=?, person_id=?, type_id=?, req_fr_cmnt_id=?, priority_id=?, start_date=?, amount=?, event_time=?, location_id=?, grading_format_id=?, work_related_justification=?, passing_cutoff_grade_id=?, status=?, approver_username=? WHERE id=?";
 
@@ -338,7 +332,14 @@ public class EvtReqPostgres implements EvtReqDAO {
 				evtReq.setStart_date(rs.getDate("start_date"));
 				evtReq.setAmount(rs.getDouble("amount"));
 				
-
+				if (rs.getObject("status") != null) {
+					evtReq.setStatus(rs.getInt("status"));
+				  }
+				
+				if (rs.getObject("approver_username") != null) {
+					evtReq.setApprover_username(rs.getString("approver_username"));
+				  }
+				
 				evtReqs.add(evtReq);
 			}
 
@@ -355,8 +356,10 @@ public class EvtReqPostgres implements EvtReqDAO {
 	public Set<EvtReq> getPendingEventRequest(){
 		Set<EvtReq> evtReqs = new HashSet<>();
 		try (Connection conn = cu.getConnection()) {
-			String sql = "select * from evt_req where status != 1;";
+			//String sql = "select * from evt_req where status != 1;"; //just get pending
 
+			String sql = "select * from evt_req;"; //get all
+			
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -501,6 +504,14 @@ public class EvtReqPostgres implements EvtReqDAO {
 				evtReq.setType_id(rs.getInt("type_id"));
 				evtReq.setStart_date(rs.getDate("start_date"));
 				evtReq.setAmount(rs.getDouble("amount"));
+				
+				if (rs.getObject("status") != null) {
+					evtReq.setStatus(rs.getInt("status"));
+				  }
+				
+				if (rs.getObject("approver_username") != null) {
+					evtReq.setApprover_username(rs.getString("approver_username"));
+				  }
 				
 				evtReqs.add(evtReq);
 			}

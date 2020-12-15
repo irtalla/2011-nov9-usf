@@ -23,6 +23,9 @@ public class PersonController {
 			if (personServ.isApprover(p.getId()))
 				p.setEvtReqsToApprove(evtReqServ.getPendingEvtReqs());
 			
+			//update my evt reg
+			p.setEvtReqs(personServ.getEventsByPersonId(p.getId()));
+			
 			ctx.json(p);
 			ctx.status(200);
 		} else {
@@ -50,7 +53,7 @@ public class PersonController {
 				// password mismatch
 				ctx.status(400);
 			}
-		} // let me set the docker
+		} 
 		else
 		{
 			// username not found

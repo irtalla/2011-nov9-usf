@@ -1,5 +1,8 @@
 package com.revature.services;
 
+import java.util.Set;
+
+import com.revature.beans.EvtReq;
 import com.revature.beans.Person;
 import com.revature.data.PersonDAO;
 import com.revature.data.PersonDAOFactory;
@@ -19,6 +22,7 @@ private TitleDAO tileDao;
 		
 		TitleDAOFactory titleDaoFactory = new TitleDAOFactory();
 		tileDao = titleDaoFactory.getTitleDAO();
+		
 	}
 
 	@Override
@@ -51,5 +55,9 @@ private TitleDAO tileDao;
 	public boolean isApprover(Integer person_id) {
 		return 	personDao.isApprover(person_id);
 	}
-
+	
+	public Set<EvtReq> getEventsByPersonId (Integer person_id){
+		return personDao.getEventsByPersonId(person_id);		
+	}
+	
 }

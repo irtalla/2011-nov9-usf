@@ -35,7 +35,21 @@ public class EvtReqController {
 			boolean result = evtReqServ.approveEvtReq(id, p.getUsername());
 			if (result == true) {
 				ctx.status(200);
-				ctx.result("The event request is now approved");
+				
+				String html = "<!DOCTYPE html>"
+						+ "<html lang=\"en\">"
+						+ "  <head>"
+						+ "    <meta charset=\"utf-8\">"
+						+ "    <title>The event request is now approved</title>"
+						+ "    <link rel=\"stylesheet\" href=\"style.css\">"
+						+ "    <script src=\"script.js\"></script>"
+						+ "  </head>"
+						+ "  <body>"
+						+ "   <h2>The event request is now approved, <a href=\"http://localhost:8080/EvtReqToApprove.html\"> Go back</a> </h2>"
+						+ "  </body>"
+						+ "</html>";
+				
+				ctx.html(html);
 			} else {
 				ctx.status(404);
 			}

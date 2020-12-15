@@ -1,10 +1,16 @@
 let baseUrl = 'http://localhost:8080';
 let nav = document.getElementById('navBar');
+// nav.classList.add("navbar");
+// nav.classList.add("navbar-expand-lg");
+// nav.classList.add("navbar-light");
+// nav.classList.add("bg-light");
+
 let loggedUser = null;
 // checkLogin();
 setNav();
 
 function setNav() {
+   
     nav.innerHTML = `
             <a href="index.html"><strong>Tuition Reimbursement Management System (TRMS)</strong></a>
             <a href="viewEvtReqs.html">View Event Requests</a>`;
@@ -25,7 +31,7 @@ function setNav() {
 			<a href="myEvtReqs.html">My Event Requests</a>
 			<a href="addEvtReqs.html">Add Event Requests</a>
             <span>
-                ${loggedUser.username}&nbsp;
+                <a id="usernameLink" href="profile.html">${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;

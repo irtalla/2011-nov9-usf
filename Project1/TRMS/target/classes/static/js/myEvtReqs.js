@@ -4,12 +4,14 @@ checkLogin().then(populateEvtReqs);
 function populateEvtReqs() {
 	
 	// alert(loggedUser.evtReqs);
-	alert(JSON.stringify(loggedUser));
+	// alert(JSON.stringify(loggedUser));
 	
     let evtReqs = loggedUser.evtReqs;
 	let reimbusementSection = document.getElementById('reimbusementSection');
 	let p = document.createElement('p');
-	let ura = 1000.00;
+	let ura = 1000.00; // reimbursement budget, not sure if a person got approved 2 event then where the remained saved?'
+	
+
 	p.innerHTML = `
 		<h3 class="reimbursement-header">2020 Unused Reimbursement Amount: </h3><span class="amount">$${ura.toFixed(2)}</span>
 	`
@@ -39,6 +41,7 @@ function populateEvtReqs() {
                     <th scope="col">Priority ID</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">Amount</th>
+					<th scope="col">Status</th>
                 </tr>
             </thead>
         `;
@@ -60,7 +63,8 @@ function populateEvtReqs() {
                 <td>${evtReq.req_fr_cmnt_id}</td>
                 <td>${evtReq.priority_id}</td>
                 <td>${new Date(evtReq.start_date).toLocaleDateString()}</td>  
-                <td>${evtReq.amount}</td>     
+                <td>${evtReq.amount}</td>
+				<td>${evtReq.status == 1 ? "Approved" : (evtReq.status == -1 ? "Rejected" : (evtReq.status == 0 ? "Pending" : "Unknown"))}</td>
             `;
              tbody.appendChild(tr);
         }

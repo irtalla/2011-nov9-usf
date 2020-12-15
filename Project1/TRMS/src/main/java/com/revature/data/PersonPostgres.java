@@ -80,7 +80,7 @@ public class PersonPostgres implements PersonDAO {
 				role.setName(rs.getString("role_name"));
 				person.setRole(role);
 				
-				person.setEvtReqs(getEventsByPersonId(person.getId(), conn));
+				person.setEvtReqs(getEventsByPersonId(person.getId()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,7 +109,7 @@ public class PersonPostgres implements PersonDAO {
 				job.setName(rs.getString("role_name"));
 				human.setRole(job);
 				
-				human.setEvtReqs(getEventsByPersonId(human.getId(), conn));
+				human.setEvtReqs(getEventsByPersonId(human.getId()));
 				
 				people.add(human);
 			}
@@ -143,7 +143,8 @@ public class PersonPostgres implements PersonDAO {
 				job.setId(rs.getInt("role_id"));
 				job.setName(rs.getString("role_name"));
 				human.setRole(job);
-				human.setEvtReqs(getEventsByPersonId(human.getId(), conn));
+				//!!!
+				human.setEvtReqs(getEventsByPersonId(human.getId()));
 			}
 						
 		}
@@ -200,26 +201,12 @@ public class PersonPostgres implements PersonDAO {
 		}
 	}
 	
-	//this method got wrong, let me fix it
-	private Set<EvtReq> getEventsByPersonId(Integer id, Connection conn) throws SQLException {
+	
+	public Set<EvtReq> getEventsByPersonId(Integer id){
 		
-		Set<EvtReq> evtReqs = new HashSet<>();
 		EvtReqDAO evtReqDao = new EvtReqPostgres();
 		return evtReqDao.getEventsByPersonId(id);
 		
-		/*String sql = "select * from evt_req where person_id = ?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, id);
-		ResultSet rs = pstmt.executeQuery();
-		
-		while (rs.next()) {
-			// where is "event_id" coming from ? Is it just id from evt_req table?
-			System.out.println("Result Set to show query: " + rs);
-			EvtReq request = evtReqDao.getById(rs.getInt("id"));
-			evtReqs.add(request);
-		}
-		
-		return evtReqs;*/
 	}
 
 	public boolean isApprover(Integer person_id) {
