@@ -116,14 +116,11 @@ public class PersonController {
 	}
 	
 	public static void getRequestsByUserId(Context ctx) {
-		System.out.println("I am in the get requests by User Id area");
 		Person loggedPerson = ctx.sessionAttribute("user");
 		System.out.println("I recognize the user as " + loggedPerson.getUsername());
 		Set<InfoRequest> reqs = new HashSet<>();
 		reqs = irServ.getReqsByUserId(loggedPerson.getId());
-		System.out.println("The number of requests I got back was: "+reqs.size());
 		if(reqs != null) {
-			System.out.println("and so I am sending a 200 status!");
 			ctx.status(200);
 			ctx.json(reqs);
 		}else {
