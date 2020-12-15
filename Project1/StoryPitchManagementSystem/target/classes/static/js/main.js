@@ -23,6 +23,7 @@ function setNav() {
             		<button class="dropbtn">Editor Functions</button>
             		<div class="dropdown-content">
             			<a href="viewStories.html">View All Stories</a> <br>
+            			<a href="newChangeRequest.html">New Change Request</a> </br>
             			<a href="newInfoRequest.html">New Info Request</a> </br>
             			<a href="myInfoResponses.html">My Info Responses</a> </br>
             			<a href="newApproval.html">Approve a Story Pitch</a> </br>

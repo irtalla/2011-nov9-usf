@@ -1,8 +1,8 @@
-checkLogin().then(populateinfoRequestForm);
+checkLogin().then(populateChangeRequestForm);
 var points = null;
 
 
-function populateinfoRequestForm() {
+function populateChangeRequestForm() {
 	console.log(loggedUser);
 
     let storySection = document.getElementById('storySection');
@@ -14,7 +14,7 @@ function populateinfoRequestForm() {
         <tr>
             <th>Story ID</th>
 		    <td>
-				<input type=text id="storyID" size = 60 placeholder = "Enter the ID of the story pitch for which you are requesting more info" />
+				<input type=text id="storyID" size = 60 placeholder = "Enter the ID of the story pitch for which you are requesting changes" />
 			</td>
         </tr>`;
 
@@ -50,8 +50,7 @@ function populateinfoRequestForm() {
 
 
 async  function submitInfoRequest() {
-		//reformatDate();
-	    let url = baseUrl + '/submitInfoRequest?';
+	    let url = baseUrl + '/submitChangeRequest?';
 	    url += 'storyID=' + document.getElementById('storyID').value + '&';
 	    url += 'personRequestingID=' + loggedUser.personID + '&';
 	    url += 'personRequestedID=' + document.getElementById('personRequestedID').value + '&';
@@ -62,7 +61,7 @@ async  function submitInfoRequest() {
 	    
 	    switch (response.status) {
 	        case 200: // successful
-	            alert("Info Request Successfully Submitted!")
+	            alert("Change Request Successfully Submitted!")
 	            setNav();
 	            console.log(loggedUser);
 	            break;

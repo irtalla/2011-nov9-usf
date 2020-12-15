@@ -5,6 +5,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 import io.javalin.Javalin;
 
 import com.revature.controllers.ApprovalController;
+import com.revature.controllers.ChangeRequestController;
 import com.revature.controllers.GenreSpecializationController;
 import com.revature.controllers.InfoRequestController;
 import com.revature.controllers.InfoResponseController;
@@ -80,6 +81,10 @@ public class StoryPitchManagementSystemJavalin {
 			
 			path("resubmitStory", () ->{
 				put(StoryPitchController::resubmitStory);
+			});
+
+			path("submitChangeRequest", () ->{
+				put(ChangeRequestController::submitChangeRequest);
 			});
 
 			path("submitInfoRequest", () ->{

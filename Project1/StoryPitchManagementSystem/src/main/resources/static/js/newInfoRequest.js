@@ -50,7 +50,6 @@ function populateinfoRequestForm() {
 
 
 async  function submitInfoRequest() {
-	    // http://localhost:8080/users?user=sierra&pass=pass
 		//reformatDate();
 	    let url = baseUrl + '/submitInfoRequest?';
 	    url += 'storyID=' + document.getElementById('storyID').value + '&';
