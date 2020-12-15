@@ -4,6 +4,7 @@ let author = null;
 let retrievedPitches = [];
 let retrievedMessages = [];
 let currentPitchId = null;
+let currentMessageId = null;
 
 
 getUser();
@@ -203,8 +204,17 @@ function inMessagesTab(){
         <hr class="divider my-4" />
 
         <h3 class="text-center">Messages</h3>
-        <table class="table table-striped"></table>`;
-        
+        <table class="table table-striped" id='pitch-table'></table>`;
+    
+    for (let x of retrievedMessages){
+        document.getElementById('pitch-table').innerHTML = `
+        <tr id='${x.id}' onclick='setCurrentMessageID(this.id)'>
+            <th style="text-transform:capitalize">${x.story.type.type}</th>
+            <td>${x.story.title}</td>
+            <td>Status: ${x.story.status.status}</td>
+        </tr>
+        `;
+    }
 
     // Listeners
     let newPitch = document.getElementById('pitch-button');
@@ -215,6 +225,32 @@ function inMessagesTab(){
     logoutBtn.onclick = logout;
 }
 
+function setCurrentMessageID(id){
+    currentMessageId = id;
+    showMessage();
+}
+
+function showMessage(){
+    console.log('In showMessage()');
+    let message = null;
+    for (let x of retrievedMessages){
+        if (x.id == currentMessageId){
+            message = x;
+        }
+    }
+    console.log('Located Message');
+    document.getElementById('pitch-body').innerHTML = `
+        <div class="text-left">
+            <h5 style="color:black;font-size:100%; margin-bottom:10px">${message.story.title} : Pitch Denial Reason</h5>
+            <p></p>
+            </b>
+            <p style="color:black;font-size:85%;">${message.message}</p>
+            </b>
+            <p style="color:grey;font-size:60%;">Please submit any changes and then our editors will approval it as soon as possible.</p>
+        </div>
+    `;
+
+}
 
 function inNewPitchTab(){
     console.log('in new pitch tab')
@@ -551,6 +587,7 @@ async function retrievedMessagesFunction(){
     if (response.status === 200){
         retrievedMessages = await response.json();
         console.log('Retrieved ' + retrievedMessages.length + ' messages.');
+        console.log(retrievedMessages);
         inMessagesTab();
     }else{
         alert("Error retrieving pitches.");
@@ -569,6 +606,8 @@ async function logout() {
         author = null;
         retrievedPitches = [];
         retrievedMessages = [];
+        retrievedApproval = [];
+        retrievedRequest = []
         currentPitchId = null;
         committee = null;
         retrievedApproval = [];

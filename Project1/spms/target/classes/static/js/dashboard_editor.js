@@ -147,7 +147,7 @@ function showApproval(){
     else if (status == 'awaiting draft approval'){
         document.getElementById('approvalBtn').disabled = false;
         document.getElementById('submitRequestBtn').disabled = false;
-    }else {
+    } else {
         document.getElementById('approvalBtn').disabled = true;
         document.getElementById('submitRequestBtn').disabled = true;
     }
@@ -202,6 +202,7 @@ async function retrievedRequestFunction(){
     if (response.status === 200){
         retrievedRequest = await response.json();
         console.log('Retrieved ' + retrievedRequest.length + ' requests.');
+        console.log(retrievedRequest);
         inRequestTab();
     }else{
         alert("Error retrieving requests.");
@@ -223,12 +224,48 @@ function inRequestTab(){
         <hr class="divider my-4" />
 
         <h3 class="text-center">Past Requests</h3>
-        <table class="table table-striped"></table>`;
-        
-
+        <table class="table table-striped" id='pitch-table'></table>`;
+    
+    for (let x of retrievedRequest){
+        document.getElementById('pitch-table').innerHTML = `
+        <tr id='${x.id}' onclick='setCurrentMessageIDEditor(this.id)'>
+            <th style="text-transform:capitalize">${x.story.type.type}</th>
+            <td>${x.story.title}</td>
+            <td>Status: ${x.story.status.status}</td>
+        </tr>
+        `;
+    }
+    
     // Listeners
     let approvals = document.getElementById('list-element-pitches')
     approvals.onclick = retrievedApprovalFunction;
     let logoutBtn = document.getElementById('logout');
     logoutBtn.onclick = logout;
+}
+
+function setCurrentMessageIDEditor(id){
+    currentMessageId = id;
+    showMessageEditor();
+}
+
+function showMessageEditor(){
+    console.log('In showMessageEditor()');
+    let message = null;
+    for (let x of retrievedRequest){
+        if (x.id == currentMessageId){
+            message = x;
+        }
+    }
+    console.log('Located Message');
+    document.getElementById('pitch-body').innerHTML = `
+        <div class="text-left">
+            <h5 style="color:black;font-size:100%; margin-bottom:10px">${message.story.title} : Pitch Denial Reason</h5>
+            <p></p>
+            </b>
+            <p style="color:black;font-size:85%;">${message.message}</p>
+            </b>
+            <p style="color:grey;font-size:60%;">Please submit any changes and then our editors will approval it as soon as possible.</p>
+        </div>
+    `;
+
 }

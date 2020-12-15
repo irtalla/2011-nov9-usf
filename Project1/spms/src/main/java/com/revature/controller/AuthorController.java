@@ -6,6 +6,7 @@ import com.revature.beans.Request;
 import com.revature.beans.Story;
 import com.revature.data.*;
 import io.javalin.http.Context;
+import org.hibernate.internal.build.AllowSysOut;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,6 +40,8 @@ public class AuthorController {
             ctx.json(filteredSet);
         }
     }
+
+
 
     public static void getMessages(Context ctx){
         System.out.println("In getMessages()");
