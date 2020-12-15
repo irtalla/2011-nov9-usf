@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -86,6 +87,18 @@ private HibernateUtil hu = HibernateUtil.getHibernateUtil();
 		}finally {
 			s.close();
 		}
+	}
+
+	@Override
+	public Set<InfoRequest> reqsByUserId(Integer id) {
+		Set<InfoRequest> all = getAll();
+		Set<InfoRequest> userReqs = new HashSet<>();
+		for(InfoRequest req : all) {
+			if(req.getRecipient().getId().equals(id) || req.getSender().getId().equals(id)) {
+				userReqs.add(req);
+			}
+		}
+		return userReqs;
 	}
 
 }

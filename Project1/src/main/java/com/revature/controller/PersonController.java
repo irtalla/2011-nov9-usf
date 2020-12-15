@@ -3,9 +3,12 @@ package com.revature.controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.revature.beans.InfoRequest;
 import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.exceptions.NonUniqueUsernameException;
+import com.revature.service.InfoRequestService;
+import com.revature.service.InfoRequestServiceImpl;
 import com.revature.service.PersonService;
 import com.revature.service.PersonServiceImpl;
 import com.revature.service.PitchService;
@@ -16,6 +19,7 @@ import io.javalin.http.Context;
 public class PersonController {
 	private static PersonService personServ = new PersonServiceImpl();
 	private static PitchService pitchServ = new PitchServiceImpl();
+	public static InfoRequestService irServ = new InfoRequestServiceImpl();
 	public static void checkLogin(Context ctx) {
 		System.out.println("Checking login");
 		Person p = ctx.sessionAttribute("user");
@@ -110,6 +114,19 @@ public class PersonController {
 			ctx.status(404);
 		}
 	}
+	
+	public static void getRequestsByUserId(Context ctx) {
+		Person loggedPerson = ctx.sessionAttribute("user");
+		Set<InfoRequest> reqs = new HashSet<>();
+		reqs = irServ.getReqsByUserId(loggedPerson.getId());
+		if(reqs != null) {
+			ctx.status(200);
+			ctx.json(reqs);
+		}else {
+			ctx.status(404);
+		}
+	}
+	
 	
 	public static void deletePersonsPitch(Context ctx) {
 		Person loggedPerson = ctx.sessionAttribute("user");

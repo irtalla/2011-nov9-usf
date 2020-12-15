@@ -134,7 +134,7 @@ function makePitch() {
 function insertFileUpload() {
     let label = document.createElement("label");
     label.setAttribute("for", "additionalFile");
-    let labelText = document.createTextNode("Select files to upload: ");
+    let labelText = document.createTextNode("Please upload Draft and Resources: ");
     label.appendChild(labelText);
     document.getElementById("form").appendChild(label);
     let file = document.createElement("input");
@@ -226,6 +226,10 @@ async function submitChanges() {
         statweight = 1;
         priorityChecker = 1;
     }
+    let files = [];
+    for (let file of document.getElementById("additionalFile").files) {
+        files.push(file.name);
+    }
     let data = {
         author: loggedUser.id,
         story_title: document.getElementById('story_title').value,
@@ -246,7 +250,11 @@ async function submitChanges() {
             id: 1
         },
         finish_date: document.getElementById('fdate').value
-
+        
+        /* add files to the pitch, file service not up yet
+        ,
+        files: files
+        */
     };
     let url = baseUrl + '/pitch';
 

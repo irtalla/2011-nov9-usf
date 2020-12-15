@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.util.Set;
+
 import com.revature.beans.InfoRequest;
 
 public interface InfoRequestService {
@@ -10,5 +12,7 @@ public interface InfoRequestService {
 	public void updateInfoRequest(InfoRequest ir);
 	
 	public void deleteInfoRequest(InfoRequest ir);
+
+	public Set<InfoRequest> getReqsByUserId(Integer id);
 	
 }

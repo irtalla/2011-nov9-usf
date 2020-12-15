@@ -21,6 +21,8 @@ function setNav() {
         nav.innerHTML += `
             <a href="currPitches.html">Author Pitches</a>
             <a href="currCommittees.html">Editor Committees</a>
+            <a href="currRequests.html">My Info Requests</a>
+            
             <span>
                 <a href="profile.html">Welcome ${loggedUser.username}&nbsp;</a>
                 <button type="button" id="loginBtn">Log Out</button>

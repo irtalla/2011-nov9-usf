@@ -72,6 +72,8 @@ function populateCommittees() {
         let url = baseUrl + '/pitch/committees/8'
         populatePitchSection(url);
     }
+
+
 //end url switcher function set idk whate else to call this area
     async function populatePitchSection(url){
         poppitch.innerHTML = "";
@@ -84,6 +86,7 @@ function populateCommittees() {
                 table.innerHTML = `
                     <tr>
                         <th>ID</th>
+                        <th> Author ID </th>
                         <th>Story Title</th>
                         <th>Story Type</th>
                         <th>Genre</th>
@@ -101,7 +104,11 @@ function populateCommittees() {
                         if(pitch.stage.id == userAssistant || pitch.stage.id == userGeneral || pitch.stage.id == userSenior) {
                                     tr.innerHTML = `
                                         <td id= "pitchIdNum${pitch.id}">${pitch.id}</td>
+
+                                        <td id = "pitchAuthorId${pitch.id}>${pitch.author}</td>
+
                                         <td >${pitch.story_title}</td>
+                                        
                                         <td id="pitchStoryTypeNum${pitch.id}">${pitch.story_type.name}</td>
                                         <td>${pitch.genre.name}</td>
                                         <td>${pitch.description}</td>
@@ -117,7 +124,7 @@ function populateCommittees() {
                                         onclick="rejectPitch(${pitch.id})">reject 
                                         </button></td>
 
-                                        <td><button id="request" type="button" onclick="requestPitch(${pitch.id})">request 
+                                        <td><button id="request" type="button" onclick="setRequest(${pitch.id})">request 
                                         </button></td>
                                     `;
                   
@@ -141,7 +148,7 @@ function populateCommittees() {
 
 async function acceptPitch(number){
 
-    let data =10;
+    let data = number;
     let url = baseUrl + '/stage/' + number;
     let response = await fetch(url, {method: 'PUT', body:JSON.stringify(data)});
     if(response.status >= 200 && response.status < 300){
@@ -177,16 +184,48 @@ async function rejectPitch(number){
     }
    
 }
-async function requestPitch(){
-    let url = baseUrl + '/request';
-    let response = await fetch(url, {method: 'POST', body:JSON.stringify(data)});
-    if(response.status >= 200 && response.status < 300){
-        console.log("yup");
-        document.location.reload();
-    }else{
-        alert("Something may have happened and the accept was not processed");
+    function setRequest(number){
+        let reqSec = document.getElementById("requestForm");
+        // let questionInput = document.createElement('input');
+        // input.type = 'text';
+        // input.id = 'quest';
+        // input.placeholder = 'Question or request for Author';
+        // reqSec.appendChild(questionInput);
+        reqSec.innerHTML =
+        `
+        <input type='text' id='question' placeholder= 'What are you asking for?'><br>
+        <td><button id="questId" type="button" onclick="requestPitch(${number})">Send request 
+        </button></td>
+        `;
     }
-    
-}
+
+
+async function requestPitch(number){
+    let url = baseUrl +'/pitch/'+ number;
+    let response = await fetch(url)
+    let thisPitch = await response.json();
+    let quest = document.getElementById('question').value;
+
+
+    if(confirm("ask the author: "+ quest)){
+        let data = {
+            recipient: {
+                id: thisPitch.author
+            },
+            sender: {
+                id: loggedUser.id
+            },
+            question: document.getElementById('question').value
+        };
+        let nexturl = baseUrl + '/requests';
+        let burr = await fetch(nexturl, {method: 'POST', body:JSON.stringify(data)});
+        if(burr.status >= 200 && burr.status < 300){
+            alert("request sent")
+            document.location.reload();
+        }else{
+            alert("Something may have happened and the accept was not processed");
+        }//end response
+    }
+}//end function
 
 

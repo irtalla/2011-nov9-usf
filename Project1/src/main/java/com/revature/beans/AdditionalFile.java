@@ -9,23 +9,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="add_file")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//@Entity
+//@Table(name="add_file")
 public class AdditionalFile {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name="path")
 	private String path;
-	@ManyToOne
-	@JoinColumn(name = "fk_pitch")
-	private Pitch pitch;
+//	@ManyToOne
+//	@JoinColumn(name = "fk_pitch")
+//	@JsonIgnore
+//	private Pitch pitch;
 	
 	
 	public AdditionalFile() {
 		id = 0;
 		path = "";
-		pitch = null;
+//		pitch = null;
 	}
 
 	public Integer getId() {
@@ -47,13 +50,13 @@ public class AdditionalFile {
 
 	
 	
-	public Pitch getPitch() {
-		return pitch;
-	}
-
-	public void setPitch(Pitch pitch) {
-		this.pitch = pitch;
-	}
+//	public Pitch getPitch() {
+//		return pitch;
+//	}
+//
+//	public void setPitch(Pitch pitch) {
+//		this.pitch = pitch;
+//	}
 
 	@Override
 	public int hashCode() {

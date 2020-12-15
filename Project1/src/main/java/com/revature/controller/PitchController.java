@@ -50,6 +50,10 @@ public class PitchController {
 		pitch.setStatus(statServ.getStatusById(pitch.getStatus().getId()));
 		pitch.setPriority(ppServ.getPitchPriorityById(pitch.getPriority().getId()));
 		pitch.setStage(psServ.getPitchStageById(pitch.getStage().getId()));
+/**
+ * Here a call to fileService should be called to set the files and add them to the pitch
+ * do this after requests are done
+ */
 		pServ.addPitch(pitch);
 		Person p = ctx.sessionAttribute("user");
 		p.getPitches().add(pitch);

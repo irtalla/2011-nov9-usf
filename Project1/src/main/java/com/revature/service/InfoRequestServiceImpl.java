@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import java.util.Set;
+
 import com.revature.beans.InfoRequest;
 import com.revature.data.InfoRequestDAO;
 import com.revature.data.InfoRequestHibernate;
@@ -24,6 +26,11 @@ public class InfoRequestServiceImpl implements InfoRequestService {
 	@Override
 	public void deleteInfoRequest(InfoRequest ir) {
 		irDao.delete(ir);
+	}
+
+	@Override
+	public Set<InfoRequest> getReqsByUserId(Integer id) {
+		return irDao.reqsByUserId(id);
 	}
 
 }

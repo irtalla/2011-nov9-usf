@@ -2,6 +2,7 @@ package com.revature.beans;
 
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -53,8 +54,8 @@ public class Pitch {
 
 	private String finish_date;
 	
-	@OneToMany(mappedBy = "pitch")
-	private Set<AdditionalFile> file;
+//	@OneToMany(mappedBy = "pitch")
+//	private Set<AdditionalFile> files;
 	
 	
 	public Pitch() {
@@ -68,7 +69,9 @@ public class Pitch {
 		priority = new PitchPriority();
 		stage = new PitchStage();
 		finish_date = "";
+//		files = new HashSet<AdditionalFile>();
 	}
+
 	public Integer getAuthor() {
 		return author;
 	}
@@ -131,24 +134,24 @@ public class Pitch {
 		this.stage = stage;
 	}
 	
-	public Set<AdditionalFile> getFiles() {
-		return file;
-	}
-	public void setFiles(Set<AdditionalFile> file) {
-		this.file = file;
-	}
-	//helper method to add files
-	public void addFiles(AdditionalFile af) {
-		this.file.add(af);
-		af.setPitch(this);
-	}
+//	public Set<AdditionalFile> getFiles() {
+//		return files;
+//	}
+//	public void setFiles(Set<AdditionalFile> file) {
+//		this.files = file;
+//	}
+//	//helper method to add files
+//	public void addFiles(AdditionalFile af) {
+//		this.files.add(af);
+//		af.setPitch(this);
+//	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((file == null) ? 0 : file.hashCode());
+//		result = prime * result + ((files == null) ? 0 : files.hashCode());
 		result = prime * result + ((finish_date == null) ? 0 : finish_date.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -178,11 +181,11 @@ public class Pitch {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (file == null) {
-			if (other.file != null)
-				return false;
-		} else if (!file.equals(other.file))
-			return false;
+//		if (files == null) {
+//			if (other.files != null)
+//				return false;
+//		} else if (!files.equals(other.files))
+//			return false;
 		if (finish_date == null) {
 			if (other.finish_date != null)
 				return false;

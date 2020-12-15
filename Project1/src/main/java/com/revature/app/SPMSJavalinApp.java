@@ -4,6 +4,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 import com.revature.controller.CommitteeController;
 import com.revature.controller.PersonController;
 import com.revature.controller.PitchController;
+import com.revature.controller.RequestController;
 import com.revature.controller.StageController;
 
 import io.javalin.Javalin;
@@ -30,6 +31,11 @@ public class SPMSJavalinApp {
 					get(PersonController::getPitchesByUserId);
 					path(":id", () -> {
 						delete(PersonController::deletePersonsPitch);
+					});
+				});
+				path("requests", () -> {
+					path(":id", () -> {
+						get(PersonController::getRequestsByUserId);
 					});
 				});
 				path (":id", () -> {
@@ -70,6 +76,14 @@ public class SPMSJavalinApp {
 			
 			path("committees", () -> {
 				get(CommitteeController::getAllCommittees); 
+			});
+			path("requests", () ->{
+				post(RequestController::addRequest);
+				path(":id", () -> {
+					get(RequestController::getRequestById);
+					put(RequestController::updateRequest);
+					delete(RequestController::deleteRequest);
+				});
 			});
 
 		});
