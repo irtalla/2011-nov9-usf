@@ -44,12 +44,14 @@ public class RequestController {
 	
 	public static void updateRequest(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		
 		InfoRequest ir = irServ.getInfoRequestById(id);
 		InfoRequest uIr = ctx.bodyAsClass(InfoRequest.class);
-		//sender, recipient and id should not change
-		if(uIr.getQuestion() != ir.getQuestion()) {
-			ir.setQuestion(uIr.getQuestion());
-		}
+
+		//sender, recipient and id should not change or oquestion
+//		if(uIr.getQuestion() != ir.getQuestion()) {
+//			ir.setQuestion(uIr.getQuestion());
+//		}
 		if(uIr.getAnswer() != ir.getAnswer()) {
 			ir.setAnswer(uIr.getAnswer());
 		}

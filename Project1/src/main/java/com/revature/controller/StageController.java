@@ -42,7 +42,8 @@ public class StageController {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		Pitch pitch = pServ.getPitchById(id);
 		PitchStage stage = pitch.getStage();
-		System.out.println("I have not checked stage yet, but it is " +stage);
+		//ensures all highprioritys are normal priority
+		pitch.setPriority(ppServ.getPitchPriorityById(1));
 		if(pitch.getStage().getId().equals(1)) {
 			pitch.setStage(psServ.getPitchStageById(2));
 			pServ.updatePitch(pitch);

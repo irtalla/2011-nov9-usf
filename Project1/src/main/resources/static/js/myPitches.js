@@ -13,7 +13,7 @@ function populatePitches() {
         table.innerHTML = `
             <tr>
                 <th>ID</th>
-                <th>Author ID</th?
+                <th>Author ID</th>
                 <th>Story Title</th>
                 <th>Story Type</th>
                 <th>Genre</th>

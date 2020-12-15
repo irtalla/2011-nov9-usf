@@ -97,8 +97,16 @@ function populateCommittees() {
                         <th>Finish Date</th>
                     </tr>
                 `;
-                
+                let highPriority = false;
+                for(let priChk of genPitches){
+                    if(priChk.priority.name == 'High Priority')
+                    highPriority = true;
+                }
+
+
                 for (let pitch of genPitches) {
+                    
+                    if(!highPriority){
                     let tr = document.createElement('tr');
                     if(pitch.priority.name != 'zero'){
                         if(pitch.stage.id == userAssistant || pitch.stage.id == userGeneral || pitch.stage.id == userSenior) {
@@ -131,6 +139,40 @@ function populateCommittees() {
                                      table.appendChild(tr);
                         }//check user titles to pitch stage
                     }//end priority level zero check
+                }else if(highPriority){
+                        let tr = document.createElement('tr');
+                        if(pitch.priority.name != 'zero' && pitch.priority.name != 'normal'){
+                            if(pitch.stage.id == userAssistant || pitch.stage.id == userGeneral || pitch.stage.id == userSenior) {
+                                        tr.innerHTML = `
+                                            <td id= "pitchIdNum${pitch.id}">${pitch.id}</td>
+    
+                                            <td id = "pitchAuthorId${pitch.id}>${pitch.author}</td>
+    
+                                            <td >${pitch.story_title}</td>
+                                            
+                                            <td id="pitchStoryTypeNum${pitch.id}">${pitch.story_type.name}</td>
+                                            <td>${pitch.genre.name}</td>
+                                            <td>${pitch.description}</td>
+                                            <td id="pitchStatusNum${pitch.id}">${pitch.status.name}</td>
+                                            <td id="pitchPriorityNum${pitch.id}">${pitch.priority.name}</td>
+                                            <td id="pitchStageNum${pitch.id}">${pitch.stage.name}</td>
+                                            <td>${pitch.finish_date}</td>
+                                            <td><button id="accept" type="button" value="${pitch.id}" 
+                                            onclick="acceptPitch(${pitch.id})">accept 
+                                            </button></td>
+    
+                                            <td><button id="reject" type="button" value="${pitch.id}" 
+                                            onclick="rejectPitch(${pitch.id})">reject 
+                                            </button></td>
+    
+                                            <td><button id="request" type="button" onclick="setRequest(${pitch.id})">request 
+                                            </button></td>
+                                        `;
+                      
+                                         table.appendChild(tr);
+                            }//check user titles to pitch stage
+                        }//end priority level zero check
+                    }
                 } //end for
                 
                 poppitch.appendChild(table);

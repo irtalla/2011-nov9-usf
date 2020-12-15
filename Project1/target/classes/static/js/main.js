@@ -69,7 +69,7 @@ async function logout() {
     if (response.status != 200) alert('Something went wrong.');
     loggedUser = null;
     setNav();
-    document.location.reload();
+    location.replace(baseUrl);
 }
 var userAuthor = 0;
 var userAssistant = 0;
