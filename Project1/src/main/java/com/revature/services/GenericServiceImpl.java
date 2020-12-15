@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import com.revature.data.GenericDAO;
 import com.revature.data.GenericDAOFactory;
@@ -29,13 +30,23 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 	}
 
 	@Override
-	public T getById(Integer id) {
-		return dao.getById(id);
+	public T getByIdEagerly(Integer id) {
+		return dao.getByIdEagerly(id);
+	}
+	
+	@Override
+	public T getByIdLazily(Integer id) {
+		return dao.getByIdLazily(id);
 	}
 
 	@Override
-	public Set<T> getAll() {
-		return dao.getAll();
+	public Set<T> getAllEagerly() {
+		return dao.getAllEagerly();
+	}
+
+	@Override
+	public Set<T> getAllLazily() {
+		return dao.getAllLazily();
 	}
 
 	@Override
@@ -47,5 +58,4 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 	public void delete(T t) {
 		dao.delete(t);
 	}
-
 }

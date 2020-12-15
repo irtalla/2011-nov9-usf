@@ -1,5 +1,7 @@
 package com.revature.data;
 
+import java.util.Set;
+
 import com.revature.beans.Draft;
 import com.revature.beans.DraftFeedback;
 import com.revature.beans.Person;
@@ -39,5 +41,18 @@ public class PitchFeedbackHibernate extends GenericHibernate<PitchFeedback> impl
 		return pf;
 	}
 
+	@Override
+	public Set<PitchFeedback> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
+		// will never be eagerly retrieved
+		return this.getAllLazilyWhereOwnerIdIs(ownerIdName, ownerId);
+	}
+
+	@Override
+	public PitchFeedback getByIdEagerly(Integer id) {
+		// never eagerly retrieved
+		return this.getByIdLazily(id);
+	}
+
+	
 
 }

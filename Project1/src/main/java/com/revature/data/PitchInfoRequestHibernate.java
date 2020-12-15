@@ -1,5 +1,7 @@
 package com.revature.data;
 
+import java.util.Set;
+
 import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.beans.PitchInfoRequest;
@@ -30,6 +32,18 @@ public class PitchInfoRequestHibernate extends GenericHibernate<PitchInfoRequest
 			this.add(pir);
 		}
 		return pir;
+	}
+
+	@Override
+	public Set<PitchInfoRequest> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
+		// TODO Auto-generated method stub
+		return this.getAllLazilyWhereOwnerIdIs(ownerIdName, ownerId);
+	}
+
+	@Override
+	public PitchInfoRequest getByIdEagerly(Integer id) {
+		// TODO Auto-generated method stub
+		return this.getByIdLazily(id);
 	}
 
 }

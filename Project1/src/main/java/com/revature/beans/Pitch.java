@@ -271,4 +271,12 @@ public class Pitch /*implements GenericBean*/{
 		this.infoRequests = infoRequests;
 	}
 
+	public Integer getDraftId() {
+		return draftId;
+	}
+
+	public void setDraftId(Integer draftId) {
+		this.draftId = draftId;
+	}
+
 }

@@ -10,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 
 import com.revature.beans.Draft;
 import com.revature.beans.Genre;
@@ -58,5 +59,47 @@ public class DraftHibernate extends GenericHibernate<Draft> implements DraftDAO{
 			this.add(d);
 		}
 		return d;
+	}
+
+	public Set<Draft> getAllEagerly(String ownerIdName, Integer ownerId) {
+		Session s = hu.getSession();
+		String sql = "SELECT * from " + this.tableName + " where " + ownerIdName + " = " + ownerId;
+        NativeQuery<Draft> query = s.createNativeQuery(sql, this.type);
+        List<Draft> matches = query.getResultList();
+        for(Draft d : matches) {
+        	Pitch p = new PitchHibernate().getByIdLazily(d.getPitchId());
+        	Person author = new PersonHibernate().getByIdLazily(p.getAuthorId());
+        	p.setAuthor(author);
+        	d.setPitch(p);
+        }
+        return new HashSet<>(matches);
+	}
+	
+	@Override
+	public Set<Draft> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
+		Session s = hu.getSession();
+		String sql = "SELECT * from " + this.tableName + " where " + ownerIdName + " = " + ownerId;
+        NativeQuery<Draft> query = s.createNativeQuery(sql, this.type);
+        List<Draft> matches = query.getResultList();
+        for(Draft d : matches) {
+        	Pitch p = new PitchHibernate().getByIdLazily(d.getPitchId());
+        	Person author = new PersonHibernate().getByIdLazily(p.getAuthorId());
+        	p.setAuthor(author);
+        	d.setPitch(p);
+        }
+        return new HashSet<>(matches);
+	}
+
+	@Override
+	public Draft getByIdEagerly(Integer id) {
+		Session s = hu.getSession();
+		String sql = "SELECT * from " + this.tableName + " where id = " + id;
+        NativeQuery<Draft> query = s.createNativeQuery(sql, this.type);
+        Draft draft = query.getSingleResult();
+        Pitch pitch = new PitchHibernate().getByIdLazily(draft.getPitchId());
+        Person author = new PersonHibernate().getByIdLazily(pitch.getAuthorId());
+        pitch.setAuthor(author);
+        draft.setPitch(pitch);
+        return draft;
 	}
 }

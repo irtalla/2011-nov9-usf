@@ -42,6 +42,11 @@ public class PersonServiceImpl extends GenericServiceImpl<Person> implements Per
 	public Set<Person> getAllEditorsWithRole(Role role, Genre genre) {
 		return getDao().getAllEditorsWithRoleAndGenre(role, genre);
 	}
+
+	@Override
+	public Person getByIdEagerly(Integer id) {
+		return getDao().getByIdEagerly(id);
+	}
 	
 	 
 }

@@ -1,5 +1,7 @@
 package com.revature.data;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -8,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 
 import com.revature.beans.Genre;
 import com.revature.beans.GenreCommittee;
@@ -55,6 +58,17 @@ public class GenreCommitteeHibernate extends GenericHibernate<GenreCommittee> im
 		
 		GenreCommittee gc = s.createQuery(criteria).getSingleResult();
 		return gc;
+	}
+
+	@Override
+	public Set<GenreCommittee> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
+		return this.getAllEagerlyWhereOwnerIdIs(ownerIdName, ownerId);
+	}
+
+	@Override
+	public GenreCommittee getByIdEagerly(Integer id) {
+		// TODO Auto-generated method stub
+		return this.getByIdLazily(id);
 	}
 
 }

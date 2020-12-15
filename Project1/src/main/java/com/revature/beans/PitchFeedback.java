@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="pitch_feedback")
@@ -21,12 +22,14 @@ public class PitchFeedback {
 	private Integer id;
 	
 //	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="pitch_id")
-//	private Pitch pitch;
+	@Transient
+	private Pitch pitch;
 	@Column(name="pitch_id")
 	private Integer pitchId;
 	
 //	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="editor_id")
-//	private Person editor; //person who is giving feedback; role must be that of an editor,
+	@Transient
+	private Person editor; //person who is giving feedback; role must be that of an editor,
 	//with authority of greater scope than the editor who most recently approved this pitch, if any
 	@Column(name="editor_id")
 	private Integer editorId;
@@ -55,24 +58,23 @@ public class PitchFeedback {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	@Transient
+	public Pitch getPitch() {
+		return pitch;
+	}
+	@Transient
+	public void setPitch(Pitch pitch) {
+		this.pitch = pitch;
+	}
+	@Transient
+	public Person getEditor() {
+		return editor;
+	}
 
-//	public Pitch getPitch() {
-//		return pitch;
-//	}
-//
-//	public void setPitch(Pitch pitch) {
-//		this.pitch = pitch;
-//	}
-
-//	public Person getEditor() {
-//		return editor;
-//	}
-//
-//	public void setEditor(Person editor) {
-//		this.editor = editor;
-//	}
-
-	
+	@Transient
+	public void setEditor(Person editor) {
+		this.editor = editor;
+	}	
 	
 	public Status getStatus() {
 		return status;

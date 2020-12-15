@@ -16,7 +16,7 @@ public abstract class GenericController<T> {
 	
 	public void getById(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
-		T t = getServ().getById(id);
+		T t = getServ().getByIdEagerly(id);
 		if (t != null) {
 			ctx.status(200);
 			ctx.json(t);
@@ -26,7 +26,7 @@ public abstract class GenericController<T> {
 	}
 	
 	public  void getAll(Context ctx) {
-		Set<T> tSet = getServ().getAll();
+		Set<T> tSet = getServ().getAllLazily();
 		if (tSet != null) {
 			ctx.status(200);
 			ctx.json(tSet);
@@ -41,7 +41,7 @@ public abstract class GenericController<T> {
 		if(t != null) {
 			id = getServ().add(t);
 			ctx.status(200);
-			ctx.json(getServ().getById(id));
+			ctx.json(getServ().getByIdEagerly(id));
 		}else {
 			ctx.status(400);
 		}
@@ -60,7 +60,7 @@ public abstract class GenericController<T> {
 	
 	public void delete(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
-		T t = getServ().getById(id);
+		T t = getServ().getByIdLazily(id);
 		if (t != null) {
 			getServ().delete(t);
 			ctx.status(204); // 204 = no content

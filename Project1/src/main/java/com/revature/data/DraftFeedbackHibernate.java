@@ -37,14 +37,14 @@ public class DraftFeedbackHibernate extends GenericHibernate<DraftFeedback> impl
 
 	@Override
 	public Set<DraftFeedback> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
-		// TODO Auto-generated method stub
-		return null;
+		// will never be eagerly retrieved
+		return this.getAllLazilyWhereOwnerIdIs(ownerIdName, ownerId);
 	}
 
 	@Override
 	public DraftFeedback getByIdEagerly(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		// will never be eagerly retrieved
+		return this.getByIdLazily(id);
 	}
 
 }

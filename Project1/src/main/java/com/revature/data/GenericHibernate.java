@@ -19,6 +19,8 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import com.revature.beans.AssociationMap;
+import com.revature.beans.Attachment;
+import com.revature.beans.Draft;
 import com.revature.beans.Person;
 import com.revature.utils.HibernateUtil;
 
@@ -32,6 +34,10 @@ public abstract class GenericHibernate<T> implements GenericDAO<T>{
 		this.tableName = tableName;
 	}
 	
+	@Override
+	public T getByIdEagerly(Integer id) {
+		return this.getByIdLazily(id);
+	}
 //	public abstract Set<AssociationMap<T>> getMaps(); 
 //	@Override
 //	public T getByIdEagerly(Integer id) {
@@ -118,6 +124,7 @@ public abstract class GenericHibernate<T> implements GenericDAO<T>{
 //	      }
 	}
 
+	@Override
 	public Set<T> getAllLazily() {
 		Session s = hu.getSession();
 		String sql = "SELECT * from " + this.tableName;
@@ -126,17 +133,31 @@ public abstract class GenericHibernate<T> implements GenericDAO<T>{
         return new HashSet<>(matches);
 	}
 	
-	public Set<T> getAllEagerly() {
+	@Override
+	public Set<T> getAllLazilyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
 		Session s = hu.getSession();
-		CriteriaBuilder cb = s.getCriteriaBuilder();
-		CriteriaQuery<T> criteria = cb.createQuery(this.type);
-		Root<T> root = criteria.from(this.type);
-		
-		criteria.select(root);
-		
-		List<T> tList = s.createQuery(criteria).getResultList();
-		s.close();
-		return new HashSet<T>(tList);
+		String sql = "SELECT * from " + this.tableName + " where " + ownerIdName + " = " + ownerId;
+        NativeQuery<T> query = s.createNativeQuery(sql, this.type);
+        List<T> matches = query.getResultList();
+        return new HashSet<>(matches);
+	}
+	
+//	public Set<T> getAllEagerly() {
+//		Session s = hu.getSession();
+//		CriteriaBuilder cb = s.getCriteriaBuilder();
+//		CriteriaQuery<T> criteria = cb.createQuery(this.type);
+//		Root<T> root = criteria.from(this.type);
+//		
+//		criteria.select(root);
+//		
+//		List<T> tList = s.createQuery(criteria).getResultList();
+//		s.close();
+//		return new HashSet<T>(tList);
+//	}
+	
+	@Override
+	public Set<T> getAllEagerly() {
+		return this.getAllLazily();
 	}
 
 	public void update(T t) {

@@ -7,9 +7,10 @@ public interface GenericService<T> {
 	public Integer add(T t);
 	
 	// read:
-	public T getById(Integer id);
-	public Set<T> getAll();
-	
+	public T getByIdEagerly(Integer id);
+	public T getByIdLazily(Integer id);
+	public Set<T> getAllEagerly();
+	public Set<T> getAllLazily();
 	// update
 	public void update(T t);
 	

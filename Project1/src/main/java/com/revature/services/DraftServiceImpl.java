@@ -25,12 +25,13 @@ public class DraftServiceImpl extends GenericServiceImpl<Draft> implements Draft
 	}
 	
 	@Override
-	public void add(Draft d) {
+	public Integer add(Draft d) {
 		try {
-			getDao().addDraft(d); //rather than using draftDao.add(d)
+			return getDao().addDraft(d); //rather than using draftDao.add(d)
 		} catch (DraftFromUnapprovedPitchException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override
@@ -60,5 +61,10 @@ public class DraftServiceImpl extends GenericServiceImpl<Draft> implements Draft
 			}
 		}
 		return drafts;
+	}
+
+	@Override
+	public Draft getByIdEagerly(Integer id) {
+		return getDao().getByIdEagerly(id);
 	}
 }

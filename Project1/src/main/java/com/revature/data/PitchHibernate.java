@@ -10,7 +10,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 
+import com.revature.beans.Draft;
 import com.revature.beans.Genre;
 import com.revature.beans.GenreCommittee;
 import com.revature.beans.Person;
@@ -74,7 +76,7 @@ public class PitchHibernate extends GenericHibernate<Pitch> implements PitchDAO{
 				System.out.println(person.getPitches().size());
 				return person.getPitches(); //authored pitches
 			case GENERAL_EDITOR:
-				return this.getAll();
+				return this.getAllLazily();
 			default:
 				Set<Pitch> pitches = new HashSet<>();
 				for(GenreCommittee gc : person.getGenreCommittees()) {
@@ -83,5 +85,47 @@ public class PitchHibernate extends GenericHibernate<Pitch> implements PitchDAO{
 				}
 				return pitches;
 		}
+	}
+	
+	public Set<Pitch> getAllEagerly(String ownerIdName, Integer ownerId) {
+		Session s = hu.getSession();
+		String sql = "SELECT * from " + this.tableName + " where " + ownerIdName + " = " + ownerId;
+        NativeQuery<Pitch> query = s.createNativeQuery(sql, this.type);
+        List<Pitch> matches = query.getResultList();
+        for(Pitch p : matches) {
+        	Draft d = new DraftHibernate().getByIdLazily(p.getDraftId());
+        	Person author = new PersonHibernate().getByIdLazily(p.getAuthorId());
+        	p.setAuthor(author);
+        	p.setDraft(d);
+        }
+        return new HashSet<>(matches);
+	}
+	
+	@Override
+	public Set<Pitch> getAllEagerlyWhereOwnerIdIs(String ownerIdName, Integer ownerId) {
+		Session s = hu.getSession();
+		String sql = "SELECT * from " + this.tableName + " where " + ownerIdName + " = " + ownerId;
+        NativeQuery<Pitch> query = s.createNativeQuery(sql, this.type);
+        List<Pitch> matches = query.getResultList();
+        for(Pitch p : matches) {
+        	Draft d = new DraftHibernate().getByIdLazily(p.getDraftId());
+        	Person author = new PersonHibernate().getByIdLazily(p.getAuthorId());
+        	p.setAuthor(author);
+        	p.setDraft(d);
+        }
+        return new HashSet<>(matches);
+	}
+
+	@Override
+	public Pitch getByIdEagerly(Integer id) {
+		Session s = hu.getSession();
+		String sql = "SELECT * from " + this.tableName + " where id = " + id;
+        NativeQuery<Pitch> query = s.createNativeQuery(sql, this.type);
+        Pitch p = query.getSingleResult();
+        Draft d = new DraftHibernate().getByIdLazily(p.getDraftId());
+    	Person author = new PersonHibernate().getByIdLazily(p.getAuthorId());
+    	p.setAuthor(author);
+    	p.setDraft(d);
+        return p;
 	}
 }

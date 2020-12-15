@@ -17,4 +17,9 @@ public class AttachmentServiceImpl extends GenericServiceImpl<Attachment> implem
 		return new AttachmentHibernate();
 	}
 
+	@Override
+	public Attachment getByIdEagerly(Integer id) {
+		return getDao().getByIdEagerly(id);
+	}
+
 }

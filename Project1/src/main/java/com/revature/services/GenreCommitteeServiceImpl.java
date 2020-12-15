@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.Set;
+
 import com.revature.beans.Genre;
 import com.revature.beans.GenreCommittee;
 import com.revature.data.GenreCommitteeDAO;

@@ -30,7 +30,7 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 	}
 	
 	@Override
-	public void add(DraftFeedback df) {
+	public Integer add(DraftFeedback df) {
 		getDao().add(df);
 		
 		if(df.getStatus().equals(Status.APPROVED)) {
@@ -41,7 +41,7 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 		}
 	}
 
-	public void approveDraftVia(DraftFeedback df) {
+	public Integer approveDraftVia(DraftFeedback df) {
 		Draft draft = df.getDraft();
 		Person editor = df.getEditor();
 		
@@ -82,9 +82,10 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 			draft.setStatus(Status.APPROVED);
 			draftServ.update(draft);
 		}
+		return draft.getId();
 	}
 
-	public void denyDraftVia(DraftFeedback df) {
+	public Integer denyDraftVia(DraftFeedback df) {
 		Draft draft = df.getDraft();
 		Person editor = df.getEditor();
 		StoryType st = draft.getStoryType();
@@ -129,5 +130,11 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 			this.draftServ.update(draft);
 			
 		}
+		return draft.getId();
+	}
+
+	@Override
+	public DraftFeedback getByIdEagerly(Integer id) {
+		return getDao().getByIdEagerly(id);
 	}
 }
