@@ -3,6 +3,7 @@ package com.revature.controller;
 import java.util.Set;
 
 import com.revature.exceptions.*;
+import com.revature.models.Committee;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.services.UserService;
@@ -133,6 +134,17 @@ public class UserController {
 		if (users != null) {
 			ctx.status(200);
 			ctx.json(users);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void getUserCommittees(Context ctx) {
+		User u = userServ.getUserById(Integer.valueOf(ctx.pathParam("id")));
+		Set<Committee> committees = userServ.getUserCommitees(u);
+		if (committees != null && !committees.isEmpty()) {
+			ctx.status(200);
+			ctx.json(committees);
 		} else {
 			ctx.status(404);
 		}

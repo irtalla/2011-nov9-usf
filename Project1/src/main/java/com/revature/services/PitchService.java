@@ -15,10 +15,10 @@ public interface PitchService {
 	public Integer addPitch(Pitch t) throws Exception;
 	public Pitch getPitchById(Integer id);
 	public Set<Pitch> getPitchesByAuthor(Integer id);
-	public Set<Pitch> getPitchesByGenre(Integer genreId, Boolean withinGenre);
-	public Set<Pitch> getPitchesByStoryType(StoryType type);
-	public Set<Pitch> getPitchesByPitchStage(PitchStage stage);
-	public Set<Pitch> getPitchesByReviewStatus(ReviewStatus status);
+	public Set<Pitch> getPitchesByGenre(Boolean withinGenre, Integer ... genreIds);
+	public Set<Pitch> getPitchesByStoryType(Integer typeId);
+	public Set<Pitch> getPitchesByPitchStage(Integer stageId);
+	public Set<Pitch> getPitchesByReviewStatus(Integer statusId);
 	public Set<Pitch> getPitchesByPriority(String label);
 	public Set<Pitch> getAllPitches();
 	public void updatePitch(Pitch t) throws Exception;
@@ -30,5 +30,7 @@ public interface PitchService {
 	public List<String> getPriorities();
 	public Pitch parseContext(String ctx);
 	public String updateFilePaths(String file);
-	public Boolean checkForTotalScore(Integer id);
+	public Boolean checkShouldHold(Integer id);
+	public void releaseHold(Pitch t);
+	public Pitch advancePitch(Pitch t);
 }

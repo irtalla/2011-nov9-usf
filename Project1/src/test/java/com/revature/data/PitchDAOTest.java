@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -103,9 +105,11 @@ class PitchDAOTest {
 	@Test
 	void testGetByGenre() {
 		System.out.println("Testing genre");
-		Set<Pitch> a = pitchDao.getByGenre(samplePitch.getGenre(), true);
+		List<Genre> list = new ArrayList<>();
+		list.add(samplePitch.getGenre());
+		Set<Pitch> a = pitchDao.getByGenre(true, list);
 		assertTrue(a.contains(samplePitch));
-		a = pitchDao.getByGenre(samplePitch.getGenre(), false);
+		a = pitchDao.getByGenre(false, list);
 		assertNull(a);
 	}
 	

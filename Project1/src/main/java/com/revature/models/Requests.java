@@ -2,14 +2,36 @@ package com.revature.models;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="request")
 public class Requests {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@Column(name="question")
 	private String question;
+	@Column(name="answer")
 	private String answer;
+	@Column(name="request_time")
 	private LocalDateTime requestMadeAt;
-	private String priority;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="requester_id")
 	private User requester;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="requestee_id")
 	private User requestee;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="request_status")
 	private ReviewStatus requestStatus;
 	
 	public Requests() {
@@ -17,7 +39,6 @@ public class Requests {
 		question = "";
 		answer = "";
 		requestMadeAt = LocalDateTime.now();
-		priority = "Normal";
 		requester = new User();
 		requestee = new User();
 		requestStatus = new ReviewStatus();
@@ -55,14 +76,6 @@ public class Requests {
 		this.requestMadeAt = requestMadeAt;
 	}
 
-	public String getPriority() {
-		return priority;
-	}
-
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
-
 	public User getRequester() {
 		return requester;
 	}
@@ -93,7 +106,6 @@ public class Requests {
 		int result = 1;
 		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((priority == null) ? 0 : priority.hashCode());
 		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		result = prime * result + ((requestMadeAt == null) ? 0 : requestMadeAt.hashCode());
 		result = prime * result + ((requestStatus == null) ? 0 : requestStatus.hashCode());
@@ -120,11 +132,6 @@ public class Requests {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (priority == null) {
-			if (other.priority != null)
-				return false;
-		} else if (!priority.equals(other.priority))
 			return false;
 		if (question == null) {
 			if (other.question != null)
@@ -156,9 +163,9 @@ public class Requests {
 
 	@Override
 	public String toString() {
-		return "Requests [answer=" + answer + ", id=" + id + ", priority=" + priority + ", question=" + question
-				+ ", requestee=" + requestee + ", requester=" + requester + ", requestMadeAt=" + requestMadeAt
-				+ ", requestStatus=" + requestStatus + "]";
+		return "Requests [id=" + id + ", question=" + question + ", answer=" + answer + ", requestMadeAt="
+				+ requestMadeAt + ", requester=" + requester + ", requestee=" + requestee + ", requestStatus="
+				+ requestStatus + "]";
 	}
 
 }

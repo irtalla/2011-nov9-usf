@@ -43,6 +43,11 @@ public class SpmsAppJavalin {
 					get(UserController::getUserByEmail);
 				});
 				
+				path("editor/", () -> {
+					path("committees/:id", () -> {
+						get(UserController::getUserCommittees);				
+					});
+				});
 
 			});
 			
@@ -59,28 +64,30 @@ public class SpmsAppJavalin {
 				
 				path("genre", () -> {
 					get(PitchController::getGenres);
-					path(":genre_pitch", () -> {
-						get(PitchController::getPitchByGenre);
+					path(":ids", () -> {
+						path(":within_genre", () -> {
+							get(PitchController::getPitchByGenre);
+						});
 					});
 				});
 				
 				path("story_type", () -> {
 					get(PitchController::getStoryTypes);
-					path(":story_type_pitch", () -> {
+					path(":id", () -> {
 						get(PitchController::getPitchesByStoryType);
 					});
 				});
 				
 				path("pitch_stage", () -> {
 					get(PitchController::getPitchStages);
-					path(":pitch_stage_pitch", () -> {
+					path(":id", () -> {
 						get(PitchController::getPitchesByPitchStage);
 					});
 				});
 				
 				path("review_status", () -> {
 					get(PitchController::getReviewStatus);
-					path(":review_status_pitch", () -> {
+					path(":id", () -> {
 						get(PitchController::getPitchesByReviewStatus);
 					});
 				});
@@ -94,6 +101,9 @@ public class SpmsAppJavalin {
 				
 				path("file", () -> {
 					post(PitchController::uploadFile);
+					path(":id/:name", () -> {
+						get(PitchController::downloadFile);		
+					});
 				});
 				
 				path(":id", () -> {

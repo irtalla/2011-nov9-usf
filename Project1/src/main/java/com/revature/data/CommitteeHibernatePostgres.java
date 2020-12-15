@@ -96,7 +96,7 @@ public class CommitteeHibernatePostgres implements CommitteeDAO {
 		}
 		return editors;
 	}
-
+	
 	@Override
 	public Set<Committee> getAll() {
 		Set<Committee> committees = new HashSet<>();

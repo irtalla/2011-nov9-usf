@@ -17,14 +17,11 @@ public class StoryType {
 	private String name;
 	@Column(name="weight")
 	private Integer weight;
-	@Column(name="required_editors")
-	private Integer numEditorApprovalRequired;
 	
 	public StoryType() {
 		id = 0;
 		name = "";
 		weight = 0;
-		numEditorApprovalRequired = 1;
 	}
 
 	public Integer getId() {
@@ -51,21 +48,12 @@ public class StoryType {
 		this.weight = weight;
 	}
 
-	public Integer getNumEditorApprovalRequired() {
-		return numEditorApprovalRequired;
-	}
-
-	public void setNumEditorApprovalRequired(Integer numEditorApprovalRequired) {
-		this.numEditorApprovalRequired = numEditorApprovalRequired;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((numEditorApprovalRequired == null) ? 0 : numEditorApprovalRequired.hashCode());
 		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 		return result;
 	}
@@ -89,11 +77,6 @@ public class StoryType {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (numEditorApprovalRequired == null) {
-			if (other.numEditorApprovalRequired != null)
-				return false;
-		} else if (!numEditorApprovalRequired.equals(other.numEditorApprovalRequired))
-			return false;
 		if (weight == null) {
 			if (other.weight != null)
 				return false;
@@ -104,8 +87,7 @@ public class StoryType {
 
 	@Override
 	public String toString() {
-		return "StoryType [id=" + id + ", name=" + name + ", weight=" + weight + ", numEditorApprovalRequired="
-				+ numEditorApprovalRequired + "]";
+		return "StoryType [id=" + id + ", name=" + name + ", weight=" + weight + "]";
 	}
 	
 }

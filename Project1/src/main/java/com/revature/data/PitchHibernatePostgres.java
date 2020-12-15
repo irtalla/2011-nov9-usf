@@ -101,28 +101,44 @@ public class PitchHibernatePostgres implements PitchDAO {
 	}
 
 	@Override
-	public Set<Pitch> getByGenre(Genre genre, Boolean withinGenre) {
+	public Set<Pitch> getByGenre(Boolean withinGenre, List<Genre> genres) {
 		Set<Pitch> pitches = new HashSet<>();
 		
-		if (genre == null)  return null;
+		if (genres == null)  return null;
 		
 		try (Session s = sessionFactory.getCurrentSession()) {
 			s.beginTransaction();
-			String hql;
-			if (withinGenre) {
-				hql = "from Pitch where genre_id = :genre_id";
-			} else {
-				hql = "from Pitch where genre_id <> :genre_id";
-			}
-			Query<Pitch> q = s.createQuery(hql, Pitch.class);
-			q.setParameter("genre_id", genre.getId());
-			List<Pitch> resultList = q.getResultList();
-			if (resultList.size() > 0) {
-				pitches = new HashSet<Pitch>(resultList);
-				for (Pitch p : pitches) {
-					p.setPriority(checkPriority(p));
+			if (genres.size() > 0) {
+				String hql = "from Pitch";
+				for (int i = 0; i < genres.size(); i ++) {
+					if (withinGenre) {
+						if (i == 0) {
+							hql +=  " where genre_id = " + genres.get(i).getId();						
+						} else {
+							hql += " or genre_id = " + genres.get(i).getId();
+						}
+
+					} else {
+						if (i == 0) {
+							hql += " where genre_id <> " + genres.get(i).getId();				
+						} else {
+							hql += " and genre_id <> " + genres.get(i).getId();
+						}
+
+					}
+				}
+				
+				System.out.println(hql);
+				Query<Pitch> q = s.createQuery(hql, Pitch.class);
+				List<Pitch> resultList = q.getResultList();
+				if (resultList.size() > 0) {
+					pitches = new HashSet<Pitch>(resultList);
+					for (Pitch p : pitches) {
+						p.setPriority(checkPriority(p));
+					}
 				}
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -258,7 +274,7 @@ public class PitchHibernatePostgres implements PitchDAO {
 
 	private Priority checkPriority(Pitch t) {
 		Priority p = Priority.NORMAL;
-		LocalDate prioritySwitch = t.getPitchMadeAt().toLocalDate().plusDays(5);
+		LocalDate prioritySwitch = t.getPitchArrivedAt().toLocalDate().plusDays(3);
 		LocalDate now = LocalDate.now();
 		if (now.isEqual(prioritySwitch) || now.isAfter(prioritySwitch)) {
 			p = Priority.HIGH;
@@ -266,5 +282,5 @@ public class PitchHibernatePostgres implements PitchDAO {
 		
 		return p;
 	}
-
+	
 }

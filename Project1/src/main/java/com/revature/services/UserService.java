@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.models.Committee;
 import com.revature.models.Role;
 import com.revature.models.User;
 
@@ -16,4 +17,5 @@ public interface UserService {
 	public Set<User> getAllUsers();
 	public void updateUser(User u) throws NonUniqueUsernameException, NonUniqueEmailException, InvalidEmailException;
 	public void deleteUser(User u);
+	public Set<Committee> getUserCommitees(User t);
 }

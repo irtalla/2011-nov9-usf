@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,24 +84,29 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByGenre(Integer genre_id, Boolean withinGenre) {
-		Genre genre = genreDao.getById(genre_id);
-		
-		return pitchDao.getByGenre(genre, withinGenre);
+	public Set<Pitch> getPitchesByGenre(Boolean withinGenre, Integer ... genreIds) {
+		List<Genre> genres = new ArrayList<>();
+		for (Integer id : genreIds) {
+			genres.add(genreDao.getById(id));
+		}
+		return pitchDao.getByGenre(withinGenre, genres);
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByStoryType(StoryType type) {
+	public Set<Pitch> getPitchesByStoryType(Integer typeId) {
+		StoryType type = stDao.getById(typeId);
 		return pitchDao.getByStoryType(type);
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByPitchStage(PitchStage stage) {
+	public Set<Pitch> getPitchesByPitchStage(Integer stageId) {
+		PitchStage stage = psDao.getById(stageId);
 		return pitchDao.getByPitchStage(stage);
 	}
 
 	@Override
-	public Set<Pitch> getPitchesByReviewStatus(ReviewStatus status) {
+	public Set<Pitch> getPitchesByReviewStatus(Integer statusId) {
+		ReviewStatus status = rsDao.getById(statusId);
 		return pitchDao.getByReviewStatus(status);
 	}
 
@@ -233,6 +239,10 @@ public class PitchServiceImpl implements PitchService {
 						LocalDateTime ldt = LocalDateTime.parse(jObj.get(key).toString());
 						p.setPitchMadeAt(ldt);
 						break;
+					case "pitchArivedAt":
+						LocalDateTime paa = LocalDateTime.parse(jObj.get(key).toString());
+						p.setPitchArrivedAt(paa);
+						break;
 					case "pitchStage":
 						JSONObject psObj = (JSONObject) jObj.get(key);
 						System.out.println(psObj.toString());
@@ -338,20 +348,72 @@ public class PitchServiceImpl implements PitchService {
 	}
 	
 	@Override
-	public Boolean checkForTotalScore(Integer id) {
+	public Boolean checkShouldHold(Integer id) {
 		Pitch p = pitchDao.getById(id);
-		User u = p.getAuthor();
-		Set<Pitch> pitches = pitchDao.getByAuthor(u);
-		Integer total = 0;
-		for (Pitch pitch : pitches) {
-			if (pitch.getId() == id) continue;
-			if (pitch.getPitchStage().getId() == 5 && pitch.getReviewStatus().getId() >= 4) continue;
-			total += pitch.getStoryType().getWeight();
-		}
+		Integer total = checkForTotalScore(p);
 		if (total + p.getStoryType().getWeight() <= 100) {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	@Override
+	public void releaseHold(Pitch t) {
+		Integer total = checkForTotalScore(t);
+		if (total < 100) {
+			Set<Pitch> pitches = pitchDao.getByAuthor(t.getAuthor());
+			List<Pitch> pitchList = new ArrayList<Pitch>(pitches);
+			pitchList.sort((Pitch p1, Pitch p2) -> {
+				if (p1.getPitchMadeAt().isBefore(p2.getPitchMadeAt())) {
+					return 1;
+				} else if (p1.getPitchMadeAt().isEqual(p2.getPitchMadeAt())){
+					return 0;
+				} else {
+					return -1;
+				}
+			});
+			
+			iterate:
+			for (Pitch p : pitchList) {
+				if (p.getPitchStage().getId() == 1) {
+					if (total + p.getStoryType().getWeight() <= 100) {
+						advancePitch(p);
+						total += p.getStoryType().getWeight();
+					} else {
+						break iterate;
+					}
+				}
+			}
+		}
+
+	}
+	
+	private Integer checkForTotalScore(Pitch p) {
+		User u = p.getAuthor();
+		Set<Pitch> pitches = pitchDao.getByAuthor(u);
+		Integer total = 0;
+		for (Pitch pitch : pitches) {
+			if (pitch.getId() == p.getId()) continue;
+			if (pitch.getPitchStage().getId() == 5 && pitch.getReviewStatus().getId() >= 4) continue;
+			total += pitch.getStoryType().getWeight();
+		}
+		return total;
+	}
+	
+	@Override
+	public Pitch advancePitch(Pitch t) {
+		if (t.getPitchStage().getId() < 5) {
+			t.setPitchStage(psDao.getById(t.getPitchStage().getId() + 1));
+			t.setPitchArrivedAt(LocalDateTime.now());
+			try {
+				pitchDao.update(t);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return getPitchById(t.getId());
+		} else {
+			return t;
 		}
 	}
 

@@ -79,6 +79,7 @@ async function submitPitch() {
         description: document.getElementById("description").value,
         completionDate: document.getElementById("completionDate").value,
         pitchMadeAt: getNow(),
+        pitchArrivedAt: getNow(),
         priority: priority,
         pitchStage: stage,
         reviewStatus: status,
@@ -232,7 +233,7 @@ async function checkTotalScore() {
         }
 
         console.log(totalScore);
-        if (totalScore >= 100) {
+        if (totalScore > 100) {
             alert("Please note that this pitch will be on hold while we review your other pitches.\nOnce we clear your older pitches, we will automatically release this pitch from hold.");
         }
         returnToPitch();

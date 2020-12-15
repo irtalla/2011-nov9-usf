@@ -1,5 +1,9 @@
 package com.revature.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +12,6 @@ import com.revature.app.SpmsAppJavalin;
 import com.revature.models.Genre;
 import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
-import com.revature.models.Priority;
 import com.revature.models.ReviewStatus;
 import com.revature.models.StoryType;
 import com.revature.services.PitchService;
@@ -25,7 +28,7 @@ public class PitchController {
 		Pitch newPitch = pitchServ.parseContext(ctx.body());
 		try {
 			Integer newId = pitchServ.addPitch(newPitch);
-			if (pitchServ.checkForTotalScore(newId)) {
+			if (pitchServ.checkShouldHold(newId)) {
 				newPitch.getPitchStage().setId(2);
 				newPitch.getReviewStatus().setId(2);
 				pitchServ.updatePitch(newPitch);
@@ -53,6 +56,26 @@ public class PitchController {
 
 	}
 	
+	public static void downloadFile(Context ctx) {
+		String pitchId = ctx.pathParam("id");
+		String fileName = ctx.pathParam("name");
+		String filePath = SpmsAppJavalin.USER_FILE_LOC + "/pitch_" + pitchId + "/pitch/" + fileName;
+		System.out.println(filePath);
+		File f = new File(filePath);
+		FileNameMap fileNameMap = URLConnection.getFileNameMap();
+		String mimeType = fileNameMap.getContentTypeFor(f.getName());
+		
+		try {
+			ctx.result(new FileInputStream(f))
+			.contentType(mimeType)
+			.header("Content-Disposition", "attachment; filename=" + f.getName());
+			ctx.status(200);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.status(500);
+		}
+	}
+	
 	public static void getPitchById(Context ctx) {
 		Integer id = Integer.valueOf(ctx.pathParam("id"));
 		Pitch p = pitchServ.getPitchById(id);
@@ -76,9 +99,15 @@ public class PitchController {
 	}
 	
 	public static void getPitchByGenre(Context ctx) {
-		Integer genreId = Integer.valueOf(ctx.pathParam("genre"));
+		String[] stringIds = ctx.pathParam("ids").replaceAll("[^0-9,]","").split(",");
+		Integer[] genreIds = new Integer[stringIds.length];
+		for (int i = 0; i < stringIds.length; i++) {
+			genreIds[i] = Integer.parseInt(stringIds[i]);
+//			System.out.println(genreIds[i]);
+		}
 		Boolean withinGenre = Boolean.valueOf(ctx.pathParam("within_genre"));
-		Set<Pitch> p = pitchServ.getPitchesByGenre(genreId, withinGenre);
+		System.out.println("getting pitches by genre");
+		Set<Pitch> p = pitchServ.getPitchesByGenre(withinGenre, genreIds);
 		if (p != null) {
 			ctx.status(200);
 			ctx.json(p);
@@ -88,8 +117,8 @@ public class PitchController {
 	}
 	
 	public static void getPitchesByStoryType(Context ctx) {
-		StoryType st = ctx.bodyAsClass(StoryType.class);
-		Set<Pitch> p = pitchServ.getPitchesByStoryType(st);
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Set<Pitch> p = pitchServ.getPitchesByStoryType(id);
 		if (p != null) {
 			ctx.status(200);
 			ctx.json(p);
@@ -99,8 +128,8 @@ public class PitchController {
 	}
 	
 	public static void getPitchesByPitchStage(Context ctx) {
-		PitchStage ps = ctx.bodyAsClass(PitchStage.class);
-		Set<Pitch> p = pitchServ.getPitchesByPitchStage(ps);
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Set<Pitch> p = pitchServ.getPitchesByPitchStage(id);
 		if (p != null) {
 			ctx.status(200);
 			ctx.json(p);
@@ -110,8 +139,8 @@ public class PitchController {
 	}
 	
 	public static void getPitchesByReviewStatus(Context ctx) {
-		ReviewStatus rs = ctx.bodyAsClass(ReviewStatus.class);
-		Set<Pitch> p = pitchServ.getPitchesByReviewStatus(rs);
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Set<Pitch> p = pitchServ.getPitchesByReviewStatus(id);
 		if (p != null) {
 			ctx.status(200);
 			ctx.json(p);
@@ -121,7 +150,7 @@ public class PitchController {
 	}
 	
 	public static void getPitchesByPriority(Context ctx) {
-		String priority = String.valueOf(ctx.pathParam("priority"));
+		String priority = String.valueOf(ctx.pathParam("priority_pitch"));
 		Set<Pitch> p = pitchServ.getPitchesByPriority(priority);
 		if (p != null) {
 			ctx.status(200);
@@ -145,6 +174,7 @@ public class PitchController {
 		Pitch tempPitch = ctx.bodyAsClass(Pitch.class);
 		try {
 			pitchServ.updatePitch(tempPitch);
+			if (tempPitch.getPitchStage().getId() == 5 && tempPitch.getReviewStatus().getId() >= 4) pitchServ.releaseHold(tempPitch);
 		} catch (Exception e) {
 			System.out.println("An exception has occured");
 			ctx.status(200);

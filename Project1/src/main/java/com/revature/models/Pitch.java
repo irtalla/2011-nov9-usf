@@ -46,6 +46,8 @@ public class Pitch {
 	private LocalDate completionDate;
 	@Column(name="pitch_made_at")
 	private LocalDateTime pitchMadeAt;
+	@Column(name="pitch_arrived_at")
+	private LocalDateTime pitchArrivedAt;
 	@Transient
 	private Priority priority;
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -70,6 +72,7 @@ public class Pitch {
 		description = "";
 		completionDate = LocalDate.now();
 		pitchMadeAt = LocalDateTime.now();
+		pitchArrivedAt = LocalDateTime.now();
 		priority = Priority.NORMAL;
 		pitchStage = new PitchStage();
 		reviewStatus = new ReviewStatus();
@@ -148,6 +151,14 @@ public class Pitch {
 		this.pitchMadeAt = pitchMadeAt;
 	}
 
+	public LocalDateTime getPitchArrivedAt() {
+		return pitchArrivedAt;
+	}
+
+	public void setPitchArrivedAt(LocalDateTime pitchArrivedAt) {
+		this.pitchArrivedAt = pitchArrivedAt;
+	}
+
 	public Priority getPriority() {
 		return priority;
 	}
@@ -190,6 +201,7 @@ public class Pitch {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pitchArrivedAt == null) ? 0 : pitchArrivedAt.hashCode());
 		result = prime * result + ((pitchMadeAt == null) ? 0 : pitchMadeAt.hashCode());
 		result = prime * result + ((pitchStage == null) ? 0 : pitchStage.hashCode());
 		result = prime * result + ((priority == null) ? 0 : priority.hashCode());
@@ -239,6 +251,11 @@ public class Pitch {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (pitchArrivedAt == null) {
+			if (other.pitchArrivedAt != null)
+				return false;
+		} else if (!pitchArrivedAt.equals(other.pitchArrivedAt))
+			return false;
 		if (pitchMadeAt == null) {
 			if (other.pitchMadeAt != null)
 				return false;
@@ -278,8 +295,9 @@ public class Pitch {
 	public String toString() {
 		return "Pitch [id=" + id + ", author=" + author + ", title=" + title + ", tagline=" + tagline + ", storyType="
 				+ storyType + ", genre=" + genre + ", description=" + description + ", completionDate=" + completionDate
-				+ ", pitchMadeAt=" + pitchMadeAt + ", priority=" + priority + ", pitchStage=" + pitchStage
-				+ ", reviewStatus=" + reviewStatus + ", additionalFiles=" + additionalFiles + "]";
+				+ ", pitchMadeAt=" + pitchMadeAt + ", pitchArrivedAt=" + pitchArrivedAt + ", priority=" + priority
+				+ ", pitchStage=" + pitchStage + ", reviewStatus=" + reviewStatus + ", additionalFiles="
+				+ additionalFiles + "]";
 	}
 
 }

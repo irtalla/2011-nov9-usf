@@ -39,7 +39,7 @@ function setupDefault(pitch) {
         <h3> Projected Completion:  ${completionDate} </h3>
         <h3> Additional Files: </h3>
         <section id="additionalFiles"> </section>
-
+        <br><br>
         `;
     let returnBtn = document.createElement("button");
     returnBtn.type = "button";
@@ -50,28 +50,57 @@ function setupDefault(pitch) {
     returnBtn.appendChild(rText);
     viewer.appendChild(returnBtn);
 
+    if (JSON.parse(currentUser).role.id >= 2) {
+        let requestBtn = document.createElement("button");
+        requestBtn.type = "button";
+        requestBtn.id = "makeRequestBtn";
+        requestBtn.className = "submitBtn";
+        requestBtn.onclick = makeRequest;
+        let reqText = document.createTextNode("make a request");
+        requestBtn.appendChild(reqText);
+        viewer.appendChild(requestBtn);
+
+        let acceptBtn = document.createElement("button");
+        acceptBtn.type = "button";
+        acceptBtn.id = "acceptPitchBtn";
+        acceptBtn.className = "submitBtn";
+        acceptBtn.onclick = acceptPitch;
+        let accText = document.createTextNode("approve pitch");
+        acceptBtn.appendChild(accText);
+        viewer.appendChild(acceptBtn);
+
+        let rejectBtn = document.createElement("button");
+        rejectBtn.type = "button";
+        rejectBtn.id = "rejectPitchBtn";
+        rejectBtn.className = "submitBtn";
+        rejectBtn.onclick = rejectPitch;
+        let rejText = document.createTextNode("reject pitch");
+        rejectBtn.appendChild(rejText);
+        viewer.appendChild(rejectBtn);
+    }
+
     for (let file of parsedPitch.additionalFiles) {
         let path = file.path;
-        console.log(path);
-        path = path.replace("./src/main/resources/static/", "/");
-        console.log(path);
+        let pitchId = path.slice(path.indexOf("_") + 1);
+        pitchId = pitchId.slice(0, pitchId.indexOf("/"));
         let fileName = path.slice(path.lastIndexOf("/") + 1);
         console.log(fileName);
-        console.log(path);
-        // path = "/files/pitch_1/index.html";
+        let url = baseUrl + `/pitch/file/${pitchId}/${fileName}`;
+        console.log(url);
         let downloads = document.createElement("a");
-        downloads.href = path;
-        downloads.download = true;
+        downloads.href = url;
+        downloads.download = fileName;
         downloads.text = fileName;
+        downloads.onclick = () => { getFile(url); };
         document.getElementById("additionalFiles").appendChild(downloads);
     }
+
 }
 
 async function getPitch () {
     let pitchId = JSON.parse(currentPitch);
-    let url = baseUrl + "/pitch/" + pitchId;
-    // console.log(url);
-
+    let url = baseUrl;
+    url += "/pitch/" + pitchId; 
     let pitch = null;
     let response = await fetch(url);
     if (response.status === 200) {
@@ -80,19 +109,29 @@ async function getPitch () {
     }
 }
 
-async function getFiles(file) {
-    let name = file.name;
-    let blob = new Blob([file]);
-    let url = URL.createObjectURL(blob);
-    console.log(url);
-    let downloader = document.createElement("a");
-    downloader.download = name;
-    downloader.href = url;
-    console.log(downloader);
-    downloader.click();
+async function getFile(url) {
+    let fileUrl = url;
+    let response = await fetch(fileUrl);
+    if (response.status === 200) {
+        console.log("Filed successfully downloaded!");
+    } else {
+        alert("Failed to download the file. Sorry!");
+    }
 }
 
 function returnToHub() {
     localStorage.setItem("pitchToView", null);
     window.location.replace("./pitchHub.html");
+}
+
+function makeRequest() {
+
+}
+
+function acceptPitch() {
+
+}
+
+function rejectPitch() {
+
 }

@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import java.util.List;
 import java.util.Set;
 
 import com.revature.models.AdditionalFile;
@@ -13,7 +14,7 @@ import com.revature.models.User;
 
 public interface PitchDAO extends GenericDAO<Pitch> {
 	public Set<Pitch> getByAuthor(User author);
-	public Set<Pitch> getByGenre(Genre genre, Boolean withinGenre);
+	public Set<Pitch> getByGenre(Boolean withinGenre, List<Genre> genres);
 	public Set<Pitch> getByStoryType(StoryType type);
 	public Set<Pitch> getByPitchStage(PitchStage stage);
 	public Set<Pitch> getByReviewStatus(ReviewStatus status);
