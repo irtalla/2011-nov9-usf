@@ -1,0 +1,5 @@
+package servicespackage.dss;
+
+public class DSS_ServiceImpl {
+
+}

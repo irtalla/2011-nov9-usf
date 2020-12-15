@@ -1,0 +1,5 @@
+package servicespackage.employee;
+
+public interface Employee_Service {
+
+}

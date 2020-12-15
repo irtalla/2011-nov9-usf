@@ -1,0 +1,5 @@
+package servicespackage.story_type;
+
+public interface Story_Type_Service {
+
+}

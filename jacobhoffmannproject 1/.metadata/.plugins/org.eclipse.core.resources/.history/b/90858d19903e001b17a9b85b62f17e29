@@ -1,0 +1,11 @@
+package servicespackage.draft_approval;
+
+import models.Draft_Approval;
+
+public interface Draft_Approval_Service {
+	//public Draft_Approval getByEditorId( Integer i);
+	public Draft_Approval getById(Integer i);
+	public Draft_Approval getByStoryId(Integer i);
+	public Draft_Approval add(Draft_Approval e);
+	public void updateDraft_Approval(Draft_Approval e);
+}

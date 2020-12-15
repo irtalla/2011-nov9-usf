@@ -1,0 +1,5 @@
+package servicespackage.pitch_approval;
+
+public interface Pitch_Approval_Service {
+
+}

@@ -1,0 +1,5 @@
+package servicespackage.Author;
+
+public class Author_DAOFactory {
+
+}

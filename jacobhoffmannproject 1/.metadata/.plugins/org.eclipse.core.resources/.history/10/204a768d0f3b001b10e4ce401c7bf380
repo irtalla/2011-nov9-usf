@@ -1,0 +1,8 @@
+package data;
+
+import models.Employee;
+
+public interface Employee_Dao {
+	public Employee getEmployeeById(Integer id);
+	public Employee getByUserId( Integer i);
+}

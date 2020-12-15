@@ -1,0 +1,5 @@
+package data;
+
+public class Editor_Hibernate implements Editor_Dao{
+
+}

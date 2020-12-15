@@ -1,0 +1,10 @@
+package servicespackage.user;
+
+import models.Users;
+
+public interface User_Service {
+	public Integer addUser(Users u);
+	public Users getUserById(Integer id);
+	public Users getUserByUsername(String u);
+	public void updateUser(Users u);
+}

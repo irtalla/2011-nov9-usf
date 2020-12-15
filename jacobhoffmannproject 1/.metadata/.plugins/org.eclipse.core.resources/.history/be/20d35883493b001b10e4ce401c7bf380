@@ -1,0 +1,5 @@
+package servicespackage.pitch_status;
+
+public class Pitch_Status_ServiceImpl {
+
+}

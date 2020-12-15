@@ -1,0 +1,5 @@
+package servicespackage.dss;
+
+public interface DSS_Service {
+
+}

@@ -1,0 +1,5 @@
+package servicespackage.Approval.copy;
+
+public class Approval_Other_DAOFactory {
+
+}

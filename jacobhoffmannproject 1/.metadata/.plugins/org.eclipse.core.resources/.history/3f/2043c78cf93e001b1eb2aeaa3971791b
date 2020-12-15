@@ -1,0 +1,57 @@
+package data;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import models.Employee;
+import models.Story;
+import utils.HibernateUtil;
+
+public class StoryHibernate implements StoryDAO{
+	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
+
+	public Story getById(Integer id) {
+		Session s = hu.getSession();
+		Story e = s.get(Story.class,id);
+		s.close();
+		return e;
+	}
+
+	public Story add(Story e) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.save(e);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+		return e;
+	}
+
+	public void update(Story e) {
+		Session s = hu.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.update(e);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			s.close();
+		}
+	}
+
+	@Override
+	public Set<Story> getByUserId(Integer i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

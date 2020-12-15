@@ -1,0 +1,80 @@
+package controller;
+
+import java.util.Set;
+
+import exceptions.NonUniqueUsernameException;
+import io.javalin.http.Context;
+import models.Users;
+import servicespackage.user.User_Service;
+import servicespackage.user.User_ServiceImpl;
+
+public class UsersController {
+	private static User_Service userServ = new User_ServiceImpl();
+	
+	public static void getUserById(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Users u = userServ.getUserById(id);
+		if (u != null) {
+			ctx.status(200);
+			ctx.json(u);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void getByUsername(Context ctx) {
+		String s = String.valueOf(ctx.pathParam("username"));
+		Users u = userServ.getUserByUsername(s);
+		if (u != null) {
+			ctx.status(200);
+			ctx.json(u);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void addUser(Context ctx) throws NonUniqueUsernameException {
+		Users u = ctx.bodyAsClass(Users.class);
+		userServ.addUser(u);
+		ctx.status(201);
+	}
+	
+	public static void updateUser(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Users u = ctx.bodyAsClass(Users.class);
+		if (u != null) {
+			ctx.status(200);
+			userServ.updateUser(u);
+		} else {
+			ctx.status(404);
+		}
+	}
+	
+	public static void deleteCat(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Cat cat = catServ.getCatById(id);
+		if (cat != null) {
+			catServ.removeCat(cat);
+			ctx.status(204); // 204 = no content
+		}
+		else {
+			ctx.status(204);
+		}
+	}
+	
+	public static void adoptCat(Context ctx) {
+		Person loggedPerson = ctx.sessionAttribute("user");
+		Cat cat = catServ.getCatById(Integer.valueOf(ctx.pathParam("id")));
+		if (loggedPerson != null) {
+			if (cat != null) {
+				catServ.adoptCat(loggedPerson, cat);
+				ctx.status(200);
+			} else {
+				ctx.status(409);
+			}
+		} else {
+			ctx.status(401);
+		}
+		
+	}
+}

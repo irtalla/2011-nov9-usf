@@ -1,0 +1,5 @@
+package servicespackage.draft;
+
+public class Draft_DAOFactory {
+
+}

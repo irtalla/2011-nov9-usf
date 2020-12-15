@@ -1,0 +1,51 @@
+package data;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import models.Commitee;
+import models.Employee;
+import utils.HibernateUtil;
+
+public class CommiteeHibernate implements CommiteeDao{
+	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
+
+	public Commitee getCommiteeById(Integer id) {
+		Session s = hu.getSession();
+		Commitee e = s.get(Commitee.class,id);
+		s.close();
+		return e;
+	}
+
+	public Set<Commitee> getByGenreID(Integer i) {
+		Session s = hu.getSession();
+		String query = "FROM Commitee where genre.id = :status";
+		Query<Commitee> q = s.createQuery(query, Commitee.class);
+		q.setParameter("status", i);
+		List<Commitee> catsList = q.getResultList();
+		Set<Commitee> catsSet = new HashSet<>();
+		catsSet.addAll(catsList);
+		s.close();
+		return catsSet;
+	}
+
+	public Set<Commitee> getByEditorId(Integer i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Commitee add(Commitee e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateCommitee(Commitee e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

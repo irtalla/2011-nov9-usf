@@ -1,0 +1,40 @@
+package servicespackage.draft;
+
+import java.util.Set;
+
+import data.DraftDao;
+import data.Draft_DAOFactory;
+import models.Draft;
+
+public class Draft_ServiceImpl implements Draft_Service{
+	private DraftDao ddao;
+	public Draft_ServiceImpl() {
+		Draft_DAOFactory dfactory = new Draft_DAOFactory();
+	}
+	public Draft getById(Integer id) {
+		// TODO dd-generated method stub
+		return ddao.getById(id);
+	}
+
+	public Set<Draft> getByAuthorId(Integer i) {
+		// TODO Auto-generated method stub
+		return ddao.getByAuthorId(i);
+	}
+
+	public Draft add(Draft e)  {
+		// TODO Auto-generated method stub
+		try {
+			return ddao.add(e);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	}
+
+	public void update(Draft e) {
+		// TODO Auto-generated method stub
+		ddao.update(e);
+	}
+
+}

@@ -1,0 +1,17 @@
+package servicespackage.employee;
+
+import models.Employee;
+
+public class Employee_ServiceImpl implements Employee_Service{
+
+	public Employee getByEmployeeId(Integer i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Employee getByUserId(Integer i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,5 @@
+package servicespackage.editor;
+
+public class Editor_ServiceImpl {
+
+}

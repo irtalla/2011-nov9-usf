@@ -1,0 +1,23 @@
+package servicespackage.story;
+
+import models.Story;
+
+public class Story_ServiceImpl implements Story_Service{
+	private StoryDAO storydao;
+	
+	public Story getById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Story add(Story e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void update(Story e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

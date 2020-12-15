@@ -1,0 +1,5 @@
+package servicespackage.Approval;
+
+public interface Approval_Other_Service {
+
+}

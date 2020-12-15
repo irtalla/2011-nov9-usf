@@ -1,0 +1,27 @@
+package data;
+
+import models.Editor;
+
+public class Editor_Hibernate implements Editor_Dao{
+
+	public Editor getEditorById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Editor getByEmployeeId(Integer i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Editor add(Editor e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateEditor(Editor e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

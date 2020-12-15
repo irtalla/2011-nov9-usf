@@ -1,0 +1,5 @@
+package servicespackage.request_info;
+
+public class Request_Info_DAOFactory {
+
+}

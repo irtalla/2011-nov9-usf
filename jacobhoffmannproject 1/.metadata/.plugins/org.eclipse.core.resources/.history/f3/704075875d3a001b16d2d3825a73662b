@@ -1,0 +1,40 @@
+package data;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import exceptions.NonUniqueUsernameException;
+import models.Users;
+import utils.HibernateUtil;
+
+public class UserHibernate implements User_Dao {
+	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
+	public Users add(Users U) throws NonUniqueUsernameException {
+		Session s = hu.getSession();
+		Users u = s.get(Users.class, U.getId());
+		s.close();
+		return u;
+	}
+
+	public Users getByUsername(String username) {
+		Session s = hu.getSession();
+		String query = "FROM users where username = :status";
+		Query<Users> q = s.createQuery(query, Users.class);
+		q.setParameter("status", username);
+		Users user = q.getSingleResult();
+		s.close();
+		return user;
+
+	}
+
+	public Users getUserById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateUser(Users u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

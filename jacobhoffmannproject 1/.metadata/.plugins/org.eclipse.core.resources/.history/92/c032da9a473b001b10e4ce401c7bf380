@@ -1,0 +1,5 @@
+package servicespackage.Author;
+
+public interface Author_Service {
+
+}

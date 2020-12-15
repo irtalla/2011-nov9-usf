@@ -1,0 +1,5 @@
+package servicespackage.pitch_status;
+
+public interface Pitch_Status_Service {
+
+}

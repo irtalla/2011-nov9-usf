@@ -1,0 +1,5 @@
+package servicespackage.draft_approval;
+
+public interface Draft_Approval_Service {
+
+}

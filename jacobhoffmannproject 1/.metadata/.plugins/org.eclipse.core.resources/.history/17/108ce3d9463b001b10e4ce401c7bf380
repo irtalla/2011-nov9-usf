@@ -1,0 +1,5 @@
+package servicespackage.request_info;
+
+public interface Request_Info_Service {
+
+}

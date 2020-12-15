@@ -1,0 +1,5 @@
+package servicespackage.story;
+
+public class Story_ServiceImpl implements Story_Service{
+
+}

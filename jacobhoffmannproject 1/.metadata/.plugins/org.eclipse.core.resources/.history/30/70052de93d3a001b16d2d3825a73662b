@@ -1,0 +1,5 @@
+package servicespackage.story_type;
+
+public class Story_Type_DAOFactory {
+
+}

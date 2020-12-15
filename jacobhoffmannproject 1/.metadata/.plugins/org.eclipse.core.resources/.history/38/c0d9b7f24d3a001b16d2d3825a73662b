@@ -1,0 +1,14 @@
+package servicespackage.user;
+
+import data.User_DAOFactory;
+import data.User_Dao;
+
+public class User_ServiceImpl {
+	private User_Dao userdao;
+	
+	public User_ServiceImpl() {
+		User_DAOFactory userdaofactory = new User_DAOFactory();
+		userdao = userdaofactory.getUserDAO();
+	
+	}
+}

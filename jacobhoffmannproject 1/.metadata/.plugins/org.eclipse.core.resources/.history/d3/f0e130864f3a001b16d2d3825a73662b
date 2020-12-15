@@ -1,0 +1,18 @@
+package data;
+
+import exceptions.NonUniqueUsernameException;
+import models.Users;
+
+public class UserHibernate implements User_Dao {
+
+	public Users add(Users U) throws NonUniqueUsernameException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Users getByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

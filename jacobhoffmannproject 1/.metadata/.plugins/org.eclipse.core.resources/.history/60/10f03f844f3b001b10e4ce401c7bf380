@@ -1,0 +1,27 @@
+package data;
+
+import models.Approval_Other;
+
+public class AuthorHibernate implements ApprovalOtherDao {
+
+	public Approval_Other getApprovalById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Approval_Other getByEditorId(Integer i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Approval_Other add(Approval_Other e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void updateApproval(Approval_Other e) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,19 @@
+package data;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import exceptions.NonUniqueUsernameException;
+import models.Employee;
+import models.Users;
+import utils.HibernateUtil;
+public class Employee_Hibernate {
+	private HibernateUtil hu = HibernateUtil.getHibernateUtil();
+	public Employee getEmployeeById(Integer id) {
+		Session s = hu.getSession();
+		Employee e = s.get(Employee.class,id);
+		s.close();
+		return e;
+	}
+
+}

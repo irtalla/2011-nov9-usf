@@ -1,0 +1,5 @@
+package data;
+
+public interface Draft_Approval_Dao {
+
+}

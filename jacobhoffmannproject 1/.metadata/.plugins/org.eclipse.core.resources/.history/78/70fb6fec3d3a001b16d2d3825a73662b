@@ -1,0 +1,5 @@
+package servicespackage.user;
+
+public class User_DAOFactory {
+
+}

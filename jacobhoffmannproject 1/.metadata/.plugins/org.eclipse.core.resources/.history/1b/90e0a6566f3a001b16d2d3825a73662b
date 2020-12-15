@@ -1,0 +1,16 @@
+package controller;
+
+import exceptions.NonUniqueUsernameException;
+import models.Users;
+import servicespackage.user.User_Service;
+import servicespackage.user.User_ServiceImpl;
+
+public class Testermain {
+	public static void main(String[] args) throws NonUniqueUsernameException {
+	Users newuser  = new Users(1, "test", "test","test@test.test","837-887-3801");
+	User_Service userv = new User_ServiceImpl();
+	//newuser.setId(userv.addUser(newuser));
+	Users dumb = userv.getUserByUsername("test");
+	System.out.println(dumb);
+	}
+}

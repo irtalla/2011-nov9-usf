@@ -1,0 +1,48 @@
+package controller;
+
+import io.javalin.http.Context;
+import models.Editor;
+import servicespackage.dss.DSS_Service;
+import servicespackage.editor.Editor_Service;
+import servicespackage.editor.Editor_ServiceImpl;
+
+public class DSSController {
+private static DSS_Service eserv = new DSS_ServiceImpl();
+	
+	public static void getByEditorId(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Editor u = eserv.getByEditorId(id);
+		if (u != null) {
+			ctx.status(200);
+			ctx.json(u);
+		} else {
+			ctx.status(404);
+		}
+	}
+	public static void getByEmployeeId(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Editor u = eserv.getByEmployeeId(id);
+		if (u != null) {
+			ctx.status(200);
+			ctx.json(u);
+		} else {
+			ctx.status(404);
+		}
+	}
+	public static void add(Context ctx){
+		Editor u = ctx.bodyAsClass(Editor.class);
+		eserv.addEditor(u);
+		ctx.status(201);
+	}
+	
+	public static void update(Context ctx) {
+		Integer id = Integer.valueOf(ctx.pathParam("id"));
+		Editor u = ctx.bodyAsClass(Editor.class);
+		if (u != null) {
+			ctx.status(200);
+			eserv.updateEditor(u);
+		} else {
+			ctx.status(404);
+		}
+	}
+}

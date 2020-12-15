@@ -1,0 +1,8 @@
+package servicespackage.employee;
+
+import models.Employee;
+
+public interface Employee_Service {
+		public Employee getByEmployeeId(Integer i);
+		public Employee getByUserId(Integer i);
+}

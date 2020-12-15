@@ -1,0 +1,5 @@
+package servicespackage.dso;
+
+public interface DSO_Service {
+
+}

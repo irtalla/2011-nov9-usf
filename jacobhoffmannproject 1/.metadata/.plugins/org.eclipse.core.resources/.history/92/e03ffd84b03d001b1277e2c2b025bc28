@@ -1,0 +1,10 @@
+package servicespackage.pitch_status;
+
+import models.Pitch_Status;
+
+public interface Pitch_Status_Service {
+	public Pitch_Status getById(Integer id);
+	//public Draft_Status_Article getByUserId( Integer i);
+	public Pitch_Status add(Pitch_Status e);
+	public void update(Pitch_Status e);
+}

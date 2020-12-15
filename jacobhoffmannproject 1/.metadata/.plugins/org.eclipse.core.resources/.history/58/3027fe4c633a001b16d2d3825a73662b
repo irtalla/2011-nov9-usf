@@ -1,0 +1,8 @@
+package controller;
+
+import models.Users;
+
+public class Testermain {
+	Users newuser  = new Users(1, "test", "test","test@test.test","837-887-3801");
+	
+}
