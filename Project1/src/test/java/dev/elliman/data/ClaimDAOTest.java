@@ -1,5 +1,6 @@
 package dev.elliman.data;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
@@ -74,11 +75,11 @@ public class ClaimDAOTest {
 	}
 	
 
-	@Order(1)
-	@Test
-	public void makeClaim() {
-		assertTrue(claimDAO.makeClaim(testClaim).getId() == 1);
-	}
+//	@Order(1)
+//	@Test
+//	public void makeClaim() {
+//		assertTrue(claimDAO.makeClaim(testClaim).getId() == 1);
+//	}
 	
 //	@Order(2)
 //	@Test
@@ -89,4 +90,5 @@ public class ClaimDAOTest {
 //		}
 //		assertTrue(claims.contains(testClaim));
 //	}
+	
 }
