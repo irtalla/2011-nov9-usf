@@ -5,10 +5,8 @@ checkLogin();
 setNav();
 
 function setNav() {
-    nav.innerHTML = `
-            <a href="index.html"><strong>Cat App</strong></a>
-            `;
-    if (!loggedUser) {
+    nav.innerHTML = `<a href="index.html"><strong>Home</strong></a>`;
+    if (localStorage.getItem('username') == null) {
         nav.innerHTML += `
             <form>
                 <label for="user">Username: </label>
@@ -18,23 +16,32 @@ function setNav() {
                 <button type="button" id="loginBtn">Log In</button>
             </form>
         `;
-    } else {
+    } else { 
+        console.log(localStorage.getItem('roleId'));
+
+        if (localStorage.getItem('roleId') == 1) {
+            nav.innerHTML += `
+                <a href="myStories.html">My Stories</a>
+                <a href="addStory.html">Add Story</a>
+            `;
+            //console.log(localStorage.getItem('username'));
+        }
+        else {
+            nav.innerHTML += `
+                <a href="addSpecial.html">Pending Stories</a>
+            `;
+        }
+
         nav.innerHTML += `
-            <a href="myCats.html">My Cats</a>
             <span>
-                <a href="profile.html">${loggedUser.username}&nbsp;</a>
+                <span>Logged in as ${localStorage.getItem('username')}&nbsp;</span>
                 <button type="button" id="loginBtn">Log Out</button>
             </span>
         `;
-        if (loggedUser.role.id == 2) {
-            nav.innerHTML += `
-                <a href="addSpecial.html">Add Special Need</a>
-            `;
-        }
     }
 
     let loginBtn = document.getElementById('loginBtn');
-    if (loggedUser) loginBtn.onclick = logout;
+    if (localStorage.getItem('username')) loginBtn.onclick = logout;
     else loginBtn.onclick = login;
 }
 
@@ -48,6 +55,12 @@ async function login() {
     switch (response.status) {
         case 200: // successful
             loggedUser = await response.json();
+            console.log(loggedUser);
+            localStorage.setItem('username', loggedUser.username);
+            localStorage.setItem('firstName', loggedUser.firstName);
+            localStorage.setItem('lastName', loggedUser.lastName);
+            localStorage.setItem('id', loggedUser.id);
+            localStorage.setItem('roleId', loggedUser.role.id);
             setNav();
             break;
         case 400: // incorrect password
@@ -66,17 +79,21 @@ async function login() {
 }
 
 async function logout() {
-    let url = baseUrl + '/users';
+    /*let url = baseUrl + '/users';
     let response = await fetch(url, {method:'DELETE'});
 
     if (response.status != 200) alert('Something went wrong.');
-    loggedUser = null;
+    loggedUser = null;*/
+    localStorage.clear();
     setNav();
+
 }
 
-async function checkLogin() {
+async function checkLogin(callback = null) {
     let url = baseUrl + '/users';
     let response = await fetch(url);
-    if (response.status === 200) loggedUser = await response.json();
+    if (response.status === 200){
+         loggedUser = await response.json();
+    }
     setNav();
 }

@@ -5,6 +5,7 @@ import dev.warrington.utils.ConnectionUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import dev.warrington.beans.Role;
 import dev.warrington.exceptions.NonUniqueUsernameException;
@@ -78,6 +79,17 @@ public class PersonPostgres implements PersonDAO {
 			}
 			
 		} catch (Exception e) {
+			if (e.getMessage().contains("violates unique constraint")) {
+				throw new NonUniqueUsernameException();
+			}
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = cu.getConnection()) {
+			
+			String sql = "insert into author values (" + p.getId() + ", 100";
+			
+		}  catch (Exception e) {
 			if (e.getMessage().contains("violates unique constraint")) {
 				throw new NonUniqueUsernameException();
 			}

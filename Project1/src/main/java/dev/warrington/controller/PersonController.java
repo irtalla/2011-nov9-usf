@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.time.LocalDate;
 import java.util.Base64;
  
 import javax.crypto.SecretKeyFactory;
@@ -36,9 +37,6 @@ public class PersonController {
         System.out.println(newSalt);
         
         //Generate password
-        String algorithm = "PBKDF2WithHmacSHA1";
-        int derivedKeyLength = 160; // for SHA1
-        int iterations = 20000; // NIST specifies 10000
         byte[] saltBytes = Base64.getDecoder().decode(newSalt);
         
         KeySpec spec = new PBEKeySpec(password.toCharArray(), saltBytes, iterations, derivedKeyLength);
@@ -48,10 +46,10 @@ public class PersonController {
         String passHash = Base64.getEncoder().encodeToString(encBytes);
         System.out.println(passHash);
         System.out.println(passHash.length());
-	}
-	*/
+	}*/
 	
-	public static void CheckLogin(Context ctx) {
+	
+	public static void checkLogin(Context ctx) {
 		
 		System.out.println("Checking login");
 		Person p = ctx.sessionAttribute("user");
@@ -66,7 +64,7 @@ public class PersonController {
 		
 	}
 	
-	public static void LogIn(Context ctx) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public static void logIn(Context ctx) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
 		System.out.println("Logging in");
 		String username = ctx.queryParam("user");
@@ -97,7 +95,7 @@ public class PersonController {
 		
 	}
 	
-	public static void RegisterUser(Context ctx) {
+	public static void registerUser(Context ctx) {
 		
 		Person newPerson = ctx.bodyAsClass(Person.class);
 		try {

@@ -3,6 +3,7 @@ package dev.warrington.app;
 import io.javalin.Javalin;
 import static io.javalin.apibuilder.ApiBuilder.*;
 import dev.warrington.controller.PersonController;
+import dev.warrington.controller.StoryController;
 
 public class StoryPitchJavalin {
 
@@ -17,9 +18,11 @@ public class StoryPitchJavalin {
 		
 		app.routes(() -> {
 			path("users", () -> {
-				get(PersonController::CheckLogin);
-				put(PersonController::LogIn);
-				post(PersonController::RegisterUser);
+				get(PersonController::checkLogin);
+				put(PersonController::logIn);
+			});
+			path("stories", () -> {
+				put(StoryController::getMyStories);
 			});
 		});
 		
