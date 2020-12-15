@@ -198,7 +198,7 @@ function editPitch() {
 		<td><input id = "ePTitle" type = "text" value = ${nodes.item(3).innerHTML}></td>
 		<td><input id = "ePDescription" type = "text" value = ${nodes.item(5).innerHTML}></td>
 		<td>${nodes.item(7).innerHTML}</td>
-		<td><input id = "ePSuggestion" type = "text" value = ${nodes.item(9).innerHTML}></td>
+		<td><input id = "ePSuggestion" type = "text" value = ${nodes.item(12).innerHTML}></td>
 		<td><button disabled = 'true'>Accept</button>
 		<button id = ${editId}>Save</button></td>
 		`;
