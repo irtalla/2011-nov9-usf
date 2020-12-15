@@ -11,6 +11,7 @@ async function populateData()
     for(let f of forms)
     {
         let permissionlevel = await canViewReimbursment(f);
+        //console.log(permissionlevel);
         if (permissionlevel > 0)
         {
             displayFormToData(dataDiv, f, permissionlevel);
@@ -115,13 +116,12 @@ async function closeReimbursementNotification(sidebarDiv, notif)
     }
 }
 
-async function checkUrgency(event)
+function checkUrgency(event)
 {
     let now = new Date();
 
 
     let eventDate = new Date(event.date);
-
     if((eventDate - now) < (86400000*14))
     {
         return true;
@@ -536,7 +536,7 @@ async function acceptForm(parent, form)
 
     form.stage = await getStageById(form.stage.id);
 
-    if(form.stage.id == 4)
+    if(form.stage.id == 5)
     {
         form.status.id = 3;
         form.status = await getStatusById(form.status.id);

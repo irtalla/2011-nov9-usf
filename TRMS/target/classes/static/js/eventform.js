@@ -298,6 +298,7 @@ async function uploadEventFile(form, files)
         return;
     }
 
+    console.log(files);
     let formData = new FormData();
     formData.append(files[0].name, files[0]);
 
@@ -709,29 +710,34 @@ function appendNumericInput(form, description, id)
     employeeId = user.id;
     eventId = event.id;
 
-    console.log(gradingFormat);
+    //console.log(gradingFormat);
 
     reimbursememntForm = {id: id, fileDate: fileDate, employeeId: employeeId, eventId: eventId, gradingFormat: gradingFormat, passingGrade: passingGrade, justification: justification, reimbursementAmount: reimbursementAmount, hoursMissed: hoursMissed, stage: stage, stageEntryDate: stageEntryDate, status: status};
 
     let reimbursementResponse = await fetch(baseUrl + "/forms/reimbursement", {method: "POST", body: JSON.stringify(reimbursememntForm)});
     reimbursememntForm.id = await reimbursementResponse.json();
 
-    console.log(reimbursememntForm);
+    //console.log(reimbursememntForm);
 
 
     for(i of form.childNodes)
     {
         if (i.id == "attatchmentUpload")
         {
-            uploadEventFile(reimbursememntForm, i.files);
+            if(i.files.length != 0)
+            {
+                await uploadEventFile(reimbursememntForm, i.files);
+            }
         }
         else if (i.id == "approvalFile")
         {
-            uploadApprovalFile(reimbursememntForm, i.files);
+            if(i.files.length != 0)
+            {
+                await uploadApprovalFile(reimbursememntForm, i.files);
+            }
         }
     }
 
-    alert("stop");
     
     window.location.replace('homepage.html');
 
