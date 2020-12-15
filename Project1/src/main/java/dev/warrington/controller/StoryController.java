@@ -47,4 +47,9 @@ public class StoryController {
 		Integer id = Integer.parseInt(ctx.queryParam("id"));
 		storyServ.deny(id);
 	}
+	
+	public static void req(Context ctx) {
+		Integer id = Integer.parseInt(ctx.queryParam("id"));
+		storyServ.req(id);
+	}
 }

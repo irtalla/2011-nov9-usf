@@ -14,6 +14,7 @@ import dev.warrington.utils.ConnectionUtil;
 
 import dev.warrington.beans.Story;
 
+
 public class StoryPostgres implements StoryDAO {
 	private ConnectionUtil cu = ConnectionUtil.getConnectionUtil();
 
@@ -309,6 +310,24 @@ public class StoryPostgres implements StoryDAO {
 			Statement stmt = conn.createStatement();
 			Integer rowsAffected = stmt.executeUpdate(sql);			
 		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void req(Integer id) {
+		
+	}
+	
+	public void delete(Integer id) {
+		try (Connection conn = cu.getConnection()) {
+			
+			String sql = "delete from story where story_id = " + id;
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			
+			
+		}  catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

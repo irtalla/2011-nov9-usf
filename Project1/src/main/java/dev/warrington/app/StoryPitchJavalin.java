@@ -31,6 +31,9 @@ public class StoryPitchJavalin {
 			path("deny", () -> {
 				put(StoryController::deny);
 			});
+			path("req", () -> {
+				put(StoryController::req);
+			});
 		});
 		
 	}

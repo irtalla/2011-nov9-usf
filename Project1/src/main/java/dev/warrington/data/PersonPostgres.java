@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import dev.warrington.beans.Role;
 import dev.warrington.exceptions.NonUniqueUsernameException;
@@ -59,7 +60,7 @@ public class PersonPostgres implements PersonDAO {
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			String sql = "insert into person values (default, 1, ?, ?, ?, ?, ?)";
-			String[] keys = {"id"};
+			String[] keys = {"person_id"};
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
 			pstmt.setString(1, p.getUsername());
 			pstmt.setString(2, p.getPassHash());
@@ -87,7 +88,10 @@ public class PersonPostgres implements PersonDAO {
 		
 		try (Connection conn = cu.getConnection()) {
 			
-			String sql = "insert into author values (" + p.getId() + ", 100";
+			String sql = "insert into author values (" + p.getId() + ", 100)";
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			
 			
 		}  catch (Exception e) {
 			if (e.getMessage().contains("violates unique constraint")) {
@@ -97,6 +101,35 @@ public class PersonPostgres implements PersonDAO {
 		}
 		
 		return p;
+		
+	}
+	
+	public void delete(Integer id) throws NonUniqueUsernameException {
+		
+		try (Connection conn = cu.getConnection()) {
+			
+			String sql = "delete from author where author_id = " + id;
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			
+			
+		}  catch (Exception e) {
+			if (e.getMessage().contains("violates unique constraint")) {
+				throw new NonUniqueUsernameException();
+			}
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = cu.getConnection()) {
+			
+			String sql = "delete from person where person_id = " + id;
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 

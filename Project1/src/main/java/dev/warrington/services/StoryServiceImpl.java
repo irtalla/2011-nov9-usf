@@ -35,4 +35,9 @@ public class StoryServiceImpl implements StoryService {
 		storyDao.deny(id);
 	}
 
+	@Override
+	public void req(Integer id) {
+		storyDao.req(id);
+	}
+
 }

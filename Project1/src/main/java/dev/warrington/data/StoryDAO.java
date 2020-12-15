@@ -9,4 +9,5 @@ public interface StoryDAO extends GenericDAO {
 	public void addStory(Story s);
 	public void approve(Integer id);
 	public void deny(Integer id);
+	public void req(Integer id);
 }

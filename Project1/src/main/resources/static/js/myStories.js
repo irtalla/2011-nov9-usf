@@ -87,8 +87,11 @@ function populateStories(stories) {
 
             if (story.status == 1) {
                 status = "hold";
-            } else if (story.status > 0 && story.status < 8) {
-                status = "pending";
+            } else if (story.status > 1 && story.status < 8) {
+                if (story.status % 2 == 0)
+                    status = "pending";
+                else
+                    status = "request";
             } else if (story.status == 8) {
                 status = "approved";
             } else {

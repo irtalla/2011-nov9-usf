@@ -139,6 +139,12 @@ async function deny (story) {
     window.location.replace("index.html");
 }
 
+async function requestMore (story) {
+    let url = baseUrl + '/req?';
+    url += 'id=' + story.id;
+    let response = await fetch(url, {method: 'PUT'});
+}
+
 function viewBookInfo(story) {
     let genre;
     let type;
