@@ -1,35 +1,38 @@
-let selectedDraft = null;
-let pitch = selectedPitch;
-let status = pitch.status;
-let role = loggedUser.role;
-populatePitchSections();
+function generatePitchProfile(){
+    let status = selectedPitch.status;
+    let role = loggedUser.role;
 
-function populatePitchSections(){
-    document.getElementById("pitchSection").innerHTML = (role == "AUTHOR") ? getUpdatePitchForm() : getPitchDetails();
-    document.getElementById("pitchInfoRequestSection").innerHTML = getListOfPitchInfoRequests();
-    document.getElementById("pitchFeedbackSection").innerHTML =getListOfPitchFeedback();
+    if(role == "AUTHOR") {
+       generateUpdatePitchForm();
+    }else{
+       generatePitchDetails();
+    }
+         
+    generateListOfPitchInfoRequests();
+    generateListOfPitchFeedback();
     
     if(status == "APPROVED"){
         if(pitch.draft){
             selectedDraft = pitch.draft;
-            str += `<a href="draft.html">Draft</a>`;
+            generateLinkToDraft();
         }else if(role == "AUTHOR") {
-            str += getAddDraftForm();
+            generateAddDraftForm();
         }
     }else if(role != "AUTHOR" && status == "PENDING"){
-        document.getElementById("addPitchInfoRequestSection").innerHTML = getAddPitchInfoRequestForm();
-
-        const mayReactAsAsst = !hasBeenApprovedByEditorWithRole("ASSISTANT_EDITOR") && (loggedUser.role == "ASSISTANT_EDITOR");
-        const mayReactAsGeneral = !hasBeenApprovedByEditorWithRole("GENERAL_EDITOR") && loggedUser.role == "GENERAL_EDITOR";
-        const mayReactAsSenior = !hasBeenApprovedByEditorWithRole("SENIOR_EDITOR") && loggedUser.role == "SENIOR_EDITOR";
-        
-        if(mayReactAsAsst || mayReactAsGeneral || mayReactAsSenior){
-            document.getElementById("addPitchFeedbackSection").innerHTML = getAddPitchFeedbackForm();
-        }
+        generateAddPitchInfoRequestForm();
+        generateAddPitchFeedbackForm();
     }
 }
 
-function getUpdatePitchForm(){
+function generateLinkToDraft(){
+    subject.innerHTML += `<button type="button" id="linkToDraftBtn">Draft</button>`;
+    document.getElementById("linkToDraftBtn").onclick = () => {
+        clearSubject();
+        generateDraftProfile();
+    };
+}
+
+function generateUpdatePitchForm(){
     //createdAt handled in db; status and priority handled in controller
     const stringsForKeys = {
         storyType: getSelectForEnum("Story Type", storyTypes),
@@ -46,7 +49,7 @@ function getUpdatePitchForm(){
         <form id="add-pitch-form">
     `;
 
-    keysInOrder.forEach(key => {
+    userLazyKeys.forEach(key => {
         if(Object.keys(stringsForKeys).includes(key)){
             str += stringsForKeys[key]
         }else{
@@ -57,13 +60,15 @@ function getUpdatePitchForm(){
         }
     });
 
-    str += `    <button onclick="updatePitch" id="submit-add-pitch-form" >Add Pitch</button>
+    str += `    <button type="button" id="updatePitchButton" >Update Pitch</button>
         </form>
     `;
-    return str;
+    subject.innerHTML += str;
+    let updatePitchButton = document.getElementById("updatePitchButton");
+    updatePitchButton.onclick = updatePitch;
 }
 
-function updatePitch(){
+async function updatePitch(){
     let pitchUpdate = {};
     keysInOrder.forEach(key => newPitch[key] = document.getElementById(key));
     newPitch["status"] = authorRemainingPoints(pitch.author) > 0 ? "PENDING" : "SAVED";
@@ -79,7 +84,8 @@ function updatePitch(){
     if(response.status == 200){
         // successful
         selectedPitch = await response.json();
-        window.open("pitch.html","_self");
+        clearSubject();
+        generatePitchProfile();
     }else{
         alert('Pitch could not be updated.');
     }
@@ -112,7 +118,7 @@ function hasBeenApprovedByEditorWithRole(role){
     return false;
 }
 
-function getListOfPitchFeedback(){
+function generateListOfPitchFeedback(){
     let str = `
         <ul>
     `;
@@ -123,10 +129,10 @@ function getListOfPitchFeedback(){
     });
 
     str += `</ul>`
-    return str;
+    subject.innerHTML += str;
 }
 
-function getListOfPitchInfoRequests(){
+function generateListOfPitchInfoRequests(){
     let str = `
         <ul>
     `;
@@ -137,17 +143,21 @@ function getListOfPitchInfoRequests(){
     });
 
     str += `</ul>`
-    return str;
+    subject.innerHTML += str;
 }
 
-function getAddDraftForm(){
-   return `
+function generateAddDraftForm(){
+   let str = `
         <form>
             <input id="narrative" name="narrative" type="text">
-            <button type="button" id="addPitchButton" onclik="addDraft">App Draft<button>
+            <button type="button" id="addDraftButton" onclik="addDraft">App Draft<button>
         </form>
     `;
+    subject.innerHTML += str;
+    let addDraftButton = document.getElementById("addDraftButton");
+    addDraftButton.onclick = addDraft;
 }
+
 
 async function addDraft(){
     let newDraft = {
@@ -164,45 +174,10 @@ async function addDraft(){
 
     if(response.status == 200){
         selectedDraft = await response.json();
-        window.open("draft.html","_self");
+        clearSubject();
+        generateDraftProfile();
     }else{
         alert("Could not add draft");
-    }
-}
-
-function getAddPitchInfoRequestForm(){
-    if(!(status == "PENDING" && role != "AUTHOR")) {
-        return "";
-    }
-
-    let str = `
-        <form>
-            <input id="explanation" name="explanation" type="text" />
-            <select>
-    `;
-
-    getTargetableEditors().forEach(editor => 
-        str += `<option value="${editor}">${editor.firstName} + ${editor.lastName}</option>`
-    );
-
-    str += `</select>
-            <button id="addPitchFeedbackBtn" onclick="addPitchFeedback"></button>
-        </form>
-    `;
-
-    return str;
-    // document.getElementById("addPitchFeedbackSection").innerHTML = str;
-}
-
-async function getTargetableEditors(){
-    if(selectedPitch.status == "PENDING"){
-        let editors = new Set();
-        selectedPitch.feedback.forEach(reaction => editors.add(reaction.editor));
-        selectedPitch.infoRequests.forEach(request => editors.add(reaction.requestingEditor));
-        
-        return editors;
-    }else{
-        return [];
     }
 }
 
@@ -237,68 +212,10 @@ async function getEditorsByRoleAndGenre(role, genre){
     }
 }
 
-function addPitchRequest(){
-    let response = await fetch(baseUrl + `pitches/${selectedPitch.id}/info_requests`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newPitchRequest)
-    });
-    if(response.status == 200){
-        //re-populate pitch feedback list, adding new pitch request
-
-    }else{
-        alert("Could not add Pitch Info Request");
-    }
-}
-
-function getAddPitchFeedbackForm(){
-    return `
-        <form>
-            <select id="status" name="status">
-                <option value="APPROVED">Approved</option>
-                <option value="SELECTED" selected>Pending</option>
-                <option value="DENIED">Denied</option>
-            </select>
-            <input id="explanation" name="explanation" type="text" />
-            <button id="addPitchFeedbackBtn" onclikc="addPitchFeedback" />
-        </form>
-    `;
-}
-
-async function addPitchFeedback(){
-    let status = document.getElementById("status").value.toUpperCase();
-    let explanation = document.getElementById("explanation").value;
-    
-    let newFeedback = {
-        status: status,
-        explanation: explanation
-    }
-
-    if(status == "DENIED" && !!explanation){
-        alert("Denying a Draft Requires an Explanation!");
-        return;
-    }
-    let response = await fetch(baseUrl + `/pitches/${selectedPitch.id}/pitch_feedback`, {
-        method: "POST",
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(newFeedback)
-    });
-
-    if(response.status == 200){
-        populatePitchSections();
-    }else{
-        alert("Could not add Feedback to Pitch.");
-    }
-}
-
-function getPitchDetails(){
+function generatePitchDetails(){
     let pitch = selectedPitch;
     
-    return `
+    subject.innerHTML += `
         <h4>${pitch.tentativeTitle} (<i>${status}</i>)</h4>
         <p>By ${pitch.pseudoFirstName} ${pitch.pseudoLastName}</p>
 

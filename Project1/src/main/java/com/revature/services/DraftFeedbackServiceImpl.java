@@ -30,8 +30,8 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 	}
 	
 	@Override
-	public DraftFeedback add(DraftFeedback df) {
-		df = getDao().add(df);
+	public void add(DraftFeedback df) {
+		getDao().add(df);
 		
 		if(df.getStatus().equals(Status.APPROVED)) {
 			this.approveDraftVia(df);
@@ -39,7 +39,6 @@ public class DraftFeedbackServiceImpl extends GenericServiceImpl<DraftFeedback> 
 		else if(df.getStatus().equals(Status.DENIED)) {
 			this.denyDraftVia(df);
 		}
-		return df;
 	}
 
 	public void approveDraftVia(DraftFeedback df) {

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,10 +20,10 @@ public class PitchFeedback {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne @JoinColumn(name="pitch_id")
+	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="pitch_id")
 	private Pitch pitch;
 	
-	@ManyToOne @JoinColumn(name="editor_id")
+	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="editor_id")
 	private Person editor; //person who is giving feedback; role must be that of an editor,
 	//with authority of greater scope than the editor who most recently approved this pitch, if any
 	

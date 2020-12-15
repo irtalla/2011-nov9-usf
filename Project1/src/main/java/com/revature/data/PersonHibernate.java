@@ -10,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.revature.beans.Genre;
 import com.revature.beans.Person;
@@ -23,9 +24,26 @@ public class PersonHibernate extends GenericHibernate<Person> implements PersonD
 	public PersonHibernate() {
 		super(Person.class);
 	}
+	
+//	@Override
+//	public void add(Person p) {
+//		Session s = hu.getSession();
+//		Transaction tx = null;
+//		try {
+//			tx = s.beginTransaction();
+//			s.save(p);
+//			tx.commit();
+//		} catch (Exception e) {
+//			if (tx != null)
+//				tx.rollback();
+//		} finally {
+//			s.close();
+//		}
+//		return;
+//	}
 
 	@Override
-	public Person addPerson(Person p) throws NonUniqueUsernameException {
+	public void addPerson(Person p) throws NonUniqueUsernameException {
 		try {
 			this.add(p);
 		}catch(Exception e) {
@@ -34,11 +52,10 @@ public class PersonHibernate extends GenericHibernate<Person> implements PersonD
 			}
 			e.printStackTrace();
 		}
-		return p;
 	}
 	
 	@Override
-	public Person updatePerson(Person p) throws NonUniqueUsernameException {
+	public void updatePerson(Person p) throws NonUniqueUsernameException {
 		try {
 			this.add(p);
 		}catch(Exception e) {
@@ -47,7 +64,6 @@ public class PersonHibernate extends GenericHibernate<Person> implements PersonD
 			}
 			e.printStackTrace();
 		}
-		return p;
 	}
 	
 	public Person getByUsername(String username) {

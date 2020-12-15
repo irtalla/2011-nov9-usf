@@ -14,19 +14,25 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.revature.exceptions.FeedbackAsAuthorException;
 import com.revature.exceptions.NonAuthorHasPitchesException;
 import com.revature.exceptions.RequestAsAuthorException;
 
 @Entity
 @Table(name="person")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
 	//columns:
+	@Column(name="email")
+	private String email;
+	
 	@Column(name="username")
 	private String username;
 	
@@ -46,23 +52,23 @@ public class Person {
 	private Role role;
 	
 	//associations:
-	@OneToMany(mappedBy="author")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="author")
 	private Set<Pitch> pitches; //must be empty if role is not author
 	
-	@OneToMany(mappedBy="editor")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="editor")
 	private Set<PitchFeedback> pitchFeedbackGiven; //as editor
 	
 	//pitch feedback received (as author) handled via pitch
 	
-	@OneToMany(mappedBy="requestingEditor")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="requestingEditor")
 	private Set<PitchInfoRequest> pitchInfoRequestsMade;
 	
-	@OneToMany(mappedBy="targetedPerson")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="targetedPerson")
 	private Set<PitchInfoRequest> pitchInfoRequestsReceived;
 	
 	//authors have drafts through their pitches -> Dao
 	
-	@OneToMany(mappedBy="editor")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="editor")
 	private Set<DraftFeedback> draftFeedbackGiven;
 	//authors will receive draft feedback through their drafts -> Dao
 	
@@ -118,7 +124,7 @@ public class Person {
 		return pitchFeedbackGiven;
 	}
 	public void setPitchFeedbackGiven(Set<PitchFeedback> pitchFeedbackGiven) throws FeedbackAsAuthorException {
-		if(this.role.equals(Role.AUTHOR)) {
+		if(this.role.equals(Role.AUTHOR) && pitchFeedbackGiven.size() > 0) {
 			throw new FeedbackAsAuthorException();
 		}
 		this.pitchFeedbackGiven = pitchFeedbackGiven;
@@ -127,7 +133,7 @@ public class Person {
 		return draftFeedbackGiven;
 	}
 	public void setDraftFeedbackGiven(Set<DraftFeedback> draftFeedbackGiven) throws FeedbackAsAuthorException {
-		if(this.role.equals(Role.AUTHOR)) {
+		if(this.role.equals(Role.AUTHOR) && draftFeedbackGiven.size() > 0) {
 			throw new FeedbackAsAuthorException();
 		}
 		this.draftFeedbackGiven = draftFeedbackGiven;
@@ -139,9 +145,6 @@ public class Person {
 		this.id = id;
 	}
 	public Set<PitchInfoRequest> getPitchInfoRequestsMade() throws RequestAsAuthorException {
-		if(this.role.equals(Role.AUTHOR)) {
-			throw new RequestAsAuthorException();
-		}
 		return pitchInfoRequestsMade;
 	}
 	public void setPitchInfoRequestsMade(Set<PitchInfoRequest> pitchInfoRequestsMade) {
@@ -160,6 +163,13 @@ public class Person {
 		this.genreCommittees = genreCommittees;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	@Transient
 	public boolean genreIsWithinSpecialty(Genre g) {
 		//already checking elsewhere that role is not that of an author
 		for(GenreCommittee gc : this.genreCommittees) {
@@ -169,7 +179,7 @@ public class Person {
 		}
 		return false;
 	}
-	
+	@Transient
 	public int getTotalStoryPoints() {
 		int sum = 0;
 		for(Pitch p : this.pitches) {
@@ -193,6 +203,7 @@ public class Person {
 		return drafts;
 	}
 	
+	@Transient
 	public Set<Draft> getDraftsWhosePitchesIHaveReactedTo(){
 		Set<Draft> drafts = new HashSet<>();
 		for(PitchFeedback fp : this.pitchFeedbackGiven) {

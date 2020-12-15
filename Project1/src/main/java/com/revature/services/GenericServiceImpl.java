@@ -24,7 +24,7 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 //	}
 	
 	@Override
-	public T add(T t) {
+	public Integer add(T t) {
 		return dao.add(t);
 	}
 
@@ -39,8 +39,8 @@ public abstract class GenericServiceImpl<T> implements GenericService<T> {
 	}
 
 	@Override
-	public T update(T t) {
-		return dao.update(t);
+	public void update(T t) {
+		dao.update(t);
 	}
 
 	@Override

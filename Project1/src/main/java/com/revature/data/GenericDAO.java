@@ -3,9 +3,9 @@ package com.revature.data;
 import java.util.Set;
 
 public interface GenericDAO<T> {
-	T add(T t);
+	Integer add(T t);
 	T getById(Integer id);
 	Set<T> getAll();
-	T update(T t);
+	void update(T t);
 	void delete(T t);
 }

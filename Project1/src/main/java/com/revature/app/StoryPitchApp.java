@@ -34,11 +34,8 @@ public class StoryPitchApp {
 		app.routes(() -> {
 			// all requests to /pitches go to this handler
 			path("pitches", () -> {
-				get(pitchController::getPitchesViewableBy); // get available pitches is the default
+				get(pitchController::getAll); // get available pitches is the default
 				post(pitchController::add); 
-				path ("all", () -> {
-					get(pitchController::getAll); // get all pitches
-				});
 				path(":id", () -> {
 					get(pitchController::getById); // get a pitch by id
 					put(pitchController::update); // update a pitch
@@ -66,11 +63,8 @@ public class StoryPitchApp {
 			});
 			
 			path("drafts", () -> {
-				get(draftController::getDraftsViewableBy); // get available pitches is the default
+				get(draftController::getAll); // get available pitches is the default
 				post(draftController::add); 
-				path ("all", () -> {
-					get(draftController::getAll); // get all pitches
-				});
 				path(":id", () -> {
 					get(draftController::getById); // get a draft by id
 					put(draftController::update); // update a draft
@@ -91,6 +85,12 @@ public class StoryPitchApp {
 				put(personController::logIn); // log in user
 				post(personController::registerUser); // register new user
 				delete(personController::logOut); // log out user
+				path("pitches", () -> {
+					get(pitchController::getPitchesViewableBy);
+				});
+				path("drafts", () -> {
+					get(draftController::getDraftsViewableBy);
+				});
 				path("authors", () -> {
 					get(personController::getAllAuthors);
 				});
@@ -104,6 +104,12 @@ public class StoryPitchApp {
 					get(personController::getById); // get user by id
 					put(personController::updateUser); // update user
 					delete(personController::delete); // delete user
+					path("viewablePitches", () -> {
+						get(pitchController::getPitchesViewableBy);
+					});
+					path("viewableDrafts", () -> {
+						get(draftController::getDraftsViewableBy);
+					});
 				});
 			});
 		});

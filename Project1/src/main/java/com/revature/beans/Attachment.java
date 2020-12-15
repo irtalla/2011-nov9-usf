@@ -2,6 +2,7 @@ package com.revature.beans;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Attachment {
 	@Column(name="file_body")
 	private byte[] fileBody;
 	
-	@ManyToOne @JoinColumn(name="pitch_id")
+	@ManyToOne(fetch=FetchType.LAZY) @JoinColumn(name="pitch_id")
 	private Pitch pitch;
 
 	public Integer getId() {

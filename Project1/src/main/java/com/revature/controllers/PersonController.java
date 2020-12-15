@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.revature.beans.Genre;
 import com.revature.beans.Person;
+import com.revature.beans.Pitch;
 import com.revature.beans.Role;
 import com.revature.exceptions.NonUniqueUsernameException;
 import com.revature.services.PersonServiceImpl;
@@ -40,15 +41,12 @@ public class PersonController extends GenericController<Person>{
 		
 		Person p = getServ().getByUsername(username);
 		if (p != null) {
-			if (p.getPassword().equals(password))
-			{
+			if (p.getPassword().equals(password)){
 				System.out.println("Logged in as " + p.getUsername());
 				ctx.status(200);
 				ctx.json(p);
-				ctx.sessionAttribute("user", p);
-			}
-			else
-			{
+//				ctx.sessionAttribute("user", p);
+			}else{
 				// password mismatch
 				ctx.status(400);
 			}
@@ -67,9 +65,13 @@ public class PersonController extends GenericController<Person>{
 	}
 	
 	public void registerUser(Context ctx) {
+		System.out.println(ctx.resultString());
 		Person newPerson = ctx.bodyAsClass(Person.class);
 		try {
-			newPerson = getServ().addPerson(newPerson);
+			getServ().addPerson(newPerson);
+			newPerson = getServ().getByUsername(newPerson.getUsername());
+			System.out.println(newPerson.toString());
+			ctx.json(newPerson);
 		} catch (NonUniqueUsernameException e) {
 			System.out.println("Username already taken :(");
 			ctx.status(409); // 409 = conflict
@@ -80,7 +82,7 @@ public class PersonController extends GenericController<Person>{
 	public void updateUser(Context ctx) {
 		Person newPerson = ctx.bodyAsClass(Person.class);
 		try {
-			newPerson = getServ().updatePerson(newPerson);
+			getServ().updatePerson(newPerson);
 			ctx.json(newPerson);
 		} catch (NonUniqueUsernameException e) {
 			System.out.println("Username already taken :(");

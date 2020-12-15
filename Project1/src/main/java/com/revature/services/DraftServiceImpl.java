@@ -25,13 +25,12 @@ public class DraftServiceImpl extends GenericServiceImpl<Draft> implements Draft
 	}
 	
 	@Override
-	public Draft add(Draft d) {
+	public void add(Draft d) {
 		try {
-			return getDao().addDraft(d); //rather than using draftDao.add(d)
+			getDao().addDraft(d); //rather than using draftDao.add(d)
 		} catch (DraftFromUnapprovedPitchException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	@Override

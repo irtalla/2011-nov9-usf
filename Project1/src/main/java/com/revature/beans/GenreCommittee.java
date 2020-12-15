@@ -24,7 +24,7 @@ public class GenreCommittee {
 	@Enumerated(EnumType.STRING)
 	private Genre genre;
 	
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 		name="genre_committee_membership",
 		joinColumns= { @JoinColumn(name="genre_committee_id") },

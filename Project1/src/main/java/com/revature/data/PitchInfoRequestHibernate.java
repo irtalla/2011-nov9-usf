@@ -19,6 +19,7 @@ public class PitchInfoRequestHibernate extends GenericHibernate<PitchInfoRequest
 		Person requester = pir.getRequestingEditor();
 		Person target = pir.getTargetedPerson();
 		Pitch pitch = pir.getPitch();
+		System.out.println(requester.toString());
 		
 		if(requester.getRole().equals(Role.AUTHOR)) {
 			throw new RequestAsAuthorException();

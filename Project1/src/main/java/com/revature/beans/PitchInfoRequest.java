@@ -1,6 +1,7 @@
 package com.revature.beans;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +15,13 @@ public class PitchInfoRequest {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne @JoinColumn(name="pitch_id")
+	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="pitch_id")
 	private Pitch pitch;
 	
-	@ManyToOne @JoinColumn(name="requesting_editor_id")
+	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="requesting_editor_id")
 	private Person requestingEditor;
 	
-	@ManyToOne @JoinColumn(name="target_person_id")
+	@ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="target_person_id")
 	private Person targetedPerson;
 
 	public Integer getId() {

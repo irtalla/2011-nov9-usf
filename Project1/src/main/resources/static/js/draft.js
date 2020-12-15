@@ -1,22 +1,44 @@
-populateDraftSections();
-let draftStatus = selectedDraft.status;
-
-function populateDraftSections(){
-    document.getElementById("draftSection").innerHTML = getDraftSection();
-    document.getElementById("draftFeedbackSection").innerHTML = getListOfDraftFeedback();
-    document.getElementById("addDraftFeedbackSection").innerHTML = getAddDraftFeedbackForm();
+function generateDraftProfile(){
+    generateDraftDetails();
+    generateListOfDraftFeedback();
+    generateAddDraftFeedbackForm();
 }
 
 function hasBeenApprovedByEditorWithRole(role){
     selectedPitch.feedback.forEach(reaction => {
-        if(reaction.draftStatus == "APPROVED" && feedback.editor.role == role){
+        if(reaction.status == "APPROVED" && feedback.editor.role == role){
             return true;
         }
     });
     return false;
 }
 
-function getListOfDraftFeedback(){
+function generateDraftDetails(){
+    let str = `<h4><button type="button" id="linkToPitch">Pitch Info:</button></h4>`;
+
+    if((role == "AUTHOR" || role == "SENIOR_EDITOR") && draftStatus != "PENDING"){
+        str += getPitchUpdateForm();
+        if(role=="AUTHOR"){
+            str += `
+            <form>
+                <h2>Narrative:</h2>
+                <textarea>${draft.narrative}</textarea>
+
+                <button type="button" id="updateNarrative"></button>
+            <form>
+            `;
+        }
+    }else{
+        str += getDraftDetails();
+    }
+    subject.innerHTML += str;
+    document.getElementById("linkToPitch").onclick = () => {
+        clearSubject();
+        generatePitchProfile();
+    };
+}
+
+function generateListOfDraftFeedback(){
     let str = `
         <ul>
     `;
@@ -27,43 +49,13 @@ function getListOfDraftFeedback(){
     });
 
     str += `</ul>`
-    return str;
-}
-
-function getAddDraftForm(){
-   return `
-        <form>
-            <input id="narrative" name="narrative" type="text">
-            <button type="button" id="addPitchButton" onclik="addDraft">App Draft<button>
-        </form>
-    `;
-}
-
-function getDraftSection(){
-    let str = `<h4><a href="pitch.html">Pitch Info:</a></h4>`;
-
-    if((role == "AUTHOR" || role == "SENIOR_EDITOR") && draftStatus != "PENDING"){
-        str += getPitchUpdateForm();
-        if(role=="AUTHOR"){
-            str += `
-            <form>
-                <h2>Narrative:</h2>
-                <textarea>${draft.narrative}</textarea>
-
-                <button id="updateNarrative"></button>
-            <form>
-            `;
-        }
-    }else{
-        str += getDraftDetails();
-    }
-    return str;
+    subject += str;
 }
 
 function getAddDraftFeedbackForm(){
     if(draftStatus == "PENDING" && loggedUser.role != "GENERAL_EDITOR"){
         //should have already checked that logged editor is in genre committee with this genre
-        return `
+        subject.innerHTML += `
             <form>
                 <select id="status">
                     <option value="PENDING" selected>Pending</option>
@@ -74,13 +66,14 @@ function getAddDraftFeedbackForm(){
                 <label for="explanation">Explanation:</label>
                 <input id="explanation" name="explanation" type="text" />
 
-                <button id="addDraftFeedbackBtn" onclick="addDraftFeedback">Add Feedback</button>
+                <button type="button" id="addDraftFeedbackBtn">Add Feedback</button>
             </form>
         `;
+        document.getElementById("addDraftFeedbackBtn").onclick = addDraftFeedback;
     }
 }
 
-function addDraftFeedback(){
+async function addDraftFeedback(){
     let status = document.getElementById("status").value.toUpperCase();
     let explanation = document.getElementById("explanation").value;
     let newFeedback = {
@@ -92,7 +85,7 @@ function addDraftFeedback(){
         alert("Denying a Draft Requires an Explanation!");
         return;
     }
-    let response = await fetch(baseUrl + `drafts/${selectedDraft.id}/feedback`, {
+    let response = await fetch(baseUrl + `/drafts/${selectedDraft.id}/feedback`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -101,7 +94,9 @@ function addDraftFeedback(){
     });
     if(response.draftStatus == 200){
         //re-populate pitch feedback list, adding new pitch request
-        populateDraftSections();
+        draft.feedback.push(await response.json());
+        clearSubject();
+        generateDraftProfile();
     }else{
         alert("Could not add Pitch Info Request");
     }

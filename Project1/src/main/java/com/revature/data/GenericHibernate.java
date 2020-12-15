@@ -41,7 +41,7 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 		return new HashSet<T>(tList);
 	}
 
-	public T update(T t) {
+	public void update(T t) {
 		Session s = hu.getSession();
 		Transaction tx = null;
 		try {
@@ -49,12 +49,12 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 			s.update(t);
 			tx.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (tx != null)
 				tx.rollback();
 		} finally {
 			s.close();
 		}
-		return t;
 	}
 
 	public void delete(T t) {
@@ -65,6 +65,7 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 			s.delete(t);
 			tx.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (tx != null)
 				tx.rollback();
 		} finally {
@@ -72,19 +73,21 @@ public class GenericHibernate<T> implements GenericDAO<T>{
 		}
 	}
 
-	public T add(T t) {
+	public Integer add(T t) {
 		Session s = hu.getSession();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.save(t);
-			tx.commit();
+			Integer id = (Integer) s.save(t);
+//			tx.commit();
+			return id;
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (tx != null)
 				tx.rollback();
 		} finally {
 			s.close();
 		}
-		return t;
+		return null;
 	}
 }

@@ -25,25 +25,25 @@ public class PitchServiceImpl extends GenericServiceImpl<Pitch> implements Pitch
 
 	@Override
 	public Set<Pitch> getPitchesViewableBy(Person person) {
-		Role role = person.getRole();
-		switch(role) {
-			case AUTHOR:
-				return person.getPitches(); //authored pitches
-			case GENERAL_EDITOR:
-				return this.getAll();
-			default:
-				Set<Pitch> pitches = new HashSet<>();
-				for(GenreCommittee gc : person.getGenreCommittees()) {
-					Genre genre = gc.getGenre();
-					pitches.addAll(this.getAllPitchesWithGenre(genre));
-				}
-				return pitches;
-		}
+		return getDao().getPitchesViewableBy(person);
+//		Role role = person.getRole();
+//		switch(role) {
+//			case AUTHOR:
+//				return person.getPitches(); //authored pitches
+//			case GENERAL_EDITOR:
+//				return this.getAll();
+//			default:
+//				Set<Pitch> pitches = new HashSet<>();
+//				for(GenreCommittee gc : person.getGenreCommittees()) {
+//					Genre genre = gc.getGenre();
+//					pitches.addAll(this.getAllPitchesWithGenre(genre));
+//				}
+//				return pitches;
+//		}
 	}
 
 	@Override
 	public Set<Pitch> getAllPitchesWithGenre(Genre genre) {
 		return getDao().getAllPitchesWithGenre(genre);
 	}
-	
 }

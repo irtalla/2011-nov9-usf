@@ -1,92 +1,46 @@
-let baseUrl = 'http://localhost:8080';
+const baseUrl = "http://localhost:8080";
 let loggedUser = null;
-const genres = ["YA", "Sci Fi", "Mystery", "Romance", "Drama", "Adventure"];
+let selectedPitch = null;
+let selectedDraft = null;
 
+const titleMessage = document.getElementById('titleMessage');
+const nav = document.getElementById('navBar');
+const subject = document.getElementById('subject');
+    
+const userLazyKeys = ["email", "username", "password", "firstName", "lastName", "bio"];
+const pitchKeysInOrder = [
+    "tentativeTitle", "storyType", "genre", "description", "tagLine", "tentativeCompletionDate", 
+     "pseudoFirstName", "pseudoLastName", "pseudoBio"
+];
+
+const genres = ["YA", "Sci Fi", "Mystery", "Romance", "Drama", "Adventure"];
+const storyTypes = ["Article", "Short Story", "Novella", "Novel"];
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    //the event occurred
-    console.log("uhh...")
-    setNav();
+    clearNav();
+    clearSubject();
+    generateLoggedOutWelcomeMessage();
     checkLogin();
 });
 
-function setNav() {
-    let nav = document.getElementById('mainNav');
+function generateLoggedOutWelcomeMessage(){
+    titleMessage.innerHTML = `
+        <h1>Welcome to the Story Pitch Management App!</h1>
+        <i>Streamlining the Dream-To-Reality Pipeline</i>
+    `;
+}
 
-    let str = `
-            <!-- <a href="index.html"><strong>Story Pitch Management App</strong></a> -->
-            <a href="viewPitches.html">View Pitches</a>`;
-    if (!loggedUser) {
-        str += `
-            <h3>Login:</h3>
-            <form id="login-form">
-                <label for="user">Username: </label>
-                <input id="user" name="user" type="text" />
-                
-                <label for="pass"> Password: </label>
-                <input id="pass" name="pass" type="password" />
-                
-                <button type="button" id="loginBtn">Log In</button>
-            </form>
-
-            <br>
-            <h3>Or Register:</h3>
-            <form id="register-form">
-                <label for="email">Email: </label>
-                <input id="email" name="email" type="text" />
-                
-                <label for="username">Username: </label>
-                <input id="username" name="username" type="text" />
-                
-                <label for="password"> Password: </label>
-                <input id="password" name="password" type="password" />
-
-                <br>
-                <label for="firstName">First Name: </label>
-                <input id="firstName" name="firstName" type="text" />
-                
-                <label for="lastName">Last Name: </label>
-                <input id="lastName" name="lastName" type="text" />
-                
-                <label for="bio">Bio: </label>
-                <textarea id="bio" name="bio" type="text" /></textarea>
-            
-                <label for="role"> Role: </label>
-                <select id="role" name="role">
-                    <option value="AUTHOR" selected>Author</option>
-                    <option value="ASSISTANT_EDITOR">Assistant Editor</option>
-                    <option value="GENERAL_EDITOR">General Editor</option>
-                    <option value="SENIOR_EDITOR">Senior Editor</option>
-                </select>
-            `;
-
-            str += getGenreSelection();
-
-            str += `
-                <button type="button" id="registerBtn" onClick="register">Log In</button>
-            </form>
-        `;
-    } else {
-        str += `
-            <a href="pitches.html">Pitches</a>
-            <span>
-                <a href="profile.html">${loggedUser.username}&nbsp;</a>
-                <button type="button" id="loginBtn" onclick="login">Log Out</button>
-            </span>
-        `;
-    }
-    nav.innerHTML = str;
-
-    let loginBtn = document.getElementById('loginBtn');
-    if (loggedUser) loginBtn.onclick = logout;
-    else loginBtn.onclick = login;
+function generateLoggedInWelcomeMessage(){
+    titleMessage.innerHTML = `
+        <h1>Story Pitch Management App</h1>
+        <i>Streamlining the Dream-To-Reality Pipeline</i>
+    `;
 }
 
 function getGenreSelection(){
     let roleSelect = document.getElementById("role");
     if(!roleSelect) {
         let str = "";
-        console.log("string: " + str);
         return str;
     }
 
@@ -99,76 +53,40 @@ function getGenreSelection(){
     }
 }
 
-async function login() {
-    // http://localhost:8080/users?user=sierra&pass=pass
-    let url = baseUrl + '/users?';
-    url += 'user=' + document.getElementById('user').value + '&';
-    url += 'pass=' + document.getElementById('pass').value;
-    let response = await fetch(url, {method: 'PUT'});
+function clearNav(){
+    document.getElementById("navBar").innerHTML = "";
+}
+
+function clearSubject(){
+    document.getElementById("subject").innerHTML = "";
+}
+
+function getSelectForEnum(enumName, values){
+    let str = getLabelForKey(enumName);
+    str += `
+        <select id=${enumName} name=${enumName}>
+    `; 
     
-    switch (response.status) {
-        case 200: // successful
-            loggedUser = await response.json();
-            setNav();
-            break;
-        case 400: // incorrect password
-            alert('Incorrect password, try again.');
-            document.getElementById('pass').value = '';
-            break;
-        case 404: // user not found
-            alert('That user does not exist.');
-            document.getElementById('user').value = '';
-            document.getElementById('pass').value = '';
-            break;
-        default: // other error
-            alert('Something went wrong.');
-            break;
-    }
+    values.forEach(value => str += `
+            <option value=${value.toUpperCase()}>${value}</option>
+    `); //tried reduce, but wouldn't work...
+
+    str += `</select><br>`;
+    return str;
 }
 
-async function register() {
-    let url = baseUrl + '/users?';
-    const keys = ["username", "password", "firstName", "lastName", "bio"];
-    let newUser = {};
-    keys.forEach(key => newUser[key] = document.getElementById(key));
-    newUser["role"] = document.getElementById("role").value.toUpperCase();
-
-    let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
-    });
-    
-    switch (response.status) {
-        case 200: // successful
-            loggedUser = await response.json();
-            setNav();
-            break;
-        case 409: // username taken
-            alert('That username has been taken.');
-            document.getElementById('user').value = '';
-            document.getElementById('pass').value = '';
-            break;
-        default: // other error
-            alert('Something went wrong.');
-            break;
-    }
+function getLabelForKey(key){
+    return `<label for=${key}>${toSentenceCase(key)}: </label>`;
 }
 
-async function logout() {
-    let url = baseUrl + '/users';
-    let response = await fetch(url, {method:'DELETE'});
-
-    if (response.status != 200) alert('Something went wrong.');
-    loggedUser = null;
-    setNav();
+function toPascalCase(str){
+    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    // return str.replace(/(\w)(\w*)/g,
+    //     function(g0,g1,g2){return g1.toUpperCase() + g2.toLowerCase();});
 }
 
-async function checkLogin() {
-    let url = baseUrl + '/users';
-    let response = await fetch(url);
-    if (response.status === 200) loggedUser = await response.json();
-    setNav();
+function toSentenceCase(str){
+    str = str.replace( /([A-Z])/g, " $1" ); 
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
+

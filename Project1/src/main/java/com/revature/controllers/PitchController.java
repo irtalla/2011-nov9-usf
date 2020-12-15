@@ -23,14 +23,7 @@ public class PitchController extends GenericController<Pitch>{
 	
 	public void getPitchesViewableBy(Context ctx) {
 		System.out.println("Getting viewable pitches");
-		Person person = ctx.bodyAsClass(Person.class);
-		PersonServiceImpl personServ = new PersonServiceImpl();
-		try {
-			person = personServ.getById(person.getId());
-		}catch(Exception e) {
-			System.out.println("User not found.");
-			ctx.status(404);
-		}
+		Person person = new PersonServiceImpl().getById(Integer.valueOf(ctx.pathParam("id")));
 		
 		try {
 			Set<Pitch> pitchSet = getServ().getPitchesViewableBy(person);
@@ -38,6 +31,7 @@ public class PitchController extends GenericController<Pitch>{
 		}catch(Exception e) {
 			System.out.println("Null pitch set for user?");
 			ctx.status(404);
+			e.printStackTrace();
 		}
 		ctx.status(200);
 	}

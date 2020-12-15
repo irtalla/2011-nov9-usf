@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 
 import com.revature.beans.Genre;
+import com.revature.beans.GenreCommittee;
 import com.revature.beans.Person;
 import com.revature.beans.Pitch;
 import com.revature.beans.Role;
@@ -64,5 +65,23 @@ public class PitchHibernate extends GenericHibernate<Pitch> implements PitchDAO{
 		
 		List<Pitch> matches = s.createQuery(cq).getResultList();
 		return new HashSet<>(matches);
+	}
+
+	public Set<Pitch> getPitchesViewableBy(Person person) {
+		Role role = person.getRole();
+		switch(role) {
+			case AUTHOR:
+				System.out.println(person.getPitches().size());
+				return person.getPitches(); //authored pitches
+			case GENERAL_EDITOR:
+				return this.getAll();
+			default:
+				Set<Pitch> pitches = new HashSet<>();
+				for(GenreCommittee gc : person.getGenreCommittees()) {
+					Genre genre = gc.getGenre();
+					pitches.addAll(this.getAllPitchesWithGenre(genre));
+				}
+				return pitches;
+		}
 	}
 }

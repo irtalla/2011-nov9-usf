@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,17 +25,17 @@ public class Pitch {
 	private Integer id;
 	
 	//associations:
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="author_id")
 	private Person author;
 	
-	@OneToOne @JoinColumn(name="draft_id", referencedColumnName="id")
+	@OneToOne(fetch=FetchType.EAGER) @JoinColumn(name="draft_id", referencedColumnName="id")
 	private Draft draft;
 	
-	@OneToMany(mappedBy="pitch")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="pitch")
 	private Set<PitchFeedback> feedback;
 	
-	@OneToMany(mappedBy="pitch")
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="pitch")
 	private Set<PitchInfoRequest> infoRequests;
 	
 	//columns:
@@ -42,13 +43,13 @@ public class Pitch {
 	private Date createdAt;
 	
 	@Column(name="pseudo_first_name")
-	private String authorPseudoFirstName;
+	private String pseudoFirstName;
 	
 	@Column(name="pseudo_last_name")
-	private String authorPseudoLastName;
+	private String pseudoLastName;
 	
-	@Column(name="bio")
-	private String bio;
+	@Column(name="pseudo_bio")
+	private String pseudoBio;
 	
 	@Column(name="tentative_title")
 	private String tentativeTitle;
@@ -119,28 +120,28 @@ public class Pitch {
 		this.createdAt = createdAt;
 	}
 
-	public String getAuthorPseudoFirstName() {
-		return authorPseudoFirstName;
+	public String getPseudoFirstName() {
+		return pseudoFirstName;
 	}
 
-	public void setAuthorPseudoFirstName(String authorPseudoFirstName) {
-		this.authorPseudoFirstName = authorPseudoFirstName;
+	public void setPseudoFirstName(String authorPseudoFirstName) {
+		this.pseudoFirstName = authorPseudoFirstName;
 	}
 
-	public String getAuthorPseudoLastName() {
-		return authorPseudoLastName;
+	public String getPseudoLastName() {
+		return pseudoLastName;
 	}
 
-	public void setAuthorPseudoLastName(String authorPseudoLastName) {
-		this.authorPseudoLastName = authorPseudoLastName;
+	public void setPseudoLastName(String authorPseudoLastName) {
+		this.pseudoLastName = authorPseudoLastName;
 	}
 
-	public String getBio() {
-		return bio;
+	public String getPseudoBio() {
+		return pseudoBio;
 	}
 
-	public void setBio(String bio) {
-		this.bio = bio;
+	public void setPseudoBio(String bio) {
+		this.pseudoBio= bio;
 	}
 
 	public String getTentativeTitle() {

@@ -20,12 +20,12 @@ public class PersonServiceImpl extends GenericServiceImpl<Person> implements Per
 		return new PersonHibernate();
 	}
 	
-	public Person addPerson(Person p) throws NonUniqueUsernameException {
-		return this.getDao().addPerson(p);
+	public void addPerson(Person p) throws NonUniqueUsernameException {
+		this.getDao().addPerson(p);
 	}
 
-	public Person updatePerson(Person p) throws NonUniqueUsernameException {
-		return this.getDao().updatePerson(p);
+	public void updatePerson(Person p) throws NonUniqueUsernameException {
+		this.getDao().updatePerson(p);
 	}
 
 	@Override

@@ -37,8 +37,9 @@ public abstract class GenericController<T> {
 	
 	public void add(Context ctx) {
 		T t = ctx.bodyAsClass(this.type);
-		getServ().add(t);
-		ctx.status(201);
+		Integer id = getServ().add(t);
+		ctx.status(200);
+		ctx.json(getServ().getById(id));
 	}
 	
 	public  void update(Context ctx) {
