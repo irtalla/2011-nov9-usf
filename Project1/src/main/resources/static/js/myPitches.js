@@ -142,7 +142,7 @@ function makePitch() {
 function insertFileUpload() {
     let label = document.createElement("label");
     label.setAttribute("for", "additionalFile");
-    let labelText = document.createTextNode("Please upload Draft and Resources: ");
+    let labelText = document.createTextNode("Please upload Resources: ");
     label.appendChild(labelText);
     document.getElementById("form").appendChild(label);
     let file = document.createElement("input");
