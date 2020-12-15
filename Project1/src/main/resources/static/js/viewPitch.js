@@ -5,6 +5,7 @@ import {baseUrl, loggedUser, setLoggedUser} from "./global.js";
 let viewer = document.getElementById("pitchViewer");
 const currentUser = localStorage.getItem("loggedUser");
 const currentPitch = localStorage.getItem("pitchToView");
+if (!currentUser) logout();
 setLoggedUser(currentUser);
 
 setViewer();
@@ -55,7 +56,7 @@ function setupDefault(pitch) {
         requestBtn.type = "button";
         requestBtn.id = "makeRequestBtn";
         requestBtn.className = "submitBtn";
-        requestBtn.onclick = makeRequest;
+        requestBtn.onclick = () => { makeRequest(`${parsedPitch.id}`); };
         let reqText = document.createTextNode("make a request");
         requestBtn.appendChild(reqText);
         viewer.appendChild(requestBtn);
@@ -124,8 +125,10 @@ function returnToHub() {
     window.location.replace("./pitchHub.html");
 }
 
-function makeRequest() {
-
+function makeRequest(pitch) {
+    localStorage.setItem("loggedUser", loggedUser);
+    localStorage.setItem("pitchToView", JSON.stringify(pitch));
+    window.location.replace("./submitRequest.html");
 }
 
 function acceptPitch() {

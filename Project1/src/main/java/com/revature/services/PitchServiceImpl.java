@@ -1,12 +1,10 @@
 package com.revature.services;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +23,7 @@ import com.revature.data.PitchDAO;
 import com.revature.data.PitchDAOFactory;
 import com.revature.data.PitchStageDAO;
 import com.revature.data.PitchStageDAOFactory;
+import com.revature.data.RequestDAOFactory;
 import com.revature.data.ReviewStatusDAO;
 import com.revature.data.ReviewStatusDAOFactory;
 import com.revature.data.StoryTypeDAO;
@@ -36,7 +35,6 @@ import com.revature.models.Pitch;
 import com.revature.models.PitchStage;
 import com.revature.models.Priority;
 import com.revature.models.ReviewStatus;
-import com.revature.models.Role;
 import com.revature.models.StoryType;
 import com.revature.models.User;
 import com.revature.models.AdditionalFile;
@@ -351,7 +349,7 @@ public class PitchServiceImpl implements PitchService {
 	public Boolean checkShouldHold(Integer id) {
 		Pitch p = pitchDao.getById(id);
 		Integer total = checkForTotalScore(p);
-		if (total + p.getStoryType().getWeight() <= 100) {
+		if (total + p.getStoryType().getWeight() > 100) {
 			return true;
 		} else {
 			return false;
@@ -395,7 +393,7 @@ public class PitchServiceImpl implements PitchService {
 		Integer total = 0;
 		for (Pitch pitch : pitches) {
 			if (pitch.getId() == p.getId()) continue;
-			if (pitch.getPitchStage().getId() == 5 && pitch.getReviewStatus().getId() >= 4) continue;
+			if (pitch.getPitchStage().getId() == 5 && pitch.getReviewStatus().getId() >= 5) continue;
 			total += pitch.getStoryType().getWeight();
 		}
 		return total;
@@ -416,5 +414,5 @@ public class PitchServiceImpl implements PitchService {
 			return t;
 		}
 	}
-
+	
 }

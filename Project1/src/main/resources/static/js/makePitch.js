@@ -85,7 +85,8 @@ async function submitPitch() {
         reviewStatus: status,
         additionalFiles: files
     };
-    // console.log(data);
+    console.log(data);
+    console.log(JSON.stringify(data));
 
     let response = await fetch(url, {
         method: 'POST',

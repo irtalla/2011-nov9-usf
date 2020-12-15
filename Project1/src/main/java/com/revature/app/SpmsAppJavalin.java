@@ -3,6 +3,7 @@ package com.revature.app;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 import com.revature.controller.PitchController;
+import com.revature.controller.RequestController;
 import com.revature.controller.UserController;
 
 import io.javalin.Javalin;
@@ -112,6 +113,28 @@ public class SpmsAppJavalin {
 					delete(PitchController::deletePitch);
 				});
 			});
+			
+			path("html/request", () -> {
+				post(RequestController::makeRequest);
+				
+				path("all", () -> {
+					get(RequestController::getAllRequests);
+				});
+				
+				path("requester/:id", () -> {
+					get(RequestController::getRequestByRequester);
+				});
+				
+				path("requestee/:id", () -> {
+					get(RequestController::getRequestByRequestee);
+				});
+				
+				path(":id", () -> {
+					get(RequestController::getRequestById);
+					put(RequestController::updateRequests);
+				});
+			});
+			
 		});
 		
 	}

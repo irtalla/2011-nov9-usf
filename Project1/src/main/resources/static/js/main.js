@@ -53,7 +53,7 @@ async function login() {
     }
 }
 
-async function logout() {
+export async function logout() {
     let url = baseUrl + '/users';
     let response = await fetch(url, {method:'DELETE'});
 
@@ -85,14 +85,16 @@ function registerUser() {
 
 function authorSetNav() {
     if (loggedUser) {
-        nav.innerHTML += `
-            <br>
-            <span>
-                ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
-                <button type="button" id="loginBtn" class="submitBtn">logout</button>
-             </span>
-             <br>
+        nav.innerHTML = `
+             <a href="index.html"><strong>STMS</strong></a>
              <a href="pitchHub.html"><strong>Pitches</strong></a>
+             <a href="requestHub.html"><strong>Requests</strong></a>
+             <br>
+             <span>
+                 ${"Welcome " + loggedUser.firstName + " " + loggedUser.lastName}&nbsp;
+                 <button type="button" id="loginBtn" class="submitBtn">logout</button>
+              </span>
+              <br>
             `;
     } else {
         nav.innerHTML += `

@@ -4,7 +4,9 @@ import {baseUrl, loggedUser, setLoggedUser} from "./global.js";
 
 let main = document.getElementById("mainSection");
 const currentUser = localStorage.getItem("loggedUser");
+if (!currentUser) logout();
 setLoggedUser(currentUser);
+
 
 setUpMainSection();
 
@@ -13,6 +15,10 @@ function setUpMainSection() {
         setupAuthor();
     } else if (JSON.parse(currentUser).role.id == 2) {
         setupAssistEditor();
+    } else if (JSON.parse(currentUser).role.id == 3) {
+        setupGeneralEditor();
+    } else {
+        setupSeniorEditor();
     }
 
 }
@@ -73,6 +79,56 @@ function setupAssistEditor() {
     getAssistantPitches();
 }
 
+function setupGeneralEditor() {
+    let pitches = document.createElement("table");
+    pitches.id = "pitchTable";
+    pitches.className = "pitchTable";
+    let header = document.createElement("thead");
+    header.id = "pitchTableHeader";
+    header.className = "pitchTableHeader";
+    header.innerHTML = `
+        <tr>
+            <th> priority
+            <th> committee
+            <th> author
+            <th> title
+            <th> submitted
+            <th> current stage
+            <th> current status
+            <th> 
+        </tr>
+        `;
+    pitches.appendChild(header);
+    main.appendChild(pitches);
+
+    getGeneralEditorPitches();
+}
+
+function setupSeniorEditor() {
+    let pitches = document.createElement("table");
+    pitches.id = "pitchTable";
+    pitches.className = "pitchTable";
+    let header = document.createElement("thead");
+    header.id = "pitchTableHeader";
+    header.className = "pitchTableHeader";
+    header.innerHTML = `
+        <tr>
+            <th> priority
+            <th> committee
+            <th> author
+            <th> title
+            <th> submitted
+            <th> current stage
+            <th> current status
+            <th> 
+        </tr>
+        `;
+    pitches.appendChild(header);
+    main.appendChild(pitches);
+
+    getSenioEditorPitches();
+}
+
 function toSubmitPitch() {
     window.location.replace("./submitPitch.html");
 }
@@ -119,6 +175,70 @@ async function getAssistantPitches() {
                 }
             }
             populatePitchTable(assistantPitches);
+        }
+    }
+}
+
+async function getGeneralEditorPitches() {
+    let userId = null;
+    if (currentUser) {
+        let parsedUser = JSON.parse(currentUser);
+        userId = parsedUser.id;
+    }
+
+    let url = baseUrl + '/users/editor/committees/' + userId;
+    let response = await fetch(url);
+    if (response.status === 200) {
+        let committees = await response.json();
+        let genres = [];
+        for (let committee of committees) {
+            genres.push(committee.genre.id);
+        }
+        console.log(genres);
+        url = baseUrl + `/pitch/genre/${genres}/${false}`;
+        response = await fetch(url);
+        if (response.status === 200) {
+            let allPitches = await response.json();
+            console.log(allPitches);
+            let generalPitches = [];
+            for (let pitch of allPitches) {
+                if (pitch.pitchStage.id == 3) {
+                    generalPitches.push(pitch);
+                }
+            }
+            populatePitchTable(generalPitches);
+        }
+    }
+}
+
+async function getSenioEditorPitches() {
+    let userId = null;
+    if (currentUser) {
+        let parsedUser = JSON.parse(currentUser);
+        userId = parsedUser.id;
+    }
+
+    let url = baseUrl + '/users/editor/committees/' + userId;
+    let response = await fetch(url);
+    if (response.status === 200) {
+        let committees = await response.json();
+        let genres = [];
+        for (let committee of committees) {
+            genres.push(committee.genre.id);
+        }
+        console.log(genres);
+        url = baseUrl + `/pitch/genre/${genres}/${true}`;
+        response = await fetch(url);
+        if (response.status === 200) {
+            let allPitches = await response.json();
+            console.log(allPitches);
+            let seniorPitches = [];
+            for (let pitch of allPitches) {
+                if (pitch.pitchStage.id == 4) {
+                    seniorPitches.push(pitch);
+                }
+            }
+            populatePitchTable(seniorPitches);
         }
     }
 }

@@ -33,7 +33,7 @@ public class Requests {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="request_status")
 	private ReviewStatus requestStatus;
-	
+
 	public Requests() {
 		id = 0;
 		question = "";

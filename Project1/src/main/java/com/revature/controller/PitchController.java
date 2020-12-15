@@ -28,7 +28,7 @@ public class PitchController {
 		Pitch newPitch = pitchServ.parseContext(ctx.body());
 		try {
 			Integer newId = pitchServ.addPitch(newPitch);
-			if (pitchServ.checkShouldHold(newId)) {
+			if (!pitchServ.checkShouldHold(newId)) {
 				newPitch.getPitchStage().setId(2);
 				newPitch.getReviewStatus().setId(2);
 				pitchServ.updatePitch(newPitch);
@@ -39,6 +39,13 @@ public class PitchController {
 			return;
 		}
 		ctx.status(200);
+	}
+	
+	public static void acceptPitch(Context ctx) {
+		
+	}
+	
+	public static void rejectPitch(Context ctx) {
 	}
 	
 	public static void uploadFile(Context ctx) {
@@ -171,7 +178,7 @@ public class PitchController {
 	}
 	
 	public static void updatePitch(Context ctx) {
-		Pitch tempPitch = ctx.bodyAsClass(Pitch.class);
+		Pitch tempPitch = pitchServ.parseContext(ctx.body());
 		try {
 			pitchServ.updatePitch(tempPitch);
 			if (tempPitch.getPitchStage().getId() == 5 && tempPitch.getReviewStatus().getId() >= 4) pitchServ.releaseHold(tempPitch);

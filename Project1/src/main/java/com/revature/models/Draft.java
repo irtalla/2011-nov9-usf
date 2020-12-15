@@ -1,20 +1,49 @@
 package com.revature.models;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="draft")
 public class Draft {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String path; // TODO: find a better data type/structure to store large file
+	@Column(name="time_submitted")
 	private LocalDateTime timeSubmitted;
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="pitch_id")
 	private Pitch pitch;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="draft_status")
 	private ReviewStatus draftStatus;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="draft_add_file",
+			joinColumns=@JoinColumn(name="draft_id"),
+			inverseJoinColumns=@JoinColumn(name="add_file_id"))
+	private Set<AdditionalFile> draftFiles;
 	
 	public Draft() {
 		id = 0;
-		path = "";
 		timeSubmitted = LocalDateTime.now();
 		pitch = new Pitch();
 		draftStatus = new ReviewStatus();
+		draftFiles = new HashSet<AdditionalFile>();
 	}
 
 	public Integer getId() {
@@ -23,14 +52,6 @@ public class Draft {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getContents() {
-		return path;
-	}
-
-	public void setContents(String contents) {
-		this.path = contents;
 	}
 
 	public LocalDateTime getTimeSubmitted() {
@@ -57,11 +78,19 @@ public class Draft {
 		this.draftStatus = draftStatus;
 	}
 
+	public Set<AdditionalFile> getDraftFiles() {
+		return draftFiles;
+	}
+
+	public void setDraftFiles(Set<AdditionalFile> draftFiles) {
+		this.draftFiles = draftFiles;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		result = prime * result + ((draftFiles == null) ? 0 : draftFiles.hashCode());
 		result = prime * result + ((draftStatus == null) ? 0 : draftStatus.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((pitch == null) ? 0 : pitch.hashCode());
@@ -78,10 +107,10 @@ public class Draft {
 		if (getClass() != obj.getClass())
 			return false;
 		Draft other = (Draft) obj;
-		if (path == null) {
-			if (other.path != null)
+		if (draftFiles == null) {
+			if (other.draftFiles != null)
 				return false;
-		} else if (!path.equals(other.path))
+		} else if (!draftFiles.equals(other.draftFiles))
 			return false;
 		if (draftStatus == null) {
 			if (other.draftStatus != null)
@@ -108,8 +137,8 @@ public class Draft {
 
 	@Override
 	public String toString() {
-		return "Draft [id=" + id + ", contents=" + path + ", timeSubmitted=" + timeSubmitted + ", pitch=" + pitch
-				+ ", draftStatus=" + draftStatus + "]";
+		return "Draft [id=" + id + ", timeSubmitted=" + timeSubmitted + ", pitch=" + pitch + ", draftStatus="
+				+ draftStatus + ", draftFiles=" + draftFiles + "]";
 	}
 
 }
