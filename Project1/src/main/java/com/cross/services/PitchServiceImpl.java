@@ -41,14 +41,16 @@ public class PitchServiceImpl implements PitchService {
 		p.setLastModifiedTime(now);
 		p.setDeadline( now.plusDays(30));
 		
-		String formName = p.getForm().getName().toLowerCase();
-		String genreName = p.getGenre().getName().toLowerCase();
+		String formName = p.getForm().getName();
+		String genreName = p.getGenre().getName();
 		p.getForm().setId( UtilityDAO.getByName( new Form(), formName ).getId() );
 		p.getGenre().setId( UtilityDAO.getByName( new Genre(), genreName ).getId() );
 		
 		// Newly-created pitches have pending-editor-review status and
 		// low priority
-		p.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		if ( p.getStatus() == null ) {
+			p.setStatus( UtilityDAO.getByName(new Status(), "pending-editor-review"));
+		}
 		p.setPriority( UtilityDAO.getByName(new Priority(), "low"));
 		
 		/*
@@ -66,10 +68,10 @@ public class PitchServiceImpl implements PitchService {
 		
 		Genre pitchGenre = UtilityDAO.getByName( new Genre(), genreName);
 		for (Person ed : editors) {
-			Boolean isInGenre = ed.getGenres().contains(pitchGenre);
+			Boolean isInGenre = ed.getGenres().removeIf( g -> g.getName().equalsIgnoreCase(genreName) );
 			Boolean isAssistant = ed.getRole().getName().equalsIgnoreCase("ASSISTANT EDITOR");
 			// By checking if stage is null, we can avoid an unnecessary database query
-			if ( p.getStage() == null & isInGenre && isAssistant ) {
+			if ( p.getStage() == null && isInGenre && isAssistant ) {
 				p.setStage( UtilityDAO.getByName( new Stage(), "genre review"));
 			} else if ( ! isInGenre ) {
 				p.setGeneralEditorId(ed.getId());

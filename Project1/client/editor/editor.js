@@ -170,7 +170,7 @@ const postRequestWithInitialComment = async (targetId, targetType) => {
         recieverId = pitchMap.get(targetId).authorId;
         targetPitchId = targetId;
     } else if (targetType === "decision") {
-        recieverID = decisionMap.get(targetId).authorId; 
+        recieverId = decisionMap.get(targetId).editorId; 
         targetDecision = targetId; 
     }
 

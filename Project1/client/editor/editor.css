@@ -60,3 +60,8 @@ hr {
   margin-top: 8px;
   margin-bottom: 16px;
 }
+
+.row {
+  flex-wrap: nowrap;
+  overflow: scroll;
+}

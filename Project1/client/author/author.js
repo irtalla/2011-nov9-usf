@@ -26,27 +26,27 @@ const logCurrentUser = () => {
  */
 const requestMap = new Map();
 const pitchMap = new Map();
-const commentMap = new Map(); 
-const personMap = new Map(); 
-const decisionMap = new Map(); 
-
+const commentMap = new Map();
+const personMap = new Map();
+const decisionMap = new Map();
+const draftMap = new Map();
 
 /*
 
 create table pitch (
-	id serial primary key,
-	author_id integer references person,
-	title varchar(40),
-	tagline varchar(1000),
-	status_id integer references status,
-	genre_id integer references genre,
-	form_id integer references form, 
-	general_editor_id integer references person,
-	priority_lvl_id integer references priority,
-	stage_id integer references stage,
-	deadline TIMESTAMP, 
-	createdTime TIMESTAMP, 
-	lastModifiedTime TIMESTAMP
+    id serial primary key,
+    author_id integer references person,
+    title varchar(40),
+    tagline varchar(1000),
+    status_id integer references status,
+    genre_id integer references genre,
+    form_id integer references form, 
+    general_editor_id integer references person,
+    priority_lvl_id integer references priority,
+    stage_id integer references stage,
+    deadline TIMESTAMP, 
+    createdTime TIMESTAMP, 
+    lastModifiedTime TIMESTAMP
 );
 
 
@@ -62,12 +62,12 @@ create table pitch (
  */
 const fetchPitches = async () => {
 
-    let response = await fetchPitchesByAuthorId(currentUser.id); 
+    let response = await fetchPitchesByAuthorId(currentUser.id);
     let pitches = JSON.parse(await response.json());
     console.log(pitches);
 
     for (const pitch of pitches) {
-        pitchMap.set(pitch.id, pitch) 
+        pitchMap.set(pitch.id, pitch)
         document.getElementById('main-data-display-row').innerHTML += createPitchCard(pitch);
     }
 
@@ -125,6 +125,10 @@ const createSubmitPitchModalTemplate =
     <option>literature</option>
     <option>non-fiction</option>
     <option>crime</option>
+    <option>comedy</option>
+    <option>mystery</option>
+    <opion>romance></option>
+    <option>historical</option>
   </select>
 </div>
 <div class="form-group">
@@ -142,30 +146,69 @@ const createSubmitPitchModalTemplate =
   <textarea class="form-control" id="input-tagline-form" rows="4"></textarea>
 </div>
 </form>
+</div>
 `;
 
 
-const handlePitchContentChange = (id) => {
-  pitchMap.set(id, {
-      ...pitchMap.get(id),
-      [event.target.name]: event.target.value
-  });
 
-  console.log( pitchMap.get(id)[event.target.name] );
+
+const handlePitchContentChange = (id) => {
+    pitchMap.set(id, {
+        ...pitchMap.get(id),
+        [event.target.name]: event.target.value
+    });
+
+    console.log(pitchMap.get(id)[event.target.name]);
 }
+
+const handleDraftContentChange = (id) => {
+    draftMap.set(id, {
+        ...draftMap.get(id),
+        content: event.target.value
+    });
+
+    console.log(draftMap.get(id).content);
+
+}
+
 
 const updatePitch = async (id) => {
 
-  let updatedPitch = pitchMap.get(id); 
-  let response = await putPitch(updatedPitch);
-  if (response.status === 200) {
-    alert("update successful"); 
-    document.getElementById('main-data-display-row').
-      removeChild( document.getElementById(`pitch-card-${id}`) ); 
-    document.getElementById('main-data-display-row').innerHTML += createPitchCard(updatedPitch);
-  } else {
-    alert("Internal system error: could not update pitch");
-  }
+    let updatedPitch = pitchMap.get(id);
+    let response = await putPitch(updatedPitch);
+    if (response.status === 200) {
+        alert("update successful");
+        document.getElementById('main-data-display-row').
+            removeChild(document.getElementById(`pitch-card-${id}`));
+        document.getElementById('main-data-display-row').innerHTML += createPitchCard(updatedPitch);
+    } else {
+        alert("Internal system error: could not update pitch");
+    }
+}
+
+const commitDraft = async (id) => {
+
+    /**
+     * Drafts created on the client will not have an id and so should
+     * be saved. Drafts fetched from the server should have an id,
+     * aod so should be updated
+     */
+    alert("attempting to commit draft");
+    let response;
+    let draft = draftMap.get(id);
+    console.log(draft);
+    if (!draft.id) {
+        response = await postDraft(draft);
+    } else {
+        response = await putDraft(draft);
+    }
+
+    if (response.status === 200) {
+        alert("draft successfully committed");
+    } else {
+        alert("Internal system error: could not commit draft.");
+    }
+
 }
 
 
@@ -178,23 +221,49 @@ const updatePitch = async (id) => {
 const populateModalWithData = async (id = null) => {
 
     if (id !== null) {
-        document.getElementById("pitch-modal-body").innerHTML = await createPitchModalCard( pitchMap.get(id) );
+        document.getElementById("pitch-modal-body").innerHTML = await createPitchModalCard(pitchMap.get(id));
         document.getElementById("modal-btn-section").innerHTML = `
-          <button type="button" class="btn btn-warning" onClick="updatePitch(${id})">Update</button>
+          <button type="button" class="btn btn-warning" onClick="updatePitch(${id})">Commit Pitch</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           `;
+        onPitchModalLoad();
     } else {
         document.getElementById("pitch-modal-body").innerHTML = createSubmitPitchModalTemplate;
         document.getElementById("modal-btn-section").innerHTML = `
     <button type="button" class="btn btn-success" data-dismiss="modal" onClick="savePitch()">Save</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       `;
-
     }
 
 };
 
+/*
+    (default, 'novel', 50),
+    (default, 'novella', 25),
+    (default, 'short story', 20),
+    (default, 'article', 10);
+*/
+
 const savePitch = async () => {
+    
+
+    let form = {}; 
+    switch (document.getElementById('input-form-form').value.toUpperCase() ) {
+        case "ARTICLE":
+            form = { id: 1, name: "article", points: 10 };
+            break; 
+        case "SHORT STORY":
+            form = { id: 2, name: "short story", points: 20 };
+            break; 
+        case "NOVELLA":
+            form = { id: 3, name: "novella", points: 25 };
+            break; 
+        case "NOVEL":
+            form = { id: 4, name: "novel", points: 50};
+            break; 
+        default: 
+            throw Error("unknown form");
+    }
 
     let pitch = {
         id: 0,
@@ -202,18 +271,16 @@ const savePitch = async () => {
         tagline: document.getElementById('input-tagline-form').value,
         title: document.getElementById('input-title-form').value,
         genre: { id: 1, name: document.getElementById('input-genre-form').value },
-        form: { id: 1, name: document.getElementById('input-form-form').value }
+        form: form
     }
     console.log(pitch);
 
     let response = await postPitch(pitch);
 
-
     if (response.status === 200) {
         let newPitch = JSON.parse(await response.json());
         pitchMap.set(newPitch.id, newPitch);
-        createPitchCard(newPitch);
-        document.getElementById('main-data-display-row').innerHTML += pitchCard;
+        document.getElementById('main-data-display-row').innerHTML += createPitchCard(newPitch);;
         loadPitchData();
         alert("Save successful. Check out your new submission below. Good luck!")
     } else {
@@ -245,39 +312,39 @@ const deletePitch = async (id) => {
 
 const saveComment = async (id, selectorString) => {
 
-  const newCommentContent = document.getElementById(selectorString).value;
-  if (newCommentContent.length === 0) {
-      alert('Cannot save empty comment');
-      return;
-  }
-  const newComment = {
-      requestId: id,
-      commentorId: currentUser.id,
-      content: newCommentContent
-  };
+    const newCommentContent = document.getElementById(selectorString).value;
+    if (newCommentContent.length === 0) {
+        alert('Cannot save empty comment');
+        return;
+    }
+    const newComment = {
+        requestId: id,
+        commentorId: currentUser.id,
+        content: newCommentContent
+    };
 
-  let response = await postComment(newComment);
+    let response = await postComment(newComment);
 
-  if (response.status === 200) {
-      const comment = JSON.parse(await response.json());
-      document.getElementById(`request-card-${comment.requestId}-comment-section`)
-          .innerHTML += createCommentCard(comment);
+    if (response.status === 200) {
+        const comment = JSON.parse(await response.json());
+        document.getElementById(`request-card-${comment.requestId}-comment-section`)
+            .innerHTML += createCommentCard(comment);
 
-      /**
-       * This block sometimes fails if a new request card is being added. However, it's
-       * a benign failure, so we will wrap it in a try-catch block and print the error
-       */
-      try {
-          document.getElementById(`request-card-${comment.requestId}-comment-section`).
-              removeChild(document.getElementById(`draft-comment-response-section-${comment.requestId}`));
-      } catch (e) {
-          console.warn(e);
-      }
+        /**
+         * This block sometimes fails if a new request card is being added. However, it's
+         * a benign failure, so we will wrap it in a try-catch block and print the error
+         */
+        try {
+            document.getElementById(`request-card-${comment.requestId}-comment-section`).
+                removeChild(document.getElementById(`draft-comment-response-section-${comment.requestId}`));
+        } catch (e) {
+            console.warn(e);
+        }
 
-  } else {
-      alert("Internal System error: Unable to save comment");
-      console.log(resposne);
-  }
+    } else {
+        alert("Internal System error: Unable to save comment");
+        console.log(resposne);
+    }
 
 }
 
@@ -304,33 +371,33 @@ const handleRespond = (id) => {
  */
 const getRequests = async (id) => {
 
-  let response = await fetchRequests(id);
-  if (response.status === 200) {
-      let requests = JSON.parse(await response.json());
-      console.log(requests);
-      // This removes the spinners. Maybe we should check and remove in loadRequests? 
-      document.getElementById("outgoing-requests-display-selection").innerHTML = "";
-      document.getElementById("incoming-requests-display-selection").innerHTML = "";
-      for (const request of requests) {
-          requestMap.set(request.id, request);
-          await createRequestCard(request);
-          let response = await fetchCommentsByRequestId(request.id);
-          if (response.status == 200) {
-              let comments = JSON.parse(await response.json());
-              for (let comment of comments) {
-                  commentMap.set(comment.id, comment);
-                  document.getElementById(`request-card-${comment.requestId}-comment-section`)
-                      .innerHTML += createCommentCard(comment);
-              }
-          } else {
-              alert(`unable to load comments for request ${request.id}`);
-          }
+    let response = await fetchRequests(id);
+    if (response.status === 200) {
+        let requests = JSON.parse(await response.json());
+        console.log(requests);
+        // This removes the spinners. Maybe we should check and remove in loadRequests? 
+        document.getElementById("outgoing-requests-display-selection").innerHTML = "";
+        document.getElementById("incoming-requests-display-selection").innerHTML = "";
+        for (const request of requests) {
+            requestMap.set(request.id, request);
+            await createRequestCard(request);
+            let response = await fetchCommentsByRequestId(request.id);
+            if (response.status == 200) {
+                let comments = JSON.parse(await response.json());
+                for (let comment of comments) {
+                    commentMap.set(comment.id, comment);
+                    document.getElementById(`request-card-${comment.requestId}-comment-section`)
+                        .innerHTML += createCommentCard(comment);
+                }
+            } else {
+                alert(`unable to load comments for request ${request.id}`);
+            }
 
-      }
+        }
 
-  } else {
-      alert("could not fetch requests");
-  }
+    } else {
+        alert("could not fetch requests");
+    }
 }
 
 getRequests(currentUser.id); 

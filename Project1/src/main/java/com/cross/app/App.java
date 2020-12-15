@@ -2,6 +2,11 @@ package com.cross.app;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
+import org.apache.commons.io.FileUtils;
+
 import com.cross.controllers.AuthController;
 import com.cross.controllers.CommentController;
 import com.cross.controllers.DecisionController;
@@ -31,6 +36,19 @@ public class App {
 		DraftController.initGsonBuilder();
 		
 		app.start(4000);
+		
+		app.post("/upload/:filename", ctx -> {
+
+			byte[] fileAsBytes = ctx.bodyAsBytes();
+			try {
+				FileUtils.writeByteArrayToFile(new File("src/main/resources/" + ctx.pathParam("filename"))
+						, fileAsBytes);
+				ctx.status(200);
+			} catch (Exception e) {
+				e.printStackTrace();
+				ctx.status(500);
+			}
+		});
 		
 		app.routes(() -> {
 			// authentication route for login 

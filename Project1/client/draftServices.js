@@ -11,7 +11,7 @@ const postDraft = async (draft) => {
 }
 
 const putDraft = async (draft) => {
-    let response = await fetch(`http://localhost:4000/api/draft`, {
+    let response = await fetch(`http://localhost:4000/api/drafts`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

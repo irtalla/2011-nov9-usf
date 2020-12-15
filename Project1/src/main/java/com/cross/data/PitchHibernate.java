@@ -91,7 +91,7 @@ private PersonDAO personHib = new PersonHibernate();
 		try {
 			tx = s.beginTransaction();
 			Person author = personHib.getById( c.getAuthorId() ); 
-			author.setPoints( author.getPoints() + c.getForm().getPoints() );
+			author.setPoints( author.getPoints() - c.getForm().getPoints() );
 			s.update(author);
 			s.save(c);
 			tx.commit();

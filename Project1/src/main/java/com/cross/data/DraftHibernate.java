@@ -53,7 +53,7 @@ private PitchHibernate pitchHib = new PitchHibernate();
 			Pitch p = pitchHib.getById( d.getPitchId() );
 			p.setLastModifiedTime( LocalDateTime.now() );
 			s.update(p);
-			s.saveOrUpdate(d);
+			s.update(d);
 			tx.commit();
 			return true; 
 		} catch (Exception e) {
