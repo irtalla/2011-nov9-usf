@@ -42,10 +42,16 @@ function populatePitches() {
                 <td id ="${pitch.id}pitchStage">${pitch.stage.name}</td>
                 <td id ="${pitch.id}pitchFinish">${pitch.finish_date}</td>
 
-                <td><button id="reSubPitch${pitch.id}" type="button" value="${pitch.id}" 
-                onclick="reSubPitch(${pitch.id})">Resubmit Pitch? 
-                </button></td>
             `;
+            if(pitch.status.id >= 3){
+                let td1 = document.createElement('td');
+                td1.innerHTML =`
+                <button id="reSubPitch${pitch.id}" type="button" value="${pitch.id}" 
+                onclick="reSubPitch(${pitch.id})">Resubmit Pitch? 
+                </button>
+                `;
+                tr.appendChild(td1);
+            }
             if(pitch.stage.id === 4){
                 let td = document.createElement('td');
                 td.innerHTML = `
