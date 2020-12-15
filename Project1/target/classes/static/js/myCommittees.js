@@ -100,7 +100,7 @@ function populateCommittees() {
                 let highPriority = false;
                 for(let priChk of genPitches){
                     if(priChk.priority.name == 'High Priority')
-                    highPriority = true;
+                        highPriority = true;
                 }
 
 

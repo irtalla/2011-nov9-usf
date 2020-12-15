@@ -22,15 +22,13 @@ function populatePitches() {
                 <th>Priority</th>
                 <th>Stage</th>
                 <th>Finish Date</th>
-                <th> Delete? </th>
+
                 <th> ReSubmit? </th>
             </tr>
         `;
 
         for (let pitch of pitches) {
-            // if(pitch.status.id < 3){
-            //     total += pitch.story_type.points;
-            // }
+
             let tr = document.createElement('tr');
             tr.innerHTML = `
                 <td id ="${pitch.id}pitchId">${pitch.id}</td>
@@ -44,15 +42,19 @@ function populatePitches() {
                 <td id ="${pitch.id}pitchStage">${pitch.stage.name}</td>
                 <td id ="${pitch.id}pitchFinish">${pitch.finish_date}</td>
 
-                <td><button id="deletePitch${pitch.id}" type="button" value="${pitch.id}" 
-                onclick="deletePitch(${pitch.id})">Delete This Pitch? 
-                </button></td>
-
                 <td><button id="reSubPitch${pitch.id}" type="button" value="${pitch.id}" 
                 onclick="reSubPitch(${pitch.id})">Resubmit Pitch? 
                 </button></td>
             `;
-
+            if(pitch.stage.id === 4){
+                let td = document.createElement('td');
+                td.innerHTML = `
+                <button id="draft${pitch.id}" onclick = "draftSubmit(${pitch.id})" type="button">
+                    Submitted Draft?
+                </button>
+                `;
+                tr.appendChild(td);
+            }
             table.appendChild(tr);
 
 
@@ -271,18 +273,32 @@ async function submitChanges() {
     }
 
 }
+//Been told its bad practice to actually delete things 
+// async function deletePitch(number) {
+//     let url = baseUrl + '/users/pitches/' + number;
+//     let data = {
+//         author: document.getElementById(`${number}pitchId`).value,
+//     };
 
-async function deletePitch(number) {
-    let url = baseUrl + '/users/pitches/' + number;
-    let data = {
-        author: document.getElementById(`${number}pitchId`).value,
-    };
+
+//     let response = await fetch(url, { method: 'DELETE', body: JSON.stringify(data) });
+//     if (response.status >= 200 && response.status < 300) {
+
+//         document.location.reload();
+//     }
+// }
 
 
-    let response = await fetch(url, { method: 'DELETE', body: JSON.stringify(data) });
-    if (response.status >= 200 && response.status < 300) {
-
+async function draftSubmit(number){
+    alert("Sending draft out to be proofread!")
+    let data = number;
+    let url = baseUrl + '/stage/' + number;
+    let response = await fetch(url, {method: 'PUT', body:JSON.stringify(data)});
+    if(response.status >= 200 && response.status < 300){
+        alert("Congrats on a successful pitch!")
         document.location.reload();
+    }else{
+        alert("Something may have happened and the accept was not processed");
     }
 }
 
