@@ -5,11 +5,11 @@ import javax.persistence.*;
 public class Story_type {
 	@Override
 	public String toString() {
-		return "Story_type [type_id=" + type_id + ", type_name=" + type_name + "]";
+		return "Story_type [type_id=" + type_id + ", typename=" + typename + "]";
 	}
 	public Story_type() {
 		this.type_id = 1;
-		this.type_name = "";
+		this.typename = "";
 	}
 	@Id
 	private Integer type_id;
@@ -19,11 +19,12 @@ public class Story_type {
 	public void setType_id(Integer type_id) {
 		this.type_id = type_id;
 	}
-	public String getType_name() {
-		return type_name;
+	public String getTypename() {
+		return typename;
 	}
-	public void setType_name(String type_name) {
-		this.type_name = type_name;
+	public void setTypename(String type_name) {
+		this.typename = type_name;
 	}
-	private String type_name;
+	@Column(name="type_name")
+	private String typename;
 }

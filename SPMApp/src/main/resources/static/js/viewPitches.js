@@ -45,7 +45,7 @@ function populatePitches(pitches) {
 				<th>Genre Approval</th>
 				<th>Editor Approval</th>
 				<th>Assistant approval</th>
-				<th></th>
+				<th>Suggestion</th>
 				</tr>`;
 				
 				for (let pitch of pitches) {
@@ -55,11 +55,12 @@ function populatePitches(pitches) {
 					<td>${pitch.author.usr_id}</td>
 					<td>${pitch.title}</td>
 					<td>${pitch.description}</td>
-					<td>${pitch.story_type}</td>
+					<td>${pitch.st.typename}</td>
 					<td>${pitch.priority}</td>
 					<td>${pitch.genre.name}</td>
 					<td>${pitch.status.status_name}</td>
 					<td>${pitch.ainfo}</td>
+					<td>${pitch.suggestion}</td>
 					`;
 					window.pitchgenre = pitch.genre;
 					window.pitchauthor = pitch.author;
@@ -72,7 +73,7 @@ function populatePitches(pitches) {
 					approveBtn.type='button';
 					approveBtn.id = pitch.title + '_' + pitch.p_id;
 					approveBtn.textContent = 'Approve';
-					approveBtn.disabled = loggedUser.role.name === ('Author');
+					approveBtn.disabled = loggedUser.role.id < 4;
 					
 					let btnTd = document.createElement('td');
 					btnTd.appendChild(approveBtn);

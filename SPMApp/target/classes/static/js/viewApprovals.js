@@ -55,7 +55,7 @@ function populateApprovals(approvals) {
 				draftBtn.type='button';
 				draftBtn.id = approval.title + '_' + approval.pitch.p_id;
 				draftBtn.textContent = 'Move to draft';
-				draftBtn.disabled = loggedUser.role.name === ('Author');
+				draftBtn.disabled = loggedUser.role.id < 4;
 				
 				let draftTd = document.createElement('td');
 				draftTd.appendChild(draftBtn);
