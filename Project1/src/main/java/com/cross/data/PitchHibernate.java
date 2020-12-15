@@ -90,9 +90,12 @@ private PersonDAO personHib = new PersonHibernate();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			Person author = personHib.getById( c.getAuthorId() ); 
-			author.setPoints( author.getPoints() - c.getForm().getPoints() );
-			s.update(author);
+			
+			if ( ! c.getStatus().getName().equalsIgnoreCase("ON HOLD") ) {
+				Person author = personHib.getById( c.getAuthorId() ); 
+				author.setPoints( author.getPoints() - c.getForm().getPoints() );
+				s.update(author);
+			}
 			s.save(c);
 			tx.commit();
 		} catch (Exception e) {

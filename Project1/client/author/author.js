@@ -102,6 +102,9 @@ const loadPitchData = () => {
 
     document.getElementById('pitch-data-loading-zone').innerHTML = pitchStatistcs;
 
+    document.getElementById('story-points-indicator').innerText =
+    `Story Points Remaining: ${currentUser.points}`;
+
 };
 
 
@@ -237,12 +240,11 @@ const populateModalWithData = async (id = null) => {
 
 };
 
-/*
-    (default, 'novel', 50),
-    (default, 'novella', 25),
-    (default, 'short story', 20),
-    (default, 'article', 10);
-*/
+const updateStoryPoints = (value) => {
+    document.getElementById('story-points-indicator').innerText =
+    `Story Points Remaining: ${currentUser.points - value}`;
+}
+
 
 const savePitch = async () => {
     
@@ -273,6 +275,15 @@ const savePitch = async () => {
         genre: { id: 1, name: document.getElementById('input-genre-form').value },
         form: form
     }
+
+    if ( form.points > currentUser.points) {
+        alert("Insufficent story points remaining. This pitch will be put 'on hold'");
+        pitch.status = {id: 7, name: 'on hold'}; 
+    } else {
+        currentUser.points -= form.points; 
+    }
+
+
     console.log(pitch);
 
     let response = await postPitch(pitch);
