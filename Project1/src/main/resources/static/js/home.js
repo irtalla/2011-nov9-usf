@@ -610,7 +610,7 @@ async function makeNewClaim(){
                                         <h6>Hours missed:</h6><input id="hoursMissed" type="number" class="goodInput">
                                         <h6>Cost: $</h6><input id="price" type="number" class="goodInput">
                                         <h6 id="estimatedRembersment">Estimated rembersment: $0</h6>
-                                        <button type="button" onclick="submitNewClaim()">Submit</button>
+                                        <button id="submitButton" type="button" onclick="submitNewClaim()">Submit</button>
                                     </form>
                                 </div>`;
 
