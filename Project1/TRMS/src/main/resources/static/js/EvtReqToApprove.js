@@ -9,10 +9,10 @@ function populateEvtReqs() {
 	let evtReqs = loggedUser.evtReqsToApprove;
 	let reimbusementSection = document.getElementById('reimbusementSection');
 	let p = document.createElement('p');
-	let ura = 1000.00;
-	p.innerHTML = `
-		<h3 class="reimbursement-header">2020 Unused Reimbursement Amount: </h3><span class="amount">$${ura.toFixed(2)}</span>
-	`
+	// let ura = 1000.00;
+	// p.innerHTML = `
+	// 	<h3 class="reimbursement-header">2020 Unused Reimbursement Amount: </h3><span class="amount">$${ura.toFixed(2)}</span>
+	// `
 	reimbusementSection.appendChild(p);
 	
     let evtReqSection = document.getElementById('evtReqSection');

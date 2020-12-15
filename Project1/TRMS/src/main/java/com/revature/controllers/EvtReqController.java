@@ -36,18 +36,44 @@ public class EvtReqController {
 			if (result == true) {
 				ctx.status(200);
 				
+//				String html = "<!DOCTYPE html>"
+//						+ "<html lang=\"en\">"
+//						+ "  <head>"
+//						+ "    <meta charset=\"utf-8\">"
+//						+ "    <title>The event request is now approved</title>"
+//						+ "    <link rel=\"stylesheet\" href=\"http://localhost:8080/css/main.css\">"
+//						+ "    <script src=\"http://localhost:8080/js/main.js\"></script>"
+//						+ "  </head>"
+//						+ "  <body>"
+//						+ "   <h2>The event request is now approved, <a href=\"http://localhost:8080/EvtReqToApprove.html\"> Go back</a> </h2>"
+//						+ "  </body>"
+//						+ "</html>";
+				
 				String html = "<!DOCTYPE html>"
 						+ "<html lang=\"en\">"
-						+ "  <head>"
-						+ "    <meta charset=\"utf-8\">"
-						+ "    <title>The event request is now approved</title>"
-						+ "    <link rel=\"stylesheet\" href=\"style.css\">"
-						+ "    <script src=\"script.js\"></script>"
-						+ "  </head>"
-						+ "  <body>"
-						+ "   <h2>The event request is now approved, <a href=\"http://localhost:8080/EvtReqToApprove.html\"> Go back</a> </h2>"
-						+ "  </body>"
-						+ "</html>";
+						+ "	<head>"
+						+ "		<title>TRMS | Event Requests To Approve</title>"
+						+ "		<meta charset=\"utf-8\" />"
+						+ "		<meta name=\"viewport\" content=\"width=device-width, initital=scale=1\" />"
+						+ "		<link rel=\"stylesheet\" href=\"http://localhost:8080/css/main.css\">"  
+						+ "		<link rel=\"stylesheet\" href=\"http://localhost:8080/css/myEvtReqs.css\" />"
+						+ "		<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1\" crossorigin=\"anonymous\" >"
+						+ "	</head>"
+						+ "	<body>"
+						+ "	<navbar id=\"navBar\">"
+						+ "	</navbar>"
+						+ " <h4>The event request is now approved, <a href=\"http://localhost:8080/viewEvtReqs.html\"> Return to view events page</a> </h2>"
+						+ "	<h3 class=\"my-event-requests\">Event Requests To Approve</h3>"
+						+ "	<main>"
+			            + "	<div class=\"table-responsive col-lg-12\" id=\"evtReqSection\">"     	
+			            + "	</div>"    
+			            + "	</main>"
+			        	+ "<script src=\"http://localhost:8080/js/main.js\"></script>"
+			        	+ "<script src=\"http://localhost:8080/js/EvtReqToApprove.js\"></script>"
+			        	+ "<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW\" crossorigin=\"anonymous\"></script>"
+			        	+ "</body>"
+			        	+ "</html>";
+						
 				
 				ctx.html(html);
 			} else {
