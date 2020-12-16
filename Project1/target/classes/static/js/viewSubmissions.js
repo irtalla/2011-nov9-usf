@@ -7,7 +7,7 @@ function setup(){
    getPitches().then(() => {
       checkLogin().then(checkEditor());
    });
-   getDrafts();
+   //getDrafts();
    let submitPitchBtn = document.getElementById('submitPitchBtn');
    submitPitchBtn.onclick = submitPitch;
 }
@@ -25,8 +25,8 @@ async function getDrafts(){
    let url = baseUrl + '/drafts';
    let response = await fetch(url);
    if(response.status === 200){
-      let pitches = await response.json();
-      populatePitches(pitches);
+      let drafts = await response.json();
+      populateDrafts(drafts);
    }
 }
 
@@ -55,10 +55,6 @@ function populatePitches(pitches){
       `;
 
       for(let pitch of pitches){
-         var pitchBadge = document.createElement('span');
-         var draftBadge = document.createElement('span');
-         pitchBadge.innerHTML = `<span class="badge badge-pill badge-primary">Pitch</span>`;
-         draftBadge.innerHTML = `<span class="badge badge-pill badge-primary">Draft</span>`;
 
          let tr = document.createElement('tr');
          tr.innerHTML = `
@@ -87,7 +83,6 @@ function populatePitches(pitches){
             button.onclick = addDraft(pitch);
          }
          tr.appendChild(td);
-         tr.appendChild(pitchBadge);
 
          table.appendChild(tr);
       }
@@ -103,7 +98,7 @@ function populatePitches(pitches){
 async function populateDrafts(drafts){
 
       let draftSection = document.getElementById('draftSection');
-      pitchSection.innerHTML = '';
+      draftSection.innerHTML = '';
 
       if(drafts.length > 0){
          let table = document.createElement('table');
@@ -126,8 +121,6 @@ async function populateDrafts(drafts){
          `;
 
          for(let draft of drafts){
-            var draftBadge = document.createElement('span');
-            draftBadge.innerHTML = `<span class="badge badge-pill badge-primary">Draft</span>`;
 
             let tr = document.createElement('tr');
             tr.innerHTML = `
@@ -150,9 +143,7 @@ async function populateDrafts(drafts){
                ul.appendChild(li);
             }
             td.appendChild(ul);
-            //td.addEventListener('click', setPitchSelect(pitch.id));
             tr.appendChild(td);
-            tr.appendChild(draftBadge);
 
             table.appendChild(tr);
          }
@@ -207,6 +198,7 @@ async function approvePitch(){
             break;
       }
    }
+   setup();
 }
 
 async function rejectPitch(){
@@ -214,7 +206,7 @@ async function rejectPitch(){
    if(confirm('Yeah I didn\'t like this one either. Pitch ID: ' + id)){
       var editorNotes = prompt("It would be rude to reject someone without providing a reason.", "Editor Notes");
       if(editorNotes != null && editorNotes != ''){
-         let url = baseUrl + '/pitches/reject/' + id;
+         let url = baseUrl + '/pitches/reject/' + id + '/' + editorNotes;
          let response = await fetch(url, {method:'PUT'});
          switch(response.status){
             case 200:
@@ -232,6 +224,7 @@ async function rejectPitch(){
          }
       }
    }
+   setup();
 }
 async function submitPitch(){
    let pitch = {};
@@ -239,9 +232,9 @@ async function submitPitch(){
    pitch.author = {};
    pitch.author.id = loggedUser.id;
    pitch.type = {};
-   pitch.type.id = document.getElementById('inputTypeID').value;
+   pitch.type.id = document.getElementById('typeButton').value;
    pitch.genre = {};
-   pitch.genre.id = document.getElementById('inputGenre').value;
+   pitch.genre.id = document.getElementById('genreButton').value;
    pitch.title = document.getElementById('inputTitle').value;
    pitch.tagLine = document.getElementById('inputTagLine').value;
    pitch.description = document.getElementById('inputDescription').value;
@@ -249,20 +242,22 @@ async function submitPitch(){
    pitch.status = {};
    pitch.status.id = 1;
 
-   let url = baseUrl + '/pitches/';
-   let response = await fetch(url, {method: 'POST', body:JSON.stringify(pitch)});
+
+   let url = baseUrl + '/pitches?';
+   let response = await fetch(url, {method: 'POST', body:(JSON.stringify(pitch))});
    if(response.status === 201){
       alert('Pitch submitted');
    }
    else{
       alert('Error while submitting');
+      system.log(JSON.stringify(pitch));
    }
-   setup();
+
+   getPitches();
 }
 
 async function addDraft(pitch){
    let draft ={};
-   draft.id = 0;
    draft.title = pitch.title;
    draft.type = pitch.type;
    draft.tagLine = pitch.tagLine;
@@ -274,7 +269,7 @@ async function addDraft(pitch){
    draft.pitch = pitch;
 
    let url = baseUrl + '/drafts/';
-   let response = await fetch(url, {method: 'POST', body:JSON.stringify(pitch)});
+   let response = await fetch(url, {method: 'POST', body:JSON.stringify(draft)});
    if(response.status === 201){
       alert('draft submitted');
    }

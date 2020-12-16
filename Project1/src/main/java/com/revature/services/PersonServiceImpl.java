@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import com.revature.beans.Request;
+import java.util.Set;
 import com.revature.beans.Person;
 import com.revature.data.*;
 import com.revature.exceptions.NonUniqueUsernameException;
@@ -34,6 +36,10 @@ public class PersonServiceImpl implements PersonService {
 
 	public void deletePerson(Person p) {
 		personDAO.delete(p);
+	}
+
+	public Set<Request> getRequests(Person p){
+		return personDAO.getRequests(p);
 	}
 
 }

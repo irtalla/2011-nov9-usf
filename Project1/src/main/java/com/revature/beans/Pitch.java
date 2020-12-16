@@ -11,6 +11,7 @@ import java.util.Set;
 @Table
 public class Pitch {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id")

@@ -16,7 +16,6 @@ function populatePitches(pitches){
             <th>Title</th>
             <th>Tag Line</th>
             <th>Description</th>
-            <th>Tentative Completion Date</th>
             <th>Status</th>
             <th>Priority</th>
             <th>Editor Notes</th>
@@ -34,7 +33,6 @@ function populatePitches(pitches){
             <td>${pitch.title}</td>
             <td>${pitch.tagLine}</td>
             <td>${pitch.description}</td>
-            <td>${pitch.completionDate}</td>
             <td>${pitch.status.name}</td>
             <td>${pitch.priority}</td>
             <td>${pitch.editorNotes}</td>
@@ -48,6 +46,11 @@ function populatePitches(pitches){
          }
          td.appendChild(ul);
          tr.appendChild(td);
+         if(pitch.status.name === 'Approved'){
+            let addDraftBtn = document.createElement('button');
+            button.onclick = addDraft(pitch);
+            tr.appendChild(addDraftBtn);
+         }
          table.appendChild(tr);
       }
 
@@ -68,19 +71,26 @@ async function getPitchesByAuthor(){
       populatePitches(pitches);
    }
 }
-/*
-async function getAuthorPitches(){
-   let authorPitches = new Set();
-   let url = baseUrl + '/pitches';
-   let response = await fetch(url);
-   if(response.status === 200){
-      let pitches = await response.json();
-      for(let pitch of pitches){
-         if(pitch.author.json() === loggedUser){
-            authorPitches.add(pitch);
-         }
-      }
-      populatePitches(authorPitches);
+
+async function addDraft(pitch){
+   let draft ={};
+   draft.id = 0;
+   draft.title = pitch.title;
+   draft.type = pitch.type;
+   draft.tagLine = pitch.tagLine;
+   draft.description = pitch.description;
+   draft.priority = 0;
+   draft.status.id=1;
+   draft.editorNotes='';
+   draft.genre = pitch.genre;
+   draft.pitch = pitch;
+
+   let url = baseUrl + '/drafts/';
+   let response = await fetch(url, {method: 'POST', body:JSON.stringify(pitch)});
+   if(response.status === 201){
+      alert('draft submitted');
+   }
+   else{
+      alert('Error while submitting');
    }
 }
-*/

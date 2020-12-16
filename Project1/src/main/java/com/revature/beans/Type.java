@@ -1,5 +1,7 @@
 package com.revature.beans;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,10 +10,11 @@ import javax.persistence.Table;
 @Table
 public class Type {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private Integer weight;
-	
+
 	public Type() {
 		id = 0;
 		name = "";

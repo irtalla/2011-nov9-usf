@@ -4,6 +4,7 @@ import com.revature.services.PersonServiceImpl;
 import com.revature.services.PersonService;
 import com.revature.beans.Pitch;
 import com.revature.beans.Person;
+import com.revature.beans.Status;
 import com.revature.services.PitchService;
 import com.revature.services.PitchServiceImpl;
 import java.util.Set;
@@ -104,6 +105,11 @@ public class PitchController{
 			if(pitch != null){
 				pitchServ.approvePitch(pitch, currentUser);
 				ctx.status(200);
+				if(pitchServ.reviewApprovals(pitch)){
+					Status s = new Status();
+
+					pitch.setStatus(s);
+				}
 			}
 			else{
 				ctx.status(409);

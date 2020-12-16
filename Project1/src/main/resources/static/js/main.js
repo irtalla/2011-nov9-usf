@@ -14,9 +14,8 @@ function setNav() {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
          <div class="navbar-nav">
-            <a class="nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-link" href="viewSubmissions.html">View Submissions</a>
-            <a class="nav-link" href="requestManager.html">Request Manager</a>
+         <a class="nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
+
             <div class="navbar-nav" id="navBarRight">
             </div>
          </div>
@@ -39,6 +38,8 @@ function setNav() {
    else {
       let navRight = document.getElementById('navBarRight');
       navRight.innerHTML = `
+      <a class="nav-link" href="viewSubmissions.html">View Submissions</a>
+      <a class="nav-link" href="requestManager.html">Request Manager</a>
       <li><a class="nav-link" href="mySubmissions.html">My Submissions</a></li>
       <li><a class="nav-link" href="requestManager.html">Request Manager</a></li>
       <li><a class="nav-link" href="profile.html">${loggedUser.username}&nbsp;</a></li>
@@ -87,9 +88,8 @@ async function logout(){
    if(response.status != 200){
       alert('Something\'s not right, my dude.');
    }
-
-   window.location.href('index.html');
    loggedUser = null;
+
    setNav();
 }
 

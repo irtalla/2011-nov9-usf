@@ -9,6 +9,7 @@ import java.util.Set;
 @Table
 public class Draft {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id")

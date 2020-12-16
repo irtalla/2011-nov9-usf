@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table
 public class Request {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "from_person_id")
@@ -14,7 +15,7 @@ public class Request {
 	@JoinColumn(name = "to_person_id")
 	private Person toPerson;
 	private String description;
-	
+
 	public Request() {
 		id = 0;
 		fromPerson = new Person();

@@ -1,5 +1,6 @@
 package com.revature.data;
 
+import com.revature.beans.Request;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class PersonHibernate implements PersonDAO {
 
 	public Set<Person> getAll() {
 		Session s = hu.getSession();
-		String query = "from person";
+		String query = "from Person";
 		Query<Person> q = s.createQuery(query, Person.class);
 		List<Person> personList = q.getResultList();
 		Set<Person> personSet = new HashSet<>();
@@ -87,5 +88,17 @@ public class PersonHibernate implements PersonDAO {
 		Person p = q.getSingleResult();
 		s.close();
 		return p;
+	}
+
+	public Set<Request> getRequests(Person p){
+		Session s = hu.getSession();
+		String query = "FROM Person where username = :username";
+		Query<Request> q = s.createQuery(query, Request.class);
+		List<Request> requestList = q.getResultList();
+		Set<Request> requestSet = new HashSet<>();
+		requestSet.addAll(requestList);
+		Set<Request> requests = new HashSet<Request>();
+		s.close();
+		return requests;
 	}
 }

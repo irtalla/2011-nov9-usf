@@ -1,5 +1,6 @@
 package com.revature.app;
 
+import com.revature.controllers.DraftController;
 import static io.javalin.apibuilder.ApiBuilder.*;
 import io.javalin.Javalin;
 import com.revature.controllers.PitchController;
@@ -47,8 +48,10 @@ public class Project1Javalin {
 				path(":id/pitches", () -> {
 					get(PitchController::getPitchesByAuthor);
 				});
+				path(":id/requests", () -> {
+					get(PersonController::getRequests);
+				});
 			});
-			/*
 			path("drafts", () -> {
 				get(DraftController::getPendingDrafts);
 				post(DraftController::addDraft);
@@ -67,10 +70,9 @@ public class Project1Javalin {
 					delete(DraftController::deleteDraft);
 				});
 				path(":userId", () -> {
-					get(DraftController::getDraftByAuthor);
+					//get(DraftController::getDraftByAuthor);
 				});
 			});
-			*/
 		});
 	}
 }

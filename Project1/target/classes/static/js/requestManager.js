@@ -8,12 +8,17 @@ function setup(){
    getRequests();
 }
 
-function getRequests(){
-   let requests = loggedUser.requests;
-   populateInbox(requests);
+
+async function getRequests(){
+   let url = baseUrl + '/users/' + loggedUser.id + '/requests';
+   let response = await fetch(url);
+   if(response.status === 200){
+      let pitches = await response.json();
+      populatePitches(pitches);
+   }
 }
 
-function populateInbox(requests){
+function populateRequests(requests){
    if(requests.length > 0){
       let table = document.createElement('table');
       table.id = 'requestTable';
@@ -38,7 +43,8 @@ function populateInbox(requests){
          let td = document.createElement('td');
          tr.appendChild(td);
          tr.appendChild(td);
-         table.appendChild(tr)
+         table.appendChild(tr);
+
       }
       inbox.appendChild(table);
    }

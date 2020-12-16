@@ -83,6 +83,11 @@ public class PersonController{
       ctx.status(202);
    }
 
+   public static void getRequests(Context ctx){
+      Person p = personServ.getPersonById(Integer.valueOf(ctx.pathParam("id")));
+      
+   }
+
    public static void deleteUser(Context ctx){
       Integer id = Integer.valueOf(ctx.pathParam("id"));
       Person person = personServ.getPersonById(id);

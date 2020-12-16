@@ -45,7 +45,7 @@ public class PitchServiceImpl implements PitchService {
 	}
 
 	public void approvePitch(Pitch pitch, Person person) {
-		Set<Person> approvals = new HashSet<>();
+		Set<Person> approvals = pitch.getApprovals();
 		approvals.add(person);
 		pitch.setApprovals(approvals);
 		if(reviewApprovals(pitch)){
@@ -64,7 +64,7 @@ public class PitchServiceImpl implements PitchService {
 		s.setId(3);
 		s.setName("Rejected");
 		pitch.setStatus(s);
-		pitch.setEditorNotes("Rejected by: " + person + "\n Their notes: " + editorNotes);
+		pitch.setEditorNotes("Rejected by: " + person.getUsername() + "for the following: " + editorNotes);
 		updatePitch(pitch);
 	}
 
