@@ -65,6 +65,7 @@ public class PersonController {
 		System.out.println("Logging out");
 		ctx.req.getSession().invalidate();
 		ctx.status(200);
+//		ctx.redirect("/");
 	}
 	
 	public static void registerUser(Context ctx) {

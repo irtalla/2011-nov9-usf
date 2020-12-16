@@ -1,5 +1,7 @@
 checkLogin().then(populateEvtReqs);
 
+// alert(loggedUser);
+
 let url = baseUrl + '/events/approve/';
 
 function populateEvtReqs() {

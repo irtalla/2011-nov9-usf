@@ -1,6 +1,6 @@
 package com.revature.data;
 
-import java.sql.CallableStatement;
+//import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -233,7 +233,7 @@ public class EvtReqPostgres implements EvtReqDAO {
 		try (Connection conn = cu.getConnection()) {
 			conn.setAutoCommit(false);
 			
-			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount, event_time, location_id, grading_format_id, work_related_justification, passing_cutoff_grade_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into evt_req (name, posting_date, person_id, type_id, start_date, amount, event_time, location_id, grading_format_id, work_related_justification, passing_cutoff_grade_id, status) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			String[] keys = {"id"};
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql, keys);
@@ -249,6 +249,7 @@ public class EvtReqPostgres implements EvtReqDAO {
 			pstmt.setInt(9, t.getGrading_format_id());
 			pstmt.setString(10,  t.getWork_related_justification());
 			pstmt.setInt(11,  t.getPassing_cutoff_grade_id());
+			pstmt.setInt(12,  t.getStatus());
 			
 			int row = pstmt.executeUpdate();
 			

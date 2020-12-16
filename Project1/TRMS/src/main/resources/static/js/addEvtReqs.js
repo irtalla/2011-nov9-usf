@@ -1,5 +1,5 @@
 checkLogin();
-// alert(loggedUser);
+// alert(JSON.parse(loggedUser));
 
 
 let evtReqSection = document.getElementById('evtReqSection');
@@ -89,6 +89,9 @@ async function addEvtReq() {
 	evtReq.grading_format_id = document.getElementById("grading_format").value;
 	evtReq.work_related_justification = document.getElementById("justifications").value;
 	evtReq.passing_cutoff_grade_id = document.getElementById("passing_cutoff_grade").value;
+
+	// added additional data retrieval information
+	evtReq.status = 0; 
 	
 
 	let url = baseUrl + '/events/';

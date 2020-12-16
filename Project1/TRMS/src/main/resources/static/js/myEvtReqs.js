@@ -4,12 +4,12 @@ checkLogin().then(populateEvtReqs);
 function populateEvtReqs() {
 	
 	// alert(loggedUser.evtReqs);
-	// alert(JSON.stringify(loggedUser));
+	alert(JSON.stringify(loggedUser));
 	
     let evtReqs = loggedUser.evtReqs;
 	let reimbusementSection = document.getElementById('reimbusementSection');
 	let p = document.createElement('p');
-	let ura = 1000.00; // reimbursement budget, not sure if a person got approved 2 event then where the remained saved?'
+	let ura = 1000.00; 
 	
 
 	p.innerHTML = `

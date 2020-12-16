@@ -1,0 +1,23 @@
+/* .registration-header {
+	display: flex;
+	justify-content: center; 
+	color: blue; 
+}
+
+.registration-form {
+	margin: 0 auto; 
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.form-div {
+	display: flex;
+	justify-content: space-between;
+	width: 300px;
+}
+
+input, select {
+	min-width: 400px;
+	height: 40px;
+} */

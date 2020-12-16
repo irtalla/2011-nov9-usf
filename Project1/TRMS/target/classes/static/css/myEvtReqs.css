@@ -1,0 +1,13 @@
+.my-event-requests {
+	display: flex;
+	justify-content: center; 
+	color: blue; 
+}
+
+.reimbursement-header {
+	color: #000; 
+}
+
+.amount {
+	font-size: 25px; 
+}
