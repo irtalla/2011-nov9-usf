@@ -10,7 +10,10 @@ import javax.persistence.Table;
 @Table
 public class Status {
 	@Id
+<<<<<<< HEAD
+=======
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+>>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 	private Integer id;
 	private String name;
 	
@@ -62,6 +65,9 @@ public class Status {
 	}
 	@Override
 	public String toString() {
+		return "Status [id=" + id + ", name=" + name + "]";
+	}
+
 		return "Status [id=" + id + ", name=" + name + "]";
 	}
 

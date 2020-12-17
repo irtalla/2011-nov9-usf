@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SierraComponent } from './sierra/sierra.component';
+import { ShakerComponent } from './shaker/shaker.component';
 import { HenryComponent } from './henry/henry.component';
 import { ChrisComponent } from './chris/chris.component';
 
@@ -13,7 +14,8 @@ import { ChrisComponent } from './chris/chris.component';
     AppComponent,
     SierraComponent,
     HenryComponent,
-    ChrisComponent
+    ChrisComponent,
+    ShakerComponent
   ],
   imports: [
     BrowserModule,
