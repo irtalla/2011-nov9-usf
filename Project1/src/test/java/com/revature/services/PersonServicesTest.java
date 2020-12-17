@@ -7,12 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.revature.beans.Person;
-import com.revature.exceptions.GeneralEditorWithGenreSpecialtyException;
-import com.revature.exceptions.GenreEditorWithoutGenreSpecialtyException;
 import com.revature.exceptions.NonUniqueUsernameException;
 
 public class PersonServicesTest {
-	public static PersonService personService;
+	public static PersonServiceImpl personService;
 	public static GenreService genreService;
 	
 	@BeforeAll
