@@ -13,6 +13,7 @@ import { MuhammadComponent } from './muhammad/muhammad.component';
 import { SpencerComponent } from './spencer/spencer.component';
 import { KyleComponent } from './kyle/kyle.component';
 import AssociateService from './associate.service';
+import { AJComponent } from './aj/aj.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import AssociateService from './associate.service';
     BobbyComponent,
     MuhammadComponent,
     SpencerComponent,
-    KyleComponent
+    KyleComponent,
+    AJComponent
   ],
   imports: [
     BrowserModule,
