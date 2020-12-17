@@ -9,6 +9,7 @@ import { ShakerComponent } from './shaker/shaker.component';
 import { HenryComponent } from './henry/henry.component';
 import { ChrisComponent } from './chris/chris.component';
 import { BobbyComponent } from './bobby/bobby.component';
+import { MuhammadComponent } from './muhammad/muhammad.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { BobbyComponent } from './bobby/bobby.component';
     HenryComponent,
     ChrisComponent,
     ShakerComponent,
-    BobbyComponent
+    BobbyComponent,
+    MuhammadComponent
   ],
   imports: [
     BrowserModule,
