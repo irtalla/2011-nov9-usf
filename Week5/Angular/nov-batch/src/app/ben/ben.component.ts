@@ -3,17 +3,17 @@ import AssociateService from '../associate.service';
 import { Associate } from '../classes/associate';
 
 @Component({
-  selector: 'app-sierra',
-  templateUrl: './sierra.component.html',
-  styleUrls: ['./sierra.component.css']
+  selector: 'app-ben',
+  templateUrl: './ben.component.html',
+  styleUrls: ['./ben.component.css']
 })
-export class SierraComponent implements OnInit {
+export class BenComponent implements OnInit {
   associate: Associate;
 
   constructor(private associateService: AssociateService) { }
 
   ngOnInit(): void {
-    this.associateService.getAssociateById(1).subscribe(
+    this.associateService.getAssociateById(11).subscribe(
       resp => {
         this.associate = resp;
       }
@@ -21,5 +21,3 @@ export class SierraComponent implements OnInit {
   }
 
 }
-
-
