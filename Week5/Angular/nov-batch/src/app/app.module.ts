@@ -17,6 +17,7 @@ import AssociateService from './associate.service';
 import { AJComponent } from './aj/aj.component';
 import { WillComponent } from './will/will.component';
 import { IanComponent } from './ian/ian.component';
+import { JakeemComponent } from './jakeem/jakeem.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { IanComponent } from './ian/ian.component';
     KyleComponent,
     AJComponent,
     WillComponent,
-    IanComponent
+    IanComponent,
+    JakeemComponent
   ],
   imports: [
     BrowserModule,
