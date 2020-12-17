@@ -10,6 +10,8 @@ import { HenryComponent } from './henry/henry.component';
 import { ChrisComponent } from './chris/chris.component';
 import { BobbyComponent } from './bobby/bobby.component';
 import { MuhammadComponent } from './muhammad/muhammad.component';
+import { SpencerComponent } from './spencer/spencer.component';
+import { KyleComponent } from './kyle/kyle.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { MuhammadComponent } from './muhammad/muhammad.component';
     ChrisComponent,
     ShakerComponent,
     BobbyComponent,
-    MuhammadComponent
+    MuhammadComponent,
+    SpencerComponent,
+    KyleComponent
   ],
   imports: [
     BrowserModule,
