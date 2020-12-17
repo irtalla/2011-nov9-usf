@@ -1,11 +1,8 @@
 package com.revature.beans;
 
 import javax.persistence.Entity;
-<<<<<<< HEAD
-=======
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
->>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,10 +10,7 @@ import javax.persistence.Table;
 @Table
 public class Breed {
 	@Id
-<<<<<<< HEAD
-=======
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
->>>>>>> d919dc1a108cfa79915073e39e718c364ed18ba0
 	private Integer id;
 	private String name;
 	

@@ -6,7 +6,7 @@
 		<property name="hibernate.connection.driver.class">org.postgresql.Driver</property>
 		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres?currentSchema=catapp</property>
 		<property name="hibernate.connection.username">postgres</property>
-		<property name="hibernate.connection.password">rev1910</property>
+		<property name="hibernate.connection.password">Password</property>
 		
 		<!-- hibernate setup -->
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>

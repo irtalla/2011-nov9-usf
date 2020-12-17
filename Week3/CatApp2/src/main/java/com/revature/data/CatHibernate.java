@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 
 import com.revature.beans.Cat;
 import com.revature.beans.Person;
+import com.revature.beans.SpecialNeed;
 import com.revature.utils.HibernateUtil;
 
 public class CatHibernate implements CatDAO {
@@ -106,6 +107,12 @@ public class CatHibernate implements CatDAO {
 		// nq.setParameter("personid", p.getId());
 		// nq.setParameter("catid", c.getId());
 		s.close();
+	}
+
+	@Override
+	public SpecialNeed AddSpecialNeed(SpecialNeed t) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
