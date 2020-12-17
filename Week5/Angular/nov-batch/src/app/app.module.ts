@@ -19,6 +19,7 @@ import { WillComponent } from './will/will.component';
 import { IanComponent } from './ian/ian.component';
 import { JakeemComponent } from './jakeem/jakeem.component';
 import { JasonComponent } from './jason/jason.component';
+import { DavidComponent } from './david/david.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { JasonComponent } from './jason/jason.component';
     WillComponent,
     IanComponent,
     JakeemComponent,
-    JasonComponent
+    JasonComponent,
+    DavidComponent
   ],
   imports: [
     BrowserModule,
