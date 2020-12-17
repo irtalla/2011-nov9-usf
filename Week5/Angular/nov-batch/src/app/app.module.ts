@@ -5,11 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SierraComponent } from './sierra/sierra.component';
+import { DoyeunComponent } from './doyeun/doyeun.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SierraComponent
+    SierraComponent,
+    DoyeunComponent
   ],
   imports: [
     BrowserModule,
