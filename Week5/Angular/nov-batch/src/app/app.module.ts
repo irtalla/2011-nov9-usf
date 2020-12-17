@@ -12,6 +12,7 @@ import { BobbyComponent } from './bobby/bobby.component';
 import { MuhammadComponent } from './muhammad/muhammad.component';
 import { SpencerComponent } from './spencer/spencer.component';
 import { KyleComponent } from './kyle/kyle.component';
+import AssociateService from './associate.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { KyleComponent } from './kyle/kyle.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AssociateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
