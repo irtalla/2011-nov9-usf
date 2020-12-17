@@ -14,6 +14,7 @@ import { SpencerComponent } from './spencer/spencer.component';
 import { KyleComponent } from './kyle/kyle.component';
 import AssociateService from './associate.service';
 import { AJComponent } from './aj/aj.component';
+import { WillComponent } from './will/will.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AJComponent } from './aj/aj.component';
     MuhammadComponent,
     SpencerComponent,
     KyleComponent,
-    AJComponent
+    AJComponent,
+    WillComponent
   ],
   imports: [
     BrowserModule,
