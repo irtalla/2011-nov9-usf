@@ -20,6 +20,7 @@ import { IanComponent } from './ian/ian.component';
 import { JakeemComponent } from './jakeem/jakeem.component';
 import { JasonComponent } from './jason/jason.component';
 import { DavidComponent } from './david/david.component';
+import { DoyeunComponent } from './doyeun/doyeun.component';
 
 @NgModule({
   declarations: [
@@ -38,16 +39,15 @@ import { DavidComponent } from './david/david.component';
     IanComponent,
     JakeemComponent,
     JasonComponent,
-    DavidComponent
+    DavidComponent,
+    DoyeunComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [
-    AssociateService
-  ],
+  providers: [AssociateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
