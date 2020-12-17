@@ -16,6 +16,7 @@ import { KyleComponent } from './kyle/kyle.component';
 import AssociateService from './associate.service';
 import { AJComponent } from './aj/aj.component';
 import { WillComponent } from './will/will.component';
+import { IanComponent } from './ian/ian.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { WillComponent } from './will/will.component';
     SpencerComponent,
     KyleComponent,
     AJComponent,
-    WillComponent
+    WillComponent,
+    IanComponent
   ],
   imports: [
     BrowserModule,
