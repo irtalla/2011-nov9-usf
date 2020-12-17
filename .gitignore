@@ -1,0 +1,40 @@
+# Java related
+target/**
+*.jar
+*.war
+*.ear
+*.class
+
+# External tool builders
+.externalToolBuilders/
+
+# Eclipse
+.classpath
+.project
+.settings/
+*.pydevproject
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+
+#node
+/node_modules/
