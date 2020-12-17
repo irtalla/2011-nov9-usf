@@ -1,0 +1,6 @@
+<div>
+    <h2>{{ associate.firstName }} {{ associate.lastName }}</h2>
+    <ol *ngFor= "let hobby of associate.hobbies">
+        <li>{{ hobby.name }}</li>
+    </ol>
+</div>
