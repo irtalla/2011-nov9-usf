@@ -8,6 +8,7 @@ import { SierraComponent } from './sierra/sierra.component';
 import { ShakerComponent } from './shaker/shaker.component';
 import { HenryComponent } from './henry/henry.component';
 import { ChrisComponent } from './chris/chris.component';
+import { BobbyComponent } from './bobby/bobby.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ChrisComponent } from './chris/chris.component';
     SierraComponent,
     HenryComponent,
     ChrisComponent,
-    ShakerComponent
+    ShakerComponent,
+    BobbyComponent
   ],
   imports: [
     BrowserModule,
