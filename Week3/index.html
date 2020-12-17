@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Sending a Form</title>
+        <link rel="stylesheet" href="main.css" />
+    </head>
+    <body>
+        <h1>Hello world!</h1>
+        <form method="POST" action="http://localhost:8080/hello">
+            <label for="message">Message: </label>
+            <input name="message" type="text" />
+            <br>
+            <label for="multiple">How many times: </label>
+            <input name="multiple" type="number" />
+            <button>Send</button>
+        </form>
+    </body>
+</html>
