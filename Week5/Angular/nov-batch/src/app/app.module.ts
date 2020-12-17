@@ -10,6 +10,7 @@ import { HenryComponent } from './henry/henry.component';
 import { ChrisComponent } from './chris/chris.component';
 import { BobbyComponent } from './bobby/bobby.component';
 import { MuhammadComponent } from './muhammad/muhammad.component';
+import AssociateService from './associate.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { MuhammadComponent } from './muhammad/muhammad.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AssociateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
