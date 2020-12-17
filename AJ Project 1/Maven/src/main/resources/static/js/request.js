@@ -43,7 +43,32 @@ async function getRequest() {
     async function populateRequest(request) {
         let requestSection = document.getElementById('Request');
         requestSection.innerHTML = '';
-
+        let testDate = request.testDate.replace("T", " ");
+        testDate = testDate.replace("-" , "/");
+        testDate = testDate.replace("-" , "/");
+        request.testDate = testDate;
+        if (!request.due) {
+            request.due = "";
+        } else {
+            let due = request.due;
+            let minute = due.minute;
+            let hour = due.hour;
+            let month = due.monthValue;
+            let day = due.dayOfMonth;
+            let year = due.year;
+            request.due = `${year}/${month}/${day} ${hour}:${minute}`
+        }
+        if (!request.closed) {
+            request.closed = "";
+        } else {
+            let closed = request.closed;
+            let minute = closed.minute;
+            let hour = closed.hour;
+            let month = closed.monthValue;
+            let day = closed.dayOfMonth;
+            let year = closed.year;
+            request.closed = `${year}/${month}/${day} ${hour}:${minute}`
+        }
         let table = document.createElement('table');
         table.id = 'requestTable'
 
@@ -92,6 +117,14 @@ async function getRequest() {
         <tr>
         <td>Final Amount</td>
         <td>$${Math.round(request.amount * 100) / 100}</td>
+        </tr>
+        <tr>
+        <td>Next Due Date</td>
+        <td>${request.due}</td>
+        </tr>
+        <tr>
+        <td>Date Closed</td>
+        <td>${request.closed}</td>
         </tr>
         <tr>
         <td>Status</td>
