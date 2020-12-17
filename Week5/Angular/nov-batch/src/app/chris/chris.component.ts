@@ -13,7 +13,7 @@ export class ChrisComponent implements OnInit {
   constructor(private associateService: AssociateService) { }
 
   ngOnInit(): void {
-    this.associateService.getAssociateById(1).subscribe(
+    this.associateService.getAssociateById(2).subscribe(
       resp => {
         this.associate = resp;
       }

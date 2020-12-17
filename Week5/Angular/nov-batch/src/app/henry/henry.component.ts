@@ -14,7 +14,7 @@ export class HenryComponent implements OnInit {
   constructor(private associateService: AssociateService) { }
 
   ngOnInit(): void {
-    this.associateService.getAssociateById(17).subscribe(
+    this.associateService.getAssociateById(10).subscribe(
       resp => {
         this.associate = resp;
       }
