@@ -42,3 +42,33 @@ function populateCats() {
         catSection.innerHTML = 'You don\'t have any cats. :(';
     }
 }
+
+async function addCat(){
+    const name = document.getElementById("name").value;
+    const age = document.getElementById("age").value;
+    const breed = document.getElementById("breed").value;
+
+    if(!name || !age || !breed){
+        alert("Invalid Input!");
+        return;
+    }
+
+    let url = baseUrl + "/cats";
+    let response = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': "appliction/json"
+        },
+        body: {
+            'name': name,
+            'age': age,
+            'breed': breed
+        }
+    });
+
+    if(response.status === 200){
+        alert("Cat added!");
+    }else{
+        alert("Cat not added!");
+    }
+}

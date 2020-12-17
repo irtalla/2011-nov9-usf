@@ -113,3 +113,8 @@ JavaScript
 				- null
 				- false
 				- undefined
+		== vs. ===
+			== checking whether the value is equal (performs type coercion)
+			1 == "1" // true
+			=== checking whether the value and type are equal
+			1 === "1" // false

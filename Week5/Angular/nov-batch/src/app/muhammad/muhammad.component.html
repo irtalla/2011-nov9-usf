@@ -1,0 +1,7 @@
+<div>
+    <h1>Mr: {{ associate.firstName }} {{ associate.lastName }}</h1>
+    <h2>My hobbies are</h2>
+    <ul *ngFor="let hobby of associate.hobbies">
+        <li>{{ hobby.name }}</li>
+    </ul>
+</div>

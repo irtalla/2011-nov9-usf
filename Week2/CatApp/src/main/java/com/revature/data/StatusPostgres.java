@@ -15,6 +15,10 @@ public class StatusPostgres implements StatusDAO {
 
 	@Override
 	public Status add(Status t) {
+<<<<<<< HEAD
+		// Currently, there is no reason to create a new status
+		return null;
+=======
 		Status s = null;
 		
 		try(Connection conn = cu.getConnection()) {
@@ -36,10 +40,16 @@ public class StatusPostgres implements StatusDAO {
 			e.printStackTrace();
 		}
 		return s;
+>>>>>>> 5db0220dbef16c9e53acdb9ce1cabe080e7badce
 	}
 
 	@Override
 	public Status getById(Integer id) {
+<<<<<<< HEAD
+		try {
+			
+		}
+=======
 		Status s = null;
 		
 		try (Connection conn = cu.getConnection()) {
@@ -58,6 +68,7 @@ public class StatusPostgres implements StatusDAO {
 		}
 		
 		return s;
+>>>>>>> 5db0220dbef16c9e53acdb9ce1cabe080e7badce
 	}
 
 	@Override
