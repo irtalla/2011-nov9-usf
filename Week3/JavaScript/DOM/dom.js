@@ -85,8 +85,8 @@ function switchPropagation() {
 function addListenersToDivs() {
     divA.addEventListener('mouseover', selectDiv, capturing);
     divA.addEventListener('mouseout', deselectDiv, capturing);
-    divB.addEventListener('mouseover', selectDiv, capturing);
-    divB.addEventListener('mouseout', deselectDiv, capturing);
+    //divB.addEventListener('mouseover', selectDiv, capturing);
+    //divB.addEventListener('mouseout', deselectDiv, capturing);
     divC.addEventListener('mouseover', selectDiv, capturing);
     divC.addEventListener('mouseout', deselectDiv, capturing);
     divD.addEventListener('mouseover', selectDiv, capturing);
@@ -98,8 +98,8 @@ function addListenersToDivs() {
 function removeListenersFromDivs() {
     divA.removeEventListener('mouseover', selectDiv, capturing);
     divA.removeEventListener('mouseout', deselectDiv, capturing);
-    divB.removeEventListener('mouseover', selectDiv, capturing);
-    divB.removeEventListener('mouseout', deselectDiv, capturing);
+    //divB.removeEventListener('mouseover', selectDiv, capturing);
+    //divB.removeEventListener('mouseout', deselectDiv, capturing);
     divC.removeEventListener('mouseover', selectDiv, capturing);
     divC.removeEventListener('mouseout', deselectDiv, capturing);
     divD.removeEventListener('mouseover', selectDiv, capturing);
