@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'cat-app';
+
+  setLogin() {
+    console.log('user logged in');
+  }
 }
