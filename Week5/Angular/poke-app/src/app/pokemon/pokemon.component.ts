@@ -8,10 +8,12 @@ import { Pokemon } from '../models/pokemon';
 })
 export class PokemonComponent implements OnInit {
   @Input() pokemon: Pokemon;
+  filterText: string;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.filterText = '';
   }
 
 }

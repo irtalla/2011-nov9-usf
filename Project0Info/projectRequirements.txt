@@ -11,10 +11,9 @@
 ## Requirements
 1. Functionality should reflect the below user stories.
 2. Data is stored in a database.
-3. A custom stored procedure is called to perform some portion of the functionality.
-4. Data Access is performed through the use of JDBC in a data layer consisting of Data Access Objects.x
-5. All input is received using the java.util.Scanner class.
-6. All methods (aside from getters/setters, hashcode/equals, etc.) must have at least one JUnit test.
+3. Data Access is performed through the use of JDBC in a data layer consisting of Data Access Objects.
+4. All input is received using the java.util.Scanner class.
+5. All public service and DAO methods must have at least one JUnit test.
 
 ## User Stories
 Total Points: 25 Points

@@ -1,0 +1,29 @@
+<div>
+    <ng-container *ngIf="loggedUser; else noUser">
+        <h3>My Cats</h3>
+        <table *ngIf="loggedUser.cats; else noCats">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Breed</th>
+                <th>Special Needs</th>
+            </tr>
+            <tr *ngFor="let cat of loggedUser.cats">
+                <td>{{ cat.id }}</td>
+                <td>{{ cat.name }}</td>
+                <td>{{ cat.breed.name }}</td>
+                <td>
+                    <ul *ngFor="let sn of cat.specialNeeds">
+                        <li>{{ sn.name }}</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <ng-template #noCats>
+            You have no cats. :(
+        </ng-template>
+    </ng-container>
+    <ng-template #noUser>
+        You need to be logged in to view your cats. :(
+    </ng-template>
+</div>
