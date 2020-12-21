@@ -20,10 +20,14 @@ export class HomeComponent implements OnInit {
 
   getPokemon() {
     this.pokemonService.getPokemonById(this.id).subscribe(
-      resp => {
-        this.homePokemon = resp;
+      response => {
+        this.homePokemon = response;
       }
     );
   }
+
+  // callbackFunc(response) {
+  //   this.homePokemon = response;
+  // }
 
 }

@@ -1,0 +1,25 @@
+<div>
+    <h3>Available Cats</h3>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Breed</th>
+            <th>Special Needs</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let cat of availableCats">
+            <td>{{ cat.id }}</td>
+            <td>{{ cat.name }}</td>
+            <td>{{ cat.breed.name }}</td>
+            <td>
+                <ul *ngFor="let sn of cat.specialNeeds">
+                    <li>{{ sn.name }}</li>
+                </ul>
+            </td>
+            <td>
+                <button type="button" (click)="adoptCat(cat.id)">Adopt</button>
+            </td>
+        </tr>
+    </table>
+</div>
