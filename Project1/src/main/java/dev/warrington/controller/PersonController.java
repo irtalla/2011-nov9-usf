@@ -21,7 +21,7 @@ import io.javalin.http.Context;
 public class PersonController {
 	
 	private static PersonService personServ = new PersonServiceImpl();
-	private static String algorithm = "PBKDF2WithHmacSHA1";
+	private static String algorithm = "PBKDF2WithHmacSHA1"; // hashing algorithm
 	private static int derivedKeyLength = 160; // for SHA1
     private static int iterations = 20000; // NIST specifies 10000
 	
