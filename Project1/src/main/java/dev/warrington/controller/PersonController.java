@@ -54,11 +54,11 @@ public class PersonController {
 		System.out.println("Checking login");
 		Person p = ctx.sessionAttribute("user");
 		if (p != null) {
-			//System.out.println("Logged in as " + p.getUsername());
+			System.out.println("Logged in as " + p.getUsername());
 			ctx.json(p);
 			ctx.status(200);
 		} else {
-			//System.out.println("Not logged in");
+			System.out.println("Not logged in");
 			ctx.status(400);
 		}
 		
@@ -66,8 +66,8 @@ public class PersonController {
 	
 	public static void logIn(Context ctx) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
-		System.out.println("Logging in");
-		String username = ctx.queryParam("user");
+		System.out.println("here log in");
+		/*String username = ctx.queryParam("user");
 		Person p = personServ.getPersonByUsername(username);
 		
 		if (p != null) {
@@ -91,7 +91,7 @@ public class PersonController {
 		{
 			// username not found
 			ctx.status(404);
-		}
+		}*/
 		
 	}
 	
