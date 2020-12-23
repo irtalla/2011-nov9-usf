@@ -1,0 +1,63 @@
+Selenium
+	test automation framework, allows developers to write scripts for automating interactions with a front end
+	4 components
+		Selenium IDE: a browser IDE that allows you to record user input & generates scripts from that input
+			- isn't always accurate and doesn't work for all browsers
+		Selenium RC: (remote control) allows Selenium to connect & run scripts remotely
+			- somewhat more outdated because it is more complicated (relies on proxy server, etc.)
+		Selenium WebDriver: engine for automating web applications
+			- different implementations are available for different browsers (ChromeDriver, GeckoDriver, etc.)
+		Selenium Grid: allows scripts to run concurrently in different browsers to gauge compatibility/performance
+	setup
+		- selenium & webdriver implementation dependencies in pom.xml
+		- put the driver implementation in src/test/resources
+	Selenium classes/interfaces
+		- WebDriver/ChromeDriver/etc.
+			- this is your actual driver used to interact with the browser/page
+			- driver.get("http://localhost:4200")
+			- driver.close() closes the current browser window, stops driver if it was the last window open
+			- driver.quit() closes the driver & all open windows
+		- WebElement
+			- represents elements on the page
+			- different ways of finding these elements (driver.findElement(By...))
+				- id
+				- cssSelector
+				- tagName
+				- xpath
+	POM (page object model) design pattern
+		- separates the information about the webelements into a different class
+		- allows using these elements to be more clear, self-descriptive, etc.
+		- easier to use for interacting with a page, especially if you interact with certain elements more than once
+		- passing in the driver into the constructor so that it can be used throughout the POM
+Cucumber
+	- a BDD (behavior-driven development) test framework
+		- BDD is a type of TDD in which tests are written based on the expected behaviors of the application
+	- based on feature files written in Gherkin
+		- FileName.feature
+		- individual things in the feature files are called "steps"
+		- keywords
+			- Feature: describes the test suite
+			- Scenario: outlines one test case
+			- Scenario Outline: outlines a test case with different inputs to run
+			- Background: something that must be true for all test cases
+			- Given: a precondition for the test
+				- e.g. Given that the user is on the home page
+			- When: an action that occurs
+				- e.g. When the user clicks the button
+			- And: for adding additional "when" steps
+			- Then: expected outcome of behavior
+				- e.g. Then the title should say "Hello world"
+			- Examples: specify different inputs for Scenario Outline
+				- e.g. Examples:
+						|  input1  |  input2  |
+						|  hello   |  5       |
+						|  world   |  22      |
+		- very high-level language, has ~70 dialects
+	- step implementations or "gluecode"
+		- the Java implementations of the feature files
+		- annotations for each keyword over the relevant method, with regex version of statement
+		- allow you to write actual code for each step
+	- add cucumber plugin to your IDE to run the feature files
+		- first time you run them, it will give you the empty methods for step implementation
+		- after steps are implemented, it will run them as tests and give you the results
+		- can be run with other test frameworks (JUnit, TestNG, etc.)
