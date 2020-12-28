@@ -4,7 +4,6 @@ import { UrlService } from '../url.service';
 import { Person } from '../models/person';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +11,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
   private loggedUser: Person;
   private usersUrl: string;
-  private formHeaders = new HttpHeaders({'Cookie':this.cookieService.get('JSESSIONID'),
-    'Content-Type': 'application/x-www-form-urlencoded'});
-  private regHeaders = new HttpHeaders({'Cookie':this.cookieService.get('JSESSIONID'),
-    'Content-Type':'application/json'})
+  private formHeaders = new HttpHeaders('Content-Type': 'application/x-www-form-urlencoded'});
+  private regHeaders = new HttpHeaders('Content-Type':'application/json'})
 
   constructor(private http: HttpClient, private urlService: UrlService, private cookieService: CookieService) {
     this.usersUrl = this.urlService.getUrl() + 'users';
