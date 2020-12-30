@@ -1,0 +1,94 @@
+﻿Prepared by:
+
+
+Date
+
+
+Version number
+
+
+Status
+
+
+DOCUMENT PURPOSE
+
+
+This document should define the high-level test strategy for all projects. The test strategy provides a foundation for determining the duration of the software testing life cycle. It also provides a foundation for estimating the cost of all of your team’s testing efforts. 
+
+
+It ultimately provides a solid starting point for developing a test plan; it is NOT a substitute for a test plan!
+
+
+DEFINITIONS
+
+
+Are there any key terms used throughout this document that need to be defined so that they may be clearly understood by all members of the team?
+
+
+REFERENCES
+
+
+Are there any internal documents or sources of information that were used to create this document? If so, identify those sources here and detail how they can be accessed for further viewing.
+
+
+TEST SCOPE AND OBJECTIVES
+
+
+Scope 
+
+
+Provide details about the operation environment used across projects if possible. You should also detail the general scope of your team’s testing efforts and provide some information about the processes that are out of scope for your team.
+
+
+Objectives
+
+
+After you’ve specified the scope, list your team’s high-level test objectives across projects. If your team will conduct multiple types of testing, list the objectives for each type of testing you plan on conducting.
+
+
+Testing Approach
+
+
+Discuss your approach to testing. How, for instance, do you conduct a certain type of testing and evaluate the test cases?
+
+
+Test activities and deliverables
+
+
+List all of the test activities that will be carried out to support your testing approach. For example, you might want to include tasks such as setting up some test data and monitoring test results.
+
+
+LABOR REQUIREMENTS
+
+
+What roles and departments are required in order to perform testing using your approach? List them here. You can also specify some information about how you will acquire the necessary labor. Will you outsource the work? Or will it be conducted in-house?
+
+
+COMMUNICATION
+
+
+How will you communicate with your team members? Which tools, for instance, will you use?
+
+
+TEST ENVIRONMENT
+
+
+How will you set up your testing environment? How much physical space will be required to host all of the team members? Which tools will you use to set your test environment? What are the hardware specifications?
+
+
+SCHEDULE
+
+
+What type of schedule will you generally follow when testing your application? When do you typically expect, for instance, to be done with developing test cases? What sorts of key milestones does your team define?            
+
+
+CONSTRAINTS
+
+
+What are some of the limitations of your test strategy? What assumptions have you made when developing your strategy?
+
+
+RISKS
+
+
+Identify the risks associated with your test strategy. How severe are these risks, and how will you combat them?

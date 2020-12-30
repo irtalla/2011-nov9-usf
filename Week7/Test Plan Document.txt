@@ -1,0 +1,247 @@
+﻿Prepared by:
+
+
+(Names of Preparers)
+
+
+(Date)
+
+
+OBJECTIVES AND TASKS
+
+
+Objectives
+
+
+Here you should detail the objectives that are supported by your test strategy. This is where you discuss roles and responsibilities, communication tools, and any source documentation which you discuss any deliverables your company offers.
+
+
+Tasks
+
+
+Provide some information about each task you’ve defined in your overall testing strategy. This section can include, for instance, details about testing, test result analysis, reporting, etc.
+
+
+SCOPE
+
+
+General
+
+
+Describe what exactly you’ll be testing and in what depth. Are you testing all of the units of products, the integration of all units, etc?
+
+
+Tactics
+
+
+Talk about how your team will complete the types of testing specified in the “Scope” section of the document. For example, what procedures will you put in place for communication across teams. How will set aside time to make sure that everyone completes the tasks that are in scope?
+
+
+TESTING STRATEGY
+
+
+What is your overall approach to testing applications? How will you guarantee that all features of an application are thoroughly tested? You should be as specific as possible here, providing information about key strategies, tools, and activities that you will make use of to achieve this goal.
+
+
+This section should provide enough detail to allow your team to identify key tasks related to testing and determine the amount of time required to complete each task.
+
+
+Unit Testing
+
+
+Definition:
+
+
+Detail the minimum degree of comprehensiveness desired. For example, how will you determine which statements have been executed at least once in your tests? You should also list some techniques you will use to trace requirements.
+
+
+Participants:
+
+
+Which team will be responsible for Unit Testing?
+
+
+Methodology:
+
+
+How will you conduct unit testing? Who will write the test scripts?
+
+
+System and Integration Testing
+
+
+Definition:
+
+
+How do you define System and Integration Testing for this project?
+
+
+Participants:
+
+
+Which team will handle System and Integration Testing on the project? 
+
+
+Methodology:
+
+
+How will you conduct System & Integration testing? 
+
+
+Performance and Stress Testing (If Applicable)
+
+
+Definition:
+
+
+What do you consider Stress Testing for this project?
+
+
+Participants:
+
+
+Who will be handling Stress Testing on your project?
+
+
+Methodology:
+
+
+How will your team handle performance testing? Who will be responsible for writing any necessary test scripts?
+
+
+User Acceptance Testing
+
+
+Definition:
+
+
+How do you define acceptance testing for this project? What is the purpose of this testing?
+
+
+Participants:
+
+
+Who will handle the User Acceptance Testing? 
+
+
+Methodology:
+
+
+How will you conduct UAT?
+
+
+Automated Regression Testing
+
+
+Definition:
+
+
+Regression testing is the selective retesting of a system or component to verify that modifications have not caused unintended effects and that the system or component still works as specified in the requirements.
+
+
+Participants:
+
+
+Methodology:
+
+
+Beta Testing
+
+
+Participants:
+
+
+Methodology:
+
+
+HARDWARE REQUIREMENTS
+
+
+What are the hardware requirements for writing and running your tests?
+
+
+ENVIRONMENT REQUIREMENTS
+
+
+Specify the required and desired properties of the test environment. What type of hardware, for instance, is required to set up the environment? What type of software? What types of tools do you need to run the tests?
+
+
+Where will you acquire these resources?
+
+
+TEST SCHEDULE
+
+
+Define some key test milestones in the project schedule. How much time will it take to reach each of these milestones?
+
+
+Define any additional test milestones needed. Estimate the time required to do each testing task. Specify the schedule for each testing task and test milestone. For each testing resource (that is, facilities, tools, and staff), specify its periods of use.
+
+
+CONTROL PROCEDURES
+
+
+Problem Reporting
+
+
+Which procedures will you follow when an incident is encountered during the testing process? 
+
+
+Change Requests
+
+
+Here you’ll record the process of modifications to the software. Who, for instance, will approve the changes and what would be the criteria for including the changes to the current product. If the changes will affect existing programs, these modules need to be identified.
+
+
+FEATURES TO BE TESTED
+
+
+Provide a comprehensive list of the features you will test.
+
+
+FEATURES NOT TO BE TESTED
+
+
+Which features will NOT be tested? If not, why have you decided not to test them?
+
+
+RESOURCES/ROLES & RESPONSIBILITIES
+
+
+Define the roles and responsibilities for this project and specify who will be taking on those roles and responsibilities. Who, for instance, will design the test cases? Who will set up the test environment?
+
+
+SCHEDULES
+
+
+Deliverables
+
+
+Identify the deliverable documentation. Examples include:
+⦁    Test Plan
+⦁    Test Cases
+⦁    Test Summary Reports
+
+
+DEPENDENCIES
+
+
+What are some of the constraints or limitations on testing?
+
+
+RISKS/ASSUMPTIONS
+
+
+What are the risks associated with your test plan? How will you attempt to mitigate those risks?
+
+
+TOOLS
+
+
+Which automation tools and bug tracking tools are you using?
+
+
+APPROVALS
+
+
+Who must approve this plan? Provide space for the signatures and dates below for your record.

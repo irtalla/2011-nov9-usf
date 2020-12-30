@@ -1,0 +1,12 @@
+angular
+	routing
+		allows us to swap components dynamically based on the URL path
+		app-routing.module.ts
+			contains the path mappings
+		<router-outlet></router-outlet>
+			specifies WHERE the routed component will show up
+	pipes
+		<ng-container *ngFor="let sprite of sprites | keyvalue">
+			- keyvalue is a predefined pipe
+			- date, currency, upper case, lower case, percent, title case are other predefined pipes
+		for formatting or filtering
