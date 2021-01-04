@@ -1,0 +1,72 @@
+Testing
+	making sure that things go as expected
+	testing pyramid
+		- unit testing: (bottom of the pyramid, most of these)
+			make sure that individual units of functionality work as expected (methods, etc.)
+			can tell you when a method isn't doing what you want, also when a method might be too complicated
+			testing without dependencies (dependencies are mocked)
+		- integration testing:
+			make sure that different components work properly with their dependencies
+			ensuring that things still work as "moving parts" rather than only in pieces
+		- system testing:
+			testing application as a whole from a technical perspective
+			usually involves testing entire user stories including all layers of the application
+		- user acceptance testing (UAT)
+			testing UI, make sure user stories work from a human perspective
+			making sure the application not only functions, but makes sense to use for an actual user
+			manual testing because many of these things cannot be covered by automated tests
+			2 types
+				- alpha: someone on the team simulates an end user
+				- beta: actual end users test the application
+	types of testing
+		positive vs negative
+			positive: works as it should when used correctly
+			negative: fails as it should when used incorrectly
+		white box vs black box
+			white box: the tester is aware of what the code looks like/how it works behind the scenes
+			black box: the tester is not aware of what the code looks like, and doesn't need to be
+		functional vs non-functional
+			functional: does it work; do the actions/user stories do what they are expected to do
+			non-functional: performance/metrics/vulnerabilities
+		manual vs automated
+			manual: direct use of the application by an actual person
+			automated: writing scripts to "use" the application as a person might use it
+		smoke vs sanity
+			smoke: making sure the application (as a whole) has the most basic functionality
+				i.e. it shows up, the UI works in the broadest sense, typically run before any
+				other tests to determine whether it's worthwhile to move forward
+			sanity: making sure that individual pieces of the application show up in the
+				broadest sense i.e. the component shows up, the controller is in the application
+				context, etc. most often is essentially a type of regression test
+		regression
+			running tests that previously passed after adding new functionality to make sure that old code isn't broken
+		exploratory
+			highly Agile, "test-as-you-go" based on current functionality/behavior of the application
+		exhaustive
+			testing every possible combination of inputs, not totally feasible to pay for
+		boundary
+			testing edge cases (minimums/maximums)
+		equivalency partitioning
+			splitting input possibilities in a logical way to cover bases without testing every single possibility
+	defect (bug)
+		behavior that doesn't work as expected
+		not inherently bad
+		on the other hand, a feature is expected behavior of the application
+		severity vs priority
+			- severity: how much functionality is affected by the defect
+			- priority: how urgently it needs fixed (usually relevant to company/product owner)
+	testing/defect lifecycle
+		1. find bug
+		2. assign bug to a dev/team
+		3. test & fix
+			- if bug is not fixed, it gets reassigned
+		4. verify (retest)
+		5. closed
+	case vs suite
+		test case: an individual test checking that input = expected output/result
+		test suite: a collection of related test cases
+	test automation
+		saves time, money; ensures app quality/validation
+		verification vs validation
+			verification: phase-by-phase checking that conditions of the phase are met
+			validation: evaluating during/at the end of development to check that all conditions have been met

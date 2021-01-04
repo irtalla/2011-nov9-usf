@@ -1,0 +1,46 @@
+1. launch ec2 instance
+2. choose free tier linux 2 ami
+3. make sure it is t2.micro
+4. EBS volume is set to 8GB, could go up to 30 but 8 is fine
+5. name tag: Name, 2011-jenkins (or whatever you want)
+6. make sure SSH security rule for your IP
+7. make sure 8080 security rule for your IP and github hooks:
+	192.30.252.0/22
+	185.199.108.0/22
+	140.82.112.0/20
+8. launch
+9. get your key pair (pem file)
+* if you are using windows:
+*10. install putty
+*11. generate ppk in puttygen
+*12. open putty
+*13. put in ec2-user@(paste your ec2 dns address) in host name
+*14. go to connection -> ssh -> auth and put your ppk file in
+*
+15. sudo yum update
+16. sudo yum install git
+17. sudo yum install -y java-1.8.0-openjdk-devel
+18. wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.41/bin/apache-tomcat-9.0.41.tar.gz
+19. tar -zxvf apache-tomcat-9.0.41.tar.gz
+20. go to conf folder
+21. go to tomcat-users.xml
+22. add role, user
+	<role rolename="manager-script"/>
+        <user username="tomcat" password="tomcat" roles="manager-script"/>
+	<!-- optional -->
+	<role rolename="manager-gui"/>
+	<user username="tom" password="cat" roles="manager-gui"/>
+23. sudo sh startup.sh in tomcat bin folder
+( go to webapps? )
+24. wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+25. jenkins stuff
+	- aws-url:8080/jenkins
+	- setup
+	- install deploy to container plugin
+	- create job
+	- set up git info, gitscm polling w/ hooks
+	- invoke top-level maven targets
+		- make sure to set up maven install on jenkins configuration
+		- clean test package
+	- go into github repo, add webhook payload hostname:8080/jenkins/github-webhook/
+26. under build steps, set pom location and then build steps are "clean test package"
