@@ -28,6 +28,13 @@ Testing
 		functional vs non-functional
 			functional: does it work; do the actions/user stories do what they are expected to do
 			non-functional: performance/metrics/vulnerabilities
+				security
+				performance (load testing)
+				stress tsting (max load)
+				spike testing (sudden leap of load)
+				ramp up/down (gradual increase/decrese)
+				usability testin (UI/UX)
+				endurance (load testing over time)
 		manual vs automated
 			manual: direct use of the application by an actual person
 			automated: writing scripts to "use" the application as a person might use it
