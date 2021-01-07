@@ -1,0 +1,120 @@
+// Multiple choice: 12
+// T/F: 2
+// TOTAL: 14
+
+// GUID:3c2f464d-1110-4fc8-b32d-63b1faf50518 
+::Which of the following commands would stop and delete a specific container?::
+Which of the following commands would stop and delete a specific container?{
+  =docker container rm $(docker container stop <container_id>)
+  ~docker container stop $(docker container rm <container_id>)
+  ~docker container rm (docker container stop <container_id>)
+  ~docker container stop > docker container rm <container_id>
+}
+
+// GUID: afc9b626-3faa-4208-bb26-9012863b92a1
+::Which of the following commands in a Dockerfile exposes the application in the container on a specific port?::
+Which of the following commands in a Dockerfile exposes the application in the container on a specific port?{
+   =EXPOSE
+   ~PORT
+   ~RUN
+   ~FROM
+} 
+
+//GUID: 6ac98882-5088-41f3-8457-ec74348318b9
+::Which of the following files is used to build an orchestration in Docker?::
+Which of the following files is used to build an orchestration in Docker?{
+  ~Dockerfile
+  =Docker-compose.yml
+  ~app.py
+  ~Docker-swarm
+}
+
+//GUID: 363daa55-a384-4813-b81f-bf3a3414ada2
+::When running a container in Docker, how do you map the container's port 8080 to a local port 4040?::
+When running a container in Docker, how do you map the container's port 8080 to a local port 4040?{
+  ~-port 8080:4040
+  ~-p 8080:4040
+  =-p 4040:8080
+  ~-port 4040:8080
+}
+
+//GUID: d5a84c79-3a3e-4dfb-aebe-1610cf1bb423
+::What tags in my Dockerfile are required?::
+What tags in my Dockerfile are required?{
+  ~%-50%ENV
+  ~%50%FROM
+  ~%50%ENTRYPOINT/CMD
+  ~%-50%COPY/ADD
+}
+
+//GUID: 9be480a8-1c4f-4b6a-832c-4648f58852e6
+::Docker is less efficient than VMs, but easier so we use it for deployments.::
+Docker is less efficient than VMs, but easier so we use it for deployments.{
+  F #VMs take up more memory because they include an entire OS. Thus, they are less efficient.
+}
+//GUID: e029e830-8623-4866-ac42-b62925e2ad67
+::Which of the following are Docker commands?::
+Which of the following are Docker commands?{
+  ~%-50%docker execute
+  ~%50%docker image build
+  ~%50%docker container run
+  ~%-50%docker controller create
+}
+//GUID: 6d74338d-f297-41fd-a6d6-3a496f53fb27
+::How do you activate Swarm mode in Docker?::
+How do you activate Swarm mode in Docker?{
+  =docker swarm init
+  ~docker init swarm
+  ~docker swarm start
+  ~docker start Swarm
+}
+
+//GUID: 36ba0dcf-e226-4395-8400-383e0970edbf
+::Adding the -d switch when running a docker image results in::
+Adding the -d switch when running a docker image results in...{
+  ~The imagine being deleted after running.
+  ~The image being downloaded and run from a repository, but the local image being immediately deleted.
+  =Running detached from the console, preventing it from blocking console access.
+  ~-d is not a valid switch for running a docker image.
+}
+
+//GUID: 7a826045-a79f-4c75-85c4-aac4780edae1
+::Which Dockerfile command can be used to move files from the local directory into the container's directory?::
+Which Dockerfile command can be used to move files from the local directory into the container's directory?{
+  =COPY
+  ~MOVE
+  ~PUT
+  ~PLACE
+}
+//GUID: 3efc6648-fa9c-477a-b071-2bf7c3cb9d6c
+::Which Dockerfile command is generally the first command in the file?::
+Which Dockerfile command is generally the first command in the file?{
+  ~ADD
+  ~CMD
+  ~TO
+  =FROM
+}
+
+//GUID: d53fbf8f-6625-44e5-9072-5a759afb1227
+::What command would you use to create an image using a Dockerfile?::
+What command would you use to create an image using a Dockerfile?{
+  ~docker build -t my-image
+  ~docker build -t
+  ~docker create -t my-image /user
+  =docker build .
+}
+
+//GUID: 88a12c29-bc33-42a6-9b0a-9409dbbf9839
+::Which of the following is NOT a keyword you would find in a Dockerfile?::
+Which of the following is NOT a keyword you would find in a Dockerfile?{
+  ~%-25%FROM
+  ~%50%BUILD
+  ~%-25%ENV
+  ~%50%ENTRY
+}
+
+//GUID: c10ca273-168f-4a06-8ff0-9cf51805856d
+::A node in a Docker swarm cannot be both a manager and a worker node.::
+A node in a Docker swarm cannot be both a manager and a worker node.{
+  F #A node can be both manager and worker. 
+}
