@@ -1,0 +1,80 @@
+// Multiple choice: 4
+// T/F: 7
+// TOTAL: 11
+
+// GUID: 3b5e80e3-339f-464d-96a6-1312113f9486
+::A docker container is ... ::
+A docker container is ...{
+    ~ An outline for a set of dependencies and a process.
+    = A runnable instance of a process and its dependencies. 
+    ~ A virtual machine.
+    ~ A docker directory.
+}
+
+// GUID: 44e17bbe-fb28-486c-a649-ad88a2eb6b0f
+::Which of the following is NOT a benefit of using containers? ::
+Which of the following is NOT a benefit of using containers? {
+    ~ isolation
+    ~ virtualization of resources
+    ~ portability of your application
+    = easy UI generation
+}
+
+// GUID: 2d4fb3dc-4b95-4533-942f-d791e51a6cb9
+::There can be only one container for a docker image.::
+There can be only one container for a docker image.{
+    F #You can build many containers from a single image. 
+}
+
+// GUID: 9e197556-50a9-42f7-a822-1b317ce23b2b
+::Docker is only usable with Java applications.::
+Docker is only usable with Java applications.{
+    F # Docker can be used with applications written in any language.
+}
+// GUID: ab67214a-5dd4-4f1e-86d2-0400697b778f
+::A Docker container can have its resources scaled up or down as necessary.::
+A Docker container can have its resources scaled up or down as necessary.{
+    T #One of the powerful parts of containers is that you can change the resource allocation as necessary. 
+}
+// GUID: 8e71c001-ce15-4d4f-8452-b6b7161048d7
+::Docker is only useful for Microservices applications.::
+Docker is only useful for Microservices applications.{
+    F #Docker can be used with all kinds of applications.
+}
+
+// GUID: 75f5fa5d-ab35-4813-a636-cc538ce8483a
+::Docker only runs on Linux machines.::
+Docker only runs on Linux machines. {
+    F # Docker began on Linux machines, but can be used on other operating systems. Docker even partnered with Microsoft.
+}
+
+//GUID: 557a9c87-0d8c-4ee9-8ec0-b86e9b4fc5f7
+::Which file is used to provide configuration to build an image?::
+Which file is used to provide configuration to build an image?{
+    ~application.yml
+    ~bootstrap.yml
+    =dockerfile
+    ~wsdl file
+}
+
+//GUID: f9050620-d5e6-4166-a809-38c4bdfb9f80
+::Containerization is associated with which technology?::
+Containerization is associated with which technology?{
+    ~SOAP
+    ~REST
+    ~MSA
+    =Docker
+}
+
+//GUID: 3413175a-0f23-4560-8e26-de5c8c200dd7
+::Layers in Docker allow us to cache commands from a Dockerfile and minimize downloading from remote storage.::
+Image layers in Docker allow us to cache commands from a Dockerfile and minimize downloading from remote storage.{
+    T #This is why multi-stage builds are considered more efficient. If a layer hasn't changed then the cached version may be used. 
+}
+
+//GUID: 0e670447-3dc4-4d5c-acbd-3408f55e1132
+::Using Docker, we are able to create containers which are each able to run independent applications. Each container's process is guaranteed to run on its own guest OS on top of a linux host OS.::
+Using Docker, we are able to create containers which are each able to run independent applications. Each container's process is guaranteed to run on its own guest OS on top of a linux host OS.{
+    F #Containers share the host OS. VMs have their own guest OS running on top of the host OS.
+}
+
